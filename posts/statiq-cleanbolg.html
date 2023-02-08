@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Gao.Dev - &#x4F7F;&#x7528; Statiq &#x5728;Github Page &#x90E8;&#x5C6C;&#x975C;&#x614B;&#x90E8;&#x843D;&#x683C;&#x7DB2;&#x7AD9; 2</title>
+
+  <link rel="canonical" href='/posts/statiq-cleanbolg'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+
+  <meta property="og:title" content='Gao.Dev - &#x4F7F;&#x7528; Statiq &#x5728;Github Page &#x90E8;&#x5C6C;&#x975C;&#x614B;&#x90E8;&#x843D;&#x683C;&#x7DB2;&#x7AD9; 2' />
+    <meta property="og:image" content='/assets/img/101night.jpg' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='/posts/statiq-cleanbolg' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.jpg&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x4F7F;&#x7528; Statiq &#x5728;Github Page &#x90E8;&#x5C6C;&#x975C;&#x614B;&#x90E8;&#x843D;&#x683C;&#x7DB2;&#x7AD9; 2
+          </h1>
+            <div class="meta">Published on Wednesday, February 8, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/statiq" class="badge text-bg-light"> Statiq</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="clean-bolg">Clean Bolg</h1>
+<p>承接上一篇: <a href="https://allengaodev.github.io/posts/statiq-githubpage">使用 Statiq 在Github Page 部屬靜態部落格網站 1</a></p>
+<p>在我們添加完Theme資料夾後發現雖然樣式有改變，但是部落格相關的功能卻沒有出現<br />
+這邊翻了一下好像沒有找到比較詳細的說明文件，看來只能先參考官方<a href="https://github.com/statiqdev/CleanBlog">Repo</a>裡的<code>README.md</code>了，我列出幾項比較基礎的重點</p>
+<ul>
+<li>Blog 首頁預設會顯示最新發布的三篇post</li>
+<li>如果專案沒有任何post則不會自動生成index.html(!)</li>
+<li>如果要自訂首頁可以自行在input資料夾新增index.cshtml或在theme資料夾修改index.cshtml</li>
+<li>首頁右側會列出10個最常用的tags</li>
+<li>tags以下的空間留給使用者自行運用，可以在input資料夾新增_sidebar.cshtml或在theme資料夾修改_sidebar.cshtml來使用此空間</li>
+<li>要新增post需要先在input資料夾裡新增一個posts資料夾，例如:<code>input/posts/example.md</code></li>
+<li>與Markdown的Front Matter用法相同 <code>---</code> 以上的內容為yaml設定檔，用來設定標題等內容</li>
+<li>最好幫每一篇文章都設定Published，設定發布日期</li>
+<li>類似about me等不屬於post的靜態頁面需要先在input資料夾裡新增一個pages資料夾，例如:<code>input/pages/about.md</code></li>
+</ul>
+<p>那麼根據文檔的說明需要讓Blog能正常使用，我們最好先在input裡新增posts與pages資料夾，並且新增我們的第一篇post與about頁面</p>
+<pre><code class="language-shell">cd input
+mkdir posts
+mkdir pages
+touch posts/example.md
+touch pages/about.md
+</code></pre>
+<p>在example.md新增以下內容</p>
+<pre><code class="language-markdown">Title: This Is An Example Post
+Lead: Yay for examples!
+Published: 2023/02/08
+Tags:
+  - Examples
+  - Tag with spaces
+---
+This is my example blog post content.
+</code></pre>
+<p>在about.md新增以下內容</p>
+<pre><code class="language-markdown">NavbarTitle: About
+Order: 1
+Title: About me
+Description: The life and times of James D. Author
+---
+Hi there, I'm James and this is my blog.
+
+Short bio; why I opened a blog; miscellaneous yada yada.
+</code></pre>
+<p>這邊因為已經新增一篇post那麼根據說明，框架此時會自動幫我們生成預設的首頁，但是先前的範例我們有自己建立了<code>index.md</code>這個動作會產生自定義的首頁，
+我們這邊使用官方自動生成的首頁就好所以先刪除<code>index.md</code></p>
+<pre><code>rm index.md
+</code></pre>
+<p>到此為止我們已經依照說明建立了基礎的文件<br />
+那麼直接將專案運行起來看看成果</p>
+<pre><code class="language-shell">dotnet run preview
+http://localhost:5080
+</code></pre>
+<p>首頁使用自動產生，左側為最新post區，右側為tag區，右上有框架幫我們產生的頁面可以進行轉跳
+<img src="https://drive.google.com/uc?id=1j4ZnioejFDfdXvagnH7ULm66ClsCp2dO" alt="StatiqCleanBolg-FrontPage" /></p>
+<p>此頁面是根據about.md裡的內容產生的，如果不想要叫做About可以在NavbarTitle進行修改
+<img src="https://drive.google.com/uc?id=1PudT8MCK6VkWAx9b6X3LnIYRYjTospBa" alt="StatiqCleanBolg-About" /></p>
+<p>此頁面是根據posts裡的內容產生的，會根據Published的日期自動分類
+<img src="https://drive.google.com/uc?id=1z87IfL1-Rsyap7wWFiFEl2fng_AdDX60" alt="StatiqCleanBolg-Posts" /></p>
+<p>此頁面是根據posts裡Tags的Front Matter產生的，框架會自動幫忙統計有多首頁面在使用此Tag，點擊也會自動關連到對應的文章
+<img src="https://drive.google.com/uc?id=1RbPtou6MqsPemttl7CGXwiywh4RznTX8" alt="StatiqCleanBolg-Tags" /></p>
+<h1 id="summary">Summary</h1>
+<p>我們根據官方的說明建立了我們第一個Blog，此Blog已經具備了基礎功能已經可以用來發布文章了<br />
+下一篇會嘗試看看如何發布到github page上讓大家能看到你所寫的文章。</p>
+<p>可以在Repo找到今天的進度: <a href="https://github.com/allengaodev/myblog/tree/post2">https://github.com/allengaodev/myblog/tree/post2</a></p>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
