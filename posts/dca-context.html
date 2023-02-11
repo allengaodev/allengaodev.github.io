@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;</title>
+
+  <link rel="canonical" href='https://allengaodev.github.iohttps://allengaodev.github.io/posts/dca-context'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-context' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;</span>
+            <div class="meta">Published on Saturday, February 11, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-client-docker-daemon">Docker client 與 Docker daemon</h1>
+<p>在上一篇的文章最後: <a href="https://allengaodev.github.io/posts/dca-prepareguide">使用 Statiq 在Github Page 部屬靜態部落格網站 1</a></p>
+<p>有一段話提到: Docker client 與 Docker daemon 建立連線<br />
+那麼這句話是甚麼意思呢</p>
+<p>從官方文檔<a href="https://docs.docker.com/get-started/overview/#docker-architecture">Docker architecture</a>中可以了解到Docker背後是client-server架構，
+也就是說當我們下命令時背後會透過某種方式交由其他服務幫忙執行，而這個背後的服務就是Docker daemon<br />
+並且Docker client 與 Docker daemon 中間的連線可以透過網路來互相溝通，所以並沒有強制Docker client 與 Docker daemon需要裝在同一台機器</p>
+<p>那麼根據以上的結論我們可以來做一些小的測試</p>
+<ul>
+<li>建立兩台Instance， Node1與 Node2</li>
+<li>我想在Node1下命令但背後轉交給Node2來執行</li>
+</ul>
+<p>首先我們建立二台機器以下為範例</p>
+<pre><code class="language-text">192.168.0.27 ssh ip172-18-0-41-cfjp9t60qau000e82i8g&#64;direct.labs.play-with-docker.com
+192.168.0.28 ssh ip172-18-0-37-cfjp9t60qau000e82i8g&#64;direct.labs.play-with-docker.com
+</code></pre>
+<p>所以最終結果我需要在<code>192.168.0.27</code>下命令，但背後轉交給<code>192.168.0.28</code>運行</p>
+<p>在開始之前先測試二台是否能透過ssh來連線，這部分PWD已經幫我們準備好命令了我們直接複製後運行即可</p>
+<pre><code>[node1] (local) root&#64;192.168.0.27 ~
+$ ssh ip172-18-0-55-cfjosl60qau000e82hkg&#64;direct.labs.play-with-docker.com
+The authenticity of host 'direct.labs.play-with-docker.com (40.121.45.0)' can't be established.
+RSA key fingerprint is SHA256:vCbhEjmYQhtNzuuuh7TmGAPfe9T+JdGnGaVquQJUphY.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'direct.labs.play-with-docker.com' (RSA) to the list of known hosts.
+Connecting to 52.188.144.191:8022
+###############################################################
+#                          WARNING!!!!                        #
+# This is a sandbox environment. Using personal credentials   #
+# is HIGHLY! discouraged. Any consequences of doing so are    #
+# completely the user's responsibilites.                      #
+#                                                             #
+# The PWD team.                                               #
+###############################################################
+[node2] (local) root&#64;192.168.0.28 ~
+$ 
+</code></pre>
+<p>我們在<code>192.168.0.27</code>透過ssh連線<code>192.168.0.28</code>，第一次連線的機器會自動在<code>~/.ssh/</code>產生<code>known_hosts</code>檔案<br />
+想要手動生成可以使用工具ssh-keyscan指定要連線到的機器，兩種方法是一樣的，以下為範例</p>
+<pre><code>ssh-keyscan direct.labs.play-with-docker.com &gt;&gt; ~/.ssh/known_hosts
+</code></pre>
+<p>確定能正常連線後要記得使用<code>exit</code>命令返回一開始的機器<br />
+終端機會顯示現在在什麼環境之中<code>[node1] (local) root&#64;192.168.0.27</code></p>
+<p>首先先認識幾個docker命令</p>
+<pre><code class="language-text">docker context list   #查詢現在有哪些運行環境可以使用，預設只會有本機default環境可以使用
+docker context create #建立新的運行環境，可以創建一個遠程環境多人共用一個docker daemon(背景服務)
+docker context use    #使用指定的環境
+</code></pre>
+<p>那麼先在192.168.0.27運行 <code>docker context list</code> 執行完畢會會輸出以下資訊，目前只包含一個本機環境</p>
+<pre><code class="language-text">NAME        DESCRIPTION                               DOCKER ENDPOINT               KUBERNETES ENDPOINT   ORCHESTRATOR
+default *   Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                         swarm
+</code></pre>
+<p>接下來在192.168.0.27運行 <code>docker context create</code> 此命令會搭配設定endpoint，Docker才會知道要連線到哪台遠程機器，需要替換成自己的ssh網址</p>
+<pre><code class="language-cli">docker context create \
+    --docker host=ssh://ip172-18-0-37-cfjp9t60qau000e82i8g&#64;direct.labs.play-with-docker.com \
+    --description=&quot;remote-docker-28&quot; \
+    remote-docker-28
+</code></pre>
+<p>成功建立會輸出以下提示</p>
+<pre><code>remote-docker-28
+Successfully created context &quot;remote-docker-28&quot;
+</code></pre>
+<p>接下來在192.168.0.27運行 <code>docker context list</code> 檢查使否有新的環境可以使用</p>
+<pre><code class="language-text">NAME               DESCRIPTION                               DOCKER ENDPOINT                                                              KUBERNETES ENDPOINT   ORCHESTRATOR
+default *          Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                                                                        swarm
+remote-docker-28   remote-docker-28                          ssh://ip172-18-0-120-cfj3gon91rrg00cciijg&#64;direct.labs.play-with-docker.com                         
+</code></pre>
+<p>確實現在在清單中多了一個環境可以用，但是要注意default後面有一個星字號(*)代表現在正在使用的環境<br />
+所以雖然我們創建了一個新的環境但是還沒有切換過去之前還是會在舊的環境中運行<br />
+切換的方式也很簡單只要指定環境的name就可以了</p>
+<pre><code class="language-cli">docker context use remote-docker-28
+</code></pre>
+<p>成功切換後會輸出以下提示</p>
+<pre><code class="language-text">remote-docker-28
+Current context is now &quot;remote-docker-28&quot;
+</code></pre>
+<p>最後再192.168.0.27檢查一次 <code>docker context list</code> 是否有切換成功</p>
+<pre><code class="language-text">NAME               DESCRIPTION                               DOCKER ENDPOINT                                                              KUBERNETES ENDPOINT   ORCHESTRATOR
+default *          Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                                                                        swarm
+remote-docker-28   remote-docker-28                          ssh://ip172-18-0-120-cfj3gon91rrg00cciijg&#64;direct.labs.play-with-docker.com                         
+</code></pre>
+<p>奇怪，星號還是在default上，看來沒有切換過去<br />
+稍微翻了一下文檔<a href="https://docs.docker.com/engine/reference/commandline/context_use/">docker context use</a>
+發現有提到環境變數<code>DOCKER_HOST</code>, <code>DOCKER_CONTEXT</code>如果有設定的話會直接讀取值，所以會忽略docker context use</p>
+<p>那麼檢查一下192.168.0.27是否有DOCKER的環境變數</p>
+<pre><code class="language-text">$ env | grep DOCKER
+
+DOCKER_VERSION=20.10.17
+DOCKER_TLSENABLE=false
+DOCKER_BUILDX_VERSION=0.8.2
+DOCKER_TLS_CERTDIR=
+DOCKER_CLI_EXPERIMENTAL=enabled
+DOCKER_COMPOSE_VERSION=2.6.1
+DOCKER_HOST=
+</code></pre>
+<p>確實有設定DOCKER_HOST參數，那麼直接把他移除，再切換一次環境看看</p>
+<pre><code>unset DOCKER_HOST
+docker context use remote-docker-28
+docker context ls
+
+NAME                 DESCRIPTION                               DOCKER ENDPOINT                                                              KUBERNETES ENDPOINT   ORCHESTRATOR
+default              Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                                                                        swarm
+remote-docker-28 *   remote-docker-28                          ssh://ip172-18-0-120-cfj3gon91rrg00cciijg&#64;direct.labs.play-with-docker.com                         
+</code></pre>
+<p>終於切換過去了，那麼再來下幾個命令實際測試看看，看會不會照我們當初想的一樣轉交給<code>192.168.0.28</code>執行</p>
+<pre><code class="language-text">docker run --name nginx28 -p 8080:80 nginx #這邊指定name參數設定容器名稱並開放8080 port
+docker ps -a #列出daemon中所有執行中的容器
+</code></pre>
+<p>以上命令執行後會在<code>192.168.0.28</code>建立一個nginx container並且對外開放8080 port，現在我們只要連線到<code>192.168.0.28</code>的8080 port就可以看到nginx的預設頁面了<br />
+這邊很方便的是PWD會自動檢測開放的端口，並在頁面上顯示連結方便我們可以直接連結到頁面<br />
+<img src="https://drive.google.com/uc?id=1WaJPk0vgV9PZ4IltMMA9BPg_dpd6aFuO" alt="DCAContext-nginx28" class="img-fluid"></p>
+<img src="https://drive.google.com/uc?id=1g4Yp6PUnIEAM9t890dbKRTYV1TjIPwj0" alt="DCAContext-nginxdefault" class="img-fluid">  
+<h1 id="summary">Summary</h1>
+<p>今天我們學習到了如何使用<code>docker context</code>命令，方便我們指定運行的環境<br />
+當我們的電腦不方便安裝完整的Docker時，我們可以考慮只安裝Docker cli再搭配設定<code>context</code><br />
+例如可以在雲端機器安裝Docker engine之後團隊都連線到同一台機器來共享環境。</p>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>

@@ -111,7 +111,7 @@
 <p>首先我們專案所在的目錄，可以看到目錄底下有一個output資料夾(如果沒有請運行<code>dotnet run</code>，專案會自動輸出)<br />
 此資料夾包含由框架將markdown文件轉換成Html網站的成品<br />
 所以我們可以直接將此資料夾的內容部屬到任何伺服器上並不限於Github Page<br />
-但是每次當我們寫了一篇新文章就必須先下<code>dotnet run</code>指令，之後再手動部屬到伺服器上<br />
+但是每次當我們寫了一篇新文章就必須先下<code>dotnet run</code>命令，之後再手動部屬到伺服器上<br />
 這個過程難免有些繁瑣，所以我們可以依靠Github Action自動幫我們編譯程式以及自動部屬</p>
 <p>這個流程基本上作者已經實作完成了我們只要直接使用即可，首先我們看一下文檔 <a href="https://www.statiq.dev/guide/deployment/github-pages">github-pages-deployment</a><br />
 在這邊作者有實作一個擴充方法<code>DeployToGitHubPages</code>我們這邊直接修改<code>Program.cs</code>即可</p>
