@@ -143,7 +143,7 @@
 </ul>
 <p>這是因為某些常用的名稱為了避免重複，所以每個image發布前都要在名稱前加上自己的帳號，不過官方的帳號不再此限制之中</p>
 <p>也就是說我們一開始運行的命令，其實呢就是暗指官方發布的image這樣就不會跟其他人發布的搞混了</p>
-<pre><code>docker run hello-world
+<pre><code class="language-text">docker run hello-world
 </code></pre>
 <p>接下來我們點進官方image看看有什麼內容
 <img src="https://drive.google.com/uc?id=1ov5EYhnKIQh1KPe8FHyHW_TBHPuvTP_S" alt="DCAImageBasic-helloworld-offical" class="img-fluid">
@@ -156,7 +156,7 @@
 <p>需要注意tag的部分，像我們上方的命令直接run hello-world，沒有指定版本預設會是抓最新latest版本</p>
 <p>但這是不好的習慣，比較好的做法需要在image最後面明確指定tag，大部分的image都會使用tag作為發布版本的基準，所以要保持指定版本的習慣
 例如以下範例我們去下載名為alpine的image</p>
-<pre><code>docker pull alpine:3.15
+<pre><code class="language-text">docker pull alpine:3.15
 docker pull alpine:3.16
 docker pull alpine:3.17
 </code></pre>
@@ -168,7 +168,7 @@ docker pull alpine:3.17
 為甚麼運行之後終端機會輸出文字，看看它背後的原理是什麼<a href="https://github.com/docker-library/hello-world">Github</a></p>
 <p>可以看到倉庫主要是根據架構做分類，但主要就兩個文件<code>Dockerfile</code>和<code>hello</code>
 在github上我們可以直接查看Dockerfile裡面的內容只有三行，hello為一個可執行檔</p>
-<pre><code>FROM scratch
+<pre><code class="language-text">FROM scratch
 COPY hello /
 CMD [&quot;/hello&quot;]
 </code></pre>
@@ -181,11 +181,11 @@ CMD [&quot;/hello&quot;]
 <p>也就是說底層可以想像是我們的電腦，然後我們從某個地方得到一個執行檔，最後運行此執行檔<br />
 這兩邊的行為應該會輸出同樣的結果才對，那我們來試試看
 首先我們在play with docker建立一台機器，之後把倉庫clone下來</p>
-<pre><code>git clone https://github.com/docker-library/hello-world
+<pre><code class="language-text">git clone https://github.com/docker-library/hello-world
 cp hello-world/amd64/hello-world/hello /
 /hello
 </code></pre>
-<pre><code>Hello from Docker!
+<pre><code class="language-text">Hello from Docker!
 This message shows that your installation appears to be working correctly.
 
 To generate this message, Docker took the following steps:
