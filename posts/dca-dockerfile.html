@@ -108,7 +108,7 @@
         <h1 id="dockerfile">Dockerfile</h1>
 <p>在昨天文章中: <a href="https://allengaodev.github.io/posts/dca-imagebasic">Docker Certified Associate(DCA)認證考試學習-Docker Images</a>
 我們大致了解Dockerfile與腳本十分相似，並且開啟了hello-world的Dockerfile，閱讀了裡面的內容</p>
-<pre><code>FROM scratch
+<pre><code class="language-text">FROM scratch
 COPY hello /
 CMD [&quot;/hello&quot;]
 </code></pre>
@@ -161,20 +161,20 @@ CMD [&quot;/hello&quot;]
 <li>最後執行根目錄底下的hello可執行檔</li>
 </ol>
 <p>接下來我們可以來試試看寫出自己第一個Dockerfile</p>
-<pre><code>mkdir echo
+<pre><code class="language-text">mkdir echo
 cd echo
 vi echo.sh
 </code></pre>
 <p>echo.sh 新增以下內容</p>
-<pre><code>#!/bin/bash
+<pre><code class="language-text">#!/bin/bash
 echo &quot;Hello $1, $2&quot;
 </code></pre>
 <p>這邊記得要幫shell腳本加上執行權限</p>
-<pre><code>chmod +x ./echo.sh
+<pre><code class="language-text">chmod +x ./echo.sh
 vi Dockerfile
 </code></pre>
 <p>Dockerfile 新增以下內容</p>
-<pre><code>From ubuntu:18.04
+<pre><code class="language-text">From ubuntu:18.04
 COPY echo.sh /echo/
 CMD [&quot;/echo/echo.sh&quot;, &quot;Allen&quot;, &quot;Gao&quot;]
 </code></pre>
@@ -187,7 +187,7 @@ CMD [&quot;/echo/echo.sh&quot;, &quot;Allen&quot;, &quot;Gao&quot;]
 </ol>
 <p>接下來就可以請Docker根據Dockerfile的內容建構出我們第一個image了
 要建構image我們需要使用build命令</p>
-<pre><code>docker build -t allengaodev/echo .
+<pre><code class="language-text">docker build -t allengaodev/echo .
 </code></pre>
 <p>這邊有兩個重點:</p>
 <ol>
@@ -198,10 +198,10 @@ CMD [&quot;/echo/echo.sh&quot;, &quot;Allen&quot;, &quot;Gao&quot;]
 如果操作都正確你現在會在<code>/root/echo</code><br />
 因為Dockerfile剛好在同一個路徑下所以我們這邊直接輸入<code>.</code>即可跟<code>./</code>代表的意思是相同的<br />
 假如我們現在位置在<code>/root</code>那麼我們該改用此指令</p>
-<pre><code>docker build -t allengaodev/echo /root/echo
+<pre><code class="language-text">docker build -t allengaodev/echo /root/echo
 </code></pre>
 <p>在終端機會輸出目前的進度，跟run命令一樣如果找不到image會去Docker hub下載指定的image</p>
-<pre><code>$ docker build -t allengaodev/echo /root/echo
+<pre><code class="language-text">$ docker build -t allengaodev/echo /root/echo
 Sending build context to Docker daemon  3.072kB
 Step 1/3 : From ubuntu:18.04
 18.04: Pulling from library/ubuntu
@@ -219,12 +219,12 @@ Successfully built 2d2a398d3117
 Successfully tagged allengaodev/echo:latest
 </code></pre>
 <p>建構成功之後可以使用<code>docker images</code>列出現在本地的image</p>
-<pre><code>REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
+<pre><code class="language-text">REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
 allengaodev/echo   latest    2d2a398d3117   4 minutes ago   63.1MB
 ubuntu             18.04     5d2df19066ac   2 weeks ago     63.1MB
 </code></pre>
 <p>最後再用dotnet run執行我們第一個image</p>
-<pre><code>$ docker run --name myecho allengaodev/echo 
+<pre><code class="language-text">$ docker run --name myecho allengaodev/echo 
 Hello Allen, Gao
 </code></pre>
 <h1 id="summary">Summary</h1>

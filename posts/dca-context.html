@@ -123,7 +123,7 @@
 </code></pre>
 <p>所以最終結果我需要在<code>192.168.0.27</code>下命令，但背後轉交給<code>192.168.0.28</code>運行</p>
 <p>在開始之前先測試二台是否能透過ssh來連線，這部分PWD已經幫我們準備好命令了我們直接複製後運行即可</p>
-<pre><code>[node1] (local) root&#64;192.168.0.27 ~
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.27 ~
 $ ssh ip172-18-0-55-cfjosl60qau000e82hkg&#64;direct.labs.play-with-docker.com
 The authenticity of host 'direct.labs.play-with-docker.com (40.121.45.0)' can't be established.
 RSA key fingerprint is SHA256:vCbhEjmYQhtNzuuuh7TmGAPfe9T+JdGnGaVquQJUphY.
@@ -144,7 +144,7 @@ $
 </code></pre>
 <p>我們在<code>192.168.0.27</code>透過ssh連線<code>192.168.0.28</code>，第一次連線的機器會自動在<code>~/.ssh/</code>產生<code>known_hosts</code>檔案<br />
 想要手動生成可以使用工具ssh-keyscan指定要連線到的機器，兩種方法是一樣的，以下為範例</p>
-<pre><code>ssh-keyscan direct.labs.play-with-docker.com &gt;&gt; ~/.ssh/known_hosts
+<pre><code class="language-text">ssh-keyscan direct.labs.play-with-docker.com &gt;&gt; ~/.ssh/known_hosts
 </code></pre>
 <p>確定能正常連線後要記得使用<code>exit</code>命令返回一開始的機器<br />
 終端機會顯示現在在什麼環境之中<code>[node1] (local) root&#64;192.168.0.27</code></p>
@@ -164,7 +164,7 @@ default *   Current DOCKER_HOST based configuration   unix:///var/run/docker.soc
     remote-docker-28
 </code></pre>
 <p>成功建立會輸出以下提示</p>
-<pre><code>remote-docker-28
+<pre><code class="language-text">remote-docker-28
 Successfully created context &quot;remote-docker-28&quot;
 </code></pre>
 <p>接下來在192.168.0.27運行 <code>docker context list</code> 檢查使否有新的環境可以使用</p>
@@ -201,7 +201,7 @@ DOCKER_COMPOSE_VERSION=2.6.1
 DOCKER_HOST=
 </code></pre>
 <p>確實有設定DOCKER_HOST參數，那麼直接把他移除，再切換一次環境看看</p>
-<pre><code>unset DOCKER_HOST
+<pre><code class="language-text">unset DOCKER_HOST
 docker context use remote-docker-28
 docker context ls
 
