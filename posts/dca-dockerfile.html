@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Dockerfile">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Dockerfile</title>
+
+  <link rel="canonical" href='https://allengaodev.github.iohttps://allengaodev.github.io/posts/dca-dockerfile'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Dockerfile' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-dockerfile' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Dockerfile
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Dockerfile</span>
+            <div class="meta">Published on Sunday, February 12, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="dockerfile">Dockerfile</h1>
+<p>在昨天文章中: <a href="https://allengaodev.github.io/posts/dca-imagebasic">Docker Certified Associate(DCA)認證考試學習-Docker Images</a>
+我們大致了解Dockerfile與腳本十分相似，並且開啟了hello-world的Dockerfile，閱讀了裡面的內容</p>
+<pre><code>FROM scratch
+COPY hello /
+CMD [&quot;/hello&quot;]
+</code></pre>
+<p>今天我們來看看官方文檔是怎麼說明<a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a>的<br />
+文檔我擷取了以下重點</p>
+<ul>
+<li>Docker會從上到下讀取Dockerfile內的指令，然後根據指令自動建立一個image</li>
+<li>Dockerfile 是一個文本資料，可以在裡面輸入我們平常在終端機使用的命令，告訴Docker該怎麼做</li>
+<li>Dockerfile 內容開頭第一個有效指令必須是<code>FROM</code></li>
+<li>FROM是用來選擇某個image以作為底層</li>
+<li>COPY是用來從複製A地(本機)文件到B地(image內部)</li>
+<li>Dockerfile 最少必須要有一個 <code>CMD</code> 或 <code>ENTRYPOINT</code> 指令</li>
+<li>如果要將container當作成一個可執行檔，使用<code>ENTRYPOINT</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>No  ENTRYPOINT</th>
+<th>ENTRYPOINT exec_entry p1_entry</th>
+<th>ENTRYPOINT [“exec_entry”, “p1_entry”]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No CMD</td>
+<td>error, not allowed</td>
+<td>/bin/sh -c exec_entry p1_entry</td>
+<td>exec_entry p1_entry</td>
+</tr>
+<tr>
+<td>CMD [“exec_cmd”, “p1_cmd”]</td>
+<td>exec_cmd p1_cmd</td>
+<td>/bin/sh -c exec_entry p1_entry</td>
+<td>exec_entry p1_entry exec_cmd p1_cmd</td>
+</tr>
+<tr>
+<td>CMD exec_cmd p1_cmd</td>
+<td>/bin/sh -c exec_cmd p1_cmd</td>
+<td>/bin/sh -c exec_entry p1_entry</td>
+<td>exec_entry p1_entry /bin/sh -c exec_cmd p1_cmd</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>好的，有了以上資訊我們現在很清楚hello-world的Dockerfile背後到底在做什麼了</p>
+<ol>
+<li>首先挑選scratch這個image作為我們的底層</li>
+<li>之後複製hello這個可執行檔到根目錄底下</li>
+<li>最後執行根目錄底下的hello可執行檔</li>
+</ol>
+<p>接下來我們可以來試試看寫出自己第一個Dockerfile</p>
+<pre><code>mkdir echo
+cd echo
+vi echo.sh
+</code></pre>
+<p>echo.sh 新增以下內容</p>
+<pre><code>#!/bin/bash
+echo &quot;Hello $1, $2&quot;
+</code></pre>
+<p>這邊記得要幫shell腳本加上執行權限</p>
+<pre><code>chmod +x ./echo.sh
+vi Dockerfile
+</code></pre>
+<p>Dockerfile 新增以下內容</p>
+<pre><code>From ubuntu:18.04
+COPY echo.sh /echo/
+CMD [&quot;/echo/echo.sh&quot;, &quot;Allen&quot;, &quot;Gao&quot;]
+</code></pre>
+<p>此範例模仿官方hello-world image，這邊做了幾件事</p>
+<ol>
+<li>選擇ubuntu作為底層</li>
+<li>建立一個可執行的shell腳本，會根據參數回傳Hello文字</li>
+<li>將本地文件echo.sh複製到image內部的echo資料夾</li>
+<li>執行echo.sh並傳入兩個參數</li>
+</ol>
+<p>接下來就可以請Docker根據Dockerfile的內容建構出我們第一個image了
+要建構image我們需要使用build命令</p>
+<pre><code>docker build -t allengaodev/echo .
+</code></pre>
+<p>這邊有兩個重點:</p>
+<ol>
+<li>-t options 是用來指定image名稱，最好是要帳號/image名稱，才能避免重複</li>
+<li>最後面有一個<code>.</code>符號，這個<code>.</code>很重要，它是指定建構的路徑也可以說是dockerfile的路徑</li>
+</ol>
+<p>以此範例來說明我們可以使用<code>pwd</code>命令來顯示我們現在所在的位置<br />
+如果操作都正確你現在會在<code>/root/echo</code><br />
+因為Dockerfile剛好在同一個路徑下所以我們這邊直接輸入<code>.</code>即可跟<code>./</code>代表的意思是相同的<br />
+假如我們現在位置在<code>/root</code>那麼我們該改用此指令</p>
+<pre><code>docker build -t allengaodev/echo /root/echo
+</code></pre>
+<p>在終端機會輸出目前的進度，跟run命令一樣如果找不到image會去Docker hub下載指定的image</p>
+<pre><code>$ docker build -t allengaodev/echo /root/echo
+Sending build context to Docker daemon  3.072kB
+Step 1/3 : From ubuntu:18.04
+18.04: Pulling from library/ubuntu
+72d9f18d70f3: Pull complete 
+Digest: sha256:a3765b4d74747b5e9bdd03205b3fbc4fa19a02781c185f97f24c8f4f84ed7bbf
+Status: Downloaded newer image for ubuntu:18.04
+ ---&gt; 5d2df19066ac
+Step 2/3 : COPY echo.sh /echo/
+ ---&gt; 819ecbb94f99
+Step 3/3 : CMD [&quot;/echo/echo.sh&quot;, &quot;Allen&quot;, &quot;Gao&quot;]
+ ---&gt; Running in 730dd6a1d2df
+Removing intermediate container 730dd6a1d2df
+ ---&gt; 2d2a398d3117
+Successfully built 2d2a398d3117
+Successfully tagged allengaodev/echo:latest
+</code></pre>
+<p>建構成功之後可以使用<code>docker images</code>列出現在本地的image</p>
+<pre><code>REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
+allengaodev/echo   latest    2d2a398d3117   4 minutes ago   63.1MB
+ubuntu             18.04     5d2df19066ac   2 weeks ago     63.1MB
+</code></pre>
+<p>最後再用dotnet run執行我們第一個image</p>
+<pre><code>$ docker run --name myecho allengaodev/echo 
+Hello Allen, Gao
+</code></pre>
+<h1 id="summary">Summary</h1>
+<p>今天瞭解了Dockerfile之中最基本的用法，並且成功根據Dockerfile建立出第一個image最後成功運行，結果也跟當初規劃的輸出一樣。<br />
+下一篇我們會嘗試將image分享給其他人使用。</p>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
