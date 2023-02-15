@@ -106,12 +106,12 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h1 id="docker-images">Docker Images</h1>
-<p>在第一篇的文章中: <a href="https://allengaodev.github.io/posts/dca-prepareguide">Docker Certified Associate(DCA)認證考試學習-準備環境</a>
+<p>在第一篇的文章中: <a href="https://allengaodev.github.io/posts/dca-prepareguide" target="_blank">Docker Certified Associate(DCA)認證考試學習-準備環境</a>
 我們運行了以下命令</p>
 <pre><code>docker run hello-world
 </code></pre>
 <p>從字面上看只能知道我們請Docker運行一個叫做hello-world的東西，然後終端機就輸出文字了，那麼背後到底做了什麼呢?<br />
-先來讀看看<a href="https://docs.docker.com/engine/reference/commandline/run/">docker run</a>文檔，開頭就說明了此命令的用途</p>
+先來讀看看<a href="https://docs.docker.com/engine/reference/commandline/run/" target="_blank">docker run</a>文檔，開頭就說明了此命令的用途</p>
 <p><strong>從image建立並執行成一個新的container</strong></p>
 <p>並且得出以下幾個重點</p>
 <ul>
@@ -165,7 +165,7 @@ docker pull alpine:3.17
 之後維護者會把latest版本會變成3.18，這時如果你有一些只兼容3.17的程式就會造成問題，所以指定版本是最好的做法</p>
 <h2 id="hello-world-image-github">hello-world image Github</h2>
 <p>因為hello-world image是開源的所以我們可以上去Github大概看看
-為甚麼運行之後終端機會輸出文字，看看它背後的原理是什麼<a href="https://github.com/docker-library/hello-world">Github</a></p>
+為甚麼運行之後終端機會輸出文字，看看它背後的原理是什麼<a href="https://github.com/docker-library/hello-world" target="_blank">Github</a></p>
 <p>可以看到倉庫主要是根據架構做分類，但主要就兩個文件<code>Dockerfile</code>和<code>hello</code>
 在github上我們可以直接查看Dockerfile裡面的內容只有三行，hello為一個可執行檔</p>
 <pre><code class="language-text">FROM scratch

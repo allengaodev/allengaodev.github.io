@@ -105,7 +105,7 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h1 id="github-action">Github Action</h1>
-<p>承接上一篇: <a href="https://allengaodev.github.io/posts/statiq-cleanbolg">使用 Statiq 在Github Page 部屬靜態部落格網站 2</a></p>
+<p>承接上一篇: <a href="https://allengaodev.github.io/posts/statiq-cleanbolg" target="_blank">使用 Statiq 在Github Page 部屬靜態部落格網站 2</a></p>
 <p>在上一篇中我們成功建立了屬於自己的Blog，但是目前只有在本地環境才能看到<br />
 今天我們嘗試把內容更新到Github並開啟Github Page</p>
 <p>首先我們專案所在的目錄，可以看到目錄底下有一個output資料夾(如果沒有請運行<code>dotnet run</code>，專案會自動輸出)<br />
@@ -113,7 +113,7 @@
 所以我們可以直接將此資料夾的內容部屬到任何伺服器上並不限於Github Page<br />
 但是每次當我們寫了一篇新文章就必須先下<code>dotnet run</code>命令，之後再手動部屬到伺服器上<br />
 這個過程難免有些繁瑣，所以我們可以依靠Github Action自動幫我們編譯程式以及自動部屬</p>
-<p>這個流程基本上作者已經實作完成了我們只要直接使用即可，首先我們看一下文檔 <a href="https://www.statiq.dev/guide/deployment/github-pages">github-pages-deployment</a><br />
+<p>這個流程基本上作者已經實作完成了我們只要直接使用即可，首先我們看一下文檔 <a href="https://www.statiq.dev/guide/deployment/github-pages" target="_blank">github-pages-deployment</a><br />
 在這邊作者有實作一個擴充方法<code>DeployToGitHubPages</code>我們這邊直接修改<code>Program.cs</code>即可</p>
 <pre><code class="language-csharp">await Bootstrapper
     .Factory
@@ -154,7 +154,7 @@ jobs:
 </li>
 <li><p>建立一個Github Page的專案，名稱需要為自己的帳號名稱.github.io</p>
 </li>
-<li><p>建立一個<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">personal access token</a>，名稱可以隨意，需要勾選repo區域權限過期時間看個人需求設定，請小心保存此Token
+<li><p>建立一個<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token" target="_blank">personal access token</a>，名稱可以隨意，需要勾選repo區域權限過期時間看個人需求設定，請小心保存此Token
 <img src="https://drive.google.com/uc?id=1E46PWlqT-nNYa7uWYUC-g5p4Hzw2iga_" alt="StatiqGithubAction-PAT" class="img-fluid"></p>
 </li>
 <li><p>在剛剛建立的倉庫的setting頁面設定Secrets，名稱需要與剛剛的yml檔內容相同，內容輸入剛剛記錄下來的PAT<br />
@@ -171,7 +171,7 @@ jobs:
 <img src="https://drive.google.com/uc?id=1aEYP_WQgL6321iMGEVCnw_JhloxMNZvv" alt="StatiqGithubAction-Pages" class="img-fluid"></p>
 <h1 id="summary">Summary</h1>
 <p>至此我們已經成功建立了自動發布的流程，接下來只要專心在posts資料夾寫文章就好，其他事情Github Actions會幫你處理，不用我們自己再去操心了</p>
-<p>可以在<a href="https://github.com/allengaodev/myblog/tree/post3">Github Repo</a>查看今天的進度</p>
+<p>可以在<a href="https://github.com/allengaodev/myblog/tree/post3" target="_blank">Github Repo</a>查看今天的進度</p>
 
 
         
