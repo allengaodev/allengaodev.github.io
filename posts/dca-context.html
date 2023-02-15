@@ -106,10 +106,10 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h1 id="docker-client-docker-daemon">Docker client 與 Docker daemon</h1>
-<p>在上一篇的文章最後: <a href="https://allengaodev.github.io/posts/dca-prepareguide">Docker Certified Associate(DCA)認證考試學習-準備環境</a></p>
+<p>在上一篇的文章最後: <a href="https://allengaodev.github.io/posts/dca-prepareguide" target="_blank">Docker Certified Associate(DCA)認證考試學習-準備環境</a></p>
 <p>有一段話提到: Docker client 與 Docker daemon 建立連線<br />
 那麼這句話是甚麼意思呢</p>
-<p>從官方文檔<a href="https://docs.docker.com/get-started/overview/#docker-architecture">Docker architecture</a>中可以了解到Docker背後是client-server架構，
+<p>從官方文檔<a href="https://docs.docker.com/get-started/overview/#docker-architecture" target="_blank">Docker architecture</a>中可以了解到Docker背後是client-server架構，
 也就是說當我們下命令時背後會透過某種方式交由其他服務幫忙執行，而這個背後的服務就是Docker daemon<br />
 並且Docker client 與 Docker daemon 中間的連線可以透過網路來互相溝通，所以並沒有強制Docker client 與 Docker daemon需要裝在同一台機器</p>
 <p>那麼根據以上的結論我們可以來做一些小的測試</p>
@@ -187,7 +187,7 @@ default *          Current DOCKER_HOST based configuration   unix:///var/run/doc
 remote-docker-28   remote-docker-28                          ssh://ip172-18-0-120-cfj3gon91rrg00cciijg&#64;direct.labs.play-with-docker.com                         
 </code></pre>
 <p>奇怪，星號還是在default上，看來沒有切換過去<br />
-稍微翻了一下文檔<a href="https://docs.docker.com/engine/reference/commandline/context_use/">docker context use</a>
+稍微翻了一下文檔<a href="https://docs.docker.com/engine/reference/commandline/context_use/" target="_blank">docker context use</a>
 發現有提到環境變數<code>DOCKER_HOST</code>, <code>DOCKER_CONTEXT</code>如果有設定的話會直接讀取值，所以會忽略docker context use</p>
 <p>那麼檢查一下192.168.0.27是否有DOCKER的環境變數</p>
 <pre><code class="language-text">$ env | grep DOCKER
