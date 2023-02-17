@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker&#x53EF;&#x8B80;&#x5BEB;&#x5C64;&#x3001;Docker read/write layer&#x3001;Docker container layer">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker&#x53EF;&#x8B80;&#x5BEB;&#x5C64;</title>
+
+  <link rel="canonical" href='https://allengaodev.github.iohttps://allengaodev.github.io/posts/dca-containerlayer'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker&#x53EF;&#x8B80;&#x5BEB;&#x5C64;' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-containerlayer' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker&#x53EF;&#x8B80;&#x5BEB;&#x5C64;
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker&#x53EF;&#x8B80;&#x5BEB;&#x5C64;&#x3001;Docker read/write layer&#x3001;Docker container layer</span>
+            <div class="meta">Published on Friday, February 17, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-container-layer">Docker container layer</h1>
+<p>在此篇文章中: <a href="https://allengaodev.github.io/posts/dca-imagebasic" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Images</a></p>
+<p>在說明docker run命令時有提到一個重點: docker 會在image之上建立一個可讀寫層<br />
+那麼這個讀寫層是甚麼意思呢?</p>
+<p>我們可以做一下測試，首先我們先下載ubuntu</p>
+<pre><code class="language-text">$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+ubuntu       latest    58db3edaf2be   3 weeks ago   77.8MB
+</code></pre>
+<p>這邊可以看到ubuntu image的大小為77.8MB</p>
+<p>那接下來建立幾個ubuntu container</p>
+<pre><code class="language-text">docker run --name ubuntu1 -dit ubuntu
+docker run --name ubuntu2 -dit ubuntu
+docker run --name ubuntu3 -dit ubuntu
+docker run --name ubuntu4 -dit ubuntu
+docker run --name ubuntu5 -dit ubuntu
+</code></pre>
+<p>建立完成，這邊可以猜一下這邊五個container，ubuntu1~ubuntu5總共會佔據多少硬碟容量<br />
+可以使用<code>docker ps -s</code>命令， <code>-s</code>參數會將容量列出來</p>
+<pre><code class="language-text">$ docker ps -s
+CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS         PORTS     NAMES     SIZE
+99c4f21e20f8   ubuntu    &quot;/bin/bash&quot;   6 minutes ago   Up 6 minutes             ubuntu5   0B (virtual 77.8MB)
+ba4ee9e0587f   ubuntu    &quot;/bin/bash&quot;   6 minutes ago   Up 6 minutes             ubuntu4   0B (virtual 77.8MB)
+1892ba06818b   ubuntu    &quot;/bin/bash&quot;   6 minutes ago   Up 6 minutes             ubuntu3   0B (virtual 77.8MB)
+caa413333ef7   ubuntu    &quot;/bin/bash&quot;   6 minutes ago   Up 6 minutes             ubuntu2   0B (virtual 77.8MB)
+b76ec17fa825   ubuntu    &quot;/bin/bash&quot;   6 minutes ago   Up 6 minutes             ubuntu1   0B (virtual 77.8MB)
+</code></pre>
+<p>這邊最終答案是總共77.8MB，為什麼呢?<br />
+這是因為image當初設計之時為了共用所以image在docker都是只讀的(readonly)，所以這邊只需要參考image的內容即可，不需要複製一份完整的系統到container之內
+所以這邊SIZE欄位中virtual 77.8MB就代表底層image的大小，也就是我們一開始先下載的ubuntu image
+那麼我們為什麼可以在container寫入資料呢?<br />
+這就是可讀寫層起作用的地方了<br />
+SIZE欄位中0B就代表目前可讀寫層的大小，每個container都有自己獨立的可讀寫層並且不會共用<br />
+我們可以進入container嘗試建立幾個檔案</p>
+<pre><code class="language-text">$ docker attach 99c4
+root&#64;99c4f21e20f8:/# touch file1
+root&#64;99c4f21e20f8:/# touch file2
+root&#64;99c4f21e20f8:/# touch file3
+</code></pre>
+<p>使用<code>CTRL+P</code> <code>CTRL+Q</code> 可退出container</p>
+<p>這邊可以看到可讀寫層容量確實有增加，之後只要將容器刪除，此讀寫層也會隨之刪除</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~
+$ docker ps -as
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                          PORTS     NAMES     SIZE
+99c4f21e20f8   ubuntu    &quot;/bin/bash&quot;   31 minutes ago   Up 31 minutes                             ubuntu5   99B (virtual 77.8MB)
+ba4ee9e0587f   ubuntu    &quot;/bin/bash&quot;   31 minutes ago   Up 31 minutes                             ubuntu4   0B (virtual 77.8MB)
+1892ba06818b   ubuntu    &quot;/bin/bash&quot;   31 minutes ago   Up 31 minutes                             ubuntu3   0B (virtual 77.8MB)
+caa413333ef7   ubuntu    &quot;/bin/bash&quot;   31 minutes ago   Up 31 minutes                             ubuntu2   0B (virtual 77.8MB)
+b76ec17fa825   ubuntu    &quot;/bin/bash&quot;   31 minutes ago   Up 31 minutes                             ubuntu1   0B (virtual 77.8MB)
+</code></pre>
+<img src="https://docs.docker.com/storage/storagedriver/images/container-layers.jpg" alt="container-layers" class="img-fluid">
+<img src="https://docs.docker.com/storage/storagedriver/images/sharing-layers.jpg" alt="sharing-layers" class="img-fluid">
+<p>現在就能瞭解官方範例圖檔中說明的意思了，每個容器都在只讀的image底層之上添加一個可讀寫層，當我們在對容器中的任何操作例如新增、修改、刪除文件，都是在對可讀寫層操作所以並不會影響到底層的image</p>
+<p>詳細的內容可以參考此篇<a href="https://github.com/docker/docs/issues/1520#issuecomment-305179362">Issues</a></p>
+<h1 id="summary">Summary</h1>
+<p>Docker不像傳統的VM，在VM裝系統時需要先下載ISO檔在系統安裝到硬碟內部，這樣每新增一台VM系統都會佔據硬碟一部分的空間<br />
+所以docker image這樣設計的好處，只需要參考image內容即可不需要額外複製，所以可以做到秒級的啟動速度並且會不消耗多餘的空間，比起傳統VM優勢很大</p>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
