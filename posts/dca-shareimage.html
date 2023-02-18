@@ -141,6 +141,8 @@ total 25264
 </code></pre>
 <p>目前image位於192.168.0.13所以想要將他複製到192.168.0.12在進行讀取
 可以直接使用scp命令進行複製</p>
+<pre><code class="language-text">scp /root/echo/echo.tar.gz ip172-18-0-22-cflkaf63tccg00fql160&#64;direct.labs.play-with-docker.com:/root/echo/echo.tar.gz
+</code></pre>
 <pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~
 $ scp /root/echo/echo.tar.gz ip172-18-0-22-cflkaf63tccg00fql160&#64;direct.labs.play-with-docker.com:/root
 The authenticity of host 'direct.labs.play-with-docker.com (40.121.45.0)' can't be established.
