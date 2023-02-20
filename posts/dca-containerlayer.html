@@ -158,7 +158,7 @@ b76ec17fa825   ubuntu    &quot;/bin/bash&quot;   31 minutes ago   Up 31 minutes 
 <img src="https://docs.docker.com/storage/storagedriver/images/container-layers.jpg" alt="container-layers" class="img-fluid">
 <img src="https://docs.docker.com/storage/storagedriver/images/sharing-layers.jpg" alt="sharing-layers" class="img-fluid">
 <p>現在就能瞭解官方範例圖檔中說明的意思了，每個容器都在只讀的image底層之上添加一個可讀寫層，當我們在對容器中的任何操作例如新增、修改、刪除文件，都是在對可讀寫層操作所以並不會影響到底層的image</p>
-<p>詳細的內容可以參考此篇<a href="https://github.com/docker/docs/issues/1520#issuecomment-305179362">Issues</a></p>
+<p>詳細的內容可以參考此篇<a href="https://github.com/docker/docs/issues/1520#issuecomment-305179362" target="_blank">Issues</a></p>
 <h1 id="summary">Summary</h1>
 <p>Docker不像傳統的VM，在VM裝系統時需要先下載ISO檔在系統安裝到硬碟內部，這樣每新增一台VM系統都會佔據硬碟一部分的空間<br />
 所以docker image這樣設計的好處，只需要參考image內容即可不需要額外複製，所以可以做到秒級的啟動速度並且會不消耗多餘的空間，比起傳統VM優勢很大</p>

@@ -107,7 +107,7 @@
       <div id="content" class="col-md-12">
         <h1 id="dockerfile-add-or-copy">Dockerfile ADD or COPY</h1>
 <p>今天來學習一下Dockerfile中ADD與COPY的區別，這兩個指令從字面上看意思非常相近所以很常搞混<br />
-先來看一下<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#add-or-copy">Docker最佳實踐</a></p>
+先來看一下<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#add-or-copy" target="_blank">Docker最佳實踐</a></p>
 <p>文中說明雖然兩個功能相近，但是最好優先使用<code>COPY</code></p>
 <ul>
 <li><code>COPY</code> 只支援將本地文件複製到container內的功能</li>
@@ -220,11 +220,11 @@ total 10332
 <li>每次build時都需要重新下載，沒法使用cache</li>
 </ul>
 <p>看到這些限制，你就會覺得乾脆就用<code>curl</code>搭配<code>COPY</code>就好了，反正最後還是要寫解包的指令還要調整權限<br />
-事實上Docker也知道這個問題，所以在<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#add-or-copy">最佳實踐</a>裡面<br />
+事實上Docker也知道這個問題，所以在<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#add-or-copy" target="_blank">最佳實踐</a>裡面<br />
 這個段落的最後，官方也是推薦使用<code>curl</code>搭配<code>COPY</code><br />
 除非有使用到自動解包的功能在使用<code>ADD</code>其他場合使用<code>COPY</code>是最佳的作法<br />
 最後因為<code>RUN</code>, <code>COPY</code>, <code>ADD</code>指令，Docker會幫我們創建一個layers<br />
-詳細可以看之前的文章<a href="https://allengaodev.github.io/posts/dca-imagelayer">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a></p>
+詳細可以看之前的文章<a href="https://allengaodev.github.io/posts/dca-imagelayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a></p>
 <p>所以可以將一些步驟寫在同一RUN底下，這樣可以大大減少layer的產生</p>
 <pre><code class="language-text">RUN mkdir -p /usr/src/things \
     &amp;&amp; curl -SL https://example.com/big.tar.xz \

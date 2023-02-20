@@ -181,7 +181,7 @@ ubuntu       latest    58db3edaf2be   3 weeks ago      77.8MB
 Docker其實是一層一層將image疊出來的就是一開始圖片畫的那樣
 所以就是說image <code>3b8c55772597</code>裡面最底下那一層就是ubuntu image <code>58db3edaf2be</code></p>
 <p>那麼步驟二跟步驟三為什麼也有ID呢?</p>
-<p>根據<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#minimize-the-number-of-layers">Docker最佳實踐</a>的說法</p>
+<p>根據<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#minimize-the-number-of-layers" target="_blank">Docker最佳實踐</a>的說法</p>
 <ul>
 <li>Only the instructions <code>RUN</code>, <code>COPY</code>, <code>ADD</code> create layers. Other instructions create temporary intermediate images, and don’t increase the size of the build.</li>
 </ul>
