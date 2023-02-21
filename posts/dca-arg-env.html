@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;ARG&#x3001;ENV">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- ARG and ENV</title>
+
+  <link rel="canonical" href='https://allengaodev.github.iohttps://allengaodev.github.io/posts/dca-arg-env'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- ARG and ENV' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-arg-env' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- ARG and ENV
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;ARG&#x3001;ENV</span>
+            <div class="meta">Published on Thursday, February 16, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="dockerfile-env">Dockerfile ENV</h1>
+<p>今天要來學習 ENV 的使用方法<br />
+照慣例先看一下<a href="https://docs.docker.com/engine/reference/builder/#env" target="_blank">ENV文檔</a></p>
+<p>格式呢只需要 ENV 開頭在搭配一個key value值即可，並且需要有value並不能為空</p>
+<pre><code class="language-text">ENV &lt;key&gt;=&lt;value&gt; ...
+</code></pre>
+<p>先來做幾個測試</p>
+<pre><code class="language-text">#Dockerfile
+From alpine
+ENV version=1.0.0
+RUN echo $version
+CMD echo $version
+</code></pre>
+<pre><code class="language-text">docker build -t versiontest .
+docker run versiontest
+</code></pre>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~
+$ docker build -t versiontest .
+
+...
+
+Step 3/4 : RUN echo $version
+ ---&gt; Running in 91e6c372f426
+1.0.0
+
+...
+</code></pre>
+<p>這邊當Docker看到Dockerfile裡面有宣告ENV會將此key value保存到image裡面，這樣才能保證在所有執行階段都讀取到同一個值<br />
+可以使用<code>docker inspect</code>來檢查，就能看到我們的version環境變數被包在image之中</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker inspect versiontest
+
+...
+
+&quot;ContainerConfig&quot;: {
+            &quot;Hostname&quot;: &quot;b75725f395b0&quot;,
+            &quot;Domainname&quot;: &quot;&quot;,
+            &quot;User&quot;: &quot;&quot;,
+            &quot;AttachStdin&quot;: false,
+            &quot;AttachStdout&quot;: false,
+            &quot;AttachStderr&quot;: false,
+            &quot;Tty&quot;: false,
+            &quot;OpenStdin&quot;: false,
+            &quot;StdinOnce&quot;: false,
+            &quot;Env&quot;: [
+                &quot;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;,
+                &quot;version=1.0.0&quot;
+            ],
+            &quot;Cmd&quot;: [
+                &quot;/bin/sh&quot;,
+                &quot;-c&quot;,
+                &quot;#(nop) &quot;,
+                &quot;CMD [\&quot;/bin/sh\&quot; \&quot;-c\&quot; \&quot;echo $version\&quot;]&quot;
+            ],
+            &quot;Image&quot;: &quot;sha256:5c5ab36f7d2e057f0f2a233760b03918eb7154769517cab82fd14f6c7cd7da6f&quot;,
+            &quot;Volumes&quot;: null,
+            &quot;WorkingDir&quot;: &quot;&quot;,
+            &quot;Entrypoint&quot;: null,
+            &quot;OnBuild&quot;: null,
+            &quot;Labels&quot;: {}
+        },
+
+...
+
+</code></pre>
+<p>也可以在Docker run期間將環境變數做修改</p>
+<pre><code class="language-text">docker run --env version=1.0.1 versiontest
+1.0.1
+</code></pre>
+<p>但是需要特別注意此環境變數會附蓋掉container內部的環境變數，因此如果有重名需要特別小心
+例如Home變數</p>
+<pre><code class="language-text">#Dockerfile
+From alpine
+ENV HOME=/usr
+RUN echo $HOME
+</code></pre>
+<p>到container內部後確實原本預設的HOME被修改成我們自定義的值了</p>
+<pre><code class="language-text">docker build -t versiontest .
+docker run -dit versiontest
+
+[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker attach c68
+/ # env
+HOSTNAME=c6808dc07543
+SHLVL=1
+HOME=/usr
+TERM=xterm
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/
+</code></pre>
+<h1 id="dockerfile-arg">Dockerfile ARG</h1>
+<p>接下來是ARG的使用方法<br />
+先看一下<a href="https://docs.docker.com/engine/reference/builder/#arg" target="_blank">ARG文檔</a></p>
+<p>格式也只需要ARG開頭在搭配一個key value的值即可，但是Value不是必填，如果為空需要在運行docker run時提供參數</p>
+<pre><code class="language-text">ARG &lt;name&gt;[=&lt;default value&gt;]
+</code></pre>
+<pre><code class="language-text">#Dockerfile
+From alpine
+ARG version=1.0.0
+RUN echo $version
+CMD echo $version
+</code></pre>
+<pre><code class="language-text">docker build -t versiontest .
+</code></pre>
+<p>這邊第三步驟會去抓ARG的值並輸出1.0.0</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker build -t versiontest .
+Sending build context to Docker daemon  2.048kB
+Step 1/4 : From alpine
+ ---&gt; b2aa39c304c2
+Step 2/4 : ARG version=1.0.0
+ ---&gt; Running in cc8cc3547a0a
+Removing intermediate container cc8cc3547a0a
+ ---&gt; f37ec7a12e96
+Step 3/4 : RUN echo $version
+ ---&gt; Running in d1291bdd0b33
+1.0.0
+Removing intermediate container d1291bdd0b33
+ ---&gt; 2f16517f0b6b
+Step 4/4 : CMD echo $version
+ ---&gt; Running in d70dbb5e3247
+Removing intermediate container d70dbb5e3247
+ ---&gt; 603da5c3374b
+Successfully built 603da5c3374b
+Successfully tagged versiontest:latest
+</code></pre>
+<p>這邊run 起來之後並沒有輸出任何值，因為並沒有宣告$version這個環境變數所以會輸出空值</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker run versiontest
+
+</code></pre>
+<pre><code class="language-text">#Dockerfile
+From alpine
+ARG version=1.0.0
+RUN echo $version
+CMD echo $version
+</code></pre>
+<p>docker build -t versiontest --build-arg version=1.0.1 .</p>
+<p>docker run versiontest</p>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
