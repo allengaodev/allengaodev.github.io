@@ -195,6 +195,7 @@ TERM=xterm
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 </code></pre>
+<hr />
 <h1 id="dockerfile-arg">Dockerfile ARG</h1>
 <p>接下來是ARG的使用方法<br />
 先看一下<a href="https://docs.docker.com/engine/reference/builder/#arg" target="_blank">ARG文檔</a></p>
@@ -212,24 +213,17 @@ CMD echo $version
 <p>這邊第三步驟會去抓ARG的值並輸出1.0.0</p>
 <pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
 $ docker build -t versiontest .
-Sending build context to Docker daemon  2.048kB
-Step 1/4 : From alpine
- ---&gt; b2aa39c304c2
-Step 2/4 : ARG version=1.0.0
- ---&gt; Running in cc8cc3547a0a
-Removing intermediate container cc8cc3547a0a
- ---&gt; f37ec7a12e96
+
+...
+
 Step 3/4 : RUN echo $version
  ---&gt; Running in d1291bdd0b33
 1.0.0
 Removing intermediate container d1291bdd0b33
  ---&gt; 2f16517f0b6b
-Step 4/4 : CMD echo $version
- ---&gt; Running in d70dbb5e3247
-Removing intermediate container d70dbb5e3247
- ---&gt; 603da5c3374b
-Successfully built 603da5c3374b
-Successfully tagged versiontest:latest
+
+...
+
 </code></pre>
 <p>這邊run 起來之後並沒有輸出任何值，因為並沒有宣告$version這個環境變數所以會輸出空值</p>
 <pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
@@ -239,11 +233,92 @@ $ docker run versiontest
 <pre><code class="language-text">#Dockerfile
 From alpine
 ARG version=1.0.0
+ENV version=2.0.0
 RUN echo $version
 CMD echo $version
 </code></pre>
-<p>docker build -t versiontest --build-arg version=1.0.1 .</p>
-<p>docker run versiontest</p>
+<p>如果ARG與ENV名稱一樣則，ENV的優先度最高會附蓋掉ARG</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker build -t versiontest . --no-cache --build-arg version=3.0.0
+
+...
+
+Step 4/5 : RUN echo $version
+ ---&gt; Running in c2c92651638d
+2.0.0
+Removing intermediate container c2c92651638d
+ ---&gt; 8c9430d36eaa
+
+...
+
+</code></pre>
+<p>兩者也可以做搭配可以達到預設值得效果</p>
+<pre><code class="language-text">From alpine
+ARG version
+ENV version=${version:-2.0.0}
+RUN echo $version
+CMD echo $version
+</code></pre>
+<p>這樣可以做到如果有帶參數就使用參數的值，沒有帶的話就使用:-後面的當作預設值</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker build -t versiontest . --no-cache
+
+...
+
+Step 4/5 : RUN echo $version
+ ---&gt; Running in f0c3972a1567
+2.0.0
+Removing intermediate container f0c3972a1567
+ ---&gt; 5b76b7cb3fd0
+
+...
+
+</code></pre>
+<p>這個:-的語法稱為<a href="https://docs.docker.com/engine/reference/builder/#environment-replacement" target="_blank">Environment replacement</a><br />
+要使用此語法需要使用大括號將變數包起來，並且有兩種格式</p>
+<ul>
+<li>$ 如果有帶參數就使用參數的值，沒有帶的話就使用:-後面的值當作預設值</li>
+<li>${version:+2.0.0} 如果有帶參數就使用:+後面的值當作預設值(並不會使用你所輸入的值)，沒有帶的話就使用就輸出空值，類似有輸出就ON沒輸出就OFF</li>
+</ul>
+<pre><code class="language-text">From alpine
+ARG version
+ENV version=${version:+2.0.0}
+RUN echo $version
+CMD echo $version
+</code></pre>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker build -t versiontest . --no-cache
+
+...
+
+Step 4/5 : RUN echo $version
+ ---&gt; Running in 77fa749b6940
+
+Removing intermediate container 77fa749b6940
+ ---&gt; 03635aa4b444
+ 
+...
+
+</code></pre>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/hello
+$ docker build -t versiontest . --no-cache --build-arg version=3.0.0
+
+...
+
+Step 4/5 : RUN echo $version
+ ---&gt; Running in d16612af788a
+2.0.0
+Removing intermediate container d16612af788a
+ ---&gt; c76344209a6c
+ 
+...
+
+</code></pre>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>以上就是ENV和ARG的基礎用法，ARG只會在build期間才會使用，ENV則是會一直跟著image<br />
+兩個都有自己使用的場景，例如可以將選擇image版本的參數設定在ARG這樣就可以在docker run時動態選擇自己需要的版本<br />
+ENV則是會影響到container內的環境變數，所以可以用來指定目前是Debug或是Prod環境，方便給我們內部運行的程式做判別</p>
 
 
         
