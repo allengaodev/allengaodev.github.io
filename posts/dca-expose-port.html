@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Port Binding&#x3001;Docker EXPOSE&#x3001;&#x958B;&#x653E;&#x7AEF;&#x53E3;">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Port Binding&#x3001;EXPOSE</title>
+
+  <link rel="canonical" href='https://allengaodev.github.iohttps://allengaodev.github.io/posts/dca-expose-port'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Port Binding&#x3001;EXPOSE' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-expose-port' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Port Binding&#x3001;EXPOSE
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Port Binding&#x3001;Docker EXPOSE&#x3001;&#x958B;&#x653E;&#x7AEF;&#x53E3;</span>
+            <div class="meta">Published on Wednesday, February 22, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-run-port-binding">Docker Run Port Binding</h1>
+<p>在之前這篇文章最後: <a href="https://allengaodev.github.io/posts/dca-context" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Context</a></p>
+<p>有跑起來一個nginx容器並且開放了一個端口8080，並且用瀏覽器打開網址就能在畫面上看到nginx的歡迎頁面</p>
+<pre><code class="language-text">docker run --name nginx28 -p 8080:80 nginx
+</code></pre>
+<p>那麼背後的原理是什麼呢？<br />
+首先先看一下 <code>-p</code> 參數是什麼意思</p>
+<pre><code class="language-text">--publish , -p		Publish a container’s port(s) to the host
+--publish-all , -P		Publish all exposed ports to random ports
+</code></pre>
+<p>簡單來說就是把container內部的port與host的port做連結<br />
+首先host代表的是我們的實體機器也可以是一台VM<br />
+以Play with Docker為例，當我們按下ADD NEW INSTANCE按鈕時，下方會跑出一台新的機器，我們可以把這台機器當成HOST，這台HOST有自己完整的作業系統<br />
+同時在HOST內運行起多個container時，每個container內部也有一套完整的作業系統</p>
+<p>所以當需求訪問其中一個container時，就需要有一個轉送的機制將HOST的port的流量傳送到container內部的port</p>
+<p>現在在看一下以下範例
+這邊使用 <code>docker ps -a</code> 列出所以運行中的image，其中有一個欄位叫做 <code>PORTS</code> 值為 <code>0.0.0.0:8080-&gt;80/tcp</code></p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$ docker run -dit -p 8080:80 nginx
+
+[node1] (local) root&#64;192.168.0.8 ~
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES
+8a24ee600104   nginx     &quot;/docker-entrypoint.…&quot;   13 seconds ago   Up 12 seconds   0.0.0.0:8080-&gt;80/tcp   happy_archimedes
+</code></pre>
+<p>那麼在試試看 <code>-p</code> 參數帶入其他的值會發生什麼事</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$ docker run -dit --name nginx28 -p 8080:81 nginx
+b538e3d3eec1814aa7f0b71359a28fd1263f15968b77aaf0c108be1ff47af574
+
+[node1] (local) root&#64;192.168.0.8 ~
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                          NAMES
+b538e3d3eec1   nginx     &quot;/docker-entrypoint.…&quot;   7 seconds ago   Up 6 seconds   80/tcp, 0.0.0.0:8080-&gt;81/tcp   clever_einstein
+</code></pre>
+<p>那麼在試試看如果不帶 <code>-p</code> 參數會發生什麼事</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$ docker run -dit --name nginx28 nginx
+
+[node1] (local) root&#64;192.168.0.8 ~
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS     NAMES
+b5311d14d1ae   nginx     &quot;/docker-entrypoint.…&quot;   13 seconds ago   Up 12 seconds   80/tcp    quirky_nightingale
+</code></pre>
+<p>該怎麼解讀這些結果呢？
+首先第一個測試有帶 <code>-p 8080:80</code> 參數，結果可以看到PORTS欄位有一個值 <code>0.0.0.0:8080-&gt;80/tcp </code> PORTS欄位的值中間有一個箭頭<code>-&gt;</code>，代表這個操作是有方向行的，也就是從 <code>A</code> 往 <code>B</code> 方向傳送<br />
+也就是說Docker會監聽Host的8080 port，並且把流量轉送到container的tcp 80 port</p>
+<p>第二個測試帶入 <code>-p 8080:80</code> 參數，PORTS欄位有兩個值 <code>80/tcp, 0.0.0.0:8080-&gt;81/tcp</code></p>
+<p>第三個測試沒有帶入 <code>-p</code> 參數，PORTS欄位只有一個值 <code>80/tcp</code></p>
+<p>那麼為什麼沒有帶 <code>-p</code> 參數的結果也會輸出一個tcp 80 port呢？
+而且為什麼是tcp 80 port可以選擇其它的值嘛？</p>
+<p>接下來就要到Dockerfile中找答案了</p>
+<hr />
+<h1 id="docker-expose">Docker EXPOSE</h1>
+<p>首先先看一下<a href="https://docs.docker.com/engine/reference/builder/#expose" target="_blank">Docker EXPOSE的文檔</a></p>
+<p>只要開頭使用EXPOSE並且輸入指定的port即可，也可以只定TCP或者UDP，預設情況下為TCP</p>
+<pre><code class="language-text">EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;...]
+</code></pre>
+<p>例如以下範例，會將container內部的tcp與udp 80 port對外開放</p>
+<pre><code class="language-text">EXPOSE 80/tcp
+EXPOSE 80/udp
+</code></pre>
+<p>學會了怎麼將container的port對外開放之後<br />
+可以到Nginx的<a href="https://github.com/nginxinc/docker-nginx/blob/761fffeba0d867d6e80d38998073e0eaa456bb02/Dockerfile-alpine-slim.template#L111" target="_blank">Github</a>看看Dockerfile是怎麼寫的<br />
+在這一行可以看到EXPOSE的語法，所以這就是為什麼將Nginx運行起來時Container總會有個80 port的原因</p>
+<p>這邊需要注意關鍵是container內部的程式<br />
+以nginx為例，有使用過nginx的人一定知道nginx關鍵的設定檔<code>nginx.conf</code><br />
+這個設定檔告知nginx將會監聽80 port並且顯示預設的首頁<code>index.html</code><br />
+所以在將nginx包裝成image的過程也會有同樣的目錄結構<br />
+並且在image的最後使用Expose對外暴露一個80 port<br />
+來將host的流量轉發到container內部，最後讓nginx監聽到</p>
+<hr />
+<p>根據上一段的說明，我們可以來製作一個專屬客製化的nginx image
+首先建立以下目錄及檔案</p>
+<pre><code class="language-text">mkdir customnginx &amp;&amp; cd $_
+touch Dockerfile
+touch 8081.conf
+touch custom.html
+</code></pre>
+<p>修改8081.conf內容，此規則會監聽8081 port並轉到custom.html頁面</p>
+<pre><code class="language-text">#8081.conf
+server {
+    listen       8081;
+    listen  [::]:8081;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  custom.html custom.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+</code></pre>
+<p>修改custom.html內容，會顯示出客製化html</p>
+<pre><code class="language-text">#custom.html
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx! From Custom Port&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to nginx! From Custom Port&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>我們這邊底層使用nginx，並將兩個檔案放到各自的資料夾內<br />
+要注意這邊的目錄可能會根據不同廠商發布的nginx image而有所不同
+並且最後對將container的8081 port暴露出去</p>
+<pre><code class="language-text">#Dockerfile
+FROM nginx
+
+COPY 8081.conf /etc/nginx/conf.d/
+COPY custom.html /usr/share/nginx/html/
+
+EXPOSE 8081
+</code></pre>
+<p>在這邊看到原本的80 port也還存在，並不會被我們自訂的port所取代，並且還額外綁定了一個8081 port<br />
+這兩個port也都綁定到HOST環境底下了，所以照理來說我們現在訪問機器的地址就能看到客制頁面了</p>
+<pre><code class="language-text">docker build -t customnginx .
+docker run -dit -p 80:80 -p 8081:8081 customnginx
+
+[node1] (local) root&#64;192.168.0.28 ~/customnginx
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                                        NAMES
+50f379fcb0e1   customnginx   &quot;/docker-entrypoint.…&quot;   9 seconds ago   Up 6 seconds   0.0.0.0:80-&gt;80/tcp, 0.0.0.0:8081-&gt;8081/tcp   vibrant_goodall
+</code></pre>
+<img src="https://drive.google.com/uc?id=1x0ocdXXXH__wKymVNiLnL3hYZqXE-JL3" alt="DCAEXPOSEPort-CustomPage" class="img-fluid">
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天了解到Dockerfile的EXPOSE與Docker Run的 <code>-p</code>參數，兩個是要互相搭配使用的缺一不可
+並且最後還將nginx官方的image作為底層客制出我們專用的Nginx版本，能顯示出我們自訂的頁面
+當我將image打包完成後，你只需要下載我的image並且只要在有Docker的環境就可以馬上運行我的成果<br />
+而且也不需要知道我到底是怎麼實做的，我只要告訴你我的image要使用80和8081 port<br />
+你只要執行docker run命令即可，這就是Docker最方便的地方</p>
+<p>有興趣的朋友可以直接運行以下命令，就以運行今天的image了</p>
+<pre><code class="language-text">docker run -dit -p 80:80 -p 8081:8081 allengaodev/customnginx:latest
+</code></pre>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
