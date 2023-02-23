@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;WORKDIR and USER">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-WORKDIR and USER</title>
+
+  <link rel="canonical" href='https://allengaodev.github.iohttps://allengaodev.github.io/posts/dca-workdir-user'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-WORKDIR and USER' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-workdir-user' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-WORKDIR and USER
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;WORKDIR and USER</span>
+            <div class="meta">Published on Thursday, February 23, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-workdir">Docker WORKDIR</h1>
+<p>在Dockerfile中WORKDIR也是相當常用的指令<br />
+首先來看看<a href="https://docs.docker.com/engine/reference/builder/#workdir" target="_blank">WORKDIR文檔</a></p>
+<pre><code class="language-text">WORKDIR /path/to/workdir
+</code></pre>
+<p><code>WORKDIR</code>指令是用來設定<code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>COPY</code> 和 <code>ADD</code>這些指令的工作目錄<br />
+如果沒有設定 <code>WORKDIR</code> 那麼預設會在根目錄 <code>/</code></p>
+<p>先來做個簡單的測試</p>
+<pre><code class="language-text">mkdir workdir &amp;&amp; cd $_
+vi Dockerfile
+</code></pre>
+<pre><code class="language-text">#Dockerfile
+FROM alpine
+</code></pre>
+<pre><code class="language-text">docker build -t workdirimage .
+docker run -dit workdirimage 
+</code></pre>
+<p>我們在這邊建立了一個空的alpine image，現在我們使用 <code>docker attach</code> 附加進去容器內部
+目前container的工作目錄為根目錄</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~/workdir
+$ docker attach 5b6f
+/ # 
+</code></pre>
+<p>那麼我們來修改一下Dockerfile新增一個 <code>WORKDIR</code>，在重新運行一個container試試看</p>
+<pre><code class="language-text">#Dockerfile
+FROM alpine
+WORKDIR /usr
+WORKDIR bin
+</code></pre>
+<p>發現我們的工作目錄已經被設定<code>/usr/bin</code>底下了</p>
+<pre><code class="language-text">docker build -t workdirimage .
+docker run -dit workdirimage 
+[node1] (local) root&#64;192.168.0.13 ~/workdir
+$ docker attach bff
+/usr/bin # 
+</code></pre>
+<p>這邊要注意一下絕對路徑跟相對路徑的寫法<br />
+如果是像範例那樣有寫相對路徑，則結果會去參考前一個 <code>WORKDIR</code><br />
+如果路徑為不存在的資料夾，則結果會建立一個新的資料夾</p>
+<p>如果沒有設定<code>WORKDIR</code>則會去參考依賴的image有沒有設定<br />
+所以為了避免被父層的image干擾，最好是建立自己的image時都要設定<code>WORKDIR</code></p>
+<hr />
+<h1 id="docker-user">Docker USER</h1>
+<p>跟<code>WORKDIR</code>很相像，<code>WORKDIR</code>是用來設定工作目錄<br />
+<code>USER</code>則是用來設定container該使用哪個使用者和群組
+並且會影響<code>RUN</code>, <code>CMD</code> 和 <code>ENTRYPOINT</code> 這些指令的使用者與群組</p>
+<p>簡單來說<code>USER</code>指令是用來切換container內部的使用者和群組，需要注意跟我們HOST的使用者與群組不相關<br />
+因為<code>USER</code>指令是用來切換container內部的使用者，所以要切換前必須要預先建立好否則切換會報錯</p>
+<p>接下來測試看看
+這邊我們建立了一個新的user叫做 <code>user</code>，並且加入到 <code>user</code> 群組</p>
+<pre><code class="language-text">FROM ubuntu
+RUN groupadd -r user &amp;&amp; useradd -r -g user user
+USER user
+</code></pre>
+<pre><code class="language-text">docker build -t usertest .
+docker run -dit usertest
+</code></pre>
+<p>可以看到目前登入的使用者變成是<code>user</code>了</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.28 ~/workdir
+$ docker attach eda0c
+user&#64;eda0c9bc62e6:/$ id
+uid=999(user) gid=999(user) groups=999(user)
+</code></pre>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天學習了如何設定container的使用者與工作目錄<br />
+<code>WORKDIR</code>設定工作目錄<br />
+<code>USER</code>設定使用者<br />
+其中 <code>WORKDIR</code> 在搭配<code>COPY</code> 或 <code>RUN</code>運行指令時非常方便
+之後可以多加使用</p>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
