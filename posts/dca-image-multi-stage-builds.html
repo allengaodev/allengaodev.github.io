@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Image Multi-Stage Builds">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Image Multi-Stage Builds</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dca-image-multi-stage-builds'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Image Multi-Stage Builds' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-image-multi-stage-builds' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Image Multi-Stage Builds
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Image Multi-Stage Builds</span>
+            <div class="meta">Published on Saturday, February 25, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-image-multi-stage">Docker Image Multi-Stage</h1>
+<p>在這篇文章<a href="https://allengaodev.github.io/posts/dca-imagelayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a>當中有提到一個Dockerfile的規則<br />
+當使用<code>RUN</code>, <code>COPY</code>, <code>ADD</code>任意一個指令，Docker就會幫我們創建一個layers</p>
+<p>也就說當我們使用越多的指令Docker就會幫我們建立更多的層，但是在最佳實踐也有提到要盡量減少層數的的產生，因為越多層數會影響運作的速度
+那有沒有辦法減少層數呢？<br />
+當然是有的，那就是Multi-Stage Builds</p>
+<p>首先我們下載Dotnet提供的範例來學習</p>
+<pre><code class="language-text">git clone https://github.com/dotnet/dotnet-docker.git
+cd dotnet-docker/samples/dotnetapp
+</code></pre>
+<p>我們將專案目錄列出來看看，可以看到有許多的Dockerfile在Docker的規則中，預設會去讀取Dockerfile的文件，不過也可以叫做別的名稱只要在build時要額外添加 <code>-f</code> 參數指定文件名稱即可</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/dotnet-docker/samples/dotnetapp
+$ ls -l
+total 100
+-rw-r--r--    1 root     root           493 Feb 25 14:57 Dockerfile
+-rw-r--r--    1 root     root           780 Feb 25 14:57 Dockerfile.alpine-arm32
+-rw-r--r--    1 root     root           885 Feb 25 14:57 Dockerfile.alpine-arm32-slim
+-rw-r--r--    1 root     root           784 Feb 25 14:57 Dockerfile.alpine-arm64
+-rw-r--r--    1 root     root           889 Feb 25 14:57 Dockerfile.alpine-arm64-slim
+-rw-r--r--    1 root     root           778 Feb 25 14:57 Dockerfile.alpine-x64
+-rw-r--r--    1 root     root           883 Feb 25 14:57 Dockerfile.alpine-x64-slim
+-rw-r--r--    1 root     root           522 Feb 25 14:57 Dockerfile.chiseled
+-rw-r--r--    1 root     root           485 Feb 25 14:57 Dockerfile.debian-arm32
+-rw-r--r--    1 root     root           489 Feb 25 14:57 Dockerfile.debian-arm64
+-rw-r--r--    1 root     root           483 Feb 25 14:57 Dockerfile.debian-x64
+-rw-r--r--    1 root     root           588 Feb 25 14:57 Dockerfile.debian-x64-slim
+-rw-r--r--    1 root     root           620 Feb 25 14:57 Dockerfile.nanoserver-x64
+-rw-r--r--    1 root     root           650 Feb 25 14:57 Dockerfile.nanoserver-x64-slim
+-rw-r--r--    1 root     root           483 Feb 25 14:57 Dockerfile.ubuntu-arm32
+-rw-r--r--    1 root     root           487 Feb 25 14:57 Dockerfile.ubuntu-arm64
+-rw-r--r--    1 root     root           481 Feb 25 14:57 Dockerfile.ubuntu-x64
+-rw-r--r--    1 root     root           586 Feb 25 14:57 Dockerfile.ubuntu-x64-slim
+-rw-r--r--    1 root     root           511 Feb 25 14:57 Dockerfile.windowsservercore-x64
+-rw-r--r--    1 root     root           677 Feb 25 14:57 Dockerfile.windowsservercore-x64-slim
+-rw-r--r--    1 root     root          3617 Feb 25 14:57 Program.cs
+-rw-r--r--    1 root     root         11310 Feb 25 14:57 README.md
+-rw-r--r--    1 root     root           215 Feb 25 14:57 dotnetapp.csproj
+</code></pre>
+<p>我們看看專案內的 Dockerfile ，可以看到竟然有兩個FROM</p>
+<ul>
+<li>FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build</li>
+<li>FROM mcr.microsoft.com/dotnet/runtime:7.0</li>
+</ul>
+<pre><code class="language-text"># https://hub.docker.com/_/microsoft-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /source
+
+# copy csproj and restore as distinct layers
+COPY *.csproj .
+RUN dotnet restore --use-current-runtime
+
+# copy and publish app and libraries
+COPY . .
+RUN dotnet publish -c Release -o /app --use-current-runtime --self-contained false --no-restore
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/runtime:7.0
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT [&quot;dotnet&quot;, &quot;dotnetapp.dll&quot;]
+</code></pre>
+<p>首先我們知道在 dotnet 中要編譯程式那需要安裝 dotnet sdk
+編譯完的程式如果沒有額外做設定，要在其他電腦運作需要安裝 dotnet runtime
+我們比較一下這兩個image，看到SIZE欄位</p>
+<ul>
+<li>mcr.microsoft.com/dotnet/sdk 767MB</li>
+<li>mcr.microsoft.com/dotnet/runtime 190MB</li>
+</ul>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/dotnet-docker/samples/dotnetapp
+$ docker image ls
+REPOSITORY                         TAG       IMAGE ID       CREATED         SIZE
+hello                              latest    314c0cca4b2d   4 minutes ago   190MB
+&lt;none&gt;                             &lt;none&gt;    2f274cff5d2e   4 minutes ago   971MB
+mcr.microsoft.com/dotnet/sdk       7.0       83489ef20059   11 days ago     767MB
+mcr.microsoft.com/dotnet/runtime   7.0       eb10f76afdc9   11 days ago     190MB
+</code></pre>
+<p>這兩個image的大小差了好幾倍，所以如果只能選擇一個底層，那只能選擇功能比較多的sdk image<br />
+不過這樣大小就要767MB起跳了，還要加上編譯完程式的大小<br />
+所以docker提供了一個辦法讓你在功能比較完整的sdk環境做編譯，編譯完後在將程式傳送到runtime為底層的image，這樣大小就變成190MB起跳了<br />
+越小的image大小在我們部署跟啟動之時都是非常有幫助，這就是Multi-Stage Builds</p>
+<p>接下來繼續解讀Dockerfile的內容</p>
+<pre><code class="language-text"># 首先第一行最後面多了一段 ` AS build` 這個名字沒有限定，是用來指定這個編譯環境的名稱，看到下方 `--from=build` 兩個名字要一樣
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+# 指定新的工作目錄
+WORKDIR /source
+
+# 將所有專案檔複製到image內部，並且還原所以專案
+COPY *.csproj .
+RUN dotnet restore --use-current-runtime
+
+# 將所有檔案複製到image內部，並且publish專案並且輸出到 app 資料夾 
+COPY . .
+RUN dotnet publish -c Release -o /app --use-current-runtime --self-contained false --no-restore
+
+# 指定第二個image
+# 指定工作目錄到 app
+# 將所有 build 建構環境的 app 資料夾，複製到新的image底下
+# 運行dll
+FROM mcr.microsoft.com/dotnet/runtime:7.0
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT [&quot;dotnet&quot;, &quot;dotnetapp.dll&quot;]
+</code></pre>
+<p>大致了解之後我們在看一次所有的images<br />
+第一個就是我們成品的image，底層是使用runtime image<br />
+第二個image是<none>，這個比較特別是一個中繼的檔案也就是我們剛剛的build 建構環境的臨時image<br />
+這個image如果硬碟容量足夠的話可以不用主動清除掉</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/dotnet-docker/samples/dotnetapp
+$ docker image ls
+REPOSITORY                         TAG       IMAGE ID       CREATED         SIZE
+hello                              latest    314c0cca4b2d   4 minutes ago   190MB
+&lt;none&gt;                             &lt;none&gt;    2f274cff5d2e   4 minutes ago   971MB
+mcr.microsoft.com/dotnet/sdk       7.0       83489ef20059   11 days ago     767MB
+mcr.microsoft.com/dotnet/runtime   7.0       eb10f76afdc9   11 days ago     190MB
+</code></pre>
+<p>我們可以使用 <code>docker history</code> 來看清楚image所有的層數</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/dotnet-docker/samples/dotnetapp
+$ docker history 2f274c
+IMAGE          CREATED          CREATED BY                                      SIZE      COMMENT
+2f274cff5d2e   31 minutes ago   /bin/sh -c dotnet publish -c Release -o /app…   9.42MB    
+48df258627a0   31 minutes ago   /bin/sh -c #(nop) COPY dir:d177e334bdec992e0…   3.93kB    
+58f7aa6a3d6f   31 minutes ago   /bin/sh -c dotnet restore --use-current-runt…   194MB     
+a66cd1e7ac71   31 minutes ago   /bin/sh -c #(nop) COPY file:323095bfbe621dcb…   215B      
+3fdf37a8423e   31 minutes ago   /bin/sh -c #(nop) WORKDIR /source               0B        
+83489ef20059   11 days ago      /bin/sh -c powershell_version=7.3.2     &amp;&amp; c…   42.4MB    
+&lt;missing&gt;      11 days ago      /bin/sh -c curl -fSL --output dotnet.tar.gz …   438MB     
+&lt;missing&gt;      11 days ago      /bin/sh -c apt-get update     &amp;&amp; apt-get ins…   74.8MB    
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop)  ENV ASPNETCORE_URLS= DOTN…   0B        
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop) COPY dir:0757f1be98a8096d5…   21.8MB    
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop)  ENV ASPNET_VERSION=7.0.3     0B        
+&lt;missing&gt;      11 days ago      /bin/sh -c ln -s /usr/share/dotnet/dotnet /u…   24B       
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop) COPY dir:85163c9fd54a3f2f3…   73.2MB    
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop)  ENV DOTNET_VERSION=7.0.3     0B        
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop)  ENV ASPNETCORE_URLS=http:…   0B        
+&lt;missing&gt;      11 days ago      /bin/sh -c apt-get update     &amp;&amp; apt-get ins…   36.2MB    
+&lt;missing&gt;      2 weeks ago      /bin/sh -c #(nop)  CMD [&quot;bash&quot;]                 0B        
+&lt;missing&gt;      2 weeks ago      /bin/sh -c #(nop) ADD file:3ea7c69e4bfac2ebb…   80.5MB   
+
+[node1] (local) root&#64;192.168.0.18 ~/dotnet-docker/samples/dotnetapp
+$ docker history 314c0
+IMAGE          CREATED          CREATED BY                                      SIZE      COMMENT
+314c0cca4b2d   32 minutes ago   /bin/sh -c #(nop)  ENTRYPOINT [&quot;dotnet&quot; &quot;dot…   0B        
+0285c20c2552   32 minutes ago   /bin/sh -c #(nop) WORKDIR /app                  0B        
+eb10f76afdc9   11 days ago      /bin/sh -c ln -s /usr/share/dotnet/dotnet /u…   24B       
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop) COPY dir:85163c9fd54a3f2f3…   73.2MB    
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop)  ENV DOTNET_VERSION=7.0.3     0B        
+&lt;missing&gt;      11 days ago      /bin/sh -c #(nop)  ENV ASPNETCORE_URLS=http:…   0B        
+&lt;missing&gt;      11 days ago      /bin/sh -c apt-get update     &amp;&amp; apt-get ins…   36.2MB    
+&lt;missing&gt;      2 weeks ago      /bin/sh -c #(nop)  CMD [&quot;bash&quot;]                 0B        
+&lt;missing&gt;      2 weeks ago      /bin/sh -c #(nop) ADD file:3ea7c69e4bfac2ebb…   80.5MB     
+</code></pre>
+<p>這兩個層數相差非常多，這也是Multi-Stage Builds的好處之一<br />
+我們可以在建構環境的 image 完成所有基礎的操作，最後只要將dotnet編譯完的結果複製出來就好了，因為sdk跟程式的原始碼編譯完之後就沒有意義了
+所以在實際使用環境Multi-Stage Builds是經常使用的</p>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天學習了Multi-Stage Builds的使用方法，使用之後image的層數跟大小，可以縮小數倍可謂是好處多多，所以在最佳實踐中Docker也是建議多使用Multi-Stage Builds
+可以讓image能夠更快速的下載下來，層數減少也可以減少container啟動的速度，可以說是很重要的技術。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dca-image-multi-stage-builds'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
