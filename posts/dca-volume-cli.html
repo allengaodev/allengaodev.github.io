@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;VOLUME CLI&#x3001;Bind Mounts">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME CLI and Bind Mounts</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dca-volume-cli'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME CLI and Bind Mounts' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-volume-cli' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME CLI and Bind Mounts
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;VOLUME CLI&#x3001;Bind Mounts</span>
+            <div class="meta">Published on Monday, February 27, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-volume-cli">Docker VOLUME CLI</h1>
+<p>在上一篇的文章中: <a href="https://allengaodev.github.io/posts/dca-volume" target="_blank">Docker Certified Associate(DCA)認證考試學習- VOLUME</a><br />
+我們學到了該怎麼在 Docker 中建立並且使用一個 volume ，今天要來學習另一種創建 volume 的方式<br />
+Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關功能</p>
+<pre><code class="language-text">docker volume  --help
+
+Usage:  docker volume COMMAND
+
+Manage volumes
+
+Commands:
+  create      Create a volume
+  inspect     Display detailed information on one or more volumes
+  ls          List volumes
+  prune       Remove all unused local volumes
+  rm          Remove one or more volumes
+
+Run 'docker volume COMMAND --help' for more information on a command.
+</code></pre>
+<p>接下來我們將利用 Volume Cli 來手動建立 volume</p>
+<pre><code class="language-text">docker volume create myvolume
+</code></pre>
+<p>列出所有 volume</p>
+<pre><code class="language-text">docker volume ls
+</code></pre>
+<p>這邊看到 VOLUME NAME 為 myvolume ， 跟 Dockerfile 自動幫我們產生的亂數名稱有很大的差異
+使用手動建立的 volume 可讀性可以大大提昇</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.13 ~
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     myvolume
+</code></pre>
+<p>使用 <code>docker inspect</code> 可以列出 volume 的詳細資訊<br />
+此 volume 在 Host 環境中的實際位置為 <code>/var/lib/docker/volumes/myvolume/_data</code></p>
+<pre><code class="language-text">$ docker inspect myvolume
+[
+    {
+        &quot;CreatedAt&quot;: &quot;2023-02-27T14:31:18Z&quot;,
+        &quot;Driver&quot;: &quot;local&quot;,
+        &quot;Labels&quot;: {},
+        &quot;Mountpoint&quot;: &quot;/var/lib/docker/volumes/myvolume/_data&quot;,
+        &quot;Name&quot;: &quot;myvolume&quot;,
+        &quot;Options&quot;: {},
+        &quot;Scope&quot;: &quot;local&quot;
+    }
+]
+</code></pre>
+<p>同樣的我們也可手動把 volume 掛載到 container 內部，詳細的操作可以參考上一篇的<a href="https://allengaodev.github.io/posts/dca-volume" target="_blank">文章</a></p>
+<pre><code class="language-text">docker run -dit -v myvolume:/newvolume alpine 
+</code></pre>
+<hr />
+<h1 id="docker-bind-mounts">Docker Bind Mounts</h1>
+<p>Bind Mounts 的使用方法與 Volume 幾乎相同，但是需要注意 Host 的作業系統，因為我們都知道 Windows 的 Filesystem 與 Linux 完全不同<br />
+所以 Docker 為了兼容性所以並不允許在 Dockerfile 之中指定 Host 之中的路徑，只能使用 Volume 交給 Docker 處理這種作業系統等級的問題</p>
+<p>例如以下寫法就是不行的，因為在 Dockerfile 之中 VOLUME 為了兼容性，所以這邊不允許輸入 Host 端的路徑
+Docker 會將此路徑解析成 Json 格式，所以最後運行結果會像下面這樣</p>
+<pre><code class="language-text">#Dockerfile
+FROM alpine
+VOLUME /root/hello:/myvolume
+</code></pre>
+<p>這邊還是會自動建立一個 Volume ， 並且 Destination 為 <code>&quot;/root/hello:/myvolume&quot;</code></p>
+<pre><code class="language-text">[{&quot;Type&quot;:&quot;volume&quot;,&quot;Name&quot;:&quot;94802cd7200d52de9c74e27d4235b3a49f18d5d1c70be879a0d418e9112fc9b6&quot;,&quot;Source&quot;:&quot;/var/lib/docker/volumes/94802cd7200d52de9c74e27d4235b3a49f18d5d1c70be879a0d418e9112fc9b6/_data&quot;,&quot;Destination&quot;:&quot;/root/hello:/myvolume&quot;,&quot;Driver&quot;:&quot;local&quot;,&quot;Mode&quot;:&quot;&quot;,&quot;RW&quot;:true,&quot;Propagation&quot;:&quot;&quot;}]
+</code></pre>
+<p>所以我們只能手動輸入 Bind Mounts ， 接下來做幾個簡單的測試</p>
+<pre><code class="language-text">mkdir /binds &amp;&amp; cd $_
+touch myconfig
+</code></pre>
+<p>這邊跟 volume 的寫法一樣，不過 Bind Mounts 開頭需要是 host 檔案系統中的資料夾，不像 volume 開頭只需要指定 volume name</p>
+<pre><code class="language-text">docker run -dit -v /binds:/hostmount alpine
+docker attach f2ba
+/ # ls
+bin        etc        hostmount  media      opt        root       sbin       sys        usr
+dev        home       lib        mnt        proc       run        srv        tmp        var
+/ # cd hostmount/
+/hostmount # ls
+myconfig
+</code></pre>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天比較了 VOLUME 與 Bind Mounts 兩者之間的差異， VOLUME 比較適合多個 container 互相讀寫之間的操作<br />
+例如一個後端 Api 與一個資料庫，在加上 VOLUME 會自動處理作業系統的問題性能也比較高<br />
+相對的 Bind Mounts 比較適合用來讀取設定檔這樣的情況，例如多個 Api 同時需要讀取同一份設定檔這樣就很適合使用 Bind Mounts
+不過就是要手動處理文件路徑的問題</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dca-volume-cli'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
