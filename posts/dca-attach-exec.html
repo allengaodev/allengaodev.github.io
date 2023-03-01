@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Attach vs Exec">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Attach vs Exec</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dca-attach-exec'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Attach vs Exec' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-attach-exec' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Attach vs Exec
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Attach vs Exec</span>
+            <div class="meta">Published on Wednesday, March 1, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-attach-vs-exec">Docker Attach vs Exec</h1>
+<p>之前在進入 Container 內部時經常使用到 <code>docker attach &lt;ContainerId&gt;</code> 這個命令，不過 Docker 還有提供另一個命令 <code>docker exec</code><br />
+<code>docker exec</code> 顧名思義就是在 container 內部運行一段命令，我們可以在 Host 環境底下直接將命令傳送給 container 內部<br />
+交由 container 內部的系統來運行，所以範用性比起 <code>docker attach</code> 更加的廣泛，今天要來比較這兩個命令的區別</p>
+<h1 id="docker-attach">Docker Attach</h1>
+<p>第一個是我們常用的 <code>docker attach</code>，首先我們先安裝 <code>tumx</code> 主要的用途是要開啟兩個 session，也可以開啟兩個 <code>putty</code> 也可以達到同樣的效果<br />
+我這邊使用的是 Play with Docker 的環境，可以使用以下命令來進行安裝</p>
+<pre><code class="language-text">apk add tmux
+</code></pre>
+<p>安裝完成後輸入 <code>tmux</code> 就會進入到 <code>tmux</code> 所管理的 Session 了<br />
+進入後會看到底下有一條綠色的長條寫著 <code>[0] 0:bash*</code> ， 就代表你有正確進入到環境了</p>
+<pre><code class="language-text">tmux
+</code></pre>
+<p>接下來按下快捷鍵 <code>Ctrl + b</code> + <code>c</code>，建立一個新的 Session ， 要注意 <code>c</code> 要獨立按下不要按著 <code>Ctrl</code>
+這時底下會多出一個 bash 寫著 <code>[0] 0:bash- 1:bash*</code>
+後面的星字號 <code>*</code> 代表目前所在的 Session，我們現在位於 Session 1</p>
+<p>接下來按下快捷鍵 <code>Ctrl + b</code> + <code>%</code>，將畫面一分為二，左邊為 Session 1 右邊為 Session 2，可以使用  <code>Ctrl + b</code> + <code>方向鍵</code> 來進行左右 Session 切換
+(DCAAttachExec-tmux.png)</p>
+<p>都完成後我們在 Session 1 運行起一個 ubuntu container，這邊都是同一台 Host 所以在哪個 Session 執行都可以</p>
+<pre><code class="language-text">docker run -dit ubuntu
+</code></pre>
+<p>之後在 Session 1 使用 <code>docker attach</code>進入 container</p>
+<pre><code class="language-text">docker attach fe3346
+</code></pre>
+<p>進入後輸入 <code>ps</code> 查看有什麼程式正在運行中，可以看到此 container 的 PID 1 正在運行 Bash
+PID 1 代表 container 主要運行的任務，如果 PID 1 發生異常或停止，Docker 認為此 container 已經完成任務了，會將此 container 停止</p>
+<pre><code class="language-text">root&#64;fe3346a36290:/# ps a
+PID TTY          TIME CMD
+  1 pts/0    00:00:00 bash
+ 12 pts/0    00:00:00 ps
+</code></pre>
+<p>接下來使用快捷鍵 <code>Ctrl + b</code> + <code>方向鍵</code> 切換到 Session 2，並且也使用 <code>docker attach</code>進入 container</p>
+<pre><code class="language-text">docker attach fe3346
+</code></pre>
+<p>輸入命令後會發現怎麼兩個 Session 會同步運行，這是因為 <code>docker attach</code> 的機制，當輸入之後它會附加到container 目前正在運行的 bash<br />
+並且兩個 Session 都附加到同一個 bash 上， 所以才會看起來有同步運行的效果，而且因為是附加在 bash 上並且它又是 PID 1<br />
+正如剛剛所提到的 PID 1 的程式不可以停止運行，否則 container 會進行關閉，這也就是為什麼之前使用 <code>docker attach</code> 有時需要搭配快捷鍵 <code>Ctrl + b</code> + <code>Ctrl + q</code>
+而不是使用 <code>exit</code> 進行退出， 這是因為使用 <code>exit</code> 會將 container 的 bash 關閉，所以整個 container 會進行關閉， 使用快捷鍵 <code>Ctrl + b</code> + <code>Ctrl + q</code> 則不會有這個問題</p>
+<h1 id="docker-exec">Docker Exec</h1>
+<p>接下來測試 <code>docker exec</code> ， 也是啟動一個 ubuntu container</p>
+<pre><code class="language-text">docker run -dit ubuntu
+</code></pre>
+<p>這時改用 <code>docker exec</code> 來進入 container
+這個命令的意思是請 docker 將命令交給 container 內部執行，也就是剛剛建立的 ubuntu container 並且運行 bash 這個程式</p>
+<pre><code class="language-text">docker exec -it e0a84d bash
+</code></pre>
+<p>進入後輸入 <code>ps a</code>，發現我們剛剛輸入的 exec 命令，已經不是 PID 1了，反而是 PID 9</p>
+<pre><code class="language-text">root&#64;e0a84d79da82:/# ps a                                
+  PID TTY      STAT   TIME COMMAND
+    1 pts/0    Ss+    0:00 /bin/bash
+    9 pts/1    Ss     0:00 bash
+   23 pts/1    R+     0:00 ps a
+</code></pre>
+<p>這就是與<code>docker attach</code>最大的不同， <code>docker exec</code> 會另外執行一個 process， 不會附加到原本的 PID 1 上<br />
+這樣反而比較安全因為 <code>docker exec</code> 並不會改變 container 原有的行為，隨便進行附加可能會讓 container 產生意外<br />
+而且不是PID 1 就代表我們可以使用 <code>exit</code> 進行退出，不會造成 container 停止
+最後 <code>docker exec</code> 可以執行任何的命令，並不限於進入 container 這個功能，例如可以使用以下指令
+可以輕鬆的列出 distro 資訊，簡單的命令就再也不用在重複進入 container 內部後再進行輸入了</p>
+<pre><code class="language-text">$ docker exec e0a84d cat /etc/os-release       
+                              
+PRETTY_NAME=&quot;Ubuntu 22.04.1 LTS&quot;                                             
+NAME=&quot;Ubuntu&quot;                                                                
+VERSION_ID=&quot;22.04&quot;                                                           
+VERSION=&quot;22.04.1 LTS (Jammy Jellyfish)&quot;                                      
+VERSION_CODENAME=jammy                                                       
+ID=ubuntu                                                                    
+ID_LIKE=debian                                                               
+HOME_URL=&quot;https://www.ubuntu.com/&quot;                                           
+SUPPORT_URL=&quot;https://help.ubuntu.com/&quot;                                       
+BUG_REPORT_URL=&quot;https://bugs.launchpad.net/ubuntu/&quot;                          
+PRIVACY_POLICY_URL=&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;                                                                       
+UBUNTU_CODENAME=jammy   
+</code></pre>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天比較了兩個進入 container 的方法 <code>docker attach</code> 和 <code>docker exec</code> ， 兩個都有各自使用的場合<br />
+例如可以利用<code>docker attach</code>的特性，使用完 container 之後想要可以直接輸入 exit 退出同時將 container 關閉，可以不用手動下指令將 container 停止
+<code>docker exec</code> 反之更加全面，所以反而都是選擇使用此命令來進入 container 內部</p>
+<p>這也是一開使很容易搞混的地方，因為 attach 字面上看起來是附加但卻不是最佳解所以實際上用的不多，反而一個字面上不清楚的 exec 才是最佳解法<br />
+之後可以按照自己的需求來選擇要使用那一個命令</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dca-attach-exec'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
