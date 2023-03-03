@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Network Host Mode">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Network Host Mode</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dca-network-host'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Network Host Mode' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-network-host' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Network Host Mode
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Network Host Mode</span>
+            <div class="meta">Published on Friday, March 3, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-network-host-mode">Docker Network Host Mode</h1>
+<p>在上一篇文章中: <a href="https://allengaodev.github.io/posts/dca-network-bridge" target="_blank">Docker Certified Associate(DCA)認證考試學習- Docker Network Bridge Mode</a>
+學習到了 Docker Network 中最常使用的 Bridge Mode，今天要來試試看 Host Mode 有什麼不同</p>
+<p>先看看 Host 的<a href="https://docs.docker.com/network/host/" target="_blank">文檔</a> ， 按照文檔的說法使用 Host 模式的 container 會直直接使用 Host 主機的網路<br />
+並不會像 Bridge 模式會在分配一個 IP 給 container， 也就是說當初在 Dockerfile 開放的端口， 會直接跟 Host 主機的端口連接在一起<br />
+例如建立一個 nginx container 並且使用網路 Host 模式，之後只要訪問 Host 的 80 port，就直接能看到 nginx 的網頁了<br />
+不用在額外做端口映射，之前使用 Bridge 模式的時候我們使用 docker run 啟動 container 時都需要額外在輸入 <code>-p</code> 參數，指定 container 的 port 要指定到哪一個 host 的 port
+只要使用 host 模式就可以跳過這個參數，如果你還是有帶 <code>-p</code> 參數， docker 也會直接忽略</p>
+<p>接下來做幾個測試，首先先建立一個 nginx container，並且網路指定使用 host 模式</p>
+<pre><code class="language-text">docker run -d --network=host --name nginx nginx
+</code></pre>
+<p>可以使用此命令來查看 host 模式的相關資訊</p>
+<pre><code class="language-text">docker network inspect host
+</code></pre>
+<p>看到 Containers 裡面已經有我們的 nginx container，代表 nginx 正在使用 host 網路</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~
+$ docker network inspect host
+[
+    {
+        &quot;Name&quot;: &quot;host&quot;,
+        &quot;Id&quot;: &quot;8ed5b22f6c27923bed73043fa76e45ad2872e32c650310e0afe91ce565c93e0d&quot;,
+        &quot;Created&quot;: &quot;2023-03-03T16:13:58.465549175Z&quot;,
+        &quot;Scope&quot;: &quot;local&quot;,
+        &quot;Driver&quot;: &quot;host&quot;,
+        &quot;EnableIPv6&quot;: false,
+        &quot;IPAM&quot;: {
+            &quot;Driver&quot;: &quot;default&quot;,
+            &quot;Options&quot;: null,
+            &quot;Config&quot;: []
+        },
+        &quot;Internal&quot;: false,
+        &quot;Attachable&quot;: false,
+        &quot;Ingress&quot;: false,
+        &quot;ConfigFrom&quot;: {
+            &quot;Network&quot;: &quot;&quot;
+        },
+        &quot;ConfigOnly&quot;: false,
+        &quot;Containers&quot;: {
+            &quot;fd55f26c115dd74b55337e0e78e499aaadf438a3cec8ca17c332ee90e015e0c4&quot;: {
+                &quot;Name&quot;: &quot;nginx&quot;,
+                &quot;EndpointID&quot;: &quot;1c3f3becda0f38d5925ead26c881bc7c04c9c80d10f3f7b34d3e3719be8a01c6&quot;,
+                &quot;MacAddress&quot;: &quot;&quot;,
+                &quot;IPv4Address&quot;: &quot;&quot;,
+                &quot;IPv6Address&quot;: &quot;&quot;
+            }
+        },
+        &quot;Options&quot;: {},
+        &quot;Labels&quot;: {}
+    }
+]
+</code></pre>
+<p>最後只要訪問 Host 主機的 IP 加上 80 port，就可以成功看到頁面了非常簡單</p>
+<p>我們可以在啟動一個 tomcat container，這次帶上 <code>-p</code> 參數並指定開放 8081 port</p>
+<pre><code class="language-text">docker run -d -p 8081 --network=host --name tomcat tomcat
+</code></pre>
+<p>這次下方會多出一段警告，說明 Host 模式之下會忽略端口映射，container 還是會正常啟動，不過開放的端口還是當初 Dockerfile 設定的端口，這邊 tomcat 預設的端口為 8080</p>
+<pre><code class="language-text">WARNING: Published ports are discarded when using host network mode
+</code></pre>
+<p>我們嘗試訪問 Host IP 加上 8081 port，會顯示錯誤改成訪問 Host IP 加上 8080 port，就可以看到 tomcat 回傳的頁面了</p>
+<h1 id="summary">Summary</h1>
+<p>今天學習到了 Host 模式與 Bridge 模式的不同之處， Host 模式使用起來相當簡單很適合在測試環境中使用，例如我們可以啟動一個 SQL Server 的 container<br />
+並且使用 Host 模式之後就可以直接使用訪問 1433 port，就好像本機裝了SQL Serve一樣，不過需要注意的是可能會造成端口衝突的問題<br />
+因為不像Bridge模式網路區段有分開，再加上本機如果已經佔用很多端口這時啟用 Host模式常用的 port 會很容易衝突，使用者需要自行而外注意這個問題</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dca-network-host'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
