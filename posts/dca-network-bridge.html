@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Network Bridge Mode">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Network Bridge Mode</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dca-network-bridge'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Network Bridge Mode' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-network-bridge' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Network Bridge Mode
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Network Bridge Mode</span>
+            <div class="meta">Published on Thursday, March 2, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-network-bridge-mode">Docker Network Bridge Mode</h1>
+<p>今天要來了解 Docker 網路的相關基礎知識，網路相關的功能有一個專用的命令 <code>docker network</code>
+我們試著輸入以下命令，查看有什麼功能可以使用</p>
+<pre><code class="language-text">$ docker network --help
+
+Usage:  docker network COMMAND
+
+Manage networks
+
+Commands:
+  connect     Connect a container to a network
+  create      Create a network
+  disconnect  Disconnect a container from a network
+  inspect     Display detailed information on one or more networks
+  ls          List networks
+  prune       Remove all unused networks
+  rm          Remove one or more networks
+
+Run 'docker network COMMAND --help' for more information on a command.
+</code></pre>
+<p>接下來輸入 <code>docker network ls</code>，列出目前所有 docker 網路，會列出三個預設的網路分別是</p>
+<ul>
+<li><code>bridge</code> 此為預設選擇的網路，如果沒有特別指定會選擇使用此網路，經常使用在 container 跟 container 內部需要互相溝通的場景</li>
+<li><code>host</code> 不使用 docker 網路區段，直接使用 host 機器的的網路，可以直接在 host 機器搜尋到使用 host 模式的 container</li>
+<li><code>none</code> 使用 none 模式的 container 網路功能會被關閉</li>
+</ul>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+8de8a559d867   bridge    bridge    local
+bea36735c2b3   host      host      local
+be46e85defe6   none      null      local
+</code></pre>
+<p>我們來詳細看看 bridge 網路的內容，這個網路有一個 Subnet: <code>172.17.0.0/16</code> 並且 Containers 目前為空，代表現在沒有container 在使用此網路</p>
+<pre><code class="language-text">$ docker network inspect bridge
+$ docker network inspect bridge
+[
+    {
+        &quot;Name&quot;: &quot;bridge&quot;,
+        &quot;Id&quot;: &quot;8de8a559d867d48cf4810fabec0e757a497bfb3ed555eed4e9ba4104d54dc8f5&quot;,
+        &quot;Created&quot;: &quot;2023-03-02T15:24:26.582911093Z&quot;,
+        &quot;Scope&quot;: &quot;local&quot;,
+        &quot;Driver&quot;: &quot;bridge&quot;,
+        &quot;EnableIPv6&quot;: false,
+        &quot;IPAM&quot;: {
+            &quot;Driver&quot;: &quot;default&quot;,
+            &quot;Options&quot;: null,
+            &quot;Config&quot;: [
+                {
+                    &quot;Subnet&quot;: &quot;172.17.0.0/16&quot;
+                }
+            ]
+        },
+        &quot;Internal&quot;: false,
+        &quot;Attachable&quot;: false,
+        &quot;Ingress&quot;: false,
+        &quot;ConfigFrom&quot;: {
+            &quot;Network&quot;: &quot;&quot;
+        },
+        &quot;ConfigOnly&quot;: false,
+        &quot;Containers&quot;: {},
+        &quot;Options&quot;: {
+            &quot;com.docker.network.bridge.default_bridge&quot;: &quot;true&quot;,
+            &quot;com.docker.network.bridge.enable_icc&quot;: &quot;true&quot;,
+            &quot;com.docker.network.bridge.enable_ip_masquerade&quot;: &quot;true&quot;,
+            &quot;com.docker.network.bridge.host_binding_ipv4&quot;: &quot;0.0.0.0&quot;,
+            &quot;com.docker.network.bridge.name&quot;: &quot;docker0&quot;,
+            &quot;com.docker.network.driver.mtu&quot;: &quot;1500&quot;
+        },
+        &quot;Labels&quot;: {}
+    }
+]
+</code></pre>
+<p>接下來在 host 機器上輸入 <code>ifconfig</code> 或者 <code>ip addr show</code>，查看 host 主機上面的網路
+這邊注意到 <code>docker0</code> ip 為 <code>172.17.0.1</code> ， docker 預設使用的區段為 <code>172.17.0.0/16</code> ， 也可以按照公司規定修改此網路區段</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$  ifconfig
+docker0   Link encap:Ethernet  HWaddr 02:42:5C:74:6C:9B  
+          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+eth0      Link encap:Ethernet  HWaddr 86:D6:D1:A4:CA:2F  
+          inet addr:192.168.0.8  Bcast:0.0.0.0  Mask:255.255.254.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:10 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:828 (828.0 B)  TX bytes:0 (0.0 B)
+
+eth1      Link encap:Ethernet  HWaddr 02:42:AC:12:00:40  
+          inet addr:172.18.0.64  Bcast:0.0.0.0  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:140 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:80 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:20328 (19.8 KiB)  TX bytes:70585 (68.9 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:40 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:40 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1 
+          RX bytes:4730 (4.6 KiB)  TX bytes:4730 (4.6 KiB)
+</code></pre>
+<p>有了基礎概念後，可以來做幾個簡單的小測試，先建立一個自己的網路，使用<code>-d</code>參數明確指定使用 bridge 模式</p>
+<pre><code class="language-text">docker network create -d bridge my-bridge-network
+</code></pre>
+<p>並且輸入<code>docker network inspect my-bridge-network</code><br />
+會發現我們的新建立的網路使用了<code>172.19.0.0/16</code>這個區段</p>
+<pre><code class="language-text">$ docker network inspect my-bridge-network
+[
+    {
+        &quot;Name&quot;: &quot;my-bridge-network&quot;,
+        &quot;Id&quot;: &quot;23749258e265ffeae29a7805743dbf1ed7e36b765fb6eac69fc9cb02aa95c512&quot;,
+        &quot;Created&quot;: &quot;2023-03-02T15:26:43.454719222Z&quot;,
+        &quot;Scope&quot;: &quot;local&quot;,
+        &quot;Driver&quot;: &quot;bridge&quot;,
+        &quot;EnableIPv6&quot;: false,
+        &quot;IPAM&quot;: {
+            &quot;Driver&quot;: &quot;default&quot;,
+            &quot;Options&quot;: {},
+            &quot;Config&quot;: [
+                {
+                    &quot;Subnet&quot;: &quot;172.19.0.0/16&quot;,
+                    &quot;Gateway&quot;: &quot;172.19.0.1&quot;
+                }
+            ]
+        },
+        &quot;Internal&quot;: false,
+        &quot;Attachable&quot;: false,
+        &quot;Ingress&quot;: false,
+        &quot;ConfigFrom&quot;: {
+            &quot;Network&quot;: &quot;&quot;
+        },
+        &quot;ConfigOnly&quot;: false,
+        &quot;Containers&quot;: {},
+        &quot;Options&quot;: {},
+        &quot;Labels&quot;: {}
+    }
+]
+</code></pre>
+<p>接下來建立一個 nginx container 並開放 80 端口，注意這邊只有開啟 container 內部的 80 端口，並且使用我們建立的網路<code>my-bridge-network </code></p>
+<pre><code class="language-text">docker run -d -p 80 --network=my-bridge-network --name nginx nginx
+</code></pre>
+<p>完成後查看 container 的詳細資料，知道目前 nginx container 使用的 ip 是 <code>172.19.0.2</code></p>
+<pre><code class="language-text">$ docker inspect nginx
+[
+    {
+...
+
+            &quot;Networks&quot;: {
+                &quot;my-bridge-network&quot;: {
+                    &quot;IPAMConfig&quot;: null,
+                    &quot;Links&quot;: null,
+                    &quot;Aliases&quot;: [
+                        &quot;5cc7663c1bd6&quot;
+                    ],
+                    &quot;NetworkID&quot;: &quot;23749258e265ffeae29a7805743dbf1ed7e36b765fb6eac69fc9cb02aa95c512&quot;,
+                    &quot;EndpointID&quot;: &quot;5f0007ea0229eef0cf4a859c7f5537b53b8886ba14ceb11103c31b44a8067c7c&quot;,
+                    &quot;Gateway&quot;: &quot;172.19.0.1&quot;,
+                    &quot;IPAddress&quot;: &quot;172.19.0.2&quot;,
+                    &quot;IPPrefixLen&quot;: 16,
+                    &quot;IPv6Gateway&quot;: &quot;&quot;,
+                    &quot;GlobalIPv6Address&quot;: &quot;&quot;,
+                    &quot;GlobalIPv6PrefixLen&quot;: 0,
+                    &quot;MacAddress&quot;: &quot;02:42:ac:13:00:02&quot;,
+                    &quot;DriverOpts&quot;: null
+                }
+            }
+        }
+    }
+]
+</code></pre>
+<p>接著在建立一個 alpine container ，並且安裝 curl</p>
+<pre><code class="language-text">docker run -it --name alpine alpine
+apk --no-cache add curl
+</code></pre>
+<p>安裝完成後我們可以試著在 alpine container 訪問我們的 nginx container</p>
+<pre><code class="language-text">curl 172.19.0.2:80 --connect-timeout 5
+</code></pre>
+<p>結果顯示為超時，這樣是正常的因為我們剛剛建立 alpine container 時並沒有指定使用我們自己的網路，所以現在使用的是預設網路<code>172.17.0.2</code><br />
+區段跟我們的 <code>172.19.0.2</code> 不同所以無法訪問</p>
+<pre><code class="language-text">/ # curl 172.19.0.2:80 --connect-timeout 5
+curl: (28) Failed to connect to 172.19.0.2 port 80 after 5001 ms: Timeout was reached 
+</code></pre>
+<p>先使用快捷鍵 <code>Ctrl + p</code> + <code>Ctrl + q</code> 暫時脫離 alpine container
+對於已經建立完成的 container 事後要在新增網路，可以使用以下命令</p>
+<pre><code class="language-text">docker network connect my-bridge-network alpine
+</code></pre>
+<p>更換成功後再次進入 container，並再次訪問 nginx</p>
+<pre><code class="language-text">docker exec -it alpine sh
+curl 172.19.0.2:80 --connect-timeout 5
+</code></pre>
+<p>重新設定到同一區段後現在就可以成功訪問了</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$ docker exec -it alpine sh
+/ # curl 172.19.0.2:80 --connect-timeout 5
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+&lt;style&gt;
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
+&lt;p&gt;If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.&lt;/p&gt;
+
+&lt;p&gt;For online documentation and support please refer to
+&lt;a href=&quot;http://nginx.org/&quot;&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;
+Commercial support is available at
+&lt;a href=&quot;http://nginx.com/&quot;&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Thank you for using nginx.&lt;/em&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>這邊要注意使用 <code>docker network connect</code> 時並不會移除舊的網路，需要使用以下命令來移除</p>
+<pre><code class="language-text">docker network disconnect bridge alpine
+</code></pre>
+<h1 id="summary">Summary</h1>
+<p>今天學習了 bridge 的基礎用法，概念其實跟我們平常設定虛擬機器的網路時一樣，並沒有什麼特殊的自創功能
+之後會在更加深入了解 Docker 網路機制</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dca-network-bridge'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
