@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Compose">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dca-docker-compose'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-docker-compose' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Compose</span>
+            <div class="meta">Published on Friday, March 3, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-compose">Docker Compose</h1>
+<p>關於Docker 基礎的部份已經大致上學習完了，接下來準備進入到Docker Compose 的世界</p>
+<p>之前在學習 Dockerfile 時，我們可以透過 Dockerfile 把一個程式包裝成 Image，之後我們可以使用此 Image 運行起來一個 container<br />
+但在現實世界的運用中通常會需要多個 container 互相合作，才能稱作一個完整的產品<br />
+例如今天我們要架設一個 wordpress 網站，最少就需要一個 wordpress 程式的 container 在加上一個資料庫例如 MySQL，才能讓這個 wordpress 正常運作
+雖然我們可以把程式跟資料庫全部包在一個 image 內，不過這樣做 image 大小會變成非常的大，並且如果 container 異常那程式加上資料庫都會暫時停止服務，所以這樣不是一個好的習慣</p>
+<p>Docker 官方提供了一個更好的方法，那就是 Docker Compose，此功能利用了一個額外的設定檔來說明哪些 container 需要啟動<br />
+這個設定檔通常叫做 <code>docker-compose.yml</code> 跟 <code>Dockerfile</code> 的命名一樣並沒有強制規定，我們可以自己指定名稱，並且使用 yml 或 yaml 做為副檔名</p>
+<p>今天主要先來試試 docker compose 的功能，之後會在詳細研究 <code>docker-compose.yml</code> 的語法<br />
+首先我們參考官方的 docker compose 範例來建立一個可以用的 wordpress 網站，<a href="https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/wordpress" target="_blank">Github Sample</a></p>
+<p>先建立一個資料夾，並且新增一個 docker-compose.yml 檔案</p>
+<pre><code class="language-text">mkdir my_wordpress &amp;&amp; cd $_
+vi docker-compose.yml
+</code></pre>
+<p>在 docker-compose.yml 輸入以下內容，此範例會啟動一組mariadb和一組wordpress container</p>
+<pre><code class="language-text">services:
+  db:
+    # We use a mariadb image which supports both amd64 &amp; arm64 architecture
+    image: mariadb:10.6.4-focal
+    # If you really want to use MySQL, uncomment the following line
+    #image: mysql:8.0.27
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    expose:
+      - 3306
+      - 33060
+  wordpress:
+    image: wordpress:latest
+    volumes:
+      - wp_data:/var/www/html
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+volumes:
+  db_data:
+  wp_data:
+</code></pre>
+<p>最後輸入以下指令</p>
+<pre><code class="language-text">docker compose up -d
+</code></pre>
+<p>這邊看起來跟我們使用 docker run 運行 container 很像，本地沒有image會去網路上下載一份<br />
+並且設定了一組網路，跟兩個volume</p>
+<pre><code class="language-text">$ docker compose up -d
+[+] Running 33/33
+ ⠿ wordpress Pulled                                                                                                                                                                                                                                                                33.4s
+   ⠿ 3f9582a2cbe7 Pull complete                                                                                                                                                                                                                                                     7.8s
+   ⠿ 0b95dc92ce55 Pull complete                                                                                                                                                                                                                                                     7.9s
+   ⠿ 3630ff9f8131 Pull complete                                                                                                                                                                                                                                                    20.0s
+   ⠿ 49efbc577363 Pull complete                                                                                                                                                                                                                                                    20.2s
+   ⠿ df983cae2963 Pull complete                                                                                                                                                                                                                                                    22.3s
+   ⠿ 52fed2cf4dcf Pull complete                                                                                                                                                                                                                                                    22.5s
+   ⠿ badf42672f1b Pull complete                                                                                                                                                                                                                                                    22.7s
+   ⠿ baaffcad7804 Pull complete                                                                                                                                                                                                                                                    23.1s
+   ⠿ e65c63290641 Pull complete                                                                                                                                                                                                                                                    23.4s
+   ⠿ 56fbc7142e6c Pull complete                                                                                                                                                                                                                                                    24.8s
+   ⠿ 0b0f64aca9a8 Pull complete                                                                                                                                                                                                                                                    24.9s
+   ⠿ 1a0de30c1e15 Pull complete                                                                                                                                                                                                                                                    25.1s
+   ⠿ c28dd6954d0b Pull complete                                                                                                                                                                                                                                                    25.2s
+   ⠿ 12b130c64439 Pull complete                                                                                                                                                                                                                                                    27.3s
+   ⠿ b7956b05af90 Pull complete                                                                                                                                                                                                                                                    28.8s
+   ⠿ bce2c530d546 Pull complete                                                                                                                                                                                                                                                    29.0s
+   ⠿ 275d52fd4f6c Pull complete                                                                                                                                                                                                                                                    29.1s
+   ⠿ 841c64b802b3 Pull complete                                                                                                                                                                                                                                                    29.3s
+   ⠿ af298c263b20 Pull complete                                                                                                                                                                                                                                                    32.7s
+   ⠿ 6d98f1e7e80e Pull complete                                                                                                                                                                                                                                                    32.9s
+   ⠿ e77d1e0ab8c5 Pull complete                                                                                                                                                                                                                                                    33.1s
+ ⠿ db Pulled                                                                                                                                                                                                                                                                       22.4s
+   ⠿ 7b1a6ab2e44d Pull complete                                                                                                                                                                                                                                                     6.5s
+   ⠿ 034655750c88 Pull complete                                                                                                                                                                                                                                                     6.7s
+   ⠿ f0b757a2a0f0 Pull complete                                                                                                                                                                                                                                                     7.7s
+   ⠿ 5c37daf8b6b5 Pull complete                                                                                                                                                                                                                                                     8.3s
+   ⠿ b4cd9409b0f6 Pull complete                                                                                                                                                                                                                                                     8.5s
+   ⠿ dbcda06785eb Pull complete                                                                                                                                                                                                                                                     9.7s
+   ⠿ a34cd90f184c Pull complete                                                                                                                                                                                                                                                     9.9s
+   ⠿ fd6cef4ce489 Pull complete                                                                                                                                                                                                                                                    10.1s
+   ⠿ 3cb89a1550ea Pull complete                                                                                                                                                                                                                                                    21.9s
+   ⠿ df9f153bd930 Pull complete                                                                                                                                                                                                                                                    22.1s
+[+] Running 5/5
+ ⠿ Network my_wordpress_default        Created                                                                                                                                                                                                                                      0.1s
+ ⠿ Volume &quot;my_wordpress_db_data&quot;       Created                                                                                                                                                                                                                                      0.0s
+ ⠿ Volume &quot;my_wordpress_wp_data&quot;       Created                                                                                                                                                                                                                                      0.0s
+ ⠿ Container my_wordpress-db-1         Started                                                                                                                                                                                                                                      1.8s
+ ⠿ Container my_wordpress-wordpress-1  Started  
+</code></pre>
+<p>到這邊看了輸出的資訊，大概可以猜測到 docker compose 跟我們直接呼叫 docker cli 很像，只是它可以一次做很多件事情</p>
+<p>全都運行成功之後我們可以開啟 Host IP 加上 80 port 就可看到 wordpress 的設定網站了</p>
+<p>這就是docker compose 的優勢，當然你可以全部使用 docker cli 做到相同的功能<br />
+不過你要先知道 <code>docker run</code> 、 <code>docker volume</code> 、 <code>docker network</code> 等Cli的相關知識<br />
+相比之下我可以直接把此 <code>docker-compose.yml</code> 傳送給任何一個人， 之後只要輸入 docker compose up 就可以直接建立起一個可以使用的網站
+你可以完全不懂 docker 的相關知識只要記得一句 docker compose up 就可以快速的建立起多個熱門的網站，入手的難度反而低很多</p>
+<h1 id="summary">Summary</h1>
+<p>今天試用了 docker compose 的功能並且建立了一個 wordpress 網站，使用起來非常的方便快速<br />
+現在大多的開源專案都有提供此方法來建立，例如 ELK 或者 Postgres，都只要一句指令就可以直接使用目前熱門的服務<br />
+而且不用再把程式安裝在本機上了，例如不靠容器要成功把 ELK 完整的功能架設出來，就需要許多 ELK 的相關知識<br />
+等於連試用都很困難了更不用說要先閱讀許多的設定檔案就會勸退許多人了，今後會對 docker compose 的相關語法做深入研究</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dca-docker-compose'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
