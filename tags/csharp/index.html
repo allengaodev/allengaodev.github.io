@@ -5,12 +5,11 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Dotnet &#x591A;&#x500B; Array &#x6BD4;&#x8F03;&#x65B9;&#x6CD5;">
 
-  <title>Gao.Dev - Dotnet Arrays Compare</title>
+  <title>Gao.Dev - CSharp</title>
 
 
-  <link rel="canonical" href='https://allengaodev.github.io/posts/dotnet-array-compare'>
+  <link rel="canonical" href='https://allengaodev.github.io/tags/csharp'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -19,10 +18,10 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Gao.Dev - Dotnet Arrays Compare' />
+  <meta property="og:title" content='Gao.Dev - CSharp' />
     <meta property="og:image" content='/assets/img/101night.avif' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://allengaodev.github.io/posts/dotnet-array-compare' />
+  <meta property="og:url" content='https://allengaodev.github.io/tags/csharp' />
 
   <link rel="icon" href='/favicon.ico'>
 
@@ -83,15 +82,10 @@
   <div class="container position-relative">
     <div class="row">
       <div class="col-md-12">
-        <div class='post-heading'>
+        <div class='site-heading'>
           <h1>
-            Dotnet Arrays Compare
+            CSharp
           </h1>
-            <span class="subheading">Dotnet &#x591A;&#x500B; Array &#x6BD4;&#x8F03;&#x65B9;&#x6CD5;</span>
-            <div class="meta">Published on Tuesday, March 7, 2023</div>
-              <div class="mt-3">
-                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
-              </div>
         </div>
       </div>
     </div>
@@ -103,93 +97,49 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="dotnet-arrays-compare">Dotnet Arrays Compare</h1>
-<p>今天碰到了一個問題需要判斷兩個 int array 的值是否相同</p>
-<p>首先先準備資料，這邊 s 與 b 相同，p與其他都不相同</p>
-<pre><code class="language-csharp">var s = new int[] { 1, 3, 5, 7 };
-var p = new int[] { 2, 4, 6, 8 };
-var b = new int[] { 1, 3, 5, 7 };
-</code></pre>
-<p>最直觀的作法就是使用 For 迴圈來處理，首先檢查長度是否為相同再來一一檢查元素是否相同</p>
-<pre><code class="language-csharp">private bool forloop(int[] first, int[] second)
-{
-	if (first.Length != second.Length)
-	{
-		return false;
-	}
-	for (int i = 0; i &lt; first.Length; i++)
-	{
-		if (first[i] != second[i])
-		{
-			return false;
-		}
-	}
-	
-	return true;
-}
-</code></pre>
-<pre><code class="language-csharp">forloop(s,p);
-forloop(s,b);
+          <div class="container-sm-height">
+    <div class="row row-sm-height">
+      <div class="col-md-6 right-border col-sm-height">
+        
 
-False
-True
-</code></pre>
-<p>另外可以使用擴充方法 <code>SequenceEqual</code> 來進行順序檢查</p>
-<pre><code class="language-text">s.SequenceEqual(p);
-s.SequenceEqual(b);
 
-False
-True
-</code></pre>
-<p>也可以使用 Enumerable 提供的 <code>SequenceEqual</code> 方法，可以檢查各種 IEnumerable 型別</p>
-<pre><code class="language-text">Enumerable.SequenceEqual(s, p)
-Enumerable.SequenceEqual(s, b)
-</code></pre>
-<hr />
-<p>這邊需要注意的是如果使用運算符 <code>==</code> 是進行參考型別的檢查，並不是針對內部資料進行檢查</p>
-<pre><code class="language-text">s == p;
-s == b;
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/csharp-priorityqueue">Dotnet C# PriorityQueue</a></h2>
+  <p class="post-meta">Published on Tuesday, March 7, 2023</p>
+<p>今天來學習一下在 .Net6 才終於提供的 PriorityQueue，先到 <a href="https://github.com/dotnet/runtime/blob/main/src/libraries/System.Collections/src/System/Collections/Generic/PriorityQueue.cs" target="_blank">Github</a>上面查看一下原始碼</p>    <p class="small"><a href="/posts/csharp-priorityqueue">Read more...</a></p>
+</div>
 
-False
-False
-</code></pre>
-<p>也可以使用 Enumerable 提供的 <code>ReferenceEquals</code> 方法</p>
-<pre><code class="language-text">Enumerable.ReferenceEquals(s, p);
-Enumerable.ReferenceEquals(s, b);
 
-False
-False
-</code></pre>
-<h1 id="summary">Summary</h1>
-<p>今天學習了 Dotnet 提供的比較 IEnumerable 型別的方法，基本上可以直接使用 Enumerable 提供的方法<br />
-如果是要比對資料可以使用 SequenceEqual 需要比較地址可以使用 ReferenceEquals 運算符號 <code>==</code></p>
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/csharp-array-compare">Dotnet C# Arrays Compare</a></h2>
+  <p class="post-meta">Published on Tuesday, March 7, 2023</p>
+<p>今天碰到了一個問題需要判斷兩個 int array 的值是否相同</p>    <p class="small"><a href="/posts/csharp-array-compare">Read more...</a></p>
+</div>
 
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/csharp-list-sort">Dotnet C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;</a></h2>
+  <p class="post-meta">Published on Monday, March 6, 2023</p>
+<p>今天來複習一下 .Net 中排序的各種用法，首先是最簡單的由小到大排序</p>    <p class="small"><a href="/posts/csharp-list-sort">Read more...</a></p>
+</div>
+
+
+      </div>
+      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
+          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
+          <a href="/tags/dca" class="badge text-bg-light"> DCA (22)</a>
+          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
+          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (3)</a>
+          <a href="/tags/csharp" class="badge text-bg-dark"> CSharp (3)</a>
+          <a href="/tags/linux" class="badge text-bg-light"> Linux (1)</a>
+      </div>
+    </div>
+  </div>
 
         
 
       </div>
     </div>
-  <div id="comments-container" class="row">
-    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dotnet-array-compare'></div>
-<script src="https://static.like.co/sdk/v1/button.js"></script>
-
-<script src="https://giscus.app/client.js"
-        data-repo='allengaodev/allengaodev.github.io'
-        data-repo-id='R_kgDOI6sF8g'
-        data-category-id='DIC_kwDOI6sF8s4CUbuw'
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
-
-  </div>
   </div>
 
   <hr>

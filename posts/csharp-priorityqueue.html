@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Dotnet C# PriorityQueue">
+
+  <title>Gao.Dev - Dotnet C# PriorityQueue</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/csharp-priorityqueue'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Dotnet C# PriorityQueue' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/csharp-priorityqueue' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Dotnet C# PriorityQueue
+          </h1>
+            <span class="subheading">Dotnet C# PriorityQueue</span>
+            <div class="meta">Published on Tuesday, March 7, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="net-priorityqueue">.Net PriorityQueue</h1>
+<p>今天來學習一下在 .Net6 才終於提供的 PriorityQueue，先到 <a href="https://github.com/dotnet/runtime/blob/main/src/libraries/System.Collections/src/System/Collections/Generic/PriorityQueue.cs" target="_blank">Github</a>上面查看一下原始碼</p>
+<pre><code class="language-csharp">/// &lt;typeparam name=&quot;TElement&quot;&gt;Specifies the type of elements in the queue.&lt;/typeparam&gt;
+/// &lt;typeparam name=&quot;TPriority&quot;&gt;Specifies the type of priority associated with enqueued elements.&lt;/typeparam&gt;
+public class PriorityQueue&lt;TElement, TPriority&gt;
+</code></pre>
+<p>使用方法也與 Queue 相同，加入 Queue 使用 <code>Enqueue</code> 方法，移出 Queue 使用 <code>Dequeue</code> 方法，查看第一個元素使用 <code>Peek</code> 方法<br />
+不過 PriorityQueue 使用前需要先指定元素的類型(TElement)以及優先度(TPriority)</p>
+<p>舉例來說有一組使用者 <code>User1</code>、<code>User2</code>、<code>User3</code> 優先度分別是 <code>1</code>、<code>2</code>、<code>3</code></p>
+<pre><code class="language-text">User1 1
+User2 2
+User3 3
+</code></pre>
+<p>首先我們建立一個 PriorityQueue 類型為 String 順序使用 Int</p>
+<pre><code class="language-text">var pQueue = new PriorityQueue&lt;string, int&gt;();
+	
+pQueue.Enqueue(&quot;User1&quot;, 1);
+pQueue.Enqueue(&quot;User2&quot;, 2);
+pQueue.Enqueue(&quot;User3&quot;, 3);
+</code></pre>
+<p>這時我們可以使用 <code>Peek</code>方法來看一下目前誰位於首要元素</p>
+<pre><code class="language-text">pQueue.Peek();
+
+User1
+</code></pre>
+<p>這邊回傳的結果是 User1，那為什麼是是回傳 User1 呢？<br />
+我們可以先看看<a href="https://github.com/dotnet/runtime/blob/51d797e59b6406b06e8e471907ef4941d0f3bb0c/src/libraries/System.Collections/src/System/Collections/Generic/PriorityQueue.cs#L69" target="_blank">原始碼</a>
+這邊 PriorityQueue 提供了許多的 Constructor ，我們今天使用的是 Default Constructor</p>
+<pre><code class="language-text">public PriorityQueue()
+{
+    _nodes = Array.Empty&lt;(TElement, TPriority)&gt;();
+    _comparer = InitializeComparer(null);
+}
+</code></pre>
+<p>這邊除了賦值了一個空的 Array ，下方還呼叫了一個 InitializeComparer 的方法，<a href="https://github.com/dotnet/runtime/blob/51d797e59b6406b06e8e471907ef4941d0f3bb0c/src/libraries/System.Collections/src/System/Collections/Generic/PriorityQueue.cs#L815" target="_blank">原始碼</a></p>
+<pre><code class="language-text">private static IComparer&lt;TPriority&gt;? InitializeComparer(IComparer&lt;TPriority&gt;? comparer)
+{
+    if (typeof(TPriority).IsValueType)
+    {
+        if (comparer == Comparer&lt;TPriority&gt;.Default)
+        {
+            // if the user manually specifies the default comparer,
+            // revert to using the optimized path.
+            return null;
+  
+        return comparer;
+    }
+    else
+    {
+        // Currently the JIT doesn't optimize direct Comparer&lt;T&gt;.Default.Compare
+        // calls for reference types, so we want to cache the comparer instance instead.
+        // TODO https://github.com/dotnet/runtime/issues/10050: Update if this changes in the future.
+        return comparer ?? Comparer&lt;TPriority&gt;.Default;
+    }
+}
+</code></pre>
+<p>到這邊就很清楚了，此方法會檢查你有沒有要使用自己寫的 Comparer，如果沒有的的話就使用類型預設的 Comparer<br />
+以我們的例子來看我們 TPriority 使用的類型是 Int32 所以最後使用的是 Int32 裡面的 CompareTo</p>
+<pre><code class="language-text">Console.WriteLine(0.CompareTo(1));
+Console.WriteLine(1.CompareTo(1));
+Console.WriteLine(2.CompareTo(1));
+
+-1
+0
+1
+</code></pre>
+<p>所以呼叫 PriorityQueue 的 Enqueue 方法時就會比較 int 的大小，如果數字比較小的話比較結果會回傳 -1<br />
+所以這時 Enqueue 方法就會知道這個新插入的元素是比目前第一個元素優先度更高，這就是為什麼一開始的範例回傳的是 User1</p>
+<p>知道原理後我們也可以試試其他類型，例如前幾天使用的字串比較方法 StringComparer.Ordinal 也剛好是一個 Comparer</p>
+<pre><code class="language-text">var spQueue = new PriorityQueue&lt;string, string&gt;(StringComparer.Ordinal);
+	
+spQueue.Enqueue(&quot;User1&quot;, &quot;aGroup&quot;);
+spQueue.Enqueue(&quot;User2&quot;, &quot;bGroup&quot;);
+spQueue.Enqueue(&quot;User3&quot;, &quot;AGroup&quot;);
+</code></pre>
+<p>這次我們在 Constructor 直接指定我們要使用 StringComparer.Ordinal， 並且我們知道此比較方法是使用 ASCII 進行比較
+結果也如設想回傳的是 user3</p>
+<pre><code class="language-text">pQueue.Peek();
+
+user3
+</code></pre>
+<p>還有一點需要注意順序的調整會在 <code>Enqueue</code> 和 <code>Dequeue</code> 方法中進行，並且只會跟第一節點進行比較
+例如在新增一個 &quot;User4&quot; &quot;BGroup&quot;，正常來說 BGroup 會比 aGroup 和 bGroup 優先度高，不過它目前的位置並不會在第二優先位置反而會在最後一位</p>
+<pre><code class="language-text">var spQueue = new PriorityQueue&lt;string, string&gt;(StringComparer.Ordinal);
+	
+spQueue.Enqueue(&quot;User1&quot;, &quot;aGroup&quot;);
+spQueue.Enqueue(&quot;User2&quot;, &quot;bGroup&quot;);
+spQueue.Enqueue(&quot;User3&quot;, &quot;AGroup&quot;);
+spQueue.Enqueue(&quot;User4&quot;, &quot;BGroup&quot;);
+
+Console.WriteLine(spQueue);
+
+IReadOnlyCollection&lt;ValueTuple&lt;String,String&gt;&gt; (4 items)•••
+Item1	Item2
+User3	AGroup
+User2	bGroup
+User1	aGroup
+User4	BGroup
+</code></pre>
+<p>這時我們先呼叫一次 Dequeue 方法把 User3 移除，最後在檢查一次
+這時 User4 又會回到第一優先位置了，畢竟 Queue 的特性也確實沒必要完全保持 Collection 順序的正確性</p>
+<pre><code class="language-text">spQueue.Dequeue();
+Console.WriteLine(spQueue);
+
+IReadOnlyCollection&lt;ValueTuple&lt;String,String&gt;&gt; (3 items)•••
+Item1	Item2
+User4	BGroup
+User2	bGroup
+User1	aGroup
+</code></pre>
+<h1 id="summary">Summary</h1>
+<p>今天學習了 PriorityQueue 的使用方法，跟 Queue 相比之下多了一個優先度的概念<br />
+有了這個特性我們可以拿來做一些需要優先執行的相關功能，類似VIP等相關功能需要優先執行的群體的任務<br />
+就可以使用到PriorityQueue</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/csharp-priorityqueue'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
