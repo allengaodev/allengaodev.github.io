@@ -5,9 +5,9 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="C# List Sort &#x5404;&#x7A2E;&#x6392;&#x5E8F;&#x7528;&#x6CD5;">
+    <meta name="description" content="Dotnet C# List Sort &#x5404;&#x7A2E;&#x6392;&#x5E8F;&#x7528;&#x6CD5;">
 
-  <title>Gao.Dev - C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;</title>
+  <title>Gao.Dev - Dotnet C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;</title>
 
 
   <link rel="canonical" href='https://allengaodev.github.io/posts/csharp-list-sort'>
@@ -19,7 +19,7 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Gao.Dev - C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;' />
+  <meta property="og:title" content='Gao.Dev - Dotnet C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;' />
     <meta property="og:image" content='/assets/img/101night.avif' />
   <meta property="og:type" content="website" />
   <meta property="og:url" content='https://allengaodev.github.io/posts/csharp-list-sort' />
@@ -85,11 +85,12 @@
       <div class="col-md-12">
         <div class='post-heading'>
           <h1>
-            C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;
+            Dotnet C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;
           </h1>
-            <span class="subheading">C# List Sort &#x5404;&#x7A2E;&#x6392;&#x5E8F;&#x7528;&#x6CD5;</span>
+            <span class="subheading">Dotnet C# List Sort &#x5404;&#x7A2E;&#x6392;&#x5E8F;&#x7528;&#x6CD5;</span>
             <div class="meta">Published on Monday, March 6, 2023</div>
               <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
                   <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
               </div>
         </div>
@@ -103,8 +104,8 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="c-sort">C# Sort</h1>
-<p>今天來複習一下 C# 中排序的各種用法，首先是最簡單的由小到大排序</p>
+        <h1 id="net-sort">.Net Sort</h1>
+<p>今天來複習一下 .Net 中排序的各種用法，首先是最簡單的由小到大排序</p>
 <p>使用 Sort 方法可以直接將資料做正向排序，Sort 方法沒有回傳值會直接對原始資料進行排序</p>
 <pre><code class="language-csharp">var myList = new List&lt;int&gt;() { 1, 7, 4, 2, 6, 3 };
 myList.Sort();
@@ -190,7 +191,7 @@ sorting	3
 </code></pre>
 <p>現在我們需要將頻率最高的兩個詞挑選出來，如果頻率一樣就按照 ASCII 排序
 我們可以直接判斷出正確答案為 sorting 次數為三 和 i 次數為二<br />
-這樣的需求我們也可以在 C# 利用排序來達成，首先先對字典的 Value 做排序</p>
+這樣的需求我們也可以在 .Net 利用排序來達成，首先先對字典的 Value 做排序</p>
 <pre><code class="language-csharp">dict = dict
 .OrderByDescending(x =&gt; x.Value)
 .ToDictionary(x =&gt; x.Key, y =&gt; y.Value);
@@ -229,7 +230,7 @@ sorting
 <pre><code class="language-csharp">result.Sort((a, b) =&gt; dict[a] == dict[b] ? a.CompareTo(b) : freqMap[b].CompareTo(freqMap[a]));
 </code></pre>
 <h1 id="summary">Summary</h1>
-<p>今天學習了幾個排序常用的方法，須特別注意字串排序的部份，邏輯與數值排序不一樣並且C#提供了多種寫法，可以挑選自己習慣的語法來使用</p>
+<p>今天學習了幾個排序常用的方法，須特別注意字串排序的部份，邏輯與數值排序不一樣並且 .Net 提供了多種寫法，可以挑選自己習慣的語法來使用</p>
 
 
         
