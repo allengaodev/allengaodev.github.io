@@ -104,6 +104,15 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dca-compose-yaml-volumes">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Volumes</a></h2>
+  <p class="post-meta">Published on Thursday, March 9, 2023</p>
+<p>根據之前的文章我們了解到創建 Volume 有兩種方式一種是在 Dockerfile 設定 VOLUMES 指令，<a href="https://allengaodev.github.io/posts/dca-volume" target="_blank">文章地址</a><br>
+另一種方式則是透過 Docker Cli 的方式先使用 Cli 建立好 Volume 之後在透過 docker run 啟動時帶入<code>-v</code>參數即可使用到剛剛設定的 Volume，<a href="https://allengaodev.github.io/posts/dca-volume-cli" target="_blank">文章地址</a><br>
+並且還有其他兩種做資料持久化的方式，一個是使用 Bind mount 直接將 Host 目錄綁定到 container 內部， 令一種則是特殊的 tmpfs 方式，能直接把資料寫入到 Host 的記憶體內部，<a href="https://allengaodev.github.io/posts/dca-tmpfs" target="_blank">文章地址</a></p>    <p class="small"><a href="/posts/dca-compose-yaml-volumes">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-compose-yaml-services">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Services</a></h2>
   <p class="post-meta">Published on Sunday, March 5, 2023</p>
 <p>在昨天的文章中: <a href="https://allengaodev.github.io/posts/dca-docker-compose" target="_blank">Docker Certified Associate(DCA)認證考試學習- Docker Compose</a><br>
@@ -180,14 +189,6 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 當使用<code>RUN</code>, <code>COPY</code>, <code>ADD</code>任意一個指令，Docker就會幫我們創建一個layers</p>    <p class="small"><a href="/posts/dca-image-multi-stage-builds">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-workdir-user">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-WORKDIR and USER</a></h2>
-  <p class="post-meta">Published on Thursday, February 23, 2023</p>
-<p>在Dockerfile中WORKDIR也是相當常用的指令<br>
-首先來看看<a href="https://docs.docker.com/engine/reference/builder/#workdir" target="_blank">WORKDIR文檔</a></p>    <p class="small"><a href="/posts/dca-workdir-user">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
     </div>
@@ -199,9 +200,10 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/dca" class="badge text-bg-dark"> DCA (22)</a>
+          <a href="/tags/dca" class="badge text-bg-dark"> DCA (23)</a>
+          <a href="/tags/docker" class="badge text-bg-light"> Docker (20)</a>
           <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
+          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (3)</a>
           <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (3)</a>
           <a href="/tags/csharp" class="badge text-bg-light"> CSharp (3)</a>
           <a href="/tags/linux" class="badge text-bg-light"> Linux (1)</a>
