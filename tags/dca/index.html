@@ -104,6 +104,15 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dca-compose-yaml-ports">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Ports</a></h2>
+  <p class="post-meta">Published on Friday, March 10, 2023</p>
+<p>今天要來學習如何在 Docker Compose 開放 Port 讓我們可以使用到 container 提供的服務，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#ports" target="_blank">文檔</a><br>
+用法也跟之前類似，之前的作法是需要先在 Dockerfile 設定要開放的 container port， 之後在 <code>docker run</code> 帶入 <code>-p</code> 參數，指定要和哪個 Host port 進行綁定<br>
+在docker compose 中也是要先在 Dockerfile 設定，之後在 docker-compose.yml 中進行設定</p>    <p class="small"><a href="/posts/dca-compose-yaml-ports">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-compose-yaml-volumes">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Volumes</a></h2>
   <p class="post-meta">Published on Thursday, March 9, 2023</p>
 <p>根據之前的文章我們了解到創建 Volume 有兩種方式一種是在 Dockerfile 設定 VOLUMES 指令，<a href="https://allengaodev.github.io/posts/dca-volume" target="_blank">文章地址</a><br>
@@ -181,14 +190,6 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 這時最簡易的作法可以在 Dockerfile 之內使用 VOLUME 指令</p>    <p class="small"><a href="/posts/dca-volume">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-image-multi-stage-builds">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Image Multi-Stage Builds</a></h2>
-  <p class="post-meta">Published on Saturday, February 25, 2023</p>
-<p>在這篇文章<a href="https://allengaodev.github.io/posts/dca-imagelayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a>當中有提到一個Dockerfile的規則<br>
-當使用<code>RUN</code>, <code>COPY</code>, <code>ADD</code>任意一個指令，Docker就會幫我們創建一個layers</p>    <p class="small"><a href="/posts/dca-image-multi-stage-builds">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
     </div>
@@ -200,10 +201,10 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/dca" class="badge text-bg-dark"> DCA (23)</a>
+          <a href="/tags/dca" class="badge text-bg-dark"> DCA (24)</a>
           <a href="/tags/docker" class="badge text-bg-light"> Docker (20)</a>
+          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (4)</a>
           <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (3)</a>
           <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (3)</a>
           <a href="/tags/csharp" class="badge text-bg-light"> CSharp (3)</a>
           <a href="/tags/linux" class="badge text-bg-light"> Linux (1)</a>
