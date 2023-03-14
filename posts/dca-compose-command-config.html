@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Compose Command Config">
+
+  <title>Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Command Config</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dca-compose-command-config'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Command Config' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dca-compose-command-config' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Command Config
+          </h1>
+            <span class="subheading">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x76F8;&#x95DC;&#x8CC7;&#x6E90;&#x3001;Docker Compose Command Config</span>
+            <div class="meta">Published on Monday, March 13, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose</a>
+                  <a href="/tags/dca" class="badge text-bg-light"> DCA</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-compose-command-config">Docker Compose Command Config</h1>
+<p>我們在前幾篇的文章只有使用到一個命令 <code>docker compose up -d</code><br />
+但實際上 docker compose 其實跟 docker cli 一樣有提供相當多個命令可以使用</p>
+<p>可以使用命令 <code>docker compose help</code> 查看更多詳細的命令資訊
+今天要來學習的命令是 <code>docker compose config</code> 也可以輸入別名 <code>docker compose convert</code> <a href="https://docs.docker.com/engine/reference/commandline/compose_config/" target="_blank">文檔位置</a>
+首先先建立起環境</p>
+<pre><code class="language-text">mkdir mycompose &amp;&amp; cd $_
+vi docker-compose.yml 
+</code></pre>
+<pre><code class="language-text">services:
+  nginx:
+    image: nginx
+    tty: true
+    stdin_open: true
+    ports:
+      - 80:80
+</code></pre>
+<p><code>docker compose config</code> 這個命令的主要用途是檢查 <code>docker-compose.yml</code> 是否語法正確，也可用來轉換設定檔的格式
+我們可以直接輸入 <code>docker compose config</code> 看看效果</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/mycompose
+$ docker compose config
+name: mycompose
+services:
+  nginx:
+    image: nginx
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: &quot;80&quot;
+      protocol: tcp
+    stdin_open: true
+    tty: true
+networks:
+  default:
+    name: mycompose_default
+</code></pre>
+<p>查看輸出會發現怎麼跟我們當初輸入的內容不太一樣，好像多了一些內容<br />
+其實這個輸出才是 docker compose 實際執行的內容，像是網路跟 ports 的寫法<br />
+docker compose 其實會幫我們新增一些選填的設定值或修改成更嚴格的格式</p>
+<hr />
+<p>接下來我們試著調整 <code>docker-compose.yml</code> 的內容，故意將 <code>services</code> 打成 <code>services1</code></p>
+<pre><code class="language-text">services1:
+  nginx:
+    image: nginx
+    tty: true
+    stdin_open: true
+    ports:
+      - 80:80
+</code></pre>
+<p>再次使用 <code>docker compose config</code> 進行檢查
+發現 docker compose 會幫我們檢查檔案是否有寫錯<br />
+像這邊就檢查出我們故意打錯的設定值 <code>services1</code> 是不被允許的</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/mycompose
+$ docker compose config
+(root) Additional property services1 is not allowed
+</code></pre>
+<hr />
+<p>我們知道在 docker compose 之中除了支援 yml yaml 其實也有支援 json 格式<br />
+如果我們拿到一個 <code>docker-compose.yml</code> 想要轉換格式成 json 就可以使用此命令<br />
+把剛才的 services1 參數修改成正確的再輸入命令 <code>docker compose config --format json</code>
+就會在輸出上顯示轉換後的內容，如果需要保存記得需要輸入 output 參數 和檔名 <code>docker compose config --format json --output docker-compose.json</code></p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/mycompose
+$ docker compose config --format json
+{
+  &quot;name&quot;: &quot;mycompose&quot;,
+  &quot;services&quot;: {
+    &quot;nginx&quot;: {
+      &quot;image&quot;: &quot;nginx&quot;,
+      &quot;networks&quot;: {
+        &quot;default&quot;: null
+      },
+      &quot;ports&quot;: [
+        {
+          &quot;mode&quot;: &quot;ingress&quot;,
+          &quot;target&quot;: 80,
+          &quot;published&quot;: &quot;80&quot;,
+          &quot;protocol&quot;: &quot;tcp&quot;
+        }
+      ],
+      &quot;stdin_open&quot;: true,
+      &quot;tty&quot;: true
+    }
+  },
+  &quot;networks&quot;: {
+    &quot;default&quot;: {
+      &quot;name&quot;: &quot;mycompose_default&quot;,
+      &quot;ipam&quot;: {},
+      &quot;external&quot;: false
+    }
+  }
+}
+</code></pre>
+<hr />
+<p>最後是查詢用途的參數，如果在一個很大的設定檔中如果想要直接看到此設定檔提供了什麼服務，可以直接使用以下命令</p>
+<ul>
+<li>docker compose config --images</li>
+<li>docker compose config --services</li>
+<li>docker compose config --volumes</li>
+</ul>
+<p>我們調整一下設定檔的內容</p>
+<pre><code class="language-text">services:
+  db:
+    # We use a mariadb image which supports both amd64 &amp; arm64 architecture
+    image: mariadb:10.6.4-focal
+    # If you really want to use MySQL, uncomment the following line
+    #image: mysql:8.0.27
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    expose:
+      - 3306
+      - 33060
+  wordpress:
+    image: wordpress:latest
+    volumes:
+      - wp_data:/var/www/html
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+volumes:
+  db_data:
+  wp_data:
+</code></pre>
+<p>可以很快速的列出設定檔內部提供了什麼內容，十分方便</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/mycompose
+$ docker compose config --images
+mariadb:10.6.4-focal
+wordpress:latest
+
+[node1] (local) root&#64;192.168.0.18 ~/mycompose
+$ docker compose config --services
+db
+wordpress
+
+[node1] (local) root&#64;192.168.0.18 ~/mycompose
+$ docker compose config --volumes
+wp_data
+db_data
+</code></pre>
+<h1 id="summary">Summary</h1>
+<p>今天學了新的命令 <code>docker compose config</code>，算是十分方便的命令<br />
+特別是在開發過程中可以快速檢查有沒有輸入錯誤之後即時進行修正</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dca-compose-command-config'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
