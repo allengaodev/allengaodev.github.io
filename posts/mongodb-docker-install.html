@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="&#x4F7F;&#x7528; Docker &#x548C; Docker Compose &#x5FEB;&#x901F;&#x5EFA;&#x7ACB; MongoDB &#x6E2C;&#x8A66;&#x74B0;&#x5883;">
+
+  <title>Gao.Dev - &#x4F7F;&#x7528; Docker &#x5FEB;&#x901F;&#x5EFA;&#x7ACB; MongoDB &#x6E2C;&#x8A66;&#x74B0;&#x5883;</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/mongodb-docker-install'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x4F7F;&#x7528; Docker &#x5FEB;&#x901F;&#x5EFA;&#x7ACB; MongoDB &#x6E2C;&#x8A66;&#x74B0;&#x5883;' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/mongodb-docker-install' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x4F7F;&#x7528; Docker &#x5FEB;&#x901F;&#x5EFA;&#x7ACB; MongoDB &#x6E2C;&#x8A66;&#x74B0;&#x5883;
+          </h1>
+            <span class="subheading">&#x4F7F;&#x7528; Docker &#x548C; Docker Compose &#x5FEB;&#x901F;&#x5EFA;&#x7ACB; MongoDB &#x6E2C;&#x8A66;&#x74B0;&#x5883;</span>
+            <div class="meta">Published on Friday, March 24, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose</a>
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="docker-mongodb">Docker MongoDB</h1>
+<p>最近在學習 MongoDB 的基礎，需要快速建立出一個練習環境，因為只會輸入練習用的資料所以資料不需要持久化因此這次使用 Docker 來建立我們的環境<br />
+首先看看 MongoDB 的官方安裝<a href="https://www.mongodb.com/docs/manual/tutorial/install-mongodb-community-with-docker/" target="_blank">文檔</a>
+這邊官方文檔是使用 <code>mongodb/mongodb-community-server</code> 這個 image ，此 image 是由 mongodb 官方負責維護的<br />
+不過還有另一個比較多人使用的 image <code>mongo</code> 這個是由 docker 官方社區負責維護的，可以按照自己的需求進行挑選，這篇文章將使用 <code>mongo</code> 這個 image</p>
+<p>既然是 docker 官方社區負責維護的那麼相關的 Dockerfile 一定會在 Github 上面進行開源，我們順便看看 Dockerfile 裡面寫了什麼內容 <a href="https://github.com/docker-library/mongo/blob/master/6.0/Dockerfile" target="_blank">Github</a><br />
+大致閱讀完後可以得知以下資訊</p>
+<ul>
+<li>此 image 是選用 ubuntu 作為底層</li>
+<li>分別建立 mongodb group and user</li>
+<li>建立兩個路徑 <code>/data/db</code> <code>/data/configdb</code> 並更改所有權給剛剛建立的 mongodb group and user</li>
+<li>安裝並設定 gosu 之後用來降低 service 權限，由原本的 root user 改成 mongodb user</li>
+<li>去 <code>keyserver.ubuntu.com</code> 下載gpg public key 並保存成 mongodb.gpg</li>
+<li>添加 mongodb 第三方倉庫來源</li>
+<li>下載對應版本的 mongodb 並且安裝 <code>mongodb-org</code>、<code>mongodb-org-server</code>、<code>mongodb-org-shell</code>、<code>mongodb-org-mongos</code>、<code>mongodb-org-tools</code></li>
+<li>建立兩個 docker volume <code>/data/db</code> <code>/data/configdb</code> 這兩個路徑底下的資料會進行持久化保存</li>
+<li>將 HOME 環境變數修改成 <code>/data/db</code></li>
+<li>開啟 27017 Port 並運行 <code>docker-entrypoint.sh mongod</code></li>
+</ul>
+<p>基本上 Docker 流程與直接本機 Ubuntu 安裝流程相同，那麼接下來就實際將 mongodb docker image 運行起來</p>
+<pre><code class="language-text">docker run --name mongo -d mongo:latest
+</code></pre>
+<pre><code class="language-text">$ docker ps --no-trunc
+CONTAINER ID                                                       IMAGE          COMMAND                         CREATED         STATUS         PORTS       NAMES
+c0301a9af2d46613329d3e508f81557bb10c1c394fb329c278abdd28022e24e5   mongo:latest   &quot;docker-entrypoint.sh mongod&quot;   2 minutes ago   Up 2 minutes   27017/tcp   mongo
+</code></pre>
+<p>接下來我們進入 mongodb container 內部看看</p>
+<pre><code class="language-text">docker exec -it c03 bash
+</code></pre>
+<p>可以輸入 <code>TOP</code> 命令查看目前運行的程序，可以看到 PID 1 為 mongod 並且運行的 user 為 mongodb</p>
+<pre><code class="language-text">top - 09:00:15 up 64 days, 17:07,  0 users,  load average: 4.20, 8.64, 11.10
+Tasks:   3 total,   1 running,   2 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 13.6 us, 10.5 sy,  0.1 ni, 75.3 id,  0.1 wa,  0.0 hi,  0.5 si,  0.0 st
+MiB Mem :  32174.8 total,   2129.9 free,  20609.6 used,   9435.3 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used.  10717.2 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                           
+    1 mongodb   20   0 2600660 124832  63808 S   0.7   0.4   0:04.43 mongod                            
+   56 root      20   0    4616   3732   3156 S   0.0   0.0   0:00.05 bash                              
+   69 root      20   0    7360   3492   2904 R   0.0   0.0   0:00.00 top     
+</code></pre>
+<p>我們輸入 <code>ls /usr/bin -l | grep &quot;mongo&quot;</code> 會發現預設裝了許多的軟體</p>
+<pre><code class="language-text">root&#64;c0301a9af2d4:~# ls /usr/bin -l | grep &quot;mongo&quot;
+-rwxr-xr-x 1 root root   140783984 Dec 19  2013 mongod
+-rwxr-xr-x 1 1000   1000  15828424 Mar  1 14:40 mongodump
+-rwxr-xr-x 1 1000   1000  15522960 Mar  1 14:40 mongoexport
+-rwxr-xr-x 1 1000   1000  16383648 Mar  1 14:40 mongofiles
+-rwxr-xr-x 1 1000   1000  15784248 Mar  1 14:40 mongoimport
+-rwxr-xr-x 1 1000   1000  16160976 Mar  1 14:40 mongorestore
+-rwxr-xr-x 1 root root   102737736 Dec 19  2013 mongos
+-rwxr-xr-x 1 1000   1000  97206776 Feb 28 14:13 mongosh
+-rwxr-xr-x 1 1000   1000  15385656 Mar  1 14:40 mongostat
+-rwxr-xr-x 1 1000   1000  14957432 Mar  1 14:40 mongotop
+</code></pre>
+<p>這邊可以使用 <code>mongosh</code> 會開啟一個 MongoDB shell 讓你可以直接跟 MongoDB 互動</p>
+<pre><code class="language-text">root&#64;c0301a9af2d4:~# mongosh
+Current Mongosh Log ID: 641d69fd6288c45b7d629ba5
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&amp;serverSelectionTimeoutMS=2000&amp;appName=mongosh+1.8.0
+Using MongoDB:          6.0.5
+Using Mongosh:          1.8.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-03-24T08:51:59.168+00:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2023-03-24T08:51:59.168+00:00: vm.max_map_count is too low
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+   
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+   
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test&gt; 
+</code></pre>
+<p>輸入命令 <code>db.runCommand( { hello: &quot;container&quot; })</code> 來插入一筆資料</p>
+<pre><code class="language-text">test&gt; db.runCommand( { hello: &quot;container&quot; })
+{
+  isWritablePrimary: true,
+  topologyVersion: {
+    processId: ObjectId(&quot;641d64ae0810439e7907dc76&quot;),
+    counter: Long(&quot;0&quot;)
+  },
+  maxBsonObjectSize: 16777216,
+  maxMessageSizeBytes: 48000000,
+  maxWriteBatchSize: 100000,
+  localTime: ISODate(&quot;2023-03-24T09:16:17.507Z&quot;),
+  logicalSessionTimeoutMinutes: 30,
+  connectionId: 9,
+  minWireVersion: 0,
+  maxWireVersion: 17,
+  readOnly: false,
+  ok: 1
+}
+</code></pre>
+<p>以上便是最基本的操作，不過如果每次要操作 mongodb 都要進入 container 內部會有點麻煩<br />
+可以直接在運行 docker exec 時改成直接運行 mongosh 不進入bash，也可以達到一樣的效果</p>
+<pre><code class="language-text">docker exec -it c03 mongosh
+</code></pre>
+<hr />
+<h1 id="docker-compose-mongodb">Docker Compose MongoDB</h1>
+<p>或是另外使用 <code>mongo-express</code> 這個 image，會額外啟動一個 UI 能夠直接操作 MongoDB
+我們這邊直接建立一個 docker-compose.yml 方便以後測試</p>
+<pre><code class="language-text"># docker-compose.yml
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example&#64;mongo:27017/
+</code></pre>
+<pre><code class="language-text">docker compose up -d
+</code></pre>
+<pre><code class="language-text">$ docker compose up -d
+[+] Running 9/9
+ ⠿ mongo-express Pulled                                                                           6.4s
+   ⠿ 6a428f9f83b0 Pull complete                                                                   0.4s
+   ⠿ f2b1fb32259e Pull complete                                                                   2.5s
+   ⠿ 40888f2a0a1f Pull complete                                                                   2.7s
+   ⠿ 4e3cc9ce09be Pull complete                                                                   2.9s
+   ⠿ eaa1898f3899 Pull complete                                                                   3.1s
+   ⠿ ab4078090382 Pull complete                                                                   5.8s
+   ⠿ ae780a42c79e Pull complete                                                                   6.0s
+   ⠿ e60224d64a04 Pull complete                                                                   6.1s
+[+] Running 3/3
+ ⠿ Network hello_default            Created                                                       0.1s
+ ⠿ Container hello-mongo-express-1  Started                                                       1.0s
+ ⠿ Container hello-mongo-1          Started                                                       1.0s
+</code></pre>
+<p>此範例會建立一個獨立的 Docker network 並且開放 8081 port<br />
+之後只要訪問 8081 port 就能看到我們的管理頁面了</p>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天成功透過 docker 來建立一個可以使用的測試環境，並且了解了 Dockerfile 裡面的相關內容<br />
+最後建立一個 docker-compose.yml 方便我們之後可以快速的建立出一個完整的測試環境出來</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/mongodb-docker-install'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
