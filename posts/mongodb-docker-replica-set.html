@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="&#x5229;&#x7528; Docker &#x5EFA;&#x7ACB; MongoDB Replica Set &#x6559;&#x5B78;">
+
+  <title>Gao.Dev - &#x5229;&#x7528; Docker &#x5EFA;&#x7ACB; MongoDB Replica Set &#x6559;&#x5B78;</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/mongodb-docker-replica-set'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x5229;&#x7528; Docker &#x5EFA;&#x7ACB; MongoDB Replica Set &#x6559;&#x5B78;' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/mongodb-docker-replica-set' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x5229;&#x7528; Docker &#x5EFA;&#x7ACB; MongoDB Replica Set &#x6559;&#x5B78;
+          </h1>
+            <span class="subheading">&#x5229;&#x7528; Docker &#x5EFA;&#x7ACB; MongoDB Replica Set &#x6559;&#x5B78;</span>
+            <div class="meta">Published on Sunday, March 26, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose</a>
+                  <a href="/tags/docker" class="badge text-bg-light"> Docker</a>
+                  <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="replica-set">Replica Set</h1>
+<p>今天來學習如何透過 docker compose 建立出一個 MongoDB Replica Set
+這次將使用 <a href="https://labs.play-with-docker.com/" target="_blank">play-with-docker</a> 提供的 Instance 來建立我們環境
+我們建立三台 Instance 來模擬三台虛擬機的情況</p>
+<ul>
+<li>node1 192.168.0.8</li>
+<li>node2 192.168.0.7</li>
+<li>node3 192.168.0.6</li>
+</ul>
+<p>首先先分別把這三台 Instance 的 IP 加入到各自 <code>/etc/hosts</code> 檔案內</p>
+<pre><code class="language-text">#/etc/hosts
+192.168.0.8    node1
+192.168.0.7    node2
+192.168.0.6    node3
+</code></pre>
+<p>建立完成後可以使用 ping 命令進行測試<br />
+接下來在這三台 Instance 建立 docker-compose.yaml 以及啟動 mongodb</p>
+<pre><code class="language-text">mkdir -p mongo &amp;&amp; cd $_
+vi docker-compose.yml
+</code></pre>
+<pre><code class="language-text"># docker-compose.yml
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    command: [ &quot;mongod&quot;, &quot;--bind_ip_all&quot;, &quot;--replSet&quot;, &quot;dbrs&quot; ]
+    network_mode: &quot;host&quot;
+</code></pre>
+<p>在上一篇的<a href="https://allengaodev.github.io/posts/mongodb-docker-install" target="_blank">文章</a>中，我們知道 mongodb Dockerfile 預設是運行 &quot;docker-entrypoint.sh mongod&quot;
+在今天的設定檔中我們修改了預設的 command 額外添加了幾個參數 <code>--bind_ip_all</code>、<code>--replSet</code><br />
+我們先看一下官方預設的 mongod.conf 設定檔 <a href="https://github.com/mongodb/mongo/blob/master/rpm/mongod.conf" target="_blank">Github</a>，的兩個設定值</p>
+<pre><code class="language-text"># network interfaces
+net:
+  port: 27017
+  bindIp: 127.0.0.1  # Enter 0.0.0.0,:: to bind to all IPv4 and IPv6 addresses or, alternatively, use the net.bindIpAll setting.
+  
+#replication:
+</code></pre>
+<p>這邊 net 設定值只會監聽 <code>127.0.0.1:27017</code>，我們必須把IP 修改成 <code>0.0.0.0:27017</code>，一種作法是另外提供一個設定檔另一種是使用 <code>bind_ip_all</code> 參數也可以達到同樣的效果
+並且預設沒有 replication 相關的設定，這裡我們也使用 <code>--replSet</code> 參數指定 Replica Set 的名稱</p>
+<p>接下來我們分別在這三台 Instance 輸入命令 <code>docker compose up -d</code> 啟動 container</p>
+<ul>
+<li>0df0212f690b node1</li>
+<li>133a172f223d node2</li>
+<li>772fe1388842 node3</li>
+</ul>
+<p>都正常啟動之後我們選擇 node1 做為 primary node，使用命令進入 node1 mongodb container 內</p>
+<pre><code class="language-text">docker exec -it 0df0212f690b mongosh
+</code></pre>
+<p>使用 initiate 方法初始化 Replica Set</p>
+<pre><code class="language-text">rs.initiate()
+</code></pre>
+<p>成功後會發現我們目前位於 primary 節點上</p>
+<pre><code class="language-text">test&gt; rs.initiate()
+{
+  info2: 'no configuration specified. Using a default configuration for the set',
+  me: 'node1:27017',
+  ok: 1
+}
+dbrs [direct: other] test&gt; 
+
+dbrs [direct: primary] test&gt; 
+</code></pre>
+<p>不過目前並沒有其他節點我們還需要將其他兩台 Instance 添加進來</p>
+<pre><code class="language-text">rs.add()
+</code></pre>
+<pre><code class="language-text">dbrs [direct: primary] test&gt; rs.add(&quot;node2:27017&quot;)
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1679838515, i: 1 }),
+    signature: {
+      hash: Binary(Buffer.from(&quot;0000000000000000000000000000000000000000&quot;, &quot;hex&quot;), 0),
+      keyId: Long(&quot;0&quot;)
+    }
+  },
+  operationTime: Timestamp({ t: 1679838515, i: 1 })
+}
+dbrs [direct: primary] test&gt; rs.add(&quot;node3:27017&quot;)
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1679838527, i: 1 }),
+    signature: {
+      hash: Binary(Buffer.from(&quot;0000000000000000000000000000000000000000&quot;, &quot;hex&quot;), 0),
+      keyId: Long(&quot;0&quot;)
+    }
+  },
+  operationTime: Timestamp({ t: 1679838527, i: 1 })
+}
+</code></pre>
+<p>添加成功後我們可以是使用命令 <code>rs.status()</code> 檢查 Replica Set 的運作情況</p>
+<pre><code class="language-text">dbrs [direct: primary] test&gt; rs.status()
+{
+  set: 'dbrs',
+  
+  ...
+  
+  members: [
+    {
+      _id: 0,
+      name: 'node1:27017',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 455,
+      optime: { ts: Timestamp({ t: 1679838570, i: 1 }), t: Long(&quot;1&quot;) },
+      optimeDate: ISODate(&quot;2023-03-26T13:49:30.000Z&quot;),
+      lastAppliedWallTime: ISODate(&quot;2023-03-26T13:49:30.004Z&quot;),
+      lastDurableWallTime: ISODate(&quot;2023-03-26T13:49:30.004Z&quot;),
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1679838349, i: 2 }),
+      electionDate: ISODate(&quot;2023-03-26T13:45:49.000Z&quot;),
+      configVersion: 5,
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: 'node2:27017',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 60,
+      optime: { ts: Timestamp({ t: 1679838570, i: 1 }), t: Long(&quot;1&quot;) },
+      optimeDurable: { ts: Timestamp({ t: 1679838570, i: 1 }), t: Long(&quot;1&quot;) },
+      optimeDate: ISODate(&quot;2023-03-26T13:49:30.000Z&quot;),
+      optimeDurableDate: ISODate(&quot;2023-03-26T13:49:30.000Z&quot;),
+      lastAppliedWallTime: ISODate(&quot;2023-03-26T13:49:30.004Z&quot;),
+      lastDurableWallTime: ISODate(&quot;2023-03-26T13:49:30.004Z&quot;),
+      lastHeartbeat: ISODate(&quot;2023-03-26T13:49:34.002Z&quot;),
+      lastHeartbeatRecv: ISODate(&quot;2023-03-26T13:49:33.999Z&quot;),
+      pingMs: Long(&quot;0&quot;),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'node1:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 5,
+      configTerm: 1
+    },
+    {
+      _id: 2,
+      name: 'node3:27017',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 47,
+      optime: { ts: Timestamp({ t: 1679838570, i: 1 }), t: Long(&quot;1&quot;) },
+      optimeDurable: { ts: Timestamp({ t: 1679838570, i: 1 }), t: Long(&quot;1&quot;) },
+      optimeDate: ISODate(&quot;2023-03-26T13:49:30.000Z&quot;),
+      optimeDurableDate: ISODate(&quot;2023-03-26T13:49:30.000Z&quot;),
+      lastAppliedWallTime: ISODate(&quot;2023-03-26T13:49:30.004Z&quot;),
+      lastDurableWallTime: ISODate(&quot;2023-03-26T13:49:30.004Z&quot;),
+      lastHeartbeat: ISODate(&quot;2023-03-26T13:49:34.002Z&quot;),
+      lastHeartbeatRecv: ISODate(&quot;2023-03-26T13:49:34.526Z&quot;),
+      pingMs: Long(&quot;0&quot;),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'node2:27017',
+      syncSourceId: 1,
+      infoMessage: '',
+      configVersion: 5,
+      configTerm: 1
+    }
+  ]
+  
+  ...
+  
+}
+</code></pre>
+<p>這邊確認 <code>stateStr</code> 的值顯示為 'PRIMARY' 和 'SECONDARY' 就代表成功了
+我們嘗試在主節點上添加一筆資料，看看會不會自動複製資料</p>
+<pre><code class="language-text">db.test.insertOne({&quot;node&quot;: &quot;node1&quot;})
+
+dbrs [direct: primary] test&gt; db.test.insertOne({&quot;node&quot;: &quot;node1&quot;})
+{
+  acknowledged: true,
+  insertedId: ObjectId(&quot;64204eb44839d618edd828f1&quot;)
+}
+</code></pre>
+<p>接下來我們到 node2 或 node3 上面看看資料</p>
+<pre><code class="language-text">docker exec -it 133a172f223d mongosh
+</code></pre>
+<p>terminal 會顯示我們目前的節點為 secondary</p>
+<pre><code class="language-text">dbrs [direct: secondary] test&gt; 
+</code></pre>
+<p>如果我們這邊直接輸入 <code>db.test.find()</code> 會發生報錯</p>
+<pre><code class="language-text">dbrs [direct: secondary] test&gt; db.test.find()
+MongoServerError: not primary and secondaryOk=false - consider using db.getMongo().setReadPref() or readPreference in the connection string
+</code></pre>
+<p>是因為 secondary 節點沒有開放讀取，所以我們需要先調整設定值</p>
+<pre><code class="language-text">db.getMongo().setReadPref('primaryPreferred')
+</code></pre>
+<p>就可以在 secondary 節點讀取到我們剛剛插入的資料了</p>
+<pre><code class="language-text">dbrs [direct: secondary] test&gt; db.test.find()
+[ { _id: ObjectId(&quot;64204eb44839d618edd828f1&quot;), node: 'node1' } ]
+</code></pre>
+<p>最後我們回到 node1 ，直接將 node1 的 mongodb 服務關閉模擬異常情況，看看會不會進行自動轉移</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/mongo
+$ docker compose down
+[+] Running 1/1
+ ⠿ Container mongo-mongo-1  Removed 
+</code></pre>
+<p>再回到 node2 使用命令 rs.status() 進行檢查</p>
+<pre><code class="language-text">dbrs [direct: primary] test&gt; rs.status()
+{
+  set: 'dbrs',
+  
+  ...
+  
+  },
+  members: [
+    {
+      _id: 0,
+      name: 'node1:27017',
+      health: 0,
+      state: 8,
+      stateStr: '(not reachable/healthy)',
+      uptime: 0,
+      optime: { ts: Timestamp({ t: 0, i: 0 }), t: Long(&quot;-1&quot;) },
+      optimeDurable: { ts: Timestamp({ t: 0, i: 0 }), t: Long(&quot;-1&quot;) },
+      optimeDate: ISODate(&quot;1970-01-01T00:00:00.000Z&quot;),
+      optimeDurableDate: ISODate(&quot;1970-01-01T00:00:00.000Z&quot;),
+      lastAppliedWallTime: ISODate(&quot;2023-03-26T14:01:22.573Z&quot;),
+      lastDurableWallTime: ISODate(&quot;2023-03-26T14:01:22.573Z&quot;),
+      lastHeartbeat: ISODate(&quot;2023-03-26T14:01:54.652Z&quot;),
+      lastHeartbeatRecv: ISODate(&quot;2023-03-26T14:01:31.584Z&quot;),
+      pingMs: Long(&quot;0&quot;),
+      lastHeartbeatMessage: 'Error connecting to node1:27017 (192.168.0.8:27017) :: caused by :: Connection refused',
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      configVersion: 5,
+      configTerm: 2
+    },
+    {
+      _id: 1,
+      name: 'node2:27017',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 1207,
+      optime: { ts: Timestamp({ t: 1679839310, i: 4 }), t: Long(&quot;2&quot;) },
+      optimeDate: ISODate(&quot;2023-03-26T14:01:50.000Z&quot;),
+      lastAppliedWallTime: ISODate(&quot;2023-03-26T14:01:50.405Z&quot;),
+      lastDurableWallTime: ISODate(&quot;2023-03-26T14:01:50.405Z&quot;),
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1679839282, i: 1 }),
+      electionDate: ISODate(&quot;2023-03-26T14:01:22.000Z&quot;),
+      configVersion: 5,
+      configTerm: 2,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 2,
+      name: 'node3:27017',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 787,
+      optime: { ts: Timestamp({ t: 1679839310, i: 4 }), t: Long(&quot;2&quot;) },
+      optimeDurable: { ts: Timestamp({ t: 1679839310, i: 4 }), t: Long(&quot;2&quot;) },
+      optimeDate: ISODate(&quot;2023-03-26T14:01:50.000Z&quot;),
+      optimeDurableDate: ISODate(&quot;2023-03-26T14:01:50.000Z&quot;),
+      lastAppliedWallTime: ISODate(&quot;2023-03-26T14:01:50.405Z&quot;),
+      lastDurableWallTime: ISODate(&quot;2023-03-26T14:01:50.405Z&quot;),
+      lastHeartbeat: ISODate(&quot;2023-03-26T14:01:54.595Z&quot;),
+      lastHeartbeatRecv: ISODate(&quot;2023-03-26T14:01:54.600Z&quot;),
+      pingMs: Long(&quot;0&quot;),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'node2:27017',
+      syncSourceId: 1,
+      infoMessage: '',
+      configVersion: 5,
+      configTerm: 2
+    }
+  ],
+  
+  ...
+  
+}
+</code></pre>
+<p>發現我們的 node1 目前狀態為 (not reachable/healthy)，並且主節點已經成功切換到 node2 上了</p>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天測試了如何在 mongodb 建立 Replica Set，增加資料的安全性避免單一節點故障導致服務下線或者資料遺失</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/mongodb-docker-replica-set'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
