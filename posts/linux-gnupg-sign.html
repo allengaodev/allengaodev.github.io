@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="&#x4F7F;&#x7528; GnuPG (GPG) &#x7C3D;&#x7F72;&#x529F;&#x80FD;&#x4F86;&#x78BA;&#x4FDD;&#x8CC7;&#x6599;&#x6C92;&#x6709;&#x88AB;&#x7AC4;&#x6539;">
+
+  <title>Gao.Dev - &#x4F7F;&#x7528; GnuPG (GPG) &#x7C3D;&#x7F72;&#x529F;&#x80FD;&#x4F86;&#x78BA;&#x4FDD;&#x8CC7;&#x6599;&#x6C92;&#x6709;&#x88AB;&#x7AC4;&#x6539;</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/linux-gnupg-sign'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x4F7F;&#x7528; GnuPG (GPG) &#x7C3D;&#x7F72;&#x529F;&#x80FD;&#x4F86;&#x78BA;&#x4FDD;&#x8CC7;&#x6599;&#x6C92;&#x6709;&#x88AB;&#x7AC4;&#x6539;' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/linux-gnupg-sign' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template -->
+  <link href='/vendor/fontawesome-free/css/all.min.css' rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EBB8LGKD99');
+  </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x4F7F;&#x7528; GnuPG (GPG) &#x7C3D;&#x7F72;&#x529F;&#x80FD;&#x4F86;&#x78BA;&#x4FDD;&#x8CC7;&#x6599;&#x6C92;&#x6709;&#x88AB;&#x7AC4;&#x6539;
+          </h1>
+            <span class="subheading">&#x4F7F;&#x7528; GnuPG (GPG) &#x7C3D;&#x7F72;&#x529F;&#x80FD;&#x4F86;&#x78BA;&#x4FDD;&#x8CC7;&#x6599;&#x6C92;&#x6709;&#x88AB;&#x7AC4;&#x6539;</span>
+            <div class="meta">Published on Tuesday, March 28, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/linux" class="badge text-bg-light"> Linux</a>
+                  <a href="/tags/security" class="badge text-bg-light"> Security</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="gnupg">GnuPG</h1>
+<p>今天來學習經常在 Linux 環境中使用到的技術 GnuPG<br />
+我們知道在 Windows 有時在安裝軟體時會跳出安全行警告，通知使用者目前要安裝的這個 App 的是未知的發行者，安裝之前需要額外小心軟體可能已經被修改過了<br />
+要便免這個問題就要透過數位簽章，簽章的擁有者在發布新軟體時需要再次加簽證明新版的軟體的確是由正常來源發行的，這樣使用者就可以安心的進行安裝</p>
+<p>但是在 Linux 環境中是怎麼處理這個問題的呢？
+那就是透過 GPG 這套工具來確保文件的完整性(Integrity)</p>
+<p>我們經常在 github 的 release 頁面下載作者發布的軟體，那要怎麼確保我們下載的 release 軟體一定是透過作者本人所發布的呢？畢竟也有可能是作者帳號被盜用被有心人士當成散播病毒軟體的途徑<br />
+特別是擁有許多 star 等知名的 repo 倉庫，可能會讓我們放鬆戒心一不注意就安裝了病毒的軟體</p>
+<p>這邊我們以 <a href="https://github.com/tianon/gosu" target="_blank">gosu</a> 這套工具為例，我們看到他的 release 頁面會發現發布的軟體是成對出現的<br />
+例如 <code>gosu-amd64</code> 和 <code>gosu-amd64.asc</code> 這兩個檔案，第一的檔案很明顯是編譯後給 amd64 架構使用的 gosu，那麼第二的 asc 副檔名的檔案又是什麼呢？</p>
+<p>到這邊我們可以先看看這個檔案是怎麼產生的 <a href="https://github.com/tianon/gosu/blob/master/sign.sh" target="_blank">Github</a><br />
+中間有一段 for loop 程式碼負責產生 asc 這個檔案</p>
+<pre><code class="language-text">for f in gosu*; do
+	gpg --output &quot;$f.asc&quot; --detach-sign &quot;$f&quot;
+done
+</code></pre>
+<p>以稍早提到的 amd64 架構為例那實際運行的程式就是</p>
+<pre><code class="language-text">gpg --output &quot;gosu-amd64.asc&quot; --detach-sign &quot;gosu-amd64&quot;
+</code></pre>
+<p>我們來看一下文檔來確認參數代表什麼意思</p>
+<pre><code class="language-text">gpg --help
+
+-o, --output FILE          write output to FILE
+--detach-sign [file]       make a detached signature
+</code></pre>
+<p>根據說明我們可以得知這段命令就是對 <code>gosu-amd64</code> 這的檔案進行分離簽署，並把這個獨立簽署的檔案保存成 <code>gosu-amd64.asc</code>
+目前 gpg 有三種簽署方式，</p>
+<ul>
+<li>sign # 將內容與簽名保存在一起，並切輸出一個二進制檔案，需要使用 --decrypt 參數來還原原始內容</li>
+<li>clear-sign # 將內容與簽名保存在一起，並輸出一個 ASCII-armored 檔案，內容都是 ASCII 字元有方便傳輸的好處</li>
+<li>detach-sign # 將內容與簽名分開保存，輸出兩個檔案不會影響原始內容</li>
+</ul>
+<p>詳細的區別可以參考官方<a href="https://www.gnupg.org/gph/en/manual/x135.html" target="_blank">文檔</a></p>
+<p>由上方內容得知只有 detach-sign 不會影響到原始內容，其他兩種方式都會包含原始的內容<br />
+這邊我們來做幾個測試</p>
+<pre><code class="language-text">apk add gnupg
+
+#需要先產生屬於自己的 private key 才能開始簽名
+#需要詳細調整可以改輸入參數 --full-generate-key
+gpg --generate-key
+</code></pre>
+<p>過程之中需要輸入自己的名稱與email，並且輸入一個足夠安全密碼，就會生成出一組自己專屬的 key 了</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$ gpg --generate-key
+gpg (GnuPG) 2.2.35; Copyright (C) 2022 g10 Code GmbH
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+gpg: directory '/root/.gnupg' created
+gpg: keybox '/root/.gnupg/pubring.kbx' created
+Note: Use &quot;gpg --full-generate-key&quot; for a full featured key generation dialog.
+
+GnuPG needs to construct a user ID to identify your key.
+
+Real name: node1
+Email address: node1&#64;gmail.com
+You selected this USER-ID:    
+    &quot;node1 &lt;node1&#64;gmail.com&gt;&quot;
+
+Change (N)ame, (E)mail, or (O)kay/(Q)uit? o
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+gpg: /root/.gnupg/trustdb.gpg: trustdb created
+gpg: directory '/root/.gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/root/.gnupg/openpgp-revocs.d/6F0F4497CFEBBD46D820227556B51FA06F7873BD.rev'
+public and secret key created and signed.
+
+pub   rsa3072 2023-03-28 [SC] [expires: 2025-03-27]
+      6F0F4497CFEBBD46D820227556B51FA06F7873BD
+uid                      node1 &lt;node1&#64;gmail.com&gt;
+sub   rsa3072 2023-03-28 [E] [expires: 2025-03-27]
+</code></pre>
+<p>可以輸入命令 <code>gpg --list-keys</code> 檢查目前機器上有多少組 public key</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~
+$ gpg --list-keys
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: next trustdb check due at 2025-03-27
+/root/.gnupg/pubring.kbx
+------------------------
+pub   rsa3072 2023-03-28 [SC] [expires: 2025-03-27]
+      6F0F4497CFEBBD46D820227556B51FA06F7873BD
+uid           [ultimate] node1 &lt;node1&#64;gmail.com&gt;
+sub   rsa3072 2023-03-28 [E] [expires: 2025-03-27]
+</code></pre>
+<p>接下來準備測試資料來簽署</p>
+<pre><code class="language-text">mkdir -p gpg &amp;&amp; cd $_
+vi todo-list.txt
+
+1. work-a
+2. work-b
+3. work-c
+</code></pre>
+<h2 id="sign">sign</h2>
+<p>先測試第一種方式 <code>--sign</code>，過程之中需要輸入自己的密碼才能進行簽署</p>
+<pre><code class="language-text">gpg --sign &quot;todo-list.txt&quot;
+</code></pre>
+<p>完成後會發現多出了一個 gpg 檔案，可以使用 cat 命令來輸出內容，發現因為是二進制檔案所以內容都是亂碼</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg
+$ ls -l
+total 8
+-rw-r--r--    1 root     root            30 Mar 28 15:43 todo-list.txt
+-rw-r--r--    1 root     root           506 Mar 28 15:45 todo-list.txt.gpg
+</code></pre>
+<p>需要帶入 <code>--decrypt</code> 參數才能得到原始內容
+這邊需要注意最後一行輸出了一段 <code>Good signature</code> 的內容代表這個檔案的簽名是有通過的</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg
+$ gpg --output &quot;todo-list-decrypt.txt&quot; --decrypt &quot;todo-list.txt.gpg&quot;
+gpg: Signature made Tue Mar 28 15:45:52 2023 UTC
+gpg:                using RSA key 6F0F4497CFEBBD46D820227556B51FA06F7873BD
+gpg: Good signature from &quot;node1 &lt;node1&#64;gmail.com&gt;&quot; [ultimate]
+</code></pre>
+<p>如果將這份檔案帶到其他機器上則會有不同的輸出
+這邊因為沒有將 node1 的 public key 提供給 node2 所以 node2 沒有辦法認證這個簽名的正確性</p>
+<pre><code class="language-text">[node2] (local) root&#64;192.168.0.7 ~/gpg
+$ gpg --output &quot;todo-list-decrypt.txt&quot; --decrypt &quot;todo-list.txt.gpg&quot;
+gpg: Signature made Tue Mar 28 15:45:52 2023 UTC
+gpg:                using RSA key 6F0F4497CFEBBD46D820227556B51FA06F7873BD
+gpg: Can't check signature: No public key
+</code></pre>
+<p>這邊要注意雖然沒辦法確認簽名但是還是會正常輸出原始的檔案，這是因為<code>--sign</code>這種簽名方式只會將內容壓縮成二進制，並不會幫你把內容進行加密</p>
+<h2 id="clear-sign">clear-sign</h2>
+<p>第二種方式 <code>--clear-sign</code>，過程之中需要輸入自己的密碼才能進行簽署</p>
+<pre><code class="language-text">gpg --clear-sign &quot;todo-list.txt&quot;
+</code></pre>
+<p>完成後會發現多出了一個 asc 檔案，可以使用 cat 命令來輸出內容，發現內容是 ASCII 格式</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg
+$ ls -l
+total 16
+-rw-r--r--    1 root     root            30 Mar 28 15:57 todo-list-decrypt.txt
+-rw-r--r--    1 root     root            30 Mar 28 15:43 todo-list.txt
+-rw-r--r--    1 root     root           738 Mar 28 16:03 todo-list.txt.asc
+-rw-r--r--    1 root     root           506 Mar 28 15:45 todo-list.txt.gpg
+</code></pre>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg
+$ cat todo-list.txt.asc
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+1. work-a
+2. work-b
+3. work-c
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEbw9El8/rvUbYICJ1VrUfoG94c70FAmQjD+sACgkQVrUfoG94
+c70EDAv9EIk4mgAVIbxXB+U9nifttsjsyvK7hmXyRMijEbd2N1OOosUORy3c8I4r
+01VbCHzfJIMuQRV9wnNF6tPtCAalKAZz+BXv44WP/mknaSFKM+i6WFunCg4VBXQr
+JCkm6evwCfhO6b97R4iMxR//68aSNyA1uHDIdvgbQ5zpXaLtLmMIDntVJj6jhoBd
+z80nh1NEvCjeyE4rhL3uOXoV9vSrNbyaJu2JSjmRinGwg5qrAIMfI8eTKjAmSiQV
+UE0yb3dv+lpik5KcTuroc8FtDZ8WIacSgPM7FJOC9VEv5CPMDcdIkDdHXPFw2DAI
+FeMjWIs6fVA8cubD5iw5Av8UuYfd2lYu2jzUKZ2B81cwYDi41oBWlT3IUKvnCqdk
+0J9WIhtV2biB7Bi5KKNtjH6LNzzdGgYZ71bx79zyS60zNo8Mu5p1BaQJ6YLXzcvB
+y0eJxQXWKI03MXh360VST/Wo+UkGt4XRTKf68kxEZdktRXIsxZXEWtHxlx+seiMR
+A4VfYQui
+=imgK
+-----END PGP SIGNATURE-----
+</code></pre>
+<p>要驗證還是要輸入 <code>--decrypt</code> 才能獲得原始內容</p>
+<pre><code class="language-text">gpg --output &quot;todo-list-decrypt-asc.txt&quot; --decrypt &quot;todo-list.txt.asc&quot;
+</code></pre>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg
+$ gpg --output &quot;todo-list-decrypt-asc.txt&quot; --decrypt &quot;todo-list.txt.asc&quot;
+gpg: Signature made Tue Mar 28 16:03:55 2023 UTC
+gpg:                using RSA key 6F0F4497CFEBBD46D820227556B51FA06F7873BD
+gpg: Good signature from &quot;node1 &lt;node1&#64;gmail.com&gt;&quot; [ultimate]
+</code></pre>
+<h2 id="detach-sign">detach-sign</h2>
+<p>第三種方式 <code>--detach-sign</code>，過程之中需要輸入自己的密碼才能進行簽署</p>
+<pre><code class="language-text">gpg --detach-sign &quot;todo-list.txt&quot;
+</code></pre>
+<p>完成後會發現多出了一個 sig 檔案，可以使用 cat 命令來輸出內容，發現內容是二進制格式</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg
+$ ls -l
+total 24
+-rw-r--r--    1 root     root            30 Mar 28 16:06 todo-list-decrypt-asc.txt
+-rw-r--r--    1 root     root            30 Mar 28 15:57 todo-list-decrypt.txt
+-rw-r--r--    1 root     root            30 Mar 28 15:43 todo-list.txt
+-rw-r--r--    1 root     root           738 Mar 28 16:03 todo-list.txt.asc
+-rw-r--r--    1 root     root           506 Mar 28 15:45 todo-list.txt.gpg
+-rw-r--r--    1 root     root           438 Mar 28 16:14 todo-list.txt.sig
+</code></pre>
+<p>這邊就比較不一樣了，需要使用 <code>--verify</code> 參數，並且帶入簽名檔跟原始的檔案才能進行檢查</p>
+<pre><code class="language-text">gpg --verify todo-list.txt.sig todo-list.txt
+</code></pre>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg
+$ gpg --verify todo-list.txt.sig todo-list.txt
+gpg: Signature made Tue Mar 28 16:14:42 2023 UTC
+gpg:                using RSA key 6F0F4497CFEBBD46D820227556B51FA06F7873BD
+gpg: Good signature from &quot;node1 &lt;node1&#64;gmail.com&gt;&quot; [ultimate]
+</code></pre>
+<hr />
+<p>現在我們回到一開始的 gosu 範例，就能清楚的知道意思了，gosu 是利用第三種的簽名方式
+也就是說如果我們想要驗證從 release 頁面下載的檔案是不是真的是由作者簽署的我們可以使用 <code>--verify</code> 參數，來進行驗證
+那麼我們就實際來測試看看，這邊我使用 wget 將兩個檔案下載下來</p>
+<pre><code class="language-text">mkdir -p gosu &amp;&amp; cd $_
+wget -O gosu.asc &quot;https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64.asc&quot;
+wget -O gosu &quot;https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64&quot;
+</code></pre>
+<p>這邊作者不是使用預設的 sig 副檔名，而是使用 asc 副檔名</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg/gosu
+$ ls -l
+total 2308
+-rw-r--r--    1 root     root       2355690 Mar 28 16:24 gosu
+-rw-r--r--    1 root     root           566 Mar 28 16:24 gosu.asc
+</code></pre>
+<p>這邊如果直接進行檢查會輸出無法檢查，這是因為這個簽名檔是用作者的 private key 簽署的，所以要搭配作者的 public key 才能進行檢查</p>
+<pre><code class="language-text">gpg --verify gosu.asc gosu
+</code></pre>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg/gosu
+$ gpg --verify gosu.asc gosu
+gpg: Signature made Tue Dec 20 00:44:57 2022 UTC
+gpg:                using RSA key B42F6819007F00F88E364FD4036A9C25BF357DD4
+gpg: Can't check signature: No public key
+</code></pre>
+<p>可以透過許多方式取得 public key，可以使用 github 來存放或者 key server 也可以透過 usb 直接將我的 public key 複製給你<br />
+這邊我們根據 github 文檔得知 gosu 的作者是透過 key server 來分享他的 public key
+輸入以下命令即可匯入作者的 public key</p>
+<pre><code class="language-text">gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+</code></pre>
+<p>這邊可以得知作者的姓名以及email</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg/gosu
+$ gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+gpg: key 036A9C25BF357DD4: public key &quot;Tianon Gravi &lt;tianon&#64;tianon.xyz&gt;&quot; imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+</code></pre>
+<p>添加 public key 之後就可以再次進行驗證</p>
+<pre><code class="language-text">gpg --verify gosu.asc gosu
+</code></pre>
+<p>這邊看到 Good signature 就代表這份檔案簽署是通過正常流程簽署的，並沒有被竄改
+底下還有輸出幾段警告，會在之後的文章在進行討論</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.8 ~/gpg/gosu
+$ gpg --verify gosu.asc gosu
+gpg: Signature made Tue Dec 20 00:44:57 2022 UTC
+gpg:                using RSA key B42F6819007F00F88E364FD4036A9C25BF357DD4
+gpg: Good signature from &quot;Tianon Gravi &lt;tianon&#64;tianon.xyz&gt;&quot; [unknown]
+gpg:                 aka &quot;Andrew Page (Tianon Gravi) &lt;admwiggin&#64;gmail.com&gt;&quot; [unknown]
+gpg:                 aka &quot;Tianon Gravi (Andrew Page) &lt;tianon&#64;infosiftr.com&gt;&quot; [unknown]
+gpg:                 aka &quot;Tianon Gravi &lt;tianon&#64;debian.org&gt;&quot; [unknown]
+gpg:                 aka &quot;Tianon Gravi &lt;tianon&#64;dockerproject.org&gt;&quot; [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: B42F 6819 007F 00F8 8E36  4FD4 036A 9C25 BF35 7DD4
+</code></pre>
+<h2 id="summary">Summary</h2>
+<p>今天學習了 gpg 中的簽署流程，了解目前大多數 Linux package 是如何保證使用者下載的是正確的檔案而不是被竄改過的檔案<br />
+gpg 還有提供許多功能，特別是加密相關的功能最常被使用，也會在之後的文章進行討論</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/linux-gnupg-sign'></div>
+<script src="https://static.like.co/sdk/v1/button.js"></script>
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
