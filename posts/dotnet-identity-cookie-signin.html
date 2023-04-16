@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Cookie SignIn">
+
+  <title>Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dotnet-identity-cookie-signin'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dotnet-identity-cookie-signin' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/fontawesome-free/css/allv1.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+  -->
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" />
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" rel="stylesheet" media="screen" onload="this.media='all'">
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EBB8LGKD99');</script>
+
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5291595453969856" crossorigin="anonymous"></script>
+  -->
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn
+          </h1>
+            <span class="subheading">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Cookie SignIn</span>
+            <div class="meta">Published on Sunday, April 16, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
+                  <a href="/tags/identity" class="badge text-bg-light"> Identity</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="net-core-identity-cookie-signin">.NET Core Identity Cookie SignIn</h1>
+<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
+在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
+閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>
+<p>至於該怎麼使用可以先參考 <code>Microsoft.AspNetCore.Identity.UI</code> 這個 Package 之前有提到裡面有預設的 Razor 頁面可以直接供我們參考 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/UI/src/Areas/Identity/Pages/V5/Account/Login.cshtml.cs#L120" target="_blank">Github</a>
+此 Login 頁面中的 <code>OnPostAsync</code> 方法，會在我們按下 Button 後執行</p>
+<ol>
+<li>使用 <code>SignInManager.GetExternalAuthenticationSchemesAsync</code> 檢查系統之中使否有設定第三方登入(Google)</li>
+<li>使用 <code>SignInManager.PasswordSignInAsync</code> 輸入帳號密碼登入</li>
+<li>檢查登入回傳結果與是否有開啟二次驗證</li>
+<li>轉跳回原網址</li>
+</ol>
+<p>得知了 <code>AuthenticationSchemes</code> 這個概念，與<code>SignInManager</code>不只支援一般的帳號密碼登入同時也支援第三方登入
+那目前的任務就是查看微軟官方提供了多少種登入方式給我們直接使用，我們可以在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面找到
+發現微軟提供了 <code>Cookies</code>、<code>JwtBearer</code> 等常用的驗證方式，與 Google、Twitter、Facebook之類的外部登入驗證</p>
+<p>那麼該怎麼告訴系統我們想要使用 <code>Cookies</code> 進行驗證呢？
+先參考 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication/Cookies/samples/CookieSample" target="_blank">Github</a> 上的 Sample 學習一下該如何進行註冊</p>
+<ol>
+<li>使用 <code>AddAuthentication</code> 方法將 Cookie AuthenticationScheme 註冊到 Services 之中</li>
+<li>使用 <code>AddCookie</code> 方法設定 Cookie 的過期時間與更新規則</li>
+<li>使用 <code>UseAuthentication</code> 方法指定流程需要使用 AuthenticationMiddleware</li>
+</ol>
+<p>學習後回到我們自己創的專案上手動註冊看看</p>
+<pre><code class="language-text">builder.Services
+    .AddAuthentication()
+    .AddCookie(IdentityConstants.ApplicationScheme,options =&gt;
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    });
+    
+builder.Services.AddIdentityCore&lt;IdentityUser&gt;()
+    .AddUserStore&lt;CustomUserStore&gt;()
+    .AddSignInManager&lt;SignInManager&lt;IdentityUser&gt;&gt;();
+    
+app.UseAuthentication();
+</code></pre>
+<p>在 <code>AccountController</code> 添加新方法</p>
+<pre><code class="language-text">[HttpPost(template: &quot;~/signin&quot;, Name = &quot;SignIn&quot;)]
+public async Task&lt;SignInResult&gt; SignIn(string userName, string password)
+{
+    return await _signInManager.PasswordSignInAsync(
+        userName, 
+        password, 
+        false, 
+        false);
+}
+</code></pre>
+<p>在測試之前需要在我們的 <code>CustomUserStore</code> 實現 <code>IUserPasswordStore</code> 界面，使用 EFCore 可以跳過這步驟</p>
+<pre><code class="language-text">public Task SetPasswordHashAsync(IdentityUser user, string? passwordHash, CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), $&quot;Parameter {nameof(user)} cannot be null.&quot;);
+    }
+    if (passwordHash == null)
+    {
+        throw new ArgumentNullException(nameof(passwordHash), $&quot;Parameter {nameof(passwordHash)} cannot be null.&quot;);
+    }
+    user.PasswordHash = passwordHash;
+    return Task.CompletedTask;
+}
+
+public Task&lt;string?&gt; GetPasswordHashAsync(IdentityUser user, CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), $&quot;Parameter {nameof(user)} cannot be null.&quot;);
+    }
+    return Task.FromResult(user.PasswordHash);
+}
+
+public Task&lt;bool&gt; HasPasswordAsync(IdentityUser user, CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), $&quot;Parameter {nameof(user)} cannot be null.&quot;);
+    }
+    return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
+}
+</code></pre>
+<p>新增完 CustomStore 之後需要重新建立 User，因為我們之前並沒有實現 <code>IUserPasswordStore</code> 界面，所以 User 並沒有密碼</p>
+<pre><code class="language-text">[HttpPost(Name = &quot;CreateUser&quot;)]
+public async Task&lt;IdentityResult&gt; CreateUser()
+{
+    var userName = &quot;User1&quot;;
+    var identityUser = new IdentityUser(userName);
+    return await _userManager.CreateAsync(identityUser, &quot;1q2w3E*&quot;);
+}
+</code></pre>
+<p>之後查詢 User 會發現 <code>passwordHash</code> 會自動對密碼加密</p>
+<pre><code class="language-text">Response body
+{
+  &quot;id&quot;: &quot;d319d7eb-140a-4958-bb0a-cd619b400942&quot;,
+  &quot;userName&quot;: &quot;User1&quot;,
+  &quot;normalizedUserName&quot;: &quot;USER1&quot;,
+  &quot;email&quot;: null,
+  &quot;normalizedEmail&quot;: null,
+  &quot;emailConfirmed&quot;: false,
+  &quot;passwordHash&quot;: &quot;AQAAAAIAAYagAAAAEKEMP1C8dEb0bw19IUkDjNDnLB3ZhE2ByhWIrLIDV1RraByQ+JPRG0+nrhNiVCCPzg==&quot;,
+  &quot;securityStamp&quot;: &quot;0a442f54-5f5f-48df-8a3b-9da39621a565&quot;,
+  &quot;concurrencyStamp&quot;: &quot;0929275f-0180-44f9-9946-6a104e44d90c&quot;,
+  &quot;phoneNumber&quot;: null,
+  &quot;phoneNumberConfirmed&quot;: false,
+  &quot;twoFactorEnabled&quot;: false,
+  &quot;lockoutEnd&quot;: null,
+  &quot;lockoutEnabled&quot;: false,
+  &quot;accessFailedCount&quot;: 0
+}
+</code></pre>
+<p>完成之後使用我們新的 API 並且輸入帳號密碼，執行後會回傳以下內容</p>
+<pre><code class="language-text">Response body
+{
+  &quot;succeeded&quot;: true,
+  &quot;isLockedOut&quot;: false,
+  &quot;isNotAllowed&quot;: false,
+  &quot;requiresTwoFactor&quot;: false
+}
+</code></pre>
+<p>看到 &quot;succeeded&quot;: true 就代表登入成功了，此時可以檢查瀏覽器的 Cookie<br />
+域名底下會發現多了一個 Cookie <code>.AspNetCore.Identity.Application</code>
+我們在 <code>WeatherForecastController</code> 新增驗證，需要登入才可以使用此API</p>
+<pre><code class="language-text">[Authorize]
+[ApiController]
+[Route(&quot;[controller]&quot;)]
+public class WeatherForecastController : ControllerBase
+</code></pre>
+<h1 id="summary">Summary</h1>
+<p>今天學習了 <code>SignInManager</code> 與使用 Cookie 來進行登入驗證，並且知道微軟已經內建提供了許多登入方式(Schema)
+之後的文章會繼續試試看 JWT 或者第三方登入</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.2" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dotnet-identity-cookie-signin'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script defer src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
