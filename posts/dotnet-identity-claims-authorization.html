@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;">
+
+  <title>Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dotnet-identity-claims-authorization'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dotnet-identity-claims-authorization' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/fontawesome-free/css/allv1.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+  -->
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" />
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" rel="stylesheet" media="screen" onload="this.media='all'">
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EBB8LGKD99');</script>
+
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5291595453969856" crossorigin="anonymous"></script>
+  -->
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;
+          </h1>
+            <span class="subheading">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</span>
+            <div class="meta">Published on Monday, April 17, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
+                  <a href="/tags/identity" class="badge text-bg-light"> Identity</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="net-core-identity-authorization">.NET Core Identity Authorization</h1>
+<p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
+現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>
+<p>不過我們沒有在專案設定授權相關的功能，那為什麼我們可以在我們專案直接使用 <code>[Authorize]</code> 標籤？<br />
+首先看到底下 <code>WebApplicationBuilder</code> 底下有使用 <code>UseAuthorization</code> 方法，這個是專案建立就有的設定<br />
+在 <code>UseAuthorization</code> 方法裡面有一段特殊的邏輯，會去 DI 檢查是否有注入這個服務 <code>AuthorizationPolicyMarkerService</code> <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authorization/Policy/src/AuthorizationAppBuilderExtensions.cs#L40" target="_blank">Github</a></p>
+<p>這個服務 <code>AuthorizationPolicyMarkerService</code> 很特殊是專門用來檢查的，服務裡面沒有任何內容 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authorization/Policy/src/AuthorizationPolicyMarkerService.cs" target="_blank">Github</a><br />
+目前只有在使用 <code>AddAuthorization</code> 才會註冊這個服務，所以這個服務是用來確保在系統在註冊 <code>AuthorizationMiddleware</code> 之前，強制檢查有沒有先呼叫 <code>AddAuthorization</code> 方法
+不然直接註冊 Middleware 可以會造成錯誤</p>
+<p>不過在我們專案中並沒有呼叫 <code>AddAuthorization</code> 方法，怎麼專案沒有報錯呢？
+是因為我們開頭有使用 <code>AddControllers</code> 方法，此方法內部已經幫我們使用 <code>AddAuthorization</code> 方法，所以我們才有辦法在不用設定的前提下直接使用 <code>[Authorize]</code> 標籤來保護我們的 API</p>
+<p>直接使用 <code>[Authorize]</code> 標籤雖然可以達成我們的需求但是功能比較單一只能進行二分法，也就是只能分成有登入跟沒登入兩種狀態
+要進行更複雜的授權之前那就需要先了解什麼是 <code>Claim</code> 與 <code>Policy</code></p>
+<hr />
+<h1 id="claim">Claim</h1>
+<p>在製作網站通常會有收集會員資料的需求例如會員的生日或電話號碼，以前在關聯式資料庫可能會額外建立一個會員資料表來保存這些資料<br />
+不過在 .NET Core 中我們可以利用 Claim 的特性來直接實踐這樣的功能，首先我們先到 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Core/src/IUserClaimStore.cs" target="_blank">Github</a> 上看看原始碼<br />
+跟我們之前學習到的 <code>IUserStore</code>界面與 <code>IUserPasswordStore</code> 密碼相關功能的界面類似<br />
+今天我們要看的是 <code>IUserClaimStore</code> 界面，從名稱也可以猜到這是與 Claim 相關的功能界面</p>
+<p>我們選一個 <code>AddClaimsAsync</code> 方法來查看，要使用這個方法需要輸入一個 <code>IdentityUser</code> 與輸入列舉的 <code>Claim</code></p>
+<pre><code class="language-text">Task AddClaimsAsync(TUser user, IEnumerable&lt;Claim&gt; claims, CancellationToken cancellationToken);
+</code></pre>
+<p>Claim 內部提供了許多 Constructor，其中最簡單的方式就是輸入兩個 String，分別代表Key:Value</p>
+<pre><code class="language-text">public Claim(string type, string value)
+</code></pre>
+<p>拿開頭的生日作為例子，我們可以建立一個生日的 Claim 來紀錄這個會員的生日</p>
+<pre><code class="language-text">new Claim(&quot;birthday&quot;,&quot;1995-01-01&quot;)
+</code></pre>
+<p>這邊有一個問題因為都是 string 所以有可能造成一個生日有多種寫法，value 值也有相同的問題
+所以像這種常用的類型我們可以使用微軟提供的 <code>ClaimTypes</code> 與 <code>ClaimValueTypes</code> 裡面已經定義好常用的 Claim
+我們可以對生日的 Claim 進行改寫</p>
+<pre><code class="language-text">new Claim(ClaimTypes.DateOfBirth, &quot;1995-01-01&quot;, ClaimValueTypes.Date);
+</code></pre>
+<p>有了 Claim 之後現在需要搞懂 <code>AddClaimsAsync</code> 內部是如何把 Claim 跟傳入的 User 連結在一起的
+這邊先參考 EFCore 是怎麼實做的，專案直接使用 EFCore 的可以跳過這一步驟 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/EntityFrameworkCore/src/UserStore.cs#L427" target="_blank">Github</a>
+了解到會先利用我們傳入的 user 與 claim 建立出一個新的類型 TUserClaim</p>
+<pre><code class="language-text">//UserStoreBase.cs
+protected virtual TUserClaim CreateUserClaim(TUser user, Claim claim)
+{
+    var userClaim = new TUserClaim { UserId = user.Id };
+    userClaim.InitializeFromClaim(claim);
+    return userClaim;
+}
+
+//IdentityUserClaim.cs
+public virtual void InitializeFromClaim(Claim claim)
+{
+    ClaimType = claim.Type;
+    ClaimValue = claim.Value;
+}
+</code></pre>
+<p>正如我們一直在使用的 <code>IdentityUser</code> Class 這個泛型的 <code>TUserClaim</code> 會繼承另一個預設的 <code>IdentityUserClaim</code> Class，我們先來看看他的內容 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Stores/src/IdentityUserClaim.cs" target="_blank">Github</a><br />
+簡化來看這個 Class 只有四個 Property， 並且會與 <code>IdentityUser</code> 的 Id 關聯</p>
+<pre><code class="language-text">int Id
+TKey UserId
+string? ClaimType
+string? ClaimValue
+</code></pre>
+<p>由此可知我們將 Claim 轉換成 <code>IdentityUserClaim</code> 之後會將資料添加資料到 DbSet <code>UserClaims</code> 最後由 EFCore 添加到資料庫內</p>
+<p>接下來回到我們的專案進行實做，首先新建立 <code>AspNetUserClaims</code> 表</p>
+<pre><code class="language-text">CREATE TABLE dbo.AspNetUserClaims (
+    Id integer GENERATED BY DEFAULT AS IDENTITY,
+    UserId text NOT NULL,
+    ClaimType text NULL,
+    ClaimValue text NULL,
+    CONSTRAINT PK_AspNetUserClaims PRIMARY KEY (Id),
+    CONSTRAINT FK_AspNetUserClaims_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES AspNetUsers (Id) ON DELETE CASCADE
+);
+</code></pre>
+<p>並且到 <code>CustomUserStore</code> 實做新界面 <code>IUserClaimStore&lt;IdentityUser&gt;</code></p>
+<pre><code class="language-text">Task&lt;IList&lt;Claim&gt;&gt; GetClaimsAsync(TUser user, CancellationToken cancellationToken);
+Task AddClaimsAsync(TUser user, IEnumerable&lt;Claim&gt; claims, CancellationToken cancellationToken);
+</code></pre>
+<p>最後到 <code>AccountController</code> 新增幾個 controller，負責幫 user 添加新的 claim 與列出 user 擁有的 claim</p>
+<pre><code class="language-text">HttpGet(template: &quot;~/addClaim&quot;, Name = &quot;AddClaim&quot;)]
+public async Task&lt;IdentityResult&gt; AddClaim()
+{
+    var userName = &quot;User1&quot;;
+    var user = await _userManager.FindByNameAsync(userName);
+    var claim = new Claim(ClaimTypes.DateOfBirth, &quot;1995-01-01&quot;, ClaimValueTypes.Date);
+    return await _userManager.AddClaimAsync(user, claim);
+}
+
+[HttpGet(template: &quot;~/listClaim&quot;, Name = &quot;ListClaim&quot;)]
+public async Task&lt;IList&lt;Claim&gt;&gt; ListClaim()
+{
+    var userName = &quot;User1&quot;;
+    var user = await _userManager.FindByNameAsync(userName);
+    return await _userManager.GetClaimsAsync(user);
+}
+
+[HttpGet(template: &quot;~/listHttpContextClaim&quot;, Name = &quot;ListHttpContextClaim&quot;)]
+public string ListHttpContextClaim()
+{
+    var claims = HttpContext.User.Claims.ToList();
+    var simpleClaims = claims.Select(claim =&gt; new
+    {
+        claim = new { claim.Type, claim.Value},
+    }).ToList() ;
+
+    return JsonSerializer.Serialize(simpleClaims);
+}
+</code></pre>
+<p>完成之後我們需要先使用 <code>AddClaim</code> 方法內部會利用 <code>UserManager</code> 的 <code>AddClaimAsync</code> 方法會幫 User1 添加新的 Claim
+添加之後使用 <code>ListClaim</code> 方法內部會利用 <code>UserManager</code> 的 <code>GetClaimsAsync</code> 列出 User1 擁有的 Claim
+比較特別的是 <code>ListHttpContextClaim</code> 方法，內部會利用 HttpContext 取得目前登入 User 身上的 Claim，這是因為使用 signInManager 登入時內部會幫忙把 Claim 添加回 HttpContext</p>
+<pre><code class="language-text">[
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier&quot;,
+      &quot;Value&quot;: &quot;14da945b-0a45-4240-947b-606b480fc6c2&quot;
+    }
+  },
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name&quot;,
+      &quot;Value&quot;: &quot;User1&quot;
+    }
+  },
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth&quot;,
+      &quot;Value&quot;: &quot;1995-01-01&quot;
+    }
+  },
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;amr&quot;,
+      &quot;Value&quot;: &quot;pwd&quot;
+    }
+  }
+]
+</code></pre>
+<hr />
+<h1 id="policy">Policy</h1>
+<p>有了 Claim 之後並不能夠給授權系統使用我們還需要搭配 Policy 才能使用
+Policy 主要是一組限制規則，例如我們可以建立一個 Policy 要求好幾個規則</p>
+<ul>
+<li>會員需要通過驗證</li>
+<li>驗證的規則限定為 Cookie 驗證</li>
+<li>需要擁有 <code>DateOfBirth</code> Claim</li>
+</ul>
+<p>回到 Program 註冊新的 Policy</p>
+<pre><code class="language-text">builder.Services.AddAuthorization(option =&gt;
+{
+    option.AddPolicy(&quot;birthday&quot;, builder =&gt;
+    {
+        builder
+            .RequireAuthenticatedUser()
+            .AddAuthenticationSchemes(IdentityConstants.ApplicationScheme)
+            .RequireClaim(ClaimTypes.DateOfBirth);
+    });
+});
+</code></pre>
+<p>完成後我們就能夠使用 <code>[Authorize]</code> 標籤指定要使用的 Policy 就會要求 Controller 需要符合我們的規則</p>
+<pre><code class="language-text">[Authorize(policy: &quot;birthday&quot;)]
+[ApiController]
+[Route(&quot;[controller]&quot;)]
+public class WeatherForecastController : ControllerBase
+</code></pre>
+<p>如果條件都符合的話 API 才能正常回傳，否則會回傳 404</p>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天學習到了更進階的授權規則，Claim 這個概念之後在使用 JWT 時會常常提到，之後的文章會在討論</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.3" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dotnet-identity-claims-authorization'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script defer src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
