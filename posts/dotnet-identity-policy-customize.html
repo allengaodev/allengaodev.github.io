@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;">
+
+  <title>Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dotnet-identity-policy-customize'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dotnet-identity-policy-customize' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/fontawesome-free/css/allv1.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+  -->
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" />
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" rel="stylesheet" media="screen" onload="this.media='all'">
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EBB8LGKD99');</script>
+
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5291595453969856" crossorigin="anonymous"></script>
+  -->
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;
+          </h1>
+            <span class="subheading">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;</span>
+            <div class="meta">Published on Thursday, April 20, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
+                  <a href="/tags/identity" class="badge text-bg-light"> Identity</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="net-core-identity-policy-customize">.NET Core Identity Policy Customize</h1>
+<p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>
+<p>但是在進階的場景，例如：年齡限制或者檢查使用者的性別等需要另外對 <code>Claim</code> 內容進行分辨的邏輯，就需要建立客製化的 <code>Policy</code></p>
+<p>要客製化 <code>Policy</code> 我們先看看官方的範例 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/samples/CustomPolicyProvider" target="_blank">Github</a><br />
+在 <code>Authorization</code> 有建立了四個 <code>Class</code></p>
+<ul>
+<li><code>MinimumAgeAuthorizationHandler.cs</code></li>
+<li><code>MinimumAgeAuthorizeAttribute.cs</code></li>
+<li><code>MinimumAgePolicyProvider.cs</code></li>
+<li><code>MinimumAgeRequirement.cs</code></li>
+</ul>
+<p>並且註冊了 <code>MinimumAgePolicyProvider</code> 和 <code>MinimumAgeAuthorizationHandler</code> 生命週期為 <code>Singleton</code></p>
+<pre><code class="language-text">AddSingleton&lt;IAuthorizationPolicyProvider, MinimumAgePolicyProvider&gt;();
+AddSingleton&lt;IAuthorizationHandler, MinimumAgeAuthorizationHandler&gt;();
+</code></pre>
+<p>根據註釋的內容可以得知註冊 <code>MinimumAgePolicyProvider</code> 是用來取代預設注入的 <code>DefaultAuthorizationPolicyProvider</code><br />
+<code>PolicyProvider</code> 會根據傳入的 <code>Policy</code> 名稱註冊相對應的 <code>Policy</code> 到系統內</p>
+<p><code>MinimumAgeAuthorizationHandler</code> 則是負責處理此次授權請求為成功或失敗，並且繼承 <code>AuthorizationHandler&lt;MinimumAgeRequirement&gt;</code>
+當有 API 需要檢查 <code>Policy</code> 有要求檢查 <code>MinimumAgeRequirement</code> 就會來調用 <code>MinimumAgeAuthorizationHandler</code></p>
+<p><code>MinimumAgeAuthorizeAttribute</code> 則是用來設定客製化的授權標籤，可有可無</p>
+<p>接下來我們可以試著建立自己的 <code>Policy</code></p>
+<pre><code class="language-text">mkdir Permissions &amp;&amp; cd $_
+touch MinimumAgeAuthorizationHandler.cs
+touch MinimumAgePolicyProvider.cs
+touch MinimumAgeRequirement.cs
+</code></pre>
+<p>照流程來看首先 <code>MinimumAgePolicyProvider</code> 會收到一個 <code>PolicyName</code> 我們需要註冊一個 <code>Policy</code> 到系統內，我們在上一篇文章有學到如何註冊 <code>Policy</code></p>
+<pre><code class="language-text">//Program.cs
+builder.Services.AddAuthorization(option =&gt;
+{
+    option.AddPolicy(&quot;birthday&quot;, builder =&gt;
+    {
+        builder
+            .RequireAuthenticatedUser()
+            .AddAuthenticationSchemes(IdentityConstants.ApplicationScheme)
+            .RequireClaim(ClaimTypes.DateOfBirth);
+    });
+});
+</code></pre>
+<p>我們也可以手動進行註冊不需要在額外建立 <code>MinimumAgePolicyProvider</code>，這邊我們直接建立一個 <code>Policy</code> 名稱為 <code>MinimumAge18</code><br />
+這邊呼叫 <code>AddRequirements</code> 方法新增一個 <code>MinimumAgeRequirement</code> 傳入一個 <code>Int</code>
+我們之後要建立的 <code>MinimumAgeAuthorizationHandler</code> 會接收這個 <code>Requirements</code> 之後進行處理</p>
+<pre><code class="language-text">//Program.cs
+option.AddPolicy(&quot;MinimumAge18&quot;, builder =&gt;
+{
+    builder.AddRequirements(new MinimumAgeRequirement(18));
+});
+</code></pre>
+<p>這裡我們繼承 <code>AuthorizationHandler&lt;MinimumAgeRequirement&gt;</code> 並且透過 <code>Context</code> 讀出目前登入 <code>User</code> 的 <code>Claim</code><br />
+將 <code>Claim</code> 轉換為使用這目前的年紀，最後在拿使用者的年紀與 <code>MinimumAgeRequirement</code> 的 <code>Int</code> 進行比較</p>
+<pre><code class="language-text">//MinimumAgeAuthorizationHandler.cs
+public class MinimumAgeAuthorizationHandler : AuthorizationHandler&lt;MinimumAgeRequirement&gt;
+{
+    protected override Task HandleRequirementAsync(
+        AuthorizationHandlerContext context,
+        MinimumAgeRequirement requirement)
+    {
+        if (!context.User.HasClaim(c =&gt; c.Type == ClaimTypes.DateOfBirth))
+        {
+            return Task.FromResult(0);
+        }
+
+        DateTime dateOfBirth =Convert.ToDateTime(context.User?.FindFirst(c =&gt; c.Type == ClaimTypes.DateOfBirth)?.Value);
+        
+        int age = DateTime.Today.Year - dateOfBirth.Year;
+        if (dateOfBirth &gt; DateTime.Today.AddYears(-age)) age--;
+
+        if (age &gt; requirement.MinimumAge)
+        {
+            context.Succeed(requirement);
+        }
+
+        return Task.FromResult(0);
+    }
+}
+</code></pre>
+<pre><code class="language-text">//Program.cs
+builder.Services.AddSingleton&lt;IAuthorizationHandler, MinimumAgeAuthorizationHandler&gt;();
+</code></pre>
+<p>這樣基本上就可以用了我們到 <code>WeatherForecastController</code> 進行測試</p>
+<pre><code class="language-text">[Authorize(Policy = &quot;MinimumAge18&quot;)]
+public class WeatherForecastController : ControllerBase
+</code></pre>
+<p>我們明確指定說 <code>Policy</code> 要使用 <code>MinimumAge18</code>，使用者需要大於 18 歲 API 才會回傳資料</p>
+<hr />
+<p>不過這樣使用起來體驗不是很好，我們另外建立 <code>MinimumAgePolicyProvider</code> 與 <code>MinimumAgeAuthorizeAttribute</code> 使用起來會比較方便</p>
+<p>這裡建立了一個新標籤可以傳入一個 <code>Int</code> 因為繼承 <code>AuthorizeAttribute</code> 所以我們可以簡化寫法<br />
+原本是<code>[Authorize(Policy = &quot;MinimumAge18&quot;)]</code> 現在可以改成 <code>[MinimumAgeAuthorize(18)]</code> 可讀性比較高</p>
+<pre><code class="language-text">//MinimumAgeAuthorizeAttribute.cs
+public class MinimumAgeAuthorizeAttribute : AuthorizeAttribute
+{
+    private const string POLICY_PREFIX = &quot;MinimumAge&quot;;
+
+    public MinimumAgeAuthorizeAttribute(int age)
+    {
+        Age = age;
+    }
+
+    public int Age
+    {
+        get
+        {
+            if (int.TryParse(Policy.Substring(POLICY_PREFIX.Length), out var age))
+            {
+                return age;
+            }
+    
+            return default;
+        }
+        set
+        {
+            Policy = $&quot;{POLICY_PREFIX}{value.ToString()}&quot;;
+        }
+    }
+}
+</code></pre>
+<p>根據 <code>MinimumAgeAuthorizeAttribute</code> 的內容，我們會跟系統要求一個 <code>MinimumAge18</code> 的 <code>Policy</code><br />
+<code>MinimumAgePolicyProvider</code> 會將數字 18 分離出來，最後添加<code>MinimumAgeRequirement(18)</code></p>
+<pre><code class="language-text">//MinimumAgePolicyProvider.cs
+internal class MinimumAgePolicyProvider : IAuthorizationPolicyProvider
+{
+    const string POLICY_PREFIX = &quot;MinimumAge&quot;;
+
+    public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
+
+    public MinimumAgePolicyProvider(IOptions&lt;AuthorizationOptions&gt; options)
+    {
+        FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
+    }
+
+    public Task&lt;AuthorizationPolicy&gt; GetPolicyAsync(string policyName)
+    {
+        if (policyName.StartsWith(POLICY_PREFIX, StringComparison.OrdinalIgnoreCase) &amp;&amp;
+            int.TryParse(policyName.Substring(POLICY_PREFIX.Length), out var age))
+        {
+            var policy = new AuthorizationPolicyBuilder();
+            policy.AddRequirements(new MinimumAgeRequirement(age));
+            return Task.FromResult(policy.Build());
+        }
+
+        return Task.FromResult&lt;AuthorizationPolicy&gt;(null);
+    }
+
+    public Task&lt;AuthorizationPolicy&gt; GetDefaultPolicyAsync() =&gt; FallbackPolicyProvider.GetDefaultPolicyAsync();
+
+    public Task&lt;AuthorizationPolicy?&gt; GetFallbackPolicyAsync() =&gt; Task.FromResult&lt;AuthorizationPolicy?&gt;(null);
+}
+</code></pre>
+<pre><code class="language-text">//Program.cs
+builder.Services.AddSingleton&lt;IAuthorizationPolicyProvider, MinimumAgePolicyProvider&gt;();
+builder.Services.AddSingleton&lt;IAuthorizationHandler, MinimumAgeAuthorizationHandler&gt;();
+</code></pre>
+<p>最後我們到 <code>WeatherForecastController</code> 改用我們剛剛建立的標籤，意思明確許多並且也能達到同樣的結果</p>
+<pre><code class="language-text">[MinimumAgeAuthorize(18)]
+public class WeatherForecastController : ControllerBase
+</code></pre>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天學習了如何客製化自己的授權邏輯，在某些框架中的授權系統也是使用相同的邏輯來建立出一套複雜的授權系統</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.4" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dotnet-identity-policy-customize'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script defer src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
