@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;">
+
+  <title>Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dotnet-identity-external-provider-google'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dotnet-identity-external-provider-google' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/fontawesome-free/css/allv1.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+  -->
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" />
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" rel="stylesheet" media="screen" onload="this.media='all'">
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EBB8LGKD99');</script>
+
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5291595453969856" crossorigin="anonymous"></script>
+  -->
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;
+          </h1>
+            <span class="subheading">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</span>
+            <div class="meta">Published on Saturday, April 22, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
+                  <a href="/tags/identity" class="badge text-bg-light"> Identity</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="net-core-identity-google-external-provider">.NET Core Identity Google External Provider</h1>
+<p>今天來學習如何在 .Net 中使用第三方登入, 我們之前在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面了解
+微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>
+<p>在使用之前需要先到<a href="https://console.cloud.google.com/apis" target="_blank">Google API &amp; Services</a> 申請一組 <code>Client ID</code> 和 <code>Client Secret</code> ，詳細可以參考 <a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-7.0" target="_blank">微軟文檔</a>
+需要注意填入 redirect URI 為 <code>https://localhost:{PORT}/signin-google</code> 其中 <code>{PORT}</code> 為自己專案的端口，<code>signin-google</code> 為預設路徑可以不用修改</p>
+<p>接下來在我們專案開啟 UserSecrets 功能,並且添加我們剛剛保存的 Id 跟 Secret</p>
+<pre><code class="language-text">dotnet user-secrets init
+
+dotnet user-secrets set &quot;Authentication:Google:ClientId&quot; &quot;&lt;client-id&gt;&quot;
+dotnet user-secrets set &quot;Authentication:Google:ClientSecret&quot; &quot;&lt;client-secret&gt;&quot;
+</code></pre>
+<p>完成後回到我們的專案添加新的 Google Package</p>
+<pre><code class="language-text">dotnet add package Microsoft.AspNetCore.Authentication.Google
+</code></pre>
+<p>並且到 <code>Program.cs</code> 加入新的 Google 驗證</p>
+<pre><code class="language-text">builder.Services
+    .AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddCookie(IdentityConstants.ApplicationScheme,options =&gt;
+    {
+        options.ExpireTimeSpan = TimeSpan.FromSeconds(10);
+    }).AddGoogle(IdentityConstants.ExternalScheme,o =&gt;
+    {
+        o.ClientId = configuration[&quot;Authentication:Google:ClientId&quot;];
+        o.ClientSecret = configuration[&quot;Authentication:Google:ClientSecret&quot;];
+    });;
+</code></pre>
+<p>最後到 <code>AccountController.cs</code> 新增一個 Controller</p>
+<pre><code class="language-text">[HttpGet(template: &quot;~/externalSignin&quot;, Name = &quot;ExternalSignin&quot;)]
+public async Task ExternalSignin()
+{
+    await HttpContext.ChallengeAsync(IdentityConstants.ExternalScheme,
+        new AuthenticationProperties()
+        {
+            RedirectUri = &quot;/swagger/index.html&quot;
+        });
+}
+</code></pre>
+<p>完成之後運行專案發送請求之後發現 Response Headers 裡的 location 會帶入 Google 登入的連結</p>
+<pre><code class="language-text">https://accounts.google.com/o/oauth2/v2/auth
+    ?response_type=code
+    &amp;client_id=4346799237-7d033l9p89o0rjavo0j2blvk3k7eqltg.apps.googleusercontent.com
+    &amp;redirect_uri=https://localhost:7011/signin-google
+    &amp;scope=openid profile email
+    &amp;state=CfDJ8N83xunRSMFEnHYjbQSeE4ThIgXpHDiNr336vaI0A2XGr9OV_MvVQVuyB8JMzrcWdeTRLZXsWKvgu6C6ReIwWXTKvpzZjUcd_sFNVsyoDy9RosuoHu_gy4R4_SvXvN6gi3KC190ySBQ7Nv4CL1idpD30BqKFSgOgSPQnqk1MoAfdYFeCshQfwuOs8ae-HgSkyyA7Kt-OXTqHNfn5XVtmLLGdCL122B5295qYqY2S_eDL
+</code></pre>
+<p>我們可以手動在瀏覽器開啟此連結，瀏覽器會跳出我們經常使用的 Google 登入，並且要求使用者允許提供資料
+按下同意之後 Google 會根據一開始設定的 redirect URI 進行轉跳回到我們的專案</p>
+<pre><code class="language-text">https://localhost:7011/signin-google
+    ?state=CfDJ8N83xunRSMFEnHYjbQSeE4RycERh7J02o8Qr90pBqpvCZIirwM5OpIWQbs0ao3Uz1NMD3nSpL_QAhwBI3DAD414_XYmzAPCNEpaNoY_cMCC8C0JVNOzccry8N-l6r307VjXLfO75_XGYY-iMn3WffbYb6KjeTh6KdGAX42PSN0taT_NC7oROcMI5WRs1wsEbMtd8osvpsIAWMfMldS3wo7xMKL4OIporbl6UrFayVy3M
+    &amp;code=8/2B69qvKQkKtbceUNphCzkYa6BS7y3NVM-PgDBy9ckf3dKsvST2KfWNqRVGwCZntRtFbDWBM
+    &amp;scope=email+profile+openid+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile
+    &amp;authuser=0
+    &amp;prompt=none
+</code></pre>
+<p>同時專案 GoogleHandler 會運行 <code>CreateTicketAsync</code> 方法並處理剩下的流程 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/Google/src/GoogleHandler.cs" target="_blank">GoogleHandler.cs</a><br />
+這段流程中最重要的是 Google 會傳給你 AccessToken 也叫做 Authentication Code，程式接收到之後會再拿這組 AccessToken 去請求 Google 的資源伺服器
+最後 Google 資源伺服器驗證成功之後才會給我們使用者的私人資料</p>
+<p>到此我們可以得知上面第一個請求 <code>https://accounts.google.com/o/oauth2/v2/auth</code> 是去跟驗證伺服器要一個臨時的通行證，因為有設定 scope
+所以這個通行證的使用範圍會受到限制，並且會請問使用者允不允許提供這些資料給我們的網站，得到允許之後 Google 會帶著 AccessToken 發起我們網站設定的路徑請求
+也就是上面第二個請求 <code>https://localhost:7011/signin-google</code> 因為 AccessToken 只有要求查看 <code>openid profile email</code> 這三個內容並且
+使用者只同意我們網站查看這三份資料的內容，我們最後到資源伺服器也只能拿到三份資料的內容最後 OAuthCreatingTicketContext 會根據資源伺服器給我們的資料
+建立出一個 ClaimsPrincipal 也可以理解成 User 並且設定到 HttpContext 內部，我們就可以認定使用者是登入成功了</p>
+<p>可以使用之前建立的方法來取得 HttpContext 目前登入 User 的 Claim 來驗證看看 <code>https://localhost:7011/listHttpContextClaim</code></p>
+<pre><code class="language-text">[
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier&quot;,
+      &quot;Value&quot;: &quot;112873595873311851878&quot;
+    }
+  },
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name&quot;,
+      &quot;Value&quot;: &quot;Allen Gao&quot;
+    }
+  },
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname&quot;,
+      &quot;Value&quot;: &quot;Allen&quot;
+    }
+  },
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname&quot;,
+      &quot;Value&quot;: &quot;Gao&quot;
+    }
+  },
+  {
+    &quot;claim&quot;: {
+      &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress&quot;,
+      &quot;Value&quot;: &quot;allengaodev&#64;gmail.com&quot;
+    }
+  }
+]
+</code></pre>
+<h1 id="summary">Summary</h1>
+<p>今天學習了如何使用 OAuth2 來取得外部使用者的資料，不過有一個問題是這個外部使用者跟我們當初呼叫 CreateUser 建立的使用者不太一樣
+因為他並沒有添加到資料庫內部，所以之後有些權限相關的問題可能會造成困擾例如之前建立的年齡驗證，我們的外部使用者因為沒有在資料庫建立 IdentityUser
+所以並沒有辦法添加生日的 Claims，這個問題會在之後解決</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dotnet-identity-external-provider-google'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script defer src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
