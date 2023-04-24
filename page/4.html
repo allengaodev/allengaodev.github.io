@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
     <meta name="description" content="&#x4E3B;&#x8981;&#x5BEB;&#x4E00;&#x4E9B;&#x6709;&#x95DC;.Net&#x7684;&#x7B46;&#x8A18;&#x8207;&#x6E2C;&#x8A66;&#x7D50;&#x679C;">
@@ -107,6 +108,16 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/mongodb-docker-install">&#x4F7F;&#x7528; Docker &#x5FEB;&#x901F;&#x5EFA;&#x7ACB; MongoDB &#x6E2C;&#x8A66;&#x74B0;&#x5883;</a></h2>
+  <p class="post-meta">Published on Friday, March 24, 2023</p>
+<p>最近在學習 MongoDB 的基礎，需要快速建立出一個練習環境，因為只會輸入練習用的資料所以資料不需要持久化因此這次使用 Docker 來建立我們的環境<br>
+首先看看 MongoDB 的官方安裝<a href="https://www.mongodb.com/docs/manual/tutorial/install-mongodb-community-with-docker/" target="_blank">文檔</a>
+這邊官方文檔是使用 <code>mongodb/mongodb-community-server</code> 這個 image ，此 image 是由 mongodb 官方負責維護的<br>
+不過還有另一個比較多人使用的 image <code>mongo</code> 這個是由 docker 官方社區負責維護的，可以按照自己的需求進行挑選，這篇文章將使用 <code>mongo</code> 這個 image</p>    <p class="small"><a href="/posts/mongodb-docker-install">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-compose-command-config">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Command Config</a></h2>
   <p class="post-meta">Published on Monday, March 13, 2023</p>
 <p>我們在前幾篇的文章只有使用到一個命令 <code>docker compose up -d</code><br>
@@ -119,15 +130,6 @@
   <p class="post-meta">Published on Saturday, March 11, 2023</p>
 <p>今天要來學習如何在 Docker Compose 設定環境變數讓我們可以在 container 內部使用，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#environment" target="_blank">文檔</a><br>
 首先先建立環境與輸入以下內容</p>    <p class="small"><a href="/posts/dca-compose-yaml-env">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-compose-yaml-ports">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Ports</a></h2>
-  <p class="post-meta">Published on Friday, March 10, 2023</p>
-<p>今天要來學習如何在 Docker Compose 開放 Port 讓我們可以使用到 container 提供的服務，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#ports" target="_blank">文檔</a><br>
-用法也跟之前類似，之前的作法是需要先在 Dockerfile 設定要開放的 container port， 之後在 <code>docker run</code> 帶入 <code>-p</code> 參數，指定要和哪個 Host port 進行綁定<br>
-在docker compose 中也是要先在 Dockerfile 設定，之後在 docker-compose.yml 中進行設定</p>    <p class="small"><a href="/posts/dca-compose-yaml-ports">Read more...</a></p>
 </div>
 
   <div>
@@ -146,10 +148,10 @@
             <h3>Tags</h3>
               <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-              <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (8)</a>
-              <a href="/tags/csharp" class="badge text-bg-light"> CSharp (8)</a>
+              <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (9)</a>
+              <a href="/tags/csharp" class="badge text-bg-light"> CSharp (9)</a>
               <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-              <a href="/tags/identity" class="badge text-bg-light"> Identity (5)</a>
+              <a href="/tags/identity" class="badge text-bg-light"> Identity (6)</a>
               <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
               <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
               <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
