@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins">
+
+  <title>Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</title>
+
+
+  <link rel="canonical" href='https://allengaodev.github.io/posts/dotnet-identity-user-logins'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Gao.Dev - &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://allengaodev.github.io/posts/dotnet-identity-user-logins' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/fontawesome-free/css/allv1.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+  -->
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" />
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" rel="stylesheet" media="screen" onload="this.media='all'">
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EBB8LGKD99');</script>
+
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5291595453969856" crossorigin="anonymous"></script>
+  -->
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            &#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins
+          </h1>
+            <span class="subheading">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</span>
+            <div class="meta">Published on Monday, April 17, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
+                  <a href="/tags/identity" class="badge text-bg-light"> Identity</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="net-core-identity-aspnetuserlogins">.NET Core Identity AspNetUserLogins</h1>
+<p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
+所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>
+<p>開始寫程式之前我們先了解一下 .NET Core Identity 內建的 Class <code>IdentityUserLogin</code><br />
+我們之前已經學習過<code>IdentityUser</code> 和 <code>IdentityUserClaim</code> 現在要學習的 <code>IdentityUserLogin</code> 從名稱來看不是很好理解
+第一眼看很像是負責紀錄會員登入次數的表，我們先看看 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Stores/src/IdentityUserLogin.cs" target="_blank">Github</a> 上有沒有說明的註解</p>
+<pre><code class="language-text">public class IdentityUserLogin&lt;TKey&gt; where TKey : IEquatable&lt;TKey&gt;
+{
+    /// &lt;summary&gt;
+    /// Gets or sets the login provider for the login (e.g. facebook, google)
+    /// &lt;/summary&gt;
+    public virtual string LoginProvider { get; set; } = default!;
+
+    /// &lt;summary&gt;
+    /// Gets or sets the unique provider identifier for this login.
+    /// &lt;/summary&gt;
+    public virtual string ProviderKey { get; set; } = default!;
+
+    /// &lt;summary&gt;
+    /// Gets or sets the friendly name used in a UI for this login.
+    /// &lt;/summary&gt;
+    public virtual string? ProviderDisplayName { get; set; }
+
+    /// &lt;summary&gt;
+    /// Gets or sets the primary key of the user associated with this login.
+    /// &lt;/summary&gt;
+    public virtual TKey UserId { get; set; } = default!;
+}
+</code></pre>
+<p>從註解中可以了解到這個 Class 是用來對應外部登入的會員與內部會員的表，可以猜測到表內會有以下類似的內容</p>
+<pre><code class="language-text">LoginProvider = &quot;Google&quot;
+ProviderKey = &quot;112873593891211851878&quot;
+ProviderDisplayName = &quot;Allen Gao&quot;
+UserId = &quot;c905d70c-d538-4190-b30a-5a0928dbee0f&quot;
+</code></pre>
+<p>這邊 <code>ProviderKey</code> 為外部系統提供的唯一編號，以 Google 為例在登入後 HttpContext 的 Claim 會新增 nameidentifier 提供一組 Google 內部的唯一會員編號
+另外是 <code>UserId</code> 是我們內部系統的唯一編號以我們的系統為例就是使用 <code>GUID</code> 編號</p>
+<p>所以根據以上信息我們需要完成兩件事情</p>
+<ol>
+<li>在會員按下同意授權後 Google 會呼叫 redirect URI 之後由 GoogleHandler 進行處理，我們需要想辦法在這段邏輯中插入我們的註冊程式碼</li>
+<li>運行我們註冊程式碼時需要將對應資料新增到 IdentityUserLogin 表</li>
+</ol>
+<pre><code class="language-text">CREATE TABLE dbo.AspNetUserLogins (
+    LoginProvider character varying(128) NOT NULL,
+    ProviderKey character varying(128) NOT NULL,
+    ProviderDisplayName text NULL,
+    UserId text NOT NULL,
+    CONSTRAINT PK_AspNetUserLogins PRIMARY KEY (LoginProvider, ProviderKey),
+    CONSTRAINT FK_AspNetUserLogins_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES dbo.AspNetUsers (Id) ON DELETE CASCADE
+);
+
+CREATE INDEX IX_AspNetUserLogins_UserId ON dbo.AspNetUserLogins (UserId);
+</code></pre>
+<p>並且到 <code>CustomUserStore</code> 實做新界面 <code>IUserLoginStore&lt;IdentityUser&gt;</code></p>
+<pre><code class="language-text">Task AddLoginAsync(TUser user, UserLoginInfo login, CancellationToken cancellationToken);
+Task&lt;TUser?&gt; FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken);
+</code></pre>
+<p>最後到 <code>AccountController</code>  修改 ExternalSignin 方法，並新增 ExternalLoginCallback 方法</p>
+<pre><code class="language-text">[HttpGet(template: &quot;~/externalSignin&quot;, Name = &quot;ExternalSignin&quot;)]
+public async Task ExternalSignin()
+{
+    await _signInManager.SignOutAsync();
+    var properties = _signInManager.ConfigureExternalAuthenticationProperties(
+        GoogleDefaults.AuthenticationScheme,
+        &quot;/externalLoginCallback&quot;);
+    await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, properties);        
+}
+
+[HttpGet(template: &quot;~/externalLoginCallback&quot;, Name = &quot;ExternalLoginCallback&quot;)]
+public async Task&lt;IActionResult&gt; ExternalLoginCallback(string returnUrl = null)
+{
+    var info = await _signInManager.GetExternalLoginInfoAsync();
+    var userEmail = info.Principal.FindFirst(ClaimTypes.Email)?.Value.Normalize();
+
+    var result = await _signInManager.ExternalLoginSignInAsync(
+        info.LoginProvider,
+        info.ProviderKey,
+        isPersistent: true,
+        bypassTwoFactor: true
+    );
+
+    if (result.Succeeded)
+        return Redirect(&quot;/swagger&quot;);
+    
+    var user = await _userManager.FindByNameAsync(userEmail);
+    if (user == null)
+    {
+        var identityUser = new IdentityUser(userEmail);
+        await CreateUser(identityUser.UserName);
+        await AddClaim(identityUser.UserName);
+        user = await _userManager.FindByNameAsync(userEmail);
+    }
+
+    var userLogin = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+    if (userLogin == null)
+    {
+        await _userManager.AddLoginAsync(user, new UserLoginInfo(
+            info.LoginProvider,
+            info.ProviderKey,
+            info.ProviderDisplayName
+        ));
+    }
+    
+    await _signInManager.SignOutAsync();
+    await _signInManager.SignInAsync(user, isPersistent: true);
+
+    return Redirect(&quot;/swagger&quot;);
+}
+</code></pre>
+<p>調整 Program.cs 驗證方法</p>
+<pre><code class="language-text">.AddAuthentication(o =&gt;
+{
+    o.DefaultScheme = IdentityConstants.ApplicationScheme;
+})
+.AddCookie(IdentityConstants.ExternalScheme, o =&gt;
+{
+    o.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+})
+.AddGoogle(GoogleDefaults.AuthenticationScheme, o =&gt;
+{
+    o.ClientId = configuration[&quot;Authentication:Google:ClientId&quot;];
+    o.ClientSecret = configuration[&quot;Authentication:Google:ClientSecret&quot;];
+    o.SignInScheme = IdentityConstants.ExternalScheme;
+});
+</code></pre>
+<p>這裡有設定 DefaultScheme 所以當我們執行一般本地登入時會在瀏覽器寫入一個新的 Cookie 叫做 <code>.AspNetCore.Identity.Application</code>
+另外在執行 Google 登入時因為有額外設定 SignInScheme 所以會將外部登入的狀態保存到另一個 Cookie 叫做 <code>.AspNetCore.Identity.External</code></p>
+<p>如果沒有設定 SignInScheme 那麼登入的 Cookie 還是會使用預設的 Scheme <code>.AspNetCore.Identity.Application</code>
+這邊沒有設定好的話呼叫 SignInManager 內部提供的方法會造成問題，例如 GetExternalLoginInfoAsync 方法裡固定會去檢查 <code>.AspNetCore.Identity.External</code></p>
+<p>回到 AccountController 的 ExternalSignin方法執行完成後會轉跳到新增加的 ExternalLoginCallback 方法<br />
+這邊可以使用 GetExternalLoginInfoAsync 方法會取得遠端登入 User 的基本資料<br />
+如果第一次登入 ExternalLoginSignInAsync 因為會找不到本地會員所以結果會是失敗，失敗的話會使用Email去註冊一個新的本地會員
+第二次後 ExternalLoginSignInAsync 這個方法會透過輸入的 LoginProvider(Google) 與 ProviderKey(112873593891211851878) 這兩個參數可以對應到本地的 IdentityUser 並且直接登入</p>
+<p>有了這樣的架構如果之後增加 Facebook 或者其他登入時，因為會有另一組 LoginProvider(Facebook) 與 ProviderKey(292908172340981234878)
+不需要在新增本地 User 所以只要直接寫入到 AspNetUserLogins，這樣就可以使用不同的 LoginProvider 登入到同一個本地 User</p>
+<h1 id="summary">Summary</h1>
+<p>今天了解了 AspNetUserLogins 的運作原理，有了這個表後就可以同時使用許多種的外部登入方式而且只會對應到同一個本地使用者上，
+並不會用 Google 登入就建立一個或用 Facebook 登入就建立一個，或者整個網站只支援一個外部登入方式</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/releases/tag/1.6" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://allengaodev.github.io/posts/dotnet-identity-user-logins'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://allengaodev.github.io'> allengaodev.github.io</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script defer src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
