@@ -170,8 +170,10 @@ string? ClaimValue
     ClaimType text NULL,
     ClaimValue text NULL,
     CONSTRAINT PK_AspNetUserClaims PRIMARY KEY (Id),
-    CONSTRAINT FK_AspNetUserClaims_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES AspNetUsers (Id) ON DELETE CASCADE
+    CONSTRAINT FK_AspNetUserClaims_AspNetUsers_UserId FOREIGN KEY (UserId) REFERENCES dbo.AspNetUsers (Id) ON DELETE CASCADE
 );
+
+CREATE INDEX IX_AspNetUserClaims_UserId ON dbo.AspNetUserClaims (UserId);
 </code></pre>
 <p>並且到 <code>CustomUserStore</code> 實做新界面 <code>IUserClaimStore&lt;IdentityUser&gt;</code></p>
 <pre><code class="language-text">Task&lt;IList&lt;Claim&gt;&gt; GetClaimsAsync(TUser user, CancellationToken cancellationToken);
