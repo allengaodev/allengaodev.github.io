@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<id>https://allengaodev.github.io/</id>
+	<id>https://blog.allengaodev.com/</id>
 	<title>開發空間</title>
-	<link rel="self" href="https://allengaodev.github.io/" />
+	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© Allen Gao 2023</rights>
-	<updated>2023-04-30T09:49:17Z</updated>
+	<updated>2023-05-03T04:03:33Z</updated>
 </feed>
