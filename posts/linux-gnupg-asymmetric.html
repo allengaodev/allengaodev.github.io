@@ -8,7 +8,7 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
     <meta name="description" content="&#x4FDD;&#x969C;&#x8CC7;&#x6599;&#x5B89;&#x5168;&#xFF1A;&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;">
 
-  <title>Gao.Dev - &#x4E3B;&#x8981;&#x5BEB;&#x4E00;&#x4E9B;&#x6709;&#x95DC;.Net&#x7684;&#x7B46;&#x8A18;&#x8207;&#x6E2C;&#x8A66;&#x7D50;&#x679C;</title>
+  <title>&#x4FDD;&#x969C;&#x8CC7;&#x6599;&#x5B89;&#x5168;&#xFF1A;&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;</title>
 
 
   <link rel="canonical" href='https://blog.allengaodev.com/posts/linux-gnupg-asymmetric'>
@@ -20,7 +20,7 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Gao.Dev - &#x4E3B;&#x8981;&#x5BEB;&#x4E00;&#x4E9B;&#x6709;&#x95DC;.Net&#x7684;&#x7B46;&#x8A18;&#x8207;&#x6E2C;&#x8A66;&#x7D50;&#x679C;' />
+  <meta property="og:title" content='&#x4FDD;&#x969C;&#x8CC7;&#x6599;&#x5B89;&#x5168;&#xFF1A;&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;' />
   <meta property="og:type" content="website" />
   <meta property="og:url" content='https://blog.allengaodev.com/posts/linux-gnupg-asymmetric' />
 
@@ -81,7 +81,7 @@
       <div class="col-md-12">
         <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com'>&#x4FDD;&#x969C;&#x8CC7;&#x6599;&#x5B89;&#x5168;&#xFF1A;&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;</a>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/linux-gnupg-asymmetric'>&#x4FDD;&#x969C;&#x8CC7;&#x6599;&#x5B89;&#x5168;&#xFF1A;&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;</a>
               <span class="subheading">&#x4FDD;&#x969C;&#x8CC7;&#x6599;&#x5B89;&#x5168;&#xFF1A;&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;</span>
           </h1>
             <div class="meta">Published on Wednesday, March 29, 2023</div>
@@ -101,7 +101,7 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h1 id="gnupg-encryption">GnuPG Encryption</h1>
-<p>在昨天的<a href="https://allengaodev.github.io/posts/linux-gnupg-sign" target="_blank">文章</a> 中，學習到目前在 Linux 環境中是如何對軟體進行簽章的<br />
+<p>在昨天的<a href="https://blog.allengaodev.com/posts/linux-gnupg-sign" target="_blank">文章</a> 中，學習到目前在 Linux 環境中是如何對軟體進行簽章的<br />
 今天要來學習另一個主要的功能就是『非對稱加密』，跟我們在使用壓縮軟體時對壓縮檔加密的『對稱加密』方式不同
 『非對稱加密』需要一組密鑰，一個『公開』的密鑰與一個『私人』的密鑰，在昨天的範例中也有提到相關的例子</p>
 <p>作者在進行簽章時需要先產生一組密鑰，會利用作者的私人的密鑰進行加密，之後下載人要導入作者的公鑰對下載的軟體進行驗證，確保下載的檔案是沒有被竄改的<br />
