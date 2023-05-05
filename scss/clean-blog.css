@@ -3469,7 +3469,7 @@ blockquote { font-style: italic; color: #6c757d; }
 
 footer { padding-top: 3rem; padding-bottom: 3rem; }
 
-header.masthead { position: relative; margin-bottom: 3rem; padding-top: calc(8rem + 57px); padding-bottom: 8rem; background: no-repeat center center; background-color: #6c757d; background-size: cover; background-attachment: scroll; }
+header.masthead { position: relative; margin-bottom: 3rem; padding-top: calc(5.5rem + 57px); padding-bottom: 5.5rem; background: no-repeat center center; background-color: #6c757d; background-size: cover; background-attachment: scroll; }
 
 header.masthead:before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #212529; opacity: 0.5; }
 
@@ -3491,7 +3491,7 @@ header.masthead .post-heading .meta { font-size: 1.25rem; font-weight: 300; font
 
 header.masthead .post-heading .meta a { color: #fff; }
 
-@media (min-width: 992px) { header.masthead { padding-top: 12.5rem; padding-bottom: 12.5rem; }
+@media (min-width: 992px) { header.masthead { padding-top: 7.5rem; padding-bottom: 7.5rem; }
   header.masthead .page-heading h1, header.masthead .page-heading .h1, header.masthead .site-heading h1, header.masthead .site-heading .h1 { font-size: 5rem; }
   header.masthead .post-heading h1, header.masthead .post-heading .h1 { font-size: 3.5rem; }
   header.masthead .post-heading .subheading { font-size: 1.875rem; } }
