@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI">
+
+  <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/dotnet-identity-server-ui'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/dotnet-identity-server-ui' />
+
+  <link rel="icon" href='/favicon.ico'>
+
+  <!-- Custom fonts for this template
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/fontawesome-free/css/allv1.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" data-no-mirror>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" data-no-mirror>
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+  -->
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" />
+  <link href="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/scss/clean-blog.css" rel="stylesheet" media="screen" onload="this.media='all'">
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EBB8LGKD99');</script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/dotnet-identity-server-ui'>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</a>
+              <span class="subheading">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</span>
+          </h1>
+            <div class="meta">Published on Friday, May 5, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/csharp" class="badge text-bg-light"> CSharp</a>
+                  <a href="/tags/identity" class="badge text-bg-light"> Identity</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h1 id="identity-server-ui">Identity Server UI</h1>
+<p>在上一篇的文章我們跟著 Identity Server 的官方教學照做了一遍，不過用起來跟 Google 好像不太一樣
+我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>
+<p>因為我們昨天建立的專案為最基礎的專案，所以並沒有把一些 UI 添加進來今天就來試試看幫我們的專案添加 UI</p>
+<p>轉跳到 IdentityServer 專案並且運行命令</p>
+<pre><code class="language-text">cd .\IdentityServer\
+dotnet new isui
+</code></pre>
+<p><code>dotnet new isui</code> 只會幫忙添加一些 Razor 頁面以及 css js，並不會建立一個獨立專案
+想要一口氣建立 UI 以及 Server 可以改用以下命令</p>
+<pre><code class="language-text">dotnet new isinmem
+</code></pre>
+<p><code>dotnet new isui</code>  運行完成後會在專案底下發現多了兩個資料夾</p>
+<pre><code class="language-text">Pages
+wwwroot
+</code></pre>
+<p>緊接著開啟 <code>HostingExtensions.cs</code> 檔案會發現有幾個之前就存在的註釋
+因為 IdentityServer 已經預留好了所以我們這邊只需要將註釋解除即可</p>
+<pre><code class="language-text">// uncomment if you want to add a UI
+builder.Services.AddRazorPages();
+
+// uncomment if you want to add a UI
+app.UseStaticFiles();
+app.UseRouting();
+
+// uncomment if you want to add a UI
+app.UseAuthorization();
+app.MapRazorPages().RequireAuthorization();
+</code></pre>
+<p>為了使用 Razor Pages 模板這些都是必要的方法
+MapRazorPages().RequireAuthorization() 方法代表所有 Razor 頁面都需要權限</p>
+<hr />
+<h1 id="scope">Scope</h1>
+<p>接下來修改 <code>Config.cs</code> 需要在 IdentityResources 添加新的 Resource</p>
+<pre><code class="language-text">public static IEnumerable&lt;IdentityResource&gt; IdentityResources =&gt;
+    new List&lt;IdentityResource&gt;
+    {
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile(),
+    };
+</code></pre>
+<p>這邊 IdentityResources 與 ApiScopes 概念類似兩者都歸類在 Scope 請求底下
+舉個例子當我們按下外部登入時程式會組裝出以下連結</p>
+<pre><code class="language-text">https://accounts.google.com/o/oauth2/v2/auth
+    ?client_id=4346799237-7d033l9pdco0rjwvo0j2blvk3k7eqltg.apps.googleusercontent.com
+    &amp;redirect_uri=https://localhost:7011/signin-google
+    &amp;response_type=code
+    &amp;scope=openid profile email
+    &amp;code_challenge=EYk_nrePzsLEMnZ6odivW-7yepzTHQtcy9x48wLz8o0
+    &amp;code_challenge_method=S256
+    &amp;response_mode=form_post
+    &amp;nonce=638186960320580862.NGFiZjVkN2UtMjZjYS00YWMzLWFkMDMtMTlkMDFlY2Y3ZTgyMDEyMGU4ZGMtOTgwYi00OGNlLWIzOTctMWVlZjcxODcxODYw
+    &amp;state=CfDJ8N83xunRSMFEnHYjbQSeE5T18RR0kTdV2V8JG07eDwG13aShQ_yquxFbPL5XzwKeNyzT8Ci07de8DKn48qgsi_ENWwRhsMgoS9IS30rfj8mOa5JGuhbWo3Y-TcH_JgylNxhiVqFLhLezHwpA23YaViBsIGYIOR4_RrVp02Gc58BwBXKcDO5cLAbLU6414eL8OGd7By1MX6ps3T7K8m21bwH2V4F7ypDq4tPzv2myzGiY_JlmmYs0lro0tElXUgrYnPoizaPe5V-qIxsfotbFWjVFpReH1he_bQ-NnVPfT2gIuleH518imRJl9LolRiFFCz7nOJ559xZBOV0XVxYNi6NDYvCYacl5PFDyhNFDR9wq9IYuQmufIMJR09vcmVNLJ3uj7f0ap55hU9b4Pt6tneJjc0G1LJk8OIvze-aRrh9j
+    &amp;x-client-SKU=ID_NETSTANDARD2_0
+    &amp;x-client-ver=6.15.1.0
+</code></pre>
+<p>這之中有 scope 請求參數 <code>scope=openid profile email</code> 根據 <a href="https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest" target="_blank">OpenID Connect</a> 內提到的規範
+openid 有強制規範是需要添加的，所以一個最基本的 oidc 請求一定會看到 <code>scope=openid</code> 要添加其他參數需要最後新增一個空格並且打上規範的參數</p>
+<p>能添加什麼值其實在文檔內部也已經規範好了，可以參考</p>
+<ul>
+<li><a href="https://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims" target="_blank">5.4.Requesting Claims using Scope Values</a></li>
+<li><a href="https://openid.net/specs/openid-connect-core-1_0.html#OfflineAccess" target="_blank">11.Offline Access</a></li>
+</ul>
+<p>由以上兩份文件連結可以得出我們還可以添加以下幾個值</p>
+<ul>
+<li>profile</li>
+<li>address</li>
+<li>email</li>
+<li>phone</li>
+<li>offline_access</li>
+</ul>
+<p>所以不管是那一套軟體只要有遵守 OIDC 規範的軟體你都會在 <code>/.well-known/openid-configuration</code> 設定中 <code>scopes_supported</code>
+看到以上幾個值，如果沒有出現就代表那個廠商不允你使用</p>
+<p>舉例來說我寫了一個程式想要取得 Google 會員的 email 首先我需要檢查 Google 的 <code>/.well-known/openid-configuration</code>
+根據結果 Google 只允許我使用以下幾個參數，email 就是允許的其中之一</p>
+<pre><code class="language-text">&quot;scopes_supported&quot;: [
+    &quot;openid&quot;,
+    &quot;email&quot;,
+    &quot;profile&quot;
+],
+</code></pre>
+<p>最後我須要在 scope 中添加 <code>scope=openid email</code> 這動作是跟 Google 申請說我想要看會員的 email<br />
+Google 檢查 email 這個是允許查看的，最後才到 UserInfo Endpoint 取得資料</p>
+<p>還記得上一篇文章添加的 ApiScopes <code>api1</code> 嗎，一開始有提到 ApiScopes 也是歸類在 Scope 請求底下<br />
+這邊就是規範以外的值了，意思也是允使我們應用程式能夠使用哪幾些資源，例如我可以建立一個 <code>payment</code> Api<br />
+並且也是添加在 Scope 後方 <code>scope=openid email payment</code> 這樣就可以去跟我們的 Identity Server 申請我們想要使用 <code>payment</code> Api</p>
+<hr />
+<p>回到 <code>Config.cs</code> IdentityResources 可以添加的值有五個分別為，分別對應到剛剛說的內容</p>
+<ul>
+<li>OpenId</li>
+<li>Profile</li>
+<li>Address</li>
+<li>Email</li>
+<li>Phone</li>
+</ul>
+<p>由於我們已經添加 Profile 到我們專案接下來將專案運行起來
+運行專案之後可以在我們專案的 <code>/.well-known/openid-configuration</code> 設定中的 <code>scopes_supported</code> 看到以下內容
+這邊 <code>offline_access</code> 預設是會直接添加進來的</p>
+<pre><code class="language-text">&quot;scopes_supported&quot;: [
+    &quot;openid&quot;,
+    &quot;profile&quot;,
+    &quot;api1&quot;,
+    &quot;offline_access&quot;
+],
+</code></pre>
+<p>發現 <code>api1</code> 也會被包含在 <code>scopes_supported</code>裡面這也是為什麼上一篇的文章我們可以使用 <code>api1</code>
+是因為 IdentityServer 有允許申請者使用 <code>api1</code> 並且我們在請求 IdentityServer 時也有說我們想要使用 <code>api1</code>
+IdentityServer 確認後最終會給我們一個 JWT 內容有說明我們有權使用 <code>api1</code> 最後在 API 專案添加 JWT Package
+專案會有能力驗證我們帶入的 JWT 證實我們擁有使用 <code>api1</code> 的權限</p>
+<p>了解背後原理後我們開啟 <code>TestUsers.cs</code> 在這個檔案中有定義兩個會員 <code>alice</code> 和 <code>bob</code>，就如同我們在 Google 註冊新帳號的流程一樣</p>
+<pre><code class="language-text">new TestUser
+{
+    SubjectId = &quot;1&quot;,
+    Username = &quot;alice&quot;,
+    Password = &quot;alice&quot;,
+    Claims =
+    {
+        new Claim(JwtClaimTypes.Name, &quot;Alice Smith&quot;),
+        new Claim(JwtClaimTypes.GivenName, &quot;Alice&quot;),
+        new Claim(JwtClaimTypes.FamilyName, &quot;Smith&quot;),
+        new Claim(JwtClaimTypes.Email, &quot;AliceSmith&#64;email.com&quot;),
+        new Claim(JwtClaimTypes.EmailVerified, &quot;true&quot;, ClaimValueTypes.Boolean),
+        new Claim(JwtClaimTypes.WebSite, &quot;http://alice.com&quot;),
+        new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json)
+    }
+},
+</code></pre>
+<p>開啟 <code>HostingExtensions.cs</code> 呼叫 <code>AddTestUsers</code> 將剛剛定義的會員添加到系統內</p>
+<pre><code class="language-text">builder.Services.AddIdentityServer(options =&gt;
+    {
+        // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
+        options.EmitStaticAudienceClaim = true;
+    })
+    .AddInMemoryIdentityResources(Config.IdentityResources)
+    .AddInMemoryApiScopes(Config.ApiScopes)
+    .AddInMemoryClients(Config.Clients)
+    .AddTestUsers(TestUsers.Users);
+</code></pre>
+<p>此時我們將專案運行起來並訪問 <code>https://localhost:5001/</code> 會看到預設添加的首頁，我們點擊 <code>Click here to see the claims for your current session.</code>
+因為每個 Razor Page 都要求有權限所以會直接轉跳到登入頁面，此時我們可以使用剛剛建立的兩個會員來登入(帳號:alice/密碼:alice)</p>
+<p>接下來到 <code>Config.cs</code> 設定一個新的 Client
+這裡的 RedirectUris 跟我們在 Google 申請 OAuth 的用途一樣都是用來轉跳回前端頁面</p>
+<pre><code class="language-text">new Client
+{
+    ClientId = &quot;web&quot;,
+    ClientSecrets = { new Secret(&quot;secret&quot;.Sha256()) },
+
+    AllowedGrantTypes = GrantTypes.Code,
+
+    // where to redirect to after login
+    RedirectUris = { &quot;https://localhost:5002/signin-oidc&quot; },
+
+    // where to redirect to after logout
+    PostLogoutRedirectUris = { &quot;https://localhost:5002/signout-callback-oidc&quot; },
+
+    AllowedScopes = new List&lt;string&gt;
+    {
+        IdentityServerConstants.StandardScopes.OpenId,
+        IdentityServerConstants.StandardScopes.Profile
+    }
+}
+</code></pre>
+<p>這次我們添加一個 Razor 專案來模擬前端請求頁面</p>
+<pre><code class="language-text">dotnet new webapp -n WebClient
+cd ..
+dotnet sln add ./src/WebClient/WebClient.csproj
+</code></pre>
+<p>WebClient 專案新增 OpenIdConnect Package</p>
+<pre><code class="language-text">dotnet add package Microsoft.AspNetCore.Authentication.OpenIdConnect
+</code></pre>
+<p>接下來在 <code>Program.cs</code> 添加 Cookie 與 OpenId 這部份可以參考以前的文章有詳細討論過</p>
+<ul>
+<li><a href="https://blog.allengaodev.com/posts/dotnet-identity-oauth-oidc" target="_blank">oidc</a></li>
+<li><a href="https://blog.allengaodev.com/posts/dotnet-identity-user-logins" target="_blank">user-logins</a></li>
+</ul>
+<pre><code class="language-text">JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
+builder.Services.AddAuthentication(options =&gt;
+    {
+        options.DefaultScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultChallengeScheme = &quot;IdentityServerOidc&quot;;
+    })
+    .AddCookie(IdentityConstants.ApplicationScheme)
+    .AddOpenIdConnect(&quot;IdentityServerOidc&quot;, options =&gt;
+    {
+        options.Authority = &quot;https://localhost:5001&quot;;
+
+        options.ClientId = &quot;web&quot;;
+        options.ClientSecret = &quot;secret&quot;;
+        options.ResponseType = &quot;code&quot;;
+
+        options.Scope.Clear();
+        options.Scope.Add(&quot;openid&quot;);
+        options.Scope.Add(&quot;profile&quot;);
+        options.GetClaimsFromUserInfoEndpoint = true;
+
+        options.SaveTokens = true;
+    });
+</code></pre>
+<pre><code class="language-text">app.UseAuthentication();
+app.UseAuthorization();
+app.MapRazorPages().RequireAuthorization();;
+</code></pre>
+<p>這邊我們將每個頁面都設定需要權限才能觀看，如果我們打開任何一個頁面會先檢查瀏覽器 Cookie DefaultScheme 看看存不存在
+之後發起 Challenge 也就是這裡設定的 <code>IdentityServerOidc</code> 並且運行 HandleChallengeAsync 將我們的頁面轉跳到 IdentityServer</p>
+<p>修改 <code>Pages/Index.cshtml</code> 的內容，會去讀取目前登入的會員並且列出所有的 Claim</p>
+<pre><code class="language-text">&#64;page
+&#64;model IndexModel
+
+&#64;using Microsoft.AspNetCore.Authentication
+
+&lt;h2&gt;Claims&lt;/h2&gt;
+
+&lt;dl&gt;
+    &#64;foreach (var claim in User.Claims)
+    {
+        &lt;dt&gt;&#64;claim.Type&lt;/dt&gt;
+        &lt;dd&gt;&#64;claim.Value&lt;/dd&gt;
+    }
+&lt;/dl&gt;
+
+&lt;h2&gt;Properties&lt;/h2&gt;
+
+&lt;dl&gt;
+    &#64;foreach (var prop in (await HttpContext.AuthenticateAsync()).Properties.Items)
+    {
+        &lt;dt&gt;&#64;prop.Key&lt;/dt&gt;
+        &lt;dd&gt;&#64;prop.Value&lt;/dd&gt;
+    }
+&lt;/dl&gt;
+</code></pre>
+<p>完成後先將 IdentityServer 專案之後運行 WebClient，瀏覽器輸入 WebClient 的網址因為有阻擋的原因
+頁面會先轉跳到 IdentityServer <code>https://localhost:5001/</code> 要求我們先進行登入，完成登入之後會在次
+轉跳回 WebClient 並且列出會員所有的 Claim</p>
+<p>成功登入後我們還需要登出頁面，我們登入成功會在瀏覽器紀錄一個 cookie <code>.AspNetCore.Identity.Application</code>
+要登出只要直接將此 cookie 清除即可完成，另外如果 Oidc Server 有支援 <code>end_session_endpoint</code> 可以另外到 Oidc Server
+清除遠端服務器的 cookie 最後在轉跳回原頁面</p>
+<pre><code class="language-text">dotnet new page -n Signout
+</code></pre>
+<pre><code class="language-text">public class SignoutModel : PageModel
+{
+    public IActionResult OnGet()
+    {
+        return SignOut(&quot;Cookies&quot;, &quot;oidc&quot;);
+    }
+}
+</code></pre>
+<p>最後到 <code>_Layout.cshtml</code> 在 navbar 新增登出按鈕</p>
+<pre><code class="language-text">&lt;li class=&quot;nav-item&quot;&gt;
+    &lt;a class=&quot;nav-link text-dark&quot; asp-area=&quot;&quot; asp-page=&quot;/Signout&quot;&gt;Signout&lt;/a&gt;
+&lt;/li&gt;
+</code></pre>
+<hr />
+<h1 id="summary">Summary</h1>
+<p>今天學習了如何讓前端頁面使用 IdentityServer 進行登入，有了這套模式後就不用每個 APP 都建立自己的
+登入登出邏輯了，任何前端只要安裝 oidc package 後就能共用 IdentityServer 裡面的會員資料非常方便</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dotnet-identity-server-ui'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src="https://cdn.jsdelivr.net/gh/allengaodev/allengaodev.github.io@main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  <script defer src='/js/clean-blog.js'></script>
+  
+
+  
+
+</body>
+
+</html>
