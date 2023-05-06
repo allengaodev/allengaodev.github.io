@@ -105,7 +105,8 @@
 <p>之前在進入 Container 內部時經常使用到 <code>docker attach &lt;ContainerId&gt;</code> 這個命令，不過 Docker 還有提供另一個命令 <code>docker exec</code><br />
 <code>docker exec</code> 顧名思義就是在 container 內部運行一段命令，我們可以在 Host 環境底下直接將命令傳送給 container 內部<br />
 交由 container 內部的系統來運行，所以範用性比起 <code>docker attach</code> 更加的廣泛，今天要來比較這兩個命令的區別</p>
-<h1 id="docker-attach">Docker Attach</h1>
+<hr />
+<h2 id="docker-attach">Docker Attach</h2>
 <p>第一個是我們常用的 <code>docker attach</code>，首先我們先安裝 <code>tumx</code> 主要的用途是要開啟兩個 session，也可以開啟兩個 <code>putty</code> 也可以達到同樣的效果<br />
 我這邊使用的是 Play with Docker 的環境，可以使用以下命令來進行安裝</p>
 <pre><code class="language-text">apk add tmux
