@@ -1,4 +1,5 @@
-﻿User-agent: *
-Disallow:
+User-agent: *
+Disallow: /tags/*
+Disallow: /posts/$
 
 Sitemap: https://blog.allengaodev.com/sitemap
