@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="identity-server-ui">Identity Server UI</h1>
+        <h2 id="identity-server-ui">Identity Server UI</h2>
 <p>在上一篇的文章我們跟著 Identity Server 的官方教學照做了一遍，不過用起來跟 Google 好像不太一樣
 我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>
 <p>因為我們昨天建立的專案為最基礎的專案，所以並沒有把一些 UI 添加進來今天就來試試看幫我們的專案添加 UI</p>
@@ -134,7 +134,7 @@ app.MapRazorPages().RequireAuthorization();
 <p>為了使用 Razor Pages 模板這些都是必要的方法
 MapRazorPages().RequireAuthorization() 方法代表所有 Razor 頁面都需要權限</p>
 <hr />
-<h1 id="scope">Scope</h1>
+<h2 id="scope">Scope</h2>
 <p>接下來修改 <code>Config.cs</code> 需要在 IdentityResources 添加新的 Resource</p>
 <pre><code class="language-text">public static IEnumerable&lt;IdentityResource&gt; IdentityResources =&gt;
     new List&lt;IdentityResource&gt;
@@ -355,7 +355,7 @@ app.MapRazorPages().RequireAuthorization();;
 &lt;/li&gt;
 </code></pre>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天學習了如何讓前端頁面使用 IdentityServer 進行登入，有了這套模式後就不用每個 APP 都建立自己的
 登入登出邏輯了，任何前端只要安裝 oidc package 後就能共用 IdentityServer 裡面的會員資料非常方便</p>
 

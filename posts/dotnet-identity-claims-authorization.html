@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-core-identity-authorization">.NET Core Identity Authorization</h1>
+        <h2 id="net-core-identity-authorization">.NET Core Identity Authorization</h2>
 <p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
 現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>
 <p>不過我們沒有在專案設定授權相關的功能，那為什麼我們可以在我們專案直接使用 <code>[Authorize]</code> 標籤？<br />
@@ -116,7 +116,7 @@
 <p>直接使用 <code>[Authorize]</code> 標籤雖然可以達成我們的需求但是功能比較單一只能進行二分法，也就是只能分成有登入跟沒登入兩種狀態
 要進行更複雜的授權之前那就需要先了解什麼是 <code>Claim</code> 與 <code>Policy</code></p>
 <hr />
-<h1 id="claim">Claim</h1>
+<h2 id="claim">Claim</h2>
 <p>在製作網站通常會有收集會員資料的需求例如會員的生日或電話號碼，以前在關聯式資料庫可能會額外建立一個會員資料表來保存這些資料<br />
 不過在 .NET Core 中我們可以利用 Claim 的特性來直接實踐這樣的功能，首先我們先到 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Core/src/IUserClaimStore.cs" target="_blank">Github</a> 上看看原始碼<br />
 跟我們之前學習到的 <code>IUserStore</code>界面與 <code>IUserPasswordStore</code> 密碼相關功能的界面類似<br />
@@ -238,7 +238,7 @@ public string ListHttpContextClaim()
 ]
 </code></pre>
 <hr />
-<h1 id="policy">Policy</h1>
+<h2 id="policy">Policy</h2>
 <p>有了 Claim 之後並不能夠給授權系統使用我們還需要搭配 Policy 才能使用
 Policy 主要是一組限制規則，例如我們可以建立一個 Policy 要求好幾個規則</p>
 <ul>
@@ -266,7 +266,7 @@ public class WeatherForecastController : ControllerBase
 </code></pre>
 <p>如果條件都符合的話 API 才能正常回傳，否則會回傳 404</p>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天學習到了更進階的授權規則，Claim 這個概念之後在使用 JWT 時會常常提到，之後的文章會在討論</p>
 <p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.3" target="_blank">Github</a></p>
 

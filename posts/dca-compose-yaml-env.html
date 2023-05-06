@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-compose-yaml-environment">Docker Compose Yaml Environment</h1>
+        <h2 id="docker-compose-yaml-environment">Docker Compose Yaml Environment</h2>
 <p>今天要來學習如何在 Docker Compose 設定環境變數讓我們可以在 container 內部使用，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#environment" target="_blank">文檔</a><br />
 首先先建立環境與輸入以下內容</p>
 <pre><code class="language-text">mkdir mycompose &amp;&amp; cd $_
@@ -175,7 +175,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 NGINX_VERSION=1.23.3
 _=/usr/bin/env
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習了環境變數的設定方法，使用 <code>.env</code> 檔案的話 <code>docker-compose.yml</code> 會比較乾淨，通常一個功能很多的 container 需要設定許多環境變數<br />
 所以全部寫在 <code>docker-compose.yml</code> 會顯得很混亂，但是可以保持只有一個檔案存在，可以按照自己的需求來選擇該使用那一種方式</p>
 

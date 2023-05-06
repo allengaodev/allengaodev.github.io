@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-core-identity-aspnetuserlogins">.NET Core Identity AspNetUserLogins</h1>
+        <h2 id="net-core-identity-aspnetuserlogins">.NET Core Identity AspNetUserLogins</h2>
 <p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
 所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>
 <p>開始寫程式之前我們先了解一下 .NET Core Identity 內建的 Class <code>IdentityUserLogin</code><br />
@@ -237,7 +237,8 @@ public async Task&lt;IActionResult&gt; ExternalLoginCallback(string returnUrl = 
 第二次後 ExternalLoginSignInAsync 這個方法會透過輸入的 LoginProvider(Google) 與 ProviderKey(112873593891211851878) 這兩個參數可以對應到本地的 IdentityUser 並且直接登入</p>
 <p>有了這樣的架構如果之後增加 Facebook 或者其他登入時，因為會有另一組 LoginProvider(Facebook) 與 ProviderKey(292908172340981234878)
 不需要在新增本地 User 所以只要直接寫入到 AspNetUserLogins，這樣就可以使用不同的 LoginProvider 登入到同一個本地 User</p>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天了解了 AspNetUserLogins 的運作原理，有了這個表後就可以同時使用許多種的外部登入方式而且只會對應到同一個本地使用者上，
 並不會用 Google 登入就建立一個或用 Facebook 登入就建立一個，或者整個網站只支援一個外部登入方式</p>
 <p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/releases/tag/1.6" target="_blank">Github</a></p>

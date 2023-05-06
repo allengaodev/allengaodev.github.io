@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-compose">Docker Compose</h1>
+        <h2 id="docker-compose">Docker Compose</h2>
 <p>關於Docker 基礎的部份已經大致上學習完了，接下來準備進入到Docker Compose 的世界</p>
 <p>之前在學習 Dockerfile 時，我們可以透過 Dockerfile 把一個程式包裝成 Image，之後我們可以使用此 Image 運行起來一個 container<br />
 但在現實世界的運用中通常會需要多個 container 互相合作，才能稱作一個完整的產品<br />
@@ -203,7 +203,8 @@ volumes:
 不過你要先知道 <code>docker run</code> 、 <code>docker volume</code> 、 <code>docker network</code> 等Cli的相關知識<br />
 相比之下我可以直接把此 <code>docker-compose.yml</code> 傳送給任何一個人， 之後只要輸入 docker compose up 就可以直接建立起一個可以使用的網站
 你可以完全不懂 docker 的相關知識只要記得一句 docker compose up 就可以快速的建立起多個熱門的網站，入手的難度反而低很多</p>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天試用了 docker compose 的功能並且建立了一個 wordpress 網站，使用起來非常的方便快速<br />
 現在大多的開源專案都有提供此方法來建立，例如 ELK 或者 Postgres，都只要一句指令就可以直接使用目前熱門的服務<br />
 而且不用再把程式安裝在本機上了，例如不靠容器要成功把 ELK 完整的功能架設出來，就需要許多 ELK 的相關知識<br />

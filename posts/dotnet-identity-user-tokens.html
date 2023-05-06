@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-core-identity-aspnetusertokens">.NET Core Identity AspNetUserTokens</h1>
+        <h2 id="net-core-identity-aspnetusertokens">.NET Core Identity AspNetUserTokens</h2>
 <p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
 分別使用到 SignInManager 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>
 <p>查看原始碼之後發現這兩個方法底層都會使用 SignInOrTwoFactorAsync 方法<br />
@@ -272,7 +272,7 @@ requiresTwoFactor 為 true 這時需要彈出輸入頁面給使用者輸入六�
 檢查驗證通過之後才會回到原本的流程並且刪除 <code>.AspNetCore.Identity.TwoFactorUserId</code> cookie
 然後新增 <code>.AspNetCore.Identity.Application</code> cookie 完成這一次的登入</p>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天了解了如何使用內建的 2FA 方法，我們也可以使用其他內建的方法例如手機驗證碼與Email 驗證碼
 同樣也會把資料保存在 AspNetUserTokens 這個表，我們可以按照這個邏輯實踐出自己的方法</p>
 <p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/releases/tag/1.7" target="_blank">Github</a></p>

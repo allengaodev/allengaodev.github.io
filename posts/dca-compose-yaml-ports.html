@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-compose-yaml-ports">Docker Compose Yaml Ports</h1>
+        <h2 id="docker-compose-yaml-ports">Docker Compose Yaml Ports</h2>
 <p>今天要來學習如何在 Docker Compose 開放 Port 讓我們可以使用到 container 提供的服務，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#ports" target="_blank">文檔</a><br />
 用法也跟之前類似，之前的作法是需要先在 Dockerfile 設定要開放的 container port， 之後在 <code>docker run</code> 帶入 <code>-p</code> 參數，指定要和哪個 Host port 進行綁定<br />
 在docker compose 中也是要先在 Dockerfile 設定，之後在 docker-compose.yml 中進行設定</p>
@@ -197,7 +197,8 @@ server {
       - 8081:8081
 </code></pre>
 <p>最後再次輸入命令 <code>docker compose up -d</code>，就可以在 80 port 看到歡迎頁面與 8081 port 看到我們的客制頁面</p>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習了如何開放 port 讓我們更方便使用 container 內部的服務，使用 docker compose 之後我們可以一次綁定大量的 port<br />
 相比之前需要一個一個綁定，新的設定方法方便了許多</p>
 

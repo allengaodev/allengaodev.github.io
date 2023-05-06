@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-image-multi-stage">Docker Image Multi-Stage</h1>
+        <h2 id="docker-image-multi-stage">Docker Image Multi-Stage</h2>
 <p>在這篇文章<a href="https://blog.allengaodev.com/posts/dca-imagelayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a>當中有提到一個Dockerfile的規則<br />
 當使用<code>RUN</code>, <code>COPY</code>, <code>ADD</code>任意一個指令，Docker就會幫我們創建一個layers</p>
 <p>也就說當我們使用越多的指令Docker就會幫我們建立更多的層，但是在最佳實踐也有提到要盡量減少層數的的產生，因為越多層數會影響運作的速度
@@ -256,7 +256,7 @@ eb10f76afdc9   11 days ago      /bin/sh -c ln -s /usr/share/dotnet/dotnet /u… 
 我們可以在建構環境的 image 完成所有基礎的操作，最後只要將dotnet編譯完的結果複製出來就好了，因為sdk跟程式的原始碼編譯完之後就沒有意義了
 所以在實際使用環境Multi-Stage Builds是經常使用的</p>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天學習了Multi-Stage Builds的使用方法，使用之後image的層數跟大小，可以縮小數倍可謂是好處多多，所以在最佳實踐中Docker也是建議多使用Multi-Stage Builds
 可以讓image能夠更快速的下載下來，層數減少也可以減少container啟動的速度，可以說是很重要的技術。</p>
 

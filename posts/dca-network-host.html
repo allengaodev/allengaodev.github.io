@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-network-host-mode">Docker Network Host Mode</h1>
+        <h2 id="docker-network-host-mode">Docker Network Host Mode</h2>
 <p>在上一篇文章中: <a href="https://blog.allengaodev.com/posts/dca-network-bridge" target="_blank">Docker Certified Associate(DCA)認證考試學習- Docker Network Bridge Mode</a>
 學習到了 Docker Network 中最常使用的 Bridge Mode，今天要來試試看 Host Mode 有什麼不同</p>
 <p>先看看 Host 的<a href="https://docs.docker.com/network/host/" target="_blank">文檔</a> ， 按照文檔的說法使用 Host 模式的 container 會直直接使用 Host 主機的網路<br />
@@ -160,7 +160,8 @@ $ docker network inspect host
 <pre><code class="language-text">WARNING: Published ports are discarded when using host network mode
 </code></pre>
 <p>我們嘗試訪問 Host IP 加上 8081 port，會顯示錯誤改成訪問 Host IP 加上 8080 port，就可以看到 tomcat 回傳的頁面了</p>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習到了 Host 模式與 Bridge 模式的不同之處， Host 模式使用起來相當簡單很適合在測試環境中使用，例如我們可以啟動一個 SQL Server 的 container<br />
 並且使用 Host 模式之後就可以直接使用訪問 1433 port，就好像本機裝了SQL Serve一樣，不過需要注意的是可能會造成端口衝突的問題<br />
 因為不像Bridge模式網路區段有分開，再加上本機如果已經佔用很多端口這時啟用 Host模式常用的 port 會很容易衝突，使用者需要自行而外注意這個問題</p>

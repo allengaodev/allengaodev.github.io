@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-arrays-compare">.Net Arrays Compare</h1>
+        <h2 id="net-arrays-compare">.Net Arrays Compare</h2>
 <p>今天碰到了一個問題需要判斷兩個 int array 的值是否相同</p>
 <p>首先先準備資料，這邊 s 與 b 相同，p與其他都不相同</p>
 <pre><code class="language-csharp">var s = new int[] { 1, 3, 5, 7 };
@@ -158,7 +158,8 @@ Enumerable.ReferenceEquals(s, b);
 False
 False
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習了 .Net 提供的比較 IEnumerable 型別的方法，基本上可以直接使用 Enumerable 提供的方法<br />
 如果是要比對資料可以使用 SequenceEqual 需要比較地址可以使用 ReferenceEquals 運算符號 <code>==</code></p>
 
