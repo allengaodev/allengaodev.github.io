@@ -139,7 +139,8 @@ PID TTY          TIME CMD
 並且兩個 Session 都附加到同一個 bash 上， 所以才會看起來有同步運行的效果，而且因為是附加在 bash 上並且它又是 PID 1<br />
 正如剛剛所提到的 PID 1 的程式不可以停止運行，否則 container 會進行關閉，這也就是為什麼之前使用 <code>docker attach</code> 有時需要搭配快捷鍵 <code>Ctrl + b</code> + <code>Ctrl + q</code>
 而不是使用 <code>exit</code> 進行退出， 這是因為使用 <code>exit</code> 會將 container 的 bash 關閉，所以整個 container 會進行關閉， 使用快捷鍵 <code>Ctrl + b</code> + <code>Ctrl + q</code> 則不會有這個問題</p>
-<h1 id="docker-exec">Docker Exec</h1>
+<hr />
+<h2 id="docker-exec">Docker Exec</h2>
 <p>接下來測試 <code>docker exec</code> ， 也是啟動一個 ubuntu container</p>
 <pre><code class="language-text">docker run -dit ubuntu
 </code></pre>

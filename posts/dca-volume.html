@@ -108,8 +108,8 @@
 所以像是讀寫資料庫這種需求，如果資料沒辦法持久保存那顯然是會造成很大的問題<br />
 這時最簡易的作法可以在 Dockerfile 之內使用 VOLUME 指令</p>
 <p>首先先看看<a href="https://docs.docker.com/storage/volumes/" target="_blank">Volume文檔</a>，Docker提供了兩種資料持久化的方法 <code>Volumes</code> 、 <code>Bind mounts</code></p>
-<img src="https://docs.docker.com/storage/images/types-of-mounts-volume.png" class="img-fluid">
-<img src="https://docs.docker.com/storage/images/types-of-mounts-bind.png" class="img-fluid">
+<img src="https://docs.docker.com/storage/images/types-of-mounts-volume.png" class="img-fluid" alt="mounts-volume">
+<img src="https://docs.docker.com/storage/images/types-of-mounts-bind.png" class="img-fluid" alt="mounts-bind">
 <p><code>Volumes</code> 將檔案放在 Host 的 FileSystem 內部的 Docker 存放區， Volumes 完全由 Docker 管理
 <code>Bind mount</code> 將檔案放在 Host 的 FileSystem 所設定的目錄上，需要自行管理</p>
 <p>今天主要討論<code>Volumes</code>，首先先建立測試環境<br />
