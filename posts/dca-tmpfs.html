@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-tmpfs-mounts">Docker Tmpfs Mounts</h1>
+        <h2 id="docker-tmpfs-mounts">Docker Tmpfs Mounts</h2>
 <p>目前我們已經瞭解了兩種資料儲存方式 <code>Volume</code> 和 <code>Bind mount</code>， Docker其實還有提供第三種儲特殊的存資料方法，那就是 <code>Tmpfs mount</code><br />
 Tmpfs mount` 跟其它兩種寫入方式最大的不同就是它是直接寫入到 Host 的記憶體內，只要 container 一停止運行， 用此方式掛載的資料路徑會直接被清除掉<br />
 因為只會寫入到 Host 記憶體內所以很適合用臨時保存一次性生成的密鑰或一些敏感資料
@@ -174,7 +174,7 @@ total 4
 total 0
 </code></pre>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天學習了資料儲存的第三種方法，基本上是這三種方法裡面讀寫速度最快的，但是也是最不穩定的，可能應為你的程式丟出 exception 時，
 意外造成 container 重起，這段時間的資料就全部被清除掉了，大家可以看自己的需求來使用</p>
 

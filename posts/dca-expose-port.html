@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-run-port-binding">Docker Run Port Binding</h1>
+        <h2 id="docker-run-port-binding">Docker Run Port Binding</h2>
 <p>在之前這篇文章最後: <a href="https://blog.allengaodev.com/posts/dca-context" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Context</a></p>
 <p>有跑起來一個nginx容器並且開放了一個端口8080，並且用瀏覽器打開網址就能在畫面上看到nginx的歡迎頁面</p>
 <pre><code class="language-text">docker run --name nginx28 -p 8080:80 nginx
@@ -154,7 +154,7 @@ b5311d14d1ae   nginx     &quot;/docker-entrypoint.…&quot;   13 seconds ago   U
 而且為什麼是tcp 80 port可以選擇其它的值嘛？</p>
 <p>接下來就要到Dockerfile中找答案了</p>
 <hr />
-<h1 id="docker-expose">Docker EXPOSE</h1>
+<h2 id="docker-expose">Docker EXPOSE</h2>
 <p>首先先看一下<a href="https://docs.docker.com/engine/reference/builder/#expose" target="_blank">Docker EXPOSE的文檔</a></p>
 <p>只要開頭使用EXPOSE並且輸入指定的port即可，也可以只定TCP或者UDP，預設情況下為TCP</p>
 <pre><code class="language-text">EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;...]
@@ -233,7 +233,7 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS    
 </code></pre>
 <img src="https://drive.google.com/uc?id=1x0ocdXXXH__wKymVNiLnL3hYZqXE-JL3" alt="DCAEXPOSEPort-CustomPage" class="img-fluid">
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天了解到Dockerfile的EXPOSE與Docker Run的 <code>-p</code>參數，兩個是要互相搭配使用的缺一不可
 並且最後還將nginx官方的image作為底層客制出我們專用的Nginx版本，能顯示出我們自訂的頁面
 當我將image打包完成後，你只需要下載我的image並且只要在有Docker的環境就可以馬上運行我的成果<br />

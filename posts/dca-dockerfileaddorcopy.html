@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="dockerfile-add-or-copy">Dockerfile ADD or COPY</h1>
+        <h2 id="dockerfile-add-or-copy">Dockerfile ADD or COPY</h2>
 <p>今天來學習一下Dockerfile中ADD與COPY的區別，這兩個指令從字面上看意思非常相近所以很常搞混<br />
 先來看一下<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#add-or-copy" target="_blank">Docker最佳實踐</a></p>
 <p>文中說明雖然兩個功能相近，但是最好優先使用<code>COPY</code></p>
@@ -228,7 +228,8 @@ total 10332
     &amp;&amp; make -C /usr/src/things all
 </code></pre>
 <p>但還是要注意經常修改的檔案最好還是自己獨立一個image，盡量多加利用cache的機制</p>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天我們學習了<code>ADD</code> 和 <code>COPY</code>這兩個指令，以及他們的使用場合<br />
 依結論來看<code>ADD</code>使用的場合真的挺少的，大部分的範例也都只有使用<code>COPY</code>
 畢竟沒辦法使用cache還是最大的問題</p>

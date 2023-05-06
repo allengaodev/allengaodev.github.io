@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="dockerfile-env">Dockerfile ENV</h1>
+        <h2 id="dockerfile-env">Dockerfile ENV</h2>
 <p>今天要來學習 ENV 的使用方法<br />
 照慣例先看一下<a href="https://docs.docker.com/engine/reference/builder/#env" target="_blank">ENV文檔</a></p>
 <p>格式呢只需要 ENV 開頭在搭配一個key value值即可，並且需要有value並不能為空</p>
@@ -192,7 +192,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 </code></pre>
 <hr />
-<h1 id="dockerfile-arg">Dockerfile ARG</h1>
+<h2 id="dockerfile-arg">Dockerfile ARG</h2>
 <p>接下來是ARG的使用方法<br />
 先看一下<a href="https://docs.docker.com/engine/reference/builder/#arg" target="_blank">ARG文檔</a></p>
 <p>格式也只需要ARG開頭在搭配一個key value的值即可，但是Value不是必填，如果為空需要在運行docker run時提供參數</p>
@@ -311,7 +311,7 @@ Removing intermediate container d16612af788a
 
 </code></pre>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>以上就是ENV和ARG的基礎用法，ARG只會在build期間才會使用，ENV則是會一直跟著image<br />
 兩個都有自己使用的場景，例如可以將選擇image版本的參數設定在ARG這樣就可以在docker run時動態選擇自己需要的版本<br />
 ENV則是會影響到container內的環境變數，所以可以用來指定目前是Debug或是Prod環境，方便給我們內部運行的程式做判別</p>

@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-core-identity-policy-customize">.NET Core Identity Policy Customize</h1>
+        <h2 id="net-core-identity-policy-customize">.NET Core Identity Policy Customize</h2>
 <p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>
 <p>但是在進階的場景，例如：年齡限制或者檢查使用者的性別等需要另外對 <code>Claim</code> 內容進行分辨的邏輯，就需要建立客製化的 <code>Policy</code></p>
 <p>要客製化 <code>Policy</code> 我們先看看官方的範例 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/samples/CustomPolicyProvider" target="_blank">Github</a><br />
@@ -259,7 +259,7 @@ builder.Services.AddSingleton&lt;IAuthorizationHandler, MinimumAgeAuthorizationH
 public class WeatherForecastController : ControllerBase
 </code></pre>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天學習了如何客製化自己的授權邏輯，在某些框架中的授權系統也是使用相同的邏輯來建立出一套複雜的授權系統</p>
 <p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.4" target="_blank">Github</a></p>
 

@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-core-identity-cookie-signin">.NET Core Identity Cookie SignIn</h1>
+        <h2 id="net-core-identity-cookie-signin">.NET Core Identity Cookie SignIn</h2>
 <p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
 在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
 閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>
@@ -231,7 +231,8 @@ public async Task&lt;IdentityResult&gt; CreateUser()
 [Route(&quot;[controller]&quot;)]
 public class WeatherForecastController : ControllerBase
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習了 <code>SignInManager</code> 與使用 Cookie 來進行登入驗證，並且知道微軟已經內建提供了許多登入方式(Schema)
 之後的文章會繼續試試看 JWT 或者第三方登入</p>
 <p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.2" target="_blank">Github</a></p>

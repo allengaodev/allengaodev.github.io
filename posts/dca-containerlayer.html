@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-container-layer">Docker container layer</h1>
+        <h2 id="docker-container-layer">Docker container layer</h2>
 <p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-imagebasic" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Images</a></p>
 <p>在說明docker run命令時有提到一個重點: docker 會在image之上建立一個可讀寫層<br />
 那麼這個讀寫層是甚麼意思呢?</p>
@@ -155,7 +155,8 @@ b76ec17fa825   ubuntu    &quot;/bin/bash&quot;   31 minutes ago   Up 31 minutes 
 <img src="https://docs.docker.com/storage/storagedriver/images/sharing-layers.jpg" alt="sharing-layers" class="img-fluid">
 <p>現在就能瞭解官方範例圖檔中說明的意思了，每個容器都在只讀的image底層之上添加一個可讀寫層，當我們在對容器中的任何操作例如新增、修改、刪除文件，都是在對可讀寫層操作所以並不會影響到底層的image</p>
 <p>詳細的內容可以參考此篇<a href="https://github.com/docker/docs/issues/1520#issuecomment-305179362" target="_blank">Issues</a></p>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>Docker不像傳統的VM，在VM裝系統時需要先下載ISO檔在系統安裝到硬碟內部，這樣每新增一台VM系統都會佔據硬碟一部分的空間<br />
 所以docker image這樣設計的好處，只需要參考image內容即可不需要額外複製，所以可以做到秒級的啟動速度並且會不消耗多餘的空間，比起傳統VM優勢很大</p>
 

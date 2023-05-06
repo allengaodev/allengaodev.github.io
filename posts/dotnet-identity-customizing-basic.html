@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-core-identity">.NET Core Identity</h1>
+        <h2 id="net-core-identity">.NET Core Identity</h2>
 <p>在開發新專案時，身份驗證和授權通常為第一個實做的功能，在 dotnet 生態系中微軟官方會推薦你使用 ASP.NET Core Identity 來實踐
 大部分的文章只會要你使用 Visual Studio 直接勾選使用樣板，或是直接給你一段命令直接產生專案</p>
 <pre><code class="language-text">dotnet new webapp --auth Individual -uld -o WebApp1
@@ -382,7 +382,8 @@ public class AccountController : ControllerBase
   &quot;accessFailedCount&quot;: 0
 }
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天初步了解了 dotnet core identity 的基礎，不過使用 UserStore 的方法雖然可行，但是這樣看起來好像沒什麼意義<br />
 跟自己寫一個倉庫的概念是一樣的根本不需要用到 dotnet core identity，這是因為實務上該使用的是各種的 Manager 方法
 例如要註冊一個會員需要先檢查資料庫有沒有同樣名稱的會員，確認沒有才可以插入到資料庫內或者會員登入之前需要經過許多商業邏輯的檢查

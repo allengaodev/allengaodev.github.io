@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-network-bridge-mode">Docker Network Bridge Mode</h1>
+        <h2 id="docker-network-bridge-mode">Docker Network Bridge Mode</h2>
 <p>今天要來了解 Docker 網路的相關基礎知識，網路相關的功能有一個專用的命令 <code>docker network</code>
 我們試著輸入以下命令，查看有什麼功能可以使用</p>
 <pre><code class="language-text">$ docker network --help
@@ -330,7 +330,8 @@ Commercial support is available at
 <p>這邊要注意使用 <code>docker network connect</code> 時並不會移除舊的網路，需要使用以下命令來移除</p>
 <pre><code class="language-text">docker network disconnect bridge alpine
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習了 bridge 的基礎用法，概念其實跟我們平常設定虛擬機器的網路時一樣，並沒有什麼特殊的自創功能
 之後會在更加深入了解 Docker 網路機制</p>
 

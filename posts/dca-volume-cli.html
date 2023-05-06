@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-volume-cli">Docker VOLUME CLI</h1>
+        <h2 id="docker-volume-cli">Docker VOLUME CLI</h2>
 <p>在上一篇的文章中: <a href="https://blog.allengaodev.com/posts/dca-volume" target="_blank">Docker Certified Associate(DCA)認證考試學習- VOLUME</a><br />
 我們學到了該怎麼在 Docker 中建立並且使用一個 volume ，今天要來學習另一種創建 volume 的方式<br />
 Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關功能</p>
@@ -152,7 +152,7 @@ local     myvolume
 <pre><code class="language-text">docker run -dit -v myvolume:/newvolume alpine 
 </code></pre>
 <hr />
-<h1 id="docker-bind-mounts">Docker Bind Mounts</h1>
+<h2 id="docker-bind-mounts">Docker Bind Mounts</h2>
 <p>Bind Mounts 的使用方法與 Volume 幾乎相同，但是需要注意 Host 的作業系統，因為我們都知道 Windows 的 Filesystem 與 Linux 完全不同<br />
 所以 Docker 為了兼容性所以並不允許在 Dockerfile 之中指定 Host 之中的路徑，只能使用 Volume 交給 Docker 處理這種作業系統等級的問題</p>
 <p>例如以下寫法就是不行的，因為在 Dockerfile 之中 VOLUME 為了兼容性，所以這邊不允許輸入 Host 端的路徑
@@ -179,7 +179,7 @@ dev        home       lib        mnt        proc       run        srv        tmp
 myconfig
 </code></pre>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>今天比較了 VOLUME 與 Bind Mounts 兩者之間的差異， VOLUME 比較適合多個 container 互相讀寫之間的操作<br />
 例如一個後端 Api 與一個資料庫，在加上 VOLUME 會自動處理作業系統的問題性能也比較高<br />
 相對的 Bind Mounts 比較適合用來讀取設定檔這樣的情況，例如多個 Api 同時需要讀取同一份設定檔這樣就很適合使用 Bind Mounts

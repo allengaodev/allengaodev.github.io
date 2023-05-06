@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-save-docker-load">Docker Save &amp; Docker Load</h1>
+        <h2 id="docker-save-docker-load">Docker Save &amp; Docker Load</h2>
 <p>在昨天文章中: <a href="https://blog.allengaodev.com/posts/dca-dockerfile" target="_blank">Docker Certified Associate(DCA)認證考試學習-Dockerfile</a><br />
 我們成功建構出我們第一個image之後使用<code>docker images</code>列出現在本地的image</p>
 <pre><code class="language-text">REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
@@ -173,7 +173,7 @@ Hello Allen, Gao
 </code></pre>
 <p>至此我們成功將image透過網路傳送到其他機器上，接下來看看其他方式。</p>
 <hr />
-<h1 id="docker-hub">Docker Hub</h1>
+<h2 id="docker-hub">Docker Hub</h2>
 <p>另一種方式就是透過上傳到Docker Hub之後開放給其他人下載<br />
 這邊要注意Play with docker由於是公開環境不推薦在這些機器輸入個人的身分資料
 所以這邊示範使用的是個人的機器</p>
@@ -183,7 +183,8 @@ docker push allengaodev/echo
 </code></pre>
 <p>上傳成功之後就可以在Docker hub的頁面查看到自己的image了，使用起來很方便
 <img src="https://drive.google.com/uc?id=1A65fTA9_-hUQShfJ7gYpnT_Cer3ZqGeV" alt="DCAShareImage-echo" class="img-fluid"></p>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天我們學習了透過打包的方式分享我們本地的Image，也成功上傳到Docker Hub上與其他開發者共享
 兩種方式都很方便可以看個人的使用需求來挑選</p>
 

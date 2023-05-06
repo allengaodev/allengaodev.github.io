@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-core-identity-manager">.NET Core Identity Manager</h1>
+        <h2 id="net-core-identity-manager">.NET Core Identity Manager</h2>
 <p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
 但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 設計就是會將商業邏輯與存取邏輯分開<br />
 所以今天我們來看看 Identity 中常用的 Manager</p>
@@ -254,7 +254,8 @@ public async Task&lt;IdentityResult&gt; CreateUser()
   ]
 }
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習了 UserManager 內部的邏輯並且成功改寫我們的 AccountController 將原本的 UserStore 改成 UserManager<br />
 這樣就多了許多保護邏輯讓我們的 Api 不用太多的修改就能有一組可以的邏輯可以使用，但如果還是覺得預設的 UserManager 方法不夠用
 我們可以建立另一個 Class 繼承 UserManager， 因為原本的方法都是 virtual 所以可以輕易的用 override 對方法進行改寫加入自己的商業邏輯，客製化程度相當高<br />

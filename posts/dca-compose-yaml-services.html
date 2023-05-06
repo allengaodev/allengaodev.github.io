@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="docker-compose-yaml-services">Docker Compose Yaml Services</h1>
+        <h2 id="docker-compose-yaml-services">Docker Compose Yaml Services</h2>
 <p>在昨天的文章中: <a href="https://blog.allengaodev.com/posts/dca-docker-compose" target="_blank">Docker Certified Associate(DCA)認證考試學習- Docker Compose</a><br />
 我們使用docker compose 非常快速的建立出一個可用的 wordpress 網站，今天要來詳細了解 <code>docker-compose.yml</code> 的內容</p>
 <p>根據官方 <a href="https://docs.docker.com/compose/compose-file/#compose-file" target="_blank">文檔</a> 的說明， Docker Compose File 中有以下基礎類別的定義</p>
@@ -186,7 +186,8 @@ CONTAINER ID   IMAGE     COMMAND     CREATED         STATUS                     
 289aa6782b6b   alpine    &quot;/bin/sh&quot;   8 minutes ago   Exited (0) 8 minutes ago             my_compose-alpine2-1
 32e0c01043bf   alpine    &quot;/bin/sh&quot;   8 minutes ago   Exited (0) 8 minutes ago             my_compose-alpine1-1
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學到了 <code>docker-compose.yml</code> 中最重要的設定值 <code>services</code>， 照以前的作法需要使用次 docker run才能做到一樣的效果
 如今只要一個命令就可以搞定，之後我們會在了解其他常用的設定值</p>
 

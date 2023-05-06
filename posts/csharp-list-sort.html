@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="net-sort">.Net Sort</h1>
+        <h2 id="net-sort">.Net Sort</h2>
 <p>今天來複習一下 .Net 中排序的各種用法，首先是最簡單的由小到大排序</p>
 <p>使用 Sort 方法可以直接將資料做正向排序，Sort 方法沒有回傳值會直接對原始資料進行排序</p>
 <pre><code class="language-csharp">var myList = new List&lt;int&gt;() { 1, 7, 4, 2, 6, 3 };
@@ -226,7 +226,8 @@ sorting
 如果一樣就比較字母順序，如果不一樣就比較誰數字大</p>
 <pre><code class="language-csharp">result.Sort((a, b) =&gt; dict[a] == dict[b] ? a.CompareTo(b) : freqMap[b].CompareTo(freqMap[a]));
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天學習了幾個排序常用的方法，須特別注意字串排序的部份，邏輯與數值排序不一樣並且 .Net 提供了多種寫法，可以挑選自己習慣的語法來使用</p>
 
 

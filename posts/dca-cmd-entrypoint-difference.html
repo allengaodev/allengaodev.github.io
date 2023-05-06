@@ -101,7 +101,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="dockerfile-cmd">Dockerfile CMD</h1>
+        <h2 id="dockerfile-cmd">Dockerfile CMD</h2>
 <p>在前幾篇的文章中: <a href="https://blog.allengaodev.com/posts/dca-dockerfile" target="_blank">Docker Certified Associate(DCA)認證考試學習-Dockerfile</a></p>
 <p>在我們查看<code>Docker Run</code>時，有提到 <code>CMD</code> 與 <code>ENTRYPOINT</code> 並且附上了一個表格</p>
 <ul>
@@ -263,7 +263,8 @@ $ docker run entryimage &amp;&amp; echo hello
 $HOME echo $HOME
 hello
 </code></pre>
-<h1 id="summary">Summary</h1>
+<hr />
+<h2 id="summary">Summary</h2>
 <p>今天內容有點雜，不過Docker官方與有說建議使用exec格式，所以真的比較常用的也只有三個</p>
 <ul>
 <li><code>CMD [“exec_cmd”, “p1_cmd”]</code> + <code>No  ENTRYPOINT</code> = <code>exec_cmd p1_cmd</code></li>

@@ -102,7 +102,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="oauth">OAuth</h1>
+        <h2 id="oauth">OAuth</h2>
 <p>在之前的文章中我們利用微軟提供的 Package <code>Microsoft.AspNetCore.Authentication.Google</code> 成功實踐了 Google 外部登入
 我們只要在 <code>Program.cs</code> 的 <code>IServiceCollection</code> 呼叫 <code>AddGoogle</code> 方法即可，接下來的流程就交給內建的 SignInManager 處理</p>
 <p>能夠做到這樣開箱即用是因為微軟已經幫我們建立了 <code>GoogleOptions</code> 和 <code>GoogleHandler</code> 這兩個 Class
@@ -177,7 +177,7 @@ public static AuthenticationBuilder AddMicrosoftAccount(this AuthenticationBuild
 }
 </code></pre>
 <hr />
-<h1 id="oidc">OIDC</h1>
+<h2 id="oidc">OIDC</h2>
 <p>為了解決 OAuth 的短板所有就有了 OpenID Connect(OIDC) 的出現，因為 OIDC 是建立在 OAuth 之上的並且解決許多問題
 所以我們可以將目前程式的 OAuth 方法直接轉換成 OIDC 方式，接下來實做看看</p>
 <p>首先先添加 OpenIdConnect Package 到專案內</p>
@@ -204,7 +204,7 @@ public static AuthenticationBuilder AddMicrosoftAccount(this AuthenticationBuild
 所以你可以選擇回到當初申請的頁面額外添加一筆 <code>https://localhost:7011/signin-oidc</code> 或者直接修改 <code>CallbackPath</code> 也能達到同樣的效果</p>
 <p>我們經程式運行起來之後呼叫 <code>ExternalSignin</code> 方法進行測試，也能正常的進行轉跳以及使用者授權，我們並不需要在額外修改我們的商業邏輯</p>
 <hr />
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>改成使用 OIDC 之後我們基本上就不需要在研究各家的文檔了因為現在只要各家廠商都按照 OIDC 的 Protocol 來寫即可<br />
 並且我們可以架設自己的 OIDC 伺服器就像 Google 與 Facebook 提供的登入頁面那樣，我們自己架設伺服器可以用來給 API
 與 API 之間進行授權，架設 OIDC 伺服器在微服務框架中基本上是必備的</p>
