@@ -1,6 +1,7 @@
 User-agent: *
-Disallow: /tags/*
+Disallow: /tags
+Disallow: /page
+Disallow: /posts$
 Disallow: /posts/$
-Disallow: /page/*
 
 Sitemap: https://blog.allengaodev.com/sitemap
