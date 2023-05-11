@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Startup">
+
+  <title>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Startup</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/bitwarden-design-startup'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Startup' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/bitwarden-design-startup' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/bitwarden-design-startup'>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Startup</a>
+              <span class="subheading">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Startup</span>
+          </h1>
+            <div class="meta">Published on Thursday, May 11, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="bitwarden-system-design-basic">Bitwarden System Design Basic</h2>
+<p>Bitwarden 作為一套知名的密碼管理系統想當然關於安全性方面的設計肯定需要比一般的系統更加謹慎。
+密碼管理系統一旦有漏洞數以萬計的密碼就會外流到網路上，並且如果使用者安全習慣並不好所有網站都使用
+同一個密碼或者密碼過於簡單就會造成災耐。</p>
+<p>這個系列將會對 Bitwarden 開源程式碼進行分析，並且學習它背後的設計了解它為何能夠比大多數的網站還要安全</p>
+<p>首先我們到 <a href="https://github.com/bitwarden" target="_blank">Bitwarden Github</a> 查看目前 Bitwarden 所開源的專案，
+目前重要的專案有三個，分別為：</p>
+<ul>
+<li><a href="https://github.com/bitwarden/server" target="_blank">server</a> ：後端專案使用 .NET Core 進行開發，重要的邏輯都在此專案</li>
+<li><a href="https://github.com/bitwarden/clients" target="_blank">clients</a> ：前端專案使用 Angular 進行開發，搭配 Electron 可同時作為桌面應用程式</li>
+<li><a href="https://github.com/bitwarden/mobile" target="_blank">mobile</a> ：App 專案使用 Xamarin 進行開發</li>
+</ul>
+<p>今天的目標是先將專案下載下來並且將開發環境建立起來，先將 server 專案下載到本機</p>
+<pre><code class="language-text">git clone https://github.com/bitwarden/server.git
+</code></pre>
+<p>接下來從範例複製一個 .env 環境檔與 secrets 檔之後在 Docker 會使用到，記得把資料庫的密碼換成更強的密碼本文資料庫預計要使用 Postgres</p>
+<pre><code class="language-text">cd dev
+cp .env.example .env
+cp secrets.json.example secrets.json
+
+POSTGRES_PASSWORD=修改強密碼
+</code></pre>
+<p>輸入此命令 Docker Compose 會建立起一個 postgres 服務與 mail服務</p>
+<pre><code class="language-text">docker compose --profile postgres --profile mail up -d
+</code></pre>
+<p>使用以下腳本產生憑證，我們需要將 Thumbprint 記錄下來之後會用到</p>
+<pre><code class="language-text">.\create_certificates_windows.ps1
+
+Thumbprint                                Subject
+----------                                -------
+0BE8A0072214AB37C6928968752F698EEC3A68B5  CN=Bitwarden Identity Server Dev
+C3A6CECAD3DB580F91A52FC9C767FE780300D8AB  CN=Bitwarden Data Protection Dev
+</code></pre>
+<p>打開 <code>secrets.json</code> 檔案並修改內部內容</p>
+<ul>
+<li>修改 <code>postgreSql</code> 的 <code>connectionString</code></li>
+<li>修改 <code>identityServer</code> 輸入剛剛紀錄的 <code>Thumbprint</code></li>
+<li>修改 <code>dataProtection</code> 輸入剛剛紀錄的 <code>Thumbprint</code></li>
+<li>修改 <code>installation</code> 的 <code>id</code> 與 <code>key</code>，開啟 <a href="https://bitwarden.com/host/" target="_blank">連結</a> 申請</li>
+<li>修改 <code>licenseDirectory</code> 設定至一個空目錄，之後上傳的憑證會保存到此資料夾</li>
+</ul>
+<p>這邊需要注意如果要使用 SqlServer 以外的資料庫還需要額外的設定，需要在 <code>secrets.json</code> 的 <code>globalSettings</code> 新增 <code>DatabaseProvider</code></p>
+<pre><code class="language-text">&quot;globalSettings&quot;: {
+	&quot;DatabaseProvider&quot;: &quot;postgresql&quot;,
+</code></pre>
+<p>都修改完成後運行以下腳本之後會透過 <code>dotnet user-secrets</code> 的功能將 <code>secrets.json</code> 複製到此路徑下 <code>%APPDATA%\microsoft\UserSecrets</code>
+之後會根據專案的 <code>UserSecretsId</code> 設定去讀取相對應的 <code>secrets.json</code></p>
+<pre><code class="language-text">.\setup_secrets.ps1
+Successfully saved 12 secrets to the secret store. - Notifications
+Successfully saved 12 secrets to the secret store. - Api
+Successfully saved 12 secrets to the secret store. - Billing
+Successfully saved 12 secrets to the secret store. - Sso
+Successfully saved 12 secrets to the secret store. - Icons
+Successfully saved 12 secrets to the secret store. - Scim
+Successfully saved 12 secrets to the secret store. - Events
+Successfully saved 12 secrets to the secret store. - Identity
+Successfully saved 12 secrets to the secret store. - EventsProcessor
+Successfully saved 12 secrets to the secret store. - Admin
+</code></pre>
+<p>這邊運行中會輸出 <code>Successfully saved</code> 訊息，以 <code>Identity</code> 專案為例執行專案後會去 <code>%APPDATA%\microsoft\UserSecrets\bitwarden-Identity\secrets.json</code> 載入 json 檔案，
+並不是像平常的專案都把資訊寫在 <code>appsettings.json</code></p>
+<p>最後運行 <code>migrate.ps1</code> 腳本設定資料庫參數，會使用遷移腳本將資料更新到資料庫</p>
+<pre><code class="language-text">.\migrate.ps1 -postgres
+</code></pre>
+<p>這邊因為每個資料庫遷移腳本都會有些微的差異因此 bitwarden 為每個資料庫類型都建立一個遷移專案並放至於 <code>util</code> 底下，
+當我們執行 <code>migrate.ps1</code> 腳本時內部會到對應的資料庫底下執行 <code>dotnet ef database update</code></p>
+<ul>
+<li>MySql: MySqlMigrations</li>
+<li>Postgres: PostgresMigrations</li>
+<li>MsSql: MsSqlMigratorUtility</li>
+<li>Sqlite: SqliteMigrations</li>
+</ul>
+<p>準備好開發環境後就能準備運行專案了，但運行之前需要先編譯所有專案我們可以到根目錄底下輸入以下命令，會自動編譯所有專案並執行 npm</p>
+<pre><code class="language-text">./scripts/build
+</code></pre>
+<p>完成之後我這邊使用 Rider 開啟方案育設有提供 <code>Full Server</code> 設定檔可以批量將所有服務執行起來</p>
+<ol>
+<li>Admin: http://localhost:62911</li>
+<li>Api: http://localhost:4000</li>
+<li>Billing: http://localhost:44519</li>
+<li>Events: http://localhost:46273</li>
+<li>EventsProcessor: http://localhost:54103</li>
+<li>Icons: http://localhost:50024</li>
+<li>Identity: http://localhost:33656</li>
+<li>Notifications: http://localhost:61840</li>
+<li>Sso: http://localhost:52823</li>
+</ol>
+<p>首先我們開啟本機的 Bitwarden Client 來連線到我們的開發環境，點擊右上角新增帳戶後點擊左上角設定並輸入對應服務的網址
+<img src="https://drive.google.com/uc?id=1XkbU_G0bSi3pboTAfCG3t11kh9OjKyHa" alt="Bitwarden-Change-Server" class="img-fluid"></p>
+<p>連線完成後點擊下方建立帳戶在我們本地的服務建立新會員
+<img src="https://drive.google.com/uc?id=1ocB59ePg-2WrsXvGwp017zn--OK1-YAj" alt="Bitwarden-Create-Account" class="img-fluid"></p>
+<p>建立完成後使用我們剛剛建立的使用者進行登入就能成功進入到金庫畫面，並且可以成功建立資料
+<img src="https://drive.google.com/uc?id=1MuE8ktFI3AXRGb14_g8LnZaKkX-hr3dB" alt="Bitwarden-Index-Page" class="img-fluid"></p>
+<p>接著開啟 admin 後台網址 <code>http://localhost:62911/admin</code> 此後台可以用來管理會員，此服務比較特別並沒有密碼輸入的欄位，
+目前需要使用 email 取得登入網址才能登入到後台，管理員的 email 預設已經設定在 <code>secrets.json</code> 的 adminSettings 了，
+預設的值為 <code>admin&#64;localhost</code> 只要在登入頁面輸入 <code>admin&#64;localhost</code> 即可發送登入 email
+<img src="https://drive.google.com/uc?id=1oYyNKZDp9nxSt9c3dI104hqgFgW9spih" alt="Bitwarden-Admin-Login-Page" class="img-fluid"></p>
+<p>接著我們開啟一開始架設的 MailCatcher 服務，這個服務會去攔截 email 並自帶有界面只需要開啟 <code>http://localhost:1080/</code> 就可以看到剛剛的 email
+點擊登入後會自動登入並且轉跳回 admin 首頁
+<img src="https://drive.google.com/uc?id=1HnXeIfWlfqyW35Ay7j5KH4tiFJhfK6Aj" alt="MailCatcher" class="img-fluid"></p>
+<p>最後可以到 User 頁面看到我們剛剛建立的新會員
+<img src="https://drive.google.com/uc?id=1RVneqYw6nyqLykzx5rdR6ZMSF2pU9_lA" alt="Bitwarden-Admin-User-Page" class="img-fluid"></p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天成功將 Bitwarden 的基礎開發環境都建立起來可以供我們之後測試使用，目前來看 Bitwarden 都有照服務來切分專案，之後會來學習各專案的是怎麼互相溝通的
+和了解整個專案的架構</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/bitwarden-design-startup'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
