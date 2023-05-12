@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register">
+
+  <title>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/bitwarden-design-user-register'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/bitwarden-design-user-register' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/bitwarden-design-user-register'>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register</a>
+              <span class="subheading">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register</span>
+          </h1>
+            <div class="meta">Published on Friday, May 12, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="bitwarden-system-design-user-register">Bitwarden System Design User Register</h2>
+<p>在上一篇的文章中成功建立起 Bitwarden 的本地開發環境並且成功的註冊了一個新會員，本篇文章會來討論 Bitwarden
+是如何處理會員註冊邏輯，並且跟一般的註冊邏輯進行比較看看有什麼不同</p>
+<p>首先我們打開 PC bitwarden client 端，因為 PC 端是使用 Angular Electron 內部其實就是個瀏覽器因此我們可以按下 F12
+開啟 Chrome 開發者工具來查看 API 請求流程</p>
+<p>首先先看一下註冊畫面，在這個頁面我們輸入一組電子郵件(email)和主密碼(master password)，在 bitwarden 中會有主密碼這個名稱是因為要用來與一般的密碼進行區隔，
+只有在註冊中建立的那組密碼會被稱為主密碼，我們可以在下方勾選 <code>Check Known data breaches for this password</code>，會先行檢查密碼是否有外洩風險，
+基本上整個加密流程都是圍繞在這個主密碼之上，所以主密碼非常重要要小心保存
+<img src="https://drive.google.com/uc?id=1ocB59ePg-2WrsXvGwp017zn--OK1-YAj" alt="Bitwarden-Create-Account" class="img-fluid"></p>
+<p>按下送出之後會發送 POST 請求到 identity 服務 http://localhost:33656/accounts/register</p>
+<pre><code class="language-text">{
+  &quot;email&quot;: &quot;gao333&#64;gmail.com&quot;,
+  &quot;name&quot;: null,
+  &quot;masterPasswordHash&quot;: &quot;p1zz00J3GLep8IsJL5GTF2US1UyXOvT6yyjREYmHXGk=&quot;,
+  &quot;key&quot;: &quot;2.Dcb1LiBqSXlq4hHFrjSUCg==|135kgwJyzRAnT/3/7bsA3Oz2LSvpANtR04INiTsX/3zrtNQbaV19ZkDLzR32SkkkEzKhGimcMVjzwQpXNLuTuFfSelwT4BuDDr09aGr59xo=|QIDDqRqEcwgt8hmM6kdHm+JoWfydxQ/2oQbCDBpaxzg=&quot;,
+  &quot;captchaResponse&quot;: null,
+  &quot;kdf&quot;: 0,
+  &quot;kdfIterations&quot;: 600000,
+  &quot;masterPasswordHint&quot;: null,
+  &quot;keys&quot;: {
+    &quot;publicKey&quot;: &quot;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAl0FJKE24FtBayF+I/+B3OAouHWDXCAgAuH+zIfJej3cgu1C/gyTkmdSn2Y3+nEViaIJ6ICOBM0ynvTew4VzpnGtEsp7vBknO+0LFIG05uoK9Yoge+cN6sboNOkV5ZFa+5y3EjecVFPFVCpH6j0xGFSQZvcE+eQdjj6L6SvReAnMXLEASqudfayweVKtRIt/tGoP4y6+3doueT5OkKBXBME9ObDLxKHixqiId3EuTfw1FYxdX9rDO7WCzSEsy2Og/QZC5TeVur0vtq7e2eR80jYwyB4pBGPWD2U2NDbyALeIrSX//Jhm7ViAzZbDj9yG/mnVm2CRdHbjp9OPp++rNAQIDAQAB&quot;,
+    &quot;encryptedPrivateKey&quot;: &quot;2.08/OkxkS/7kwK+/UYEcUhw==|P1tfsm/U7k+aTrHrz0HWEklsvmn+t70BtU68ixzO4LXhMcQzfMlh+MEwsRUyxGp6UseeGhyILmONwpOrOy+i0NcPZ+VfG6/xpjAXhV68xyfmEbtd3nwEUMiKOeu8r+9PlEAhnpGnpkld9wj1JMzdSyd1v73+BE0r/RzN6Lit8HVIGnipve+8Zmj2nPk01bZKWXnlVFlMJOh1hxPTCLbDD/UP2/DjdnsWtwVp/W9tpJQggRud6HEaJjuKhFY2MymEvTUbvFXppFTCrm1hCEIQqliT4l1Y1XqbyIxZjUaJVgylZw+uzDb4xvrpX2IwC5AORKKIdKy1Hi+Wq7fnXL6L0LzCEEONGr1ekJK8pqXgNL8Ys5iVGVZw6nGEL9QVcT0Gmd5334gPMcuaoyCNB2katXllO2p+/PX6V+GLKTEvkJ0qfcYOTEnftOl2aipzpSw9fw9L6D/AiRzLREWi7Jd5MvbbN522fFzOpX/Eyh4JymgZeGwaj8gGS73oDUgAtU0OU4A/q1+6dLoM6GPo4M0/e3OXXBlcyJbzBS1YCeppUud5DcGaUNeXQ36+Lj/13M3UUyrxj/bZ3srYRFuQERwNVYjAYFcT/OPWYyM8dh9ipQkqkI3UMl+WwXjHTgJvnFune1KduYmKS6+sKbQJ8u6ONbFjQA8BtUEWUfNtiUvCRcACPM8jUxB4Uqoa23LBlLNFYSIvWWP/2v4EvKMSkTH24LzJU6ktpaA8Zg/7WY78W9GDhUvDZaKF/Ke42a0z12ixx0+4OU6fpTtMeE0b1nh7znFSW+tP/eiibN07sXh8NAAfgRjNHQ/OEkSREvQNSUrykEeZ+b80TVATMhtP4NxZXGDm+5jK1HhPGzsrGaq9uVONNBoqG0Bmc50QY8ExQqxPnye00MRnPZVDL1R7Loh2I3joCNLkBR+tt6W1p8i9MD8xiSYIhVgs4+uAUGycNPVSGjzj5/BYYRmJiH9WvQAa7JkljY1pSCMmTGCliXgX5popQErAxknuFv6JrMwexZC2C3nrl3cptjRG0W1k9oa1JhoX+Fv8Y9NUED6+8jDlNyJio7mKYeaMPqBZSRMqjHsuc1myXswpREUQtomlVC7R/CJv4zSuUkWww9TIoEL5NhbxO9EkDL6hCh6TVChMINJu5EyVnFxv1UX4MLKetwJ1hohdUMj3rmTxEpAk09epdNaU1IqlzBGlNxAhmvE0oJtnUALqJ2Dl5+wLCetK0eHGojqGBuW59+iOJG1iLtEQQdjtZCvlVQKXCmxUagmAJfJNxopcqgBBuCmIUsLvFNk/fzJH8/5tyaMCx+yp5/67yDexSNgFqDuhrS0C3nL9VxlieIPvM//gwF6x4EGTi/r0UwusnlVj3aViuJyeOvF+97/sItctT7vupDdzjc4vYAwk+wLf707qSyg7Q6iQ+RTJKBSK4q8V++e54uVWFZ+kCq0CP08HAbOG38vgQiN7pmAsOK8yykjeLhQ+3q725b/dasw4RqMsn4Zw2JPGuhoI5GJeQ7ODfrTCn8iCvXYglN0k+nOldElzfKsUR9Jyt7VYnonF4KwYMYMyQhqROQpbv9+HV0VyKJGvNutPPqHJchfdnJY5uzzw/ygKjjU/NInuDOBLayZvmI+HqwA5dJLh7Do=|t8HEW+pDxMvX/gy6tn4PBlKlqeaGiTKPwDPGRCkAT68=&quot;
+  }
+}
+</code></pre>
+<p>我們可以到 Identity 專案的 <code>AccountsController.cs</code> 查看更詳細的內容</p>
+<pre><code class="language-text">[HttpPost(&quot;register&quot;)]
+[CaptchaProtected]
+public async Task&lt;RegisterResponseModel&gt; PostRegister([FromBody] RegisterRequestModel model)
+{
+    var user = model.ToUser();
+    var result = await _userService.RegisterUserAsync(user, model.MasterPasswordHash,
+        model.Token, model.OrganizationUserId);
+    if (result.Succeeded)
+    {
+        var captchaBypassToken = _captchaValidationService.GenerateCaptchaBypassToken(user);
+        return new RegisterResponseModel(captchaBypassToken);
+    }
+
+    foreach (var error in result.Errors.Where(e =&gt; e.Code != &quot;DuplicateUserName&quot;))
+    {
+        ModelState.AddModelError(string.Empty, error.Description);
+    }
+
+    await Task.Delay(2000);
+    throw new BadRequestException(ModelState);
+}
+</code></pre>
+<hr />
+<h2 id="captchaprotected">CaptchaProtected</h2>
+<p>Bitwarden 建立了一個自定義標籤 <code>CaptchaProtected</code> 用外部 Captcha 服務來阻擋異常請求<br />
+我們可以在 <code>src/SharedWeb/Utilities/ServiceCollectionExtensions.cs</code> 的 <code>AddDefaultServices</code> 方法查看預設會注入什麼服務，
+在最下方有一段判斷注入 Captcha 程式碼可以得知目前只有支援 HCaptcha 這個外部服務並且我們在上一篇已經學習到 globalSettings 的相關知識，
+所以可以確定我們目前的 <code>secrets.json</code> 並沒有設定 HCaptcha 的相關設定值，所以系統會直接注入 <code>NoopCaptchaValidationService</code>
+最後執行此標籤時會跳過所有 Captcha 的驗證需求</p>
+<pre><code class="language-text">if (CoreHelpers.SettingHasValue(globalSettings.Captcha?.HCaptchaSecretKey) &amp;&amp;
+    CoreHelpers.SettingHasValue(globalSettings.Captcha?.HCaptchaSiteKey))
+{
+    services.AddSingleton&lt;ICaptchaValidationService, HCaptchaValidationService&gt;();
+}
+else
+{
+    services.AddSingleton&lt;ICaptchaValidationService, NoopCaptchaValidationService&gt;();
+}
+</code></pre>
+<pre><code class="language-text">public class NoopCaptchaValidationService : ICaptchaValidationService
+{
+    public string SiteKeyResponseKeyName =&gt; null;
+    public string SiteKey =&gt; null;
+    public bool RequireCaptchaValidation(ICurrentContext currentContext, User user = null) =&gt; false;
+    public string GenerateCaptchaBypassToken(User user) =&gt; &quot;&quot;;
+    public Task&lt;CaptchaResponse&gt; ValidateCaptchaResponseAsync(string captchaResponse, string clientIpAddress,
+        User user = null)
+    {
+        return Task.FromResult(new CaptchaResponse { Success = true });
+    }
+}
+</code></pre>
+<p>我們也可以來看看 <code>HCaptchaValidationService</code> 是怎麼判斷異常請求的，不過在此之前需要了解 Bitwarden 的 Context。</p>
+<p>跟我們平常習慣使用 HttpContext 的方式有所不同，Bitwarden 額外建立了一個 CurrentContext 可以在各個專案中的 <code>Startup.cs</code> 看到它的身影，
+底下同時也會注入 IHttpContextAccessor 讓我們可以在系統內使用 HttpContext，最後在注入 CurrentContextMiddleware 將目前
+httpContext 與 globalSettings 複製到 CurrentContext 之內，這樣我們就可以每個請求使用 CurrentContext 來獲取環境資料了</p>
+<pre><code class="language-text">services.AddScoped&lt;ICurrentContext, CurrentContext&gt;();
+services.TryAddSingleton&lt;IHttpContextAccessor, HttpContextAccessor&gt;();
+
+app.UseMiddleware&lt;CurrentContextMiddleware&gt;();
+</code></pre>
+<pre><code class="language-text">public class CurrentContextMiddleware
+{
+    private readonly RequestDelegate _next;
+
+    public CurrentContextMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    public async Task Invoke(HttpContext httpContext, ICurrentContext currentContext, GlobalSettings globalSettings)
+    {
+        await currentContext.BuildAsync(httpContext, globalSettings);
+        await _next.Invoke(httpContext);
+    }
+}
+</code></pre>
+<p>最後會有兩個條件可以觸發 HCaptcha</p>
+<ol>
+<li>Http 請求 header 帶有 <code>x-Cf-Is-Bot</code> header</li>
+<li>GlobalSettings 的 ForceCaptchaRequired 為 true</li>
+</ol>
+<p>如果確認要觸發 HCaptcha 則會回傳給 client 400 錯誤與以下錯誤內容，並且中斷註冊邏輯之後 client 端會根據我們的 SiteKey
+自動在註冊頁面底下建立一個 iframe 給我們進行點擊 HCaptcha 的非機器人驗證</p>
+<pre><code class="language-text">{
+  &quot;message&quot;: &quot;The model state is invalid.&quot;,
+  &quot;validationErrors&quot;: {
+    &quot;HCaptcha_SiteKey&quot;: [
+      &quot;bc38c221-5311-4e8c-9dfc-42399f6df417&quot;
+    ]
+  },
+  &quot;exceptionMessage&quot;: null,
+  &quot;exceptionStackTrace&quot;: null,
+  &quot;innerExceptionMessage&quot;: null,
+  &quot;object&quot;: &quot;error&quot;
+}
+</code></pre>
+<p>成功通過之後會在 iframe 的 data-hcaptcha-response 保存臨時的 token 值，我們需要在 token 的時效性內再次發出註冊請求
+不然 token 過期之後我們要再次通過 HCaptcha 獲得一個新的 token，發出請求時會同時帶著 token(captchaResponse) 到我們後端</p>
+<pre><code class="language-text">{
+  &quot;email&quot;: &quot;gao333&#64;gmail.com&quot;,
+  &quot;name&quot;: null,
+  &quot;masterPasswordHash&quot;: &quot;p1zz00J3GLep8IsJL5GTF2US1UyXOvT6yyjREYmHXGk=&quot;,
+  &quot;key&quot;: &quot;2.Bh7bBf8Ck5z2/FA2vW7sNw==|1gqWaSAoegdfvajB8VEh6YoixBTcGbzkSbQqXXqxlQZdyrxUkPmC//HuzZlItiRLolTrEYKLOPAI4NTRMwRudMtXraXk0aExJDoiBx3rbr8=|Ng+fUJlFY1vhzYsLRTGftECX548CQGOf5LIqFAEWEuo=&quot;,
+  &quot;referenceData&quot;: {
+    &quot;id&quot;: null
+  },
+  &quot;captchaResponse&quot;: &quot;P1_eyJ0eXAiOiJKV1QiLCJhbGc2OiJIUzI1NiJ9.hKdwYXNzs2V5xQmMBO9iylajP-1byEUlVzFx71vl9yiuVyLjbSFYdtHvyNhBcvr4bgoggYzKpH15ys7xjKO7W0TfVykvyJOK8G0aWuhQaui88vdqxBIFKdVJexL-GZh2cikkLKoZNUaiY1-AWzEB5mrZ0CthJd6QrskYqf6qyh1LN9_-OWAA0LebncWfdi6tAQt7JoqYccm4DcM6uaFCDw7piMtr3hmpvSktPTx4Du3qRrmE6lZSGmykuPbNPJzOTavTPpdJgpLmiO-1T00PQlvwJ3DFwY394KT4LvS_e8jA6_vU-QtPv_vHuABH02nGZTnOjAre8uuGRIAbKC1cDyELSyiqUX_B-LLSib_SInIKGHb8R5VZV4S0sUbcDzq6bf_NXP9WmebDfBSf27KaB20lpaIA7ektjbBI7w954ori7k3e-TxAH5VSAoDsWxrTvmGaeg-DvYuamdVoHVIUCfdJnBV_E9P08X8-wl-6705yq7jFo6ugaqcXQhqIMQzaXlFM6-cHVib_hjiuLXVsqPJ-tNanfLBLuRsWLTrP8lEHCKLTc3S_VQag4bi5RAg0JM1pF1Tcc0RXYcl9sZ-oOteDOdA4dNg_YdHn8xLvrOlxC2T59hxdW2aMDM1ipOOOMsJDR-P3M-fFmDoAdqmvgzGhpBtDqXmw370EKmPy1SyAGmT6LahOeUQzi4k6FewfN3ARUJ7qrQ7forhJ0XI2j0FCpp8YPG6SWWSDUfGrKzoCpSldBCreLr9jch7m_rwsXH8JWu_yvbfMdvLzfJWIZdTXmK8UksV-hVsn7DgtmHUSBuxgGimRS878Vqxiqm8xm67UoKb-DHokJKjVM_ctIN-YVdMPn-DSRO3Bni8DVwU9KAqGN7dWc7mCOC7Wf5f9NIeQcq_Ovt-YQ6wkON6VpKnyV2heBH3zFspZdKaKRdBBonpXzhwuNTACeud-F1xXuOLA5UPcH-53WgjXutCBQgEsUiIv71iM0CpyE79kIkVlsWJSm2E1hg9i-B9Wzku01ZyfXc8wSdCH057NbO5vK46wgvUfYhWkFQtZPIRew0ruYbLOh05A44bbNCbQuyq0eLHlsJJA4aIcJlYtpIycWwt6mIfL_HqKZ0_lrlnJiCkfk9-c-mQ2PsKLZCn32-CsseulJR4Vd6q-6sVbOf8Ujg_zbioVAloLjVqqwPP9UvzHRx0LNinXXxcJlR8ds_0o8swoBuZprDcApuvca8AW_nFklPA1Q3YIOBLlXXrHbbR_Ba38tzDVrIuWa_S29vEBjM2nKbhs5-XHRNGAFxYsYTZhaUvwAM9kCmyaTVVfpxjHPaPUyUYoOt40oRaGGIVztZ71ELEp5fUKr7aMREF24D1OXe_FOcQCnfSHPdn5EnTfjKPr9B44jIinYZUsB69Ed4Mz2_fr8o3Y9cMdUUaTMlnxLF7PT_aGhy5H5THPMNVhx2Xk5bB0Mt9la-plx3n2ziNqOeX_Ptze4dSnb65l_iRMBVhT33rfoU3JPczA36B-HCv2AuC7QLyKYrCCu50RjyYTlTDfyMb28p321zy5zbrbRQoThZ4-pqMqyZXfdpIKMnsCeA8TTaHZ52tpa63JSEynR9OKtv8l7uX6ftBmoKMF6Qiiq9ss0RxTV1vM0DU2j2UBYHEjEUEKr_G4c8SwqZ8CYvYcYHoDyG2P4vLRA6akpgblAZJCoxcYEseDxbaj4xPEuGHTFfXlAId7jNmrTCVEPYiafIdprqMO3LDpOX9d8NdPSe7DMNgv29dDShofwoohaE2MBmy3zVOqxfGRMMOpaSj_wpZDF1wG3cLMKX8ct_xxLvcicVn8m9wV55MuX6d-LMFOow4NDsaMCkLo7rVaBtwfaM7zI1ty4qlGfk01XO8eNyFy9mAwocp0TqGMkP83i0ymNtLnAxQMmhwiePDukSU9hc_kY0MWZr3yUOYtFhFAcfRPF23B4CfyT4aS4vC25U48JrA8FOFP2flyuWtpbjPL8yZGaXHeb8VMAsA9lAkES6aSEPgftfMrHTD8O-QaHt-Vkob5ehlo_9mUIpUJs03UWeqBqhMSH8j9CICOmwi5T2kl9n3_xd8XOQ6KjN5uHYHWcwq0YiMBhGAr34qH2jx1NFMxeC4NGqzgHyc_wndlJinVqSDgBesDjlBHl7_AAhQbYvMJkJ-Z9kZhxyrWPftlKMbjfWmntatmX1TjveW6hp4Y96bXuQ60HdHJrVUWZt5vAzERQtu2Ff8eQzLmmKT5rHbJ90HGiMFCxoi_WNGG83n9KCX2CevjQIAV8NaP6Yphwb3N8DdsgmukvQkYpueOHe-TvucqGnG2Gh4lSh-O48pdpxEfTVxZzmAedvPljm-YV2V2YJE76zg8KchporOBF486BpWyx74qWrr7jSa0Gfufs7cX-rBH1YhOBsAU1O9lbKVWouTznW_OhrohkDb7Q401_-UVKG0eAt10aLDecc4ZEQfXRD7v-5svsOk4Jptzf25APPuPSG_WXRzBGw7f5uLWpmUqmd2OVjEoUq2Xf34RU8ADsReWuAjArpXR-vU7XytrmjrLkKn7ZuvHi5IPMnC41GjxLDJF299GCxdLY1BDfKqeNU3ss4Av9nFgC-QY6dkcX_MQXGsqRe2BFBigxezlwMw5TOZeubLY1RseNe0i5GYgfqiBU7NuowyuAVYziL85Tn8VSbpBdUHlpziLPCFf6Z3Jb2SXEwatkQXovvrLso-VEfeB5pO7A1CoQjSWsFhHHx3JT-azY_rVPlwmvHPm4ve5ZNiCPKFmUe5RhO7DHCOUPwprmqai3T-ZzIQQM7GRolL0g4fK-JB3-Rbo8C-qmRAO7-igHjo0hWxsDFiKtz8U_awm30miAtUaXa5-TnGS0YQ6nA4rXnzx2b7SHV3Xmn16nJwHp76uVL_b6UU5cqh4MY3svkMbFf_r6uRK-3W1IKRXssEav_MmCeFEMy8O9dnXUop51mOFDqn7f_w8dtC_0cBNGLPTIfBpdnAc70Z6vxUTmhk2Q84_i6fpIYGM4T3NUPqcP8rKNM8EtzGylf_7Te4T6lXOGi2Q5y-6vEwCv21LX4BnzsV1JMfGNDUYCsij3ANv2-NjQ2a-DxdV29evg9btlkhSdTOpUJ0wyZkvyqchuLkkG8P8CvSeEc38WLBqAP2y_HfXghb1NyBhpuqDLukyfqs1z8qj6UkligZJNlDZc2rraJSdUMb5qfXidxdSeu161mS82d9-kYizqlGbCyFiyKLQ3wahGTEd4Tyr1qUPmziPJRdXnOQI8nKjZXhwzmReKHOoc2hhcmRfaWTOFZnkVKJwZAA.p7uvsGbukUZC20NJhEcMYlRflNuzVjfNa06-3frHtKs&quot;,
+  &quot;kdf&quot;: 0,
+  &quot;kdfIterations&quot;: 600000,
+  &quot;masterPasswordHint&quot;: null,
+  &quot;keys&quot;: {
+    &quot;publicKey&quot;: &quot;MIIBIjANBgkqhkiG9w0BQXEFAAOCAQ8AMIIBCgKCAQEA1kBpYwQzuVznb3a8fxKc5B9azohEY6Cv30t+kxEDB58oFYdYFqVwAI07P1cq5mSjM9nZ5okhaMVT/lx7lJRYirxo2BUOiJ8d2goL441Um80VmBan+26jeCBARGI/fMHYJxdPWgpWOCpGE2Ba2wDca5Qn1M4yCLQrs9Nruv/golBCNe9/5AY3tv5DBBaQUo9mguL4mmWlLTJpjTGp3ZSLzYLzSUP9UVvizuMihC6Ev8KTfA1fD09u036K9jylrGqnxQwbPfFzeEf4Cw7o/emE5ofdjYUx4emYphfWl/wtiByVWtLNyH6TwFBWv95Xpvn4yqRvNVlXSs0M5C/np4geZwIDAQAB&quot;,
+    &quot;encryptedPrivateKey&quot;: &quot;2.0uyBh0E5NtYLWDUJRPaBD7w==|+KsKJFExWMTgocdSdeLF6sgK48xeH/HRjN7XuazYb0EA0Tyz1vhfSEtVXG+1JiHSF+YdXTI82Hw4kw065EvNglw4r11hECQAFMHQFUCAUp/+SNk6wsDoDixspk7R3C8swHAki2tUqrB4DFRxu3yx7LTmcxb479iTK6qFmFSOJ0TQun0Zu58hUQTJ/bZhlVurT+5jZ+5vRj56m6/dtrwE6r/b8KsBRW+hoptAIemG84DDBDWWhSrLvmUkAjIbwdEj311j7ajvE1feAd5l5GYLPBKPiIQ2buQQNARpQoPJJLG+rYItSjpU2P7m/yLClT9M4QBBesuKqSjoMQpmFR0BWmKKno9arNzzLCADft6m6l3ubKJoKU44xKeZVfAQXJsKf2QJDiUMOSwAs1XA5zWYnLZvEw0wLVLILCjcGm4tr282dXaS0R0ryLp6Z+RuMFtSTuI1bHINL6kPK3cpU3buvV90LsIthfGawmFbcBm+/Q+Hhate2wZlL8kxaVWzoZ3v7ejpKVWdPw1TEm8pBfBRPso3pCPj86TwvvLEjvAnv3SojmeITQ4c71dUSnVq3g4Ns42iv6dyIxQVYfDj7YRp+eZpJtjFu1V0poYn52y7kX6l9cxCz2f3ZAsE1/7l1lY7jd2N++XD5aAgqMu17PRXnxqmlXNUJ8CIFi1mIcr3eeT2KWYPdzuru9BjrAgs+/GG5hm0OTxiZXu/E1CAJYKoecvgjoz4RVSMAjJSKiHC9Kusy6BTBeCG7KCN0MT9jYkH+6RCPqhGG2OCU/JYlluPXtrhR3koqc4OTDwnqbujycTtR85N99bDhs4MvbQA7wtPnJSsZM4fwziJbwzJ9cdUb3w33nOuESzH76YY6+mE1xsoq6ZGBy01so9dzZuTIAg9r7o3fp6vXmZ1rFdtkagnzaNfut5NYKdZnA38k66MTg2cF+1qRw8/iGsvdnVpPsUF830zbb7s5qgo2PdOga/3Uoj7IFmcHLSv/rSTgVkcvid3XGURg1Sh+I9iqmY8ZeOTzK/prH2NIU/DiNdHfWn/uZygTJDibW/ZQP1VPdT2AYOmAzv0wbrMQ4V3xifHWBFfQvycGVq7IY142Q6+1vZcS/BjkWR1QLGapIOXLcMaz0H+NSS5DI4kV5uM8Kn8i7niA7vkZmGG12uiqtAP5WgDyZoWHVKi+hKO/JxBgHnfpobjnWnFRmW+i2iyn4xrnwzDUZ78HR+E1j3bGdt7lL6EORQF5xtg4rzSqtHO/sLwAW62Isw6uqGnP+ZBlZAdRFJCUfrEcH43k1WyRZL27FcEfBLZRT8BW57OffRb1AMHNgmp1yk2n+bUF9zEDav/+sFPmy+R7Mo28dbpQV+V44tq3cCoaW57v1BD88NfpDtGpHvOb6LFF+ESuAMvtFNI9Praj7Twa+1mXPL/bvBZ/macqkKxMEpWRZnDvJi82JFuRLSERkUo2g5sPhntS3Si5T2oW5ZJIfTs/1tR3MMSZqAKEufyIzCWnZds3DyZLEiA0nqRTRntWOKlzQwaLQ2Jnv3n7eum8KCOTtr1xXINCudecUcsyKVGCXyUQ8NQgEKTQL41uXqFDFHlmspmAOFSdSFbag6AcFJPf1c8GAG05049zlteZ53hFbzvmyqp8IsWO2M=|/Qe5/uiLL7v5S2pFPZGe+97y7wqUZYDEjTEzlavTuy0=&quot;
+  }
+}
+</code></pre>
+<hr />
+<h2 id="register">Register</h2>
+<p>成功通過 HCaptcha 之後會將傳入的 RegisterRequestModel 轉換成 user</p>
+<pre><code class="language-text">Name = null,
+Email = &quot;gao333&#64;gmail.com&quot;,
+MasterPasswordHint = null,
+Kdf = PBKDF2_SHA256,
+KdfIterations = 600000,
+KdfMemory = null,
+KdfParallelism = null,
+ReferenceData = null,
+Key = &quot;2.25J+JA0xacL+i4HSWR+gOQ==|69iIFOtOubajKExRRn4Wch6VVgQVrYSrLVOSptKI93YO5uE6RfwRPEDJazIe80c+c4FKTxhPleHi55x+PjwIBc+lZEul57I2cmkVSbtRxPQ=|RhCIC5gqrBRHNU/DVTMzYgjH7F8hSZivSzO4PVypsnw=&quot;,
+PublicKey = &quot;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwOP/SHTLjvj74ZuY3S7EoqzGcEkI1twEdDI39nxQhXFO7z3ocJDN4Lp/yl10kIrvj53R81IDar9kqDHSTZVoiDlzr5m6SOiA+dxv9RHxAfd3w1E8WCjNKVgObb35/QS/ZjFvEErPh9TVnfqSWWfMnbAz/hCwwN7F2aBvm8Aj98j4kMoxYiY1aKEgEJiQd1lhklFrukCAXKRSkXUNIPbjCtZu4ur5vIvb0JXiQXIWn3CsEucWtP6HDnL4BDigGQSRj8Pn0XyqaEA0z9mkZGphhSBRlB1I7PJvS2om1XK05XDTWBliF1qvJTBY3J8GwAv3F/+13NJoeQBHvTNNktZEowIDAQAB&quot;,
+PrivateKey = &quot;2.W4MWFygX2THnA2q3Y9ZIZg==|GKY90a8c7JUfJhKxc0BjWBVoXD/uj10cP94IY4mF4JC6uIJsociD5lzJChLEptk0uOzd0sZbBW3SawFqFp4+ThHaPj5Is1AScCB/OqxJ5VbZphQXG5x5qb/C+aosBh79XNg5lVBFZopfYfewx3sL+/cZ2EI3FX1thhKsOMazwCkckWMKBbBc+lwvL6zDGUvcB+V0fbBiTFDtjdSP+lAutoq5QdzghULQsyJWKAVyLJ+w50MaPMvrFyjocb9At45kw+o03kZcgjhv7zqMT/CfQVoQlQaEP8tZHcT5L0sfqDcF62h86ltH7fhcEeKO8Ywb3+Qx3ryueNvuUacR9CZXfb+B3utIDLgULD3gH+rdeABcWATgVyWpEl6R1KMBF/0lJGo3enV9eBJbXHcia0tsxBFGZ9eUFxUEOaEgC270rt+OlIacCM+SurgSHru7Z4lied98ZQSgXF4BVker5CAnXyvCp5/E2zwVo757MdfBkcQXvF2u6mC+8WarE3E9l0qmQ0FlRZfG92SLXVRuFQ88QRA1i8ajGndT36pf5gpO4tqg67Pvo+X1BdWNsfN5qn2/IGeKvL6dY2il074rl38um1b3TiIBFfNZPKssTwvtkTyp7uIkGvQIGZ13S1VTzLrhbZ7I+knkLVLrQH1O5vd5J59I8XwA9sMF6Hj2fczphBMHaTmsn+OeKoLVH3XVAewXOm4HsYboLadyCmKhsB6BROmR9LNgdSSWFtIoqw/5TPK9btzC/GFaAoGM0h1T1786NRumyr39PfEk6X0BD8XtzFf4uaQ24NK9XeKJpCj3LWUS4NGk2SIsO0J5tmnmXNj4P1IRp+VIifeFwi49ECpaj2gpItMwbHHt/EBgI+d+5EFaOWG/xct5edSM6etHzpmfWxjP4wSdubKTHAO/KgIR9FtOMqrWRClx//9w3fVMeQRBG7uUMMJvbMihDu0X9pEA0buMZidHnwq/mDe1YomY4htKq2RJqZjl5UTK6tG4dfop75nYaCoUkflJzt4hPLOZsgLR9zxyMORfjjivw5QyIbO/10NmqocbpozM4kIgZvvgYJ+Whjetu95a+67gGa1ZRiuGedFL/lcWCO+PXV5wRxh/wxdaZK582wK5GybkIPYNnAXBrSEqNu9kKF1qXvKokiI3hGY2UhcHMYFNtVR/qdyVYTjVy4xbJLSGRadenPm9DR3es5stkEO/0HU3x7+MyV7qakQbascnmKOnUGzl2vhky7t5xjCEGX2BRdSsSBOplimW2OavA1ybqKadhHzJTVrNKqjtT1v6QTFQYvtrqYIqiJbNGTPxCyv7MzwYxJHJTDMdMobKAhmfbg3PqS30HiTrU0ZkYlJfkdzn6pngAecdWPE8XOIedVULKqO8D4dJSiyJPjaNdns+sFk17SxyqPCgzpAiJGYiR1kYZ3hFIetnp6IdUX5MS1lvJK/p+58ihmD0t0aHXhP+FQXZ3DRW2MD9Sj9aHQ3NyWuo92po4gFoJk3yI6KyEcQLderoERg3I0TfGlJGND4ffWPXfKItfzI5ta+oDqYew2NNA1Z32lZWEPWEb4j1dkqjIdZAj7/r+PzFQJLNtD4MzqCcKkee6gvYOy8XkzMSyQP9ckfP9GnJIBEAc3LRyaUmF0BylXs=|x4NF5KcKTRs2y9qddKt13A7EZhR7IcHFiNrsttalkSI=&quot;
+</code></pre>
+<p>這裡 Bitwarden 使用的是 Dotnet Identity 提供的功能，目前許多開源的專案都是直接使用 Dotnet Identity 可以少寫很多程式碼，
+可以參考本部落格之前的 Identity 系列，根據 Dotnet Identity 當初的學習流程我們需要先找出有沒有類似 <code>AddIdentity&lt;TUser,TRole&gt;</code> 的設定，
+我們知道需要在專案注入常用的服務才可以使用 Dotnet Identity 的功能。</p>
+<p>經過一番查找之後發現在 Identity 專案中呼叫了兩個客製化的方法，由此可以得知此專案使用的是 IdentityServer 搭配使用 Dotnet Identity 來做會員持久化，
+並不是使用 TestUser 這種簡易建立會員的方法，可以參考本部落格之前的 Identity Server 系列</p>
+<pre><code class="language-text">// IdentityServer
+services.AddCustomIdentityServerServices(Environment, globalSettings);
+
+// Identity
+services.AddCustomIdentityServices(globalSettings);
+</code></pre>
+<p><code>AddCustomIdentityServices</code> 中並不使用預設的 <code>AddIdentity&lt;TUser,TRole&gt;</code> 注入方法，
+反而是另外客製化一個 <code>AddIdentityWithoutCookieAuth&lt;TUser, TRole&gt;</code> 方法</p>
+<pre><code class="language-text">public static IdentityBuilder AddIdentityWithoutCookieAuth&lt;TUser, TRole&gt;(
+    this IServiceCollection services,
+    Action&lt;IdentityOptions&gt; setupAction)
+    where TUser : class
+    where TRole : class
+{
+    // Hosting doesn't add IHttpContextAccessor by default
+    services.AddHttpContextAccessor();
+    // Identity services
+    services.TryAddScoped&lt;IUserValidator&lt;TUser&gt;, UserValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IPasswordValidator&lt;TUser&gt;, PasswordValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IPasswordHasher&lt;TUser&gt;, PasswordHasher&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;ILookupNormalizer, LowerInvariantLookupNormalizer&gt;();
+    services.TryAddScoped&lt;IRoleValidator&lt;TRole&gt;, RoleValidator&lt;TRole&gt;&gt;();
+    // No interface for the error describer so we can add errors without rev'ing the interface
+    services.TryAddScoped&lt;IdentityErrorDescriber&gt;();
+    services.TryAddScoped&lt;ISecurityStampValidator, SecurityStampValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;ITwoFactorSecurityStampValidator, TwoFactorSecurityStampValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IUserClaimsPrincipalFactory&lt;TUser&gt;, UserClaimsPrincipalFactory&lt;TUser, TRole&gt;&gt;();
+    services.TryAddScoped&lt;IUserConfirmation&lt;TUser&gt;, DefaultUserConfirmation&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;UserManager&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;SignInManager&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;RoleManager&lt;TRole&gt;&gt;();
+
+    if (setupAction != null)
+    {
+        services.Configure(setupAction);
+    }
+
+    return new IdentityBuilder(typeof(TUser), typeof(TRole), services);
+}
+</code></pre>
+<p>跟預設的 <code>AddIdentity</code> 比較此客製化方法把預設的 cookie 移除了並且 ILookupNormalizer 正規化改用 LowerInvariantLookupNormalizer</p>
+<ol>
+<li><code>IdentityConstants.ApplicationScheme</code></li>
+<li><code>IdentityConstants.ExternalScheme</code></li>
+<li><code>IdentityConstants.TwoFactorRememberMeScheme</code></li>
+<li><code>IdentityConstants.TwoFactorUserIdScheme</code></li>
+</ol>
+<p>我們知道 Dotnet Identity 有提供許多種的 Manage 與 Store 方法，在 Bitwarden 中自訂了 UserManager 與 IdentityUser，
+叫做 UserService 與 User，可以在 UserService 看到有繼承 UserManager<User>，這樣就可以使用 UserManager 許多方便的預設方法了</p>
+<pre><code class="language-text">public class UserService : UserManager&lt;User&gt;, IUserService, IDisposable
+</code></pre>
+<p>最後呼叫 RegisterUserAsync 即可將會員資料保存到資料庫內</p>
+<pre><code class="language-text">var result = await _userService.RegisterUserAsync(user, model.MasterPasswordHash, model.Token, model.OrganizationUserId);
+</code></pre>
+<p>最後成功建立會員並且回傳 captchaBypassToken 到 client 端</p>
+<pre><code class="language-text">{
+  &quot;captchaBypassToken&quot;: &quot;BWCaptchaBypass_CfDJ8HEg3HnURtNHvhDcWSv8VnqR9aPDJKnJr25gR-xUVlIB62PgFvRTuvcRcsqmaYCZx8ZQiDfZrlKF7hqMcSsRcNbwsrR4Uejz4N0j-l-Mxz_QkiguV8G9dtKZs8Qbpq9t87gCeE_UODXX-sn6agVTkpIboYE1hRxeHzOZ_HcAEJjg1HGw6dNQOZZnkMObUSE89ukbkBZaKbMZN52HZ2JV0RnL73FZF7Vd5MMVO7fNQoVgbqlf49bU-Zi9dvDc-uRmH510lphcaMkcn_Mg6lHUQjD-Nv75FcjV5X7MPpnfe7XVfLSVw3aa5rELvohhHP7oyg&quot;,
+  &quot;object&quot;: &quot;register&quot;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>本文章學習了 Bitwarden 是如何處理會員註冊邏輯的，並且了解架構是使用 IdentityServer 搭配使用 Dotnet Identity 並且沒有預設提供的
+cookie 來達成註冊登入功能，之後會在學習會員資料是怎麼進行加密保存的與登入的流程。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/bitwarden-design-user-register'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
