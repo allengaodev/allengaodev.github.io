@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;">
+
+  <title>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x8A3B;&#x518A;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/bitwarden-design-user-register-encryption'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x8A3B;&#x518A;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/bitwarden-design-user-register-encryption' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/bitwarden-design-user-register-encryption'>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;</a>
+              <span class="subheading">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;</span>
+          </h1>
+            <div class="meta">Published on Saturday, May 13, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="bitwarden">Bitwarden 會員註冊系統加密設計</h2>
+<p>在上一篇文章中我們了解 Bitwarden 的註冊流程，今天來討論它背後是如何進行加密的。</p>
+<p>首先我們先看看昨天發送的註冊 POST 請求  http://localhost:33656/accounts/register</p>
+<pre><code class="language-text">{
+  &quot;email&quot;: &quot;gao333&#64;gmail.com&quot;,
+  &quot;name&quot;: null,
+  &quot;masterPasswordHash&quot;: &quot;p1zz00J3GLep8IsJL5GTF2US1UyXOvT6yyjREYmHXGk=&quot;,
+  &quot;key&quot;: &quot;2.Dcb1LiBqSXlq4hHFrjSUCg==|135kgwJyzRAnT/3/7bsA3Oz2LSvpANtR04INiTsX/3zrtNQbaV19ZkDLzR32SkkkEzKhGimcMVjzwQpXNLuTuFfSelwT4BuDDr09aGr59xo=|QIDDqRqEcwgt8hmM6kdHm+JoWfydxQ/2oQbCDBpaxzg=&quot;,
+  &quot;captchaResponse&quot;: null,
+  &quot;kdf&quot;: 0,
+  &quot;kdfIterations&quot;: 600000,
+  &quot;masterPasswordHint&quot;: null,
+  &quot;keys&quot;: {
+    &quot;publicKey&quot;: &quot;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAl0FJKE24FtBayF+I/+B3OAouHWDXCAgAuH+zIfJej3cgu1C/gyTkmdSn2Y3+nEViaIJ6ICOBM0ynvTew4VzpnGtEsp7vBknO+0LFIG05uoK9Yoge+cN6sboNOkV5ZFa+5y3EjecVFPFVCpH6j0xGFSQZvcE+eQdjj6L6SvReAnMXLEASqudfayweVKtRIt/tGoP4y6+3doueT5OkKBXBME9ObDLxKHixqiId3EuTfw1FYxdX9rDO7WCzSEsy2Og/QZC5TeVur0vtq7e2eR80jYwyB4pBGPWD2U2NDbyALeIrSX//Jhm7ViAzZbDj9yG/mnVm2CRdHbjp9OPp++rNAQIDAQAB&quot;,
+    &quot;encryptedPrivateKey&quot;: &quot;2.08/OkxkS/7kwK+/UYEcUhw==|P1tfsm/U7k+aTrHrz0HWEklsvmn+t70BtU68ixzO4LXhMcQzfMlh+MEwsRUyxGp6UseeGhyILmONwpOrOy+i0NcPZ+VfG6/xpjAXhV68xyfmEbtd3nwEUMiKOeu8r+9PlEAhnpGnpkld9wj1JMzdSyd1v73+BE0r/RzN6Lit8HVIGnipve+8Zmj2nPk01bZKWXnlVFlMJOh1hxPTCLbDD/UP2/DjdnsWtwVp/W9tpJQggRud6HEaJjuKhFY2MymEvTUbvFXppFTCrm1hCEIQqliT4l1Y1XqbyIxZjUaJVgylZw+uzDb4xvrpX2IwC5AORKKIdKy1Hi+Wq7fnXL6L0LzCEEONGr1ekJK8pqXgNL8Ys5iVGVZw6nGEL9QVcT0Gmd5334gPMcuaoyCNB2katXllO2p+/PX6V+GLKTEvkJ0qfcYOTEnftOl2aipzpSw9fw9L6D/AiRzLREWi7Jd5MvbbN522fFzOpX/Eyh4JymgZeGwaj8gGS73oDUgAtU0OU4A/q1+6dLoM6GPo4M0/e3OXXBlcyJbzBS1YCeppUud5DcGaUNeXQ36+Lj/13M3UUyrxj/bZ3srYRFuQERwNVYjAYFcT/OPWYyM8dh9ipQkqkI3UMl+WwXjHTgJvnFune1KduYmKS6+sKbQJ8u6ONbFjQA8BtUEWUfNtiUvCRcACPM8jUxB4Uqoa23LBlLNFYSIvWWP/2v4EvKMSkTH24LzJU6ktpaA8Zg/7WY78W9GDhUvDZaKF/Ke42a0z12ixx0+4OU6fpTtMeE0b1nh7znFSW+tP/eiibN07sXh8NAAfgRjNHQ/OEkSREvQNSUrykEeZ+b80TVATMhtP4NxZXGDm+5jK1HhPGzsrGaq9uVONNBoqG0Bmc50QY8ExQqxPnye00MRnPZVDL1R7Loh2I3joCNLkBR+tt6W1p8i9MD8xiSYIhVgs4+uAUGycNPVSGjzj5/BYYRmJiH9WvQAa7JkljY1pSCMmTGCliXgX5popQErAxknuFv6JrMwexZC2C3nrl3cptjRG0W1k9oa1JhoX+Fv8Y9NUED6+8jDlNyJio7mKYeaMPqBZSRMqjHsuc1myXswpREUQtomlVC7R/CJv4zSuUkWww9TIoEL5NhbxO9EkDL6hCh6TVChMINJu5EyVnFxv1UX4MLKetwJ1hohdUMj3rmTxEpAk09epdNaU1IqlzBGlNxAhmvE0oJtnUALqJ2Dl5+wLCetK0eHGojqGBuW59+iOJG1iLtEQQdjtZCvlVQKXCmxUagmAJfJNxopcqgBBuCmIUsLvFNk/fzJH8/5tyaMCx+yp5/67yDexSNgFqDuhrS0C3nL9VxlieIPvM//gwF6x4EGTi/r0UwusnlVj3aViuJyeOvF+97/sItctT7vupDdzjc4vYAwk+wLf707qSyg7Q6iQ+RTJKBSK4q8V++e54uVWFZ+kCq0CP08HAbOG38vgQiN7pmAsOK8yykjeLhQ+3q725b/dasw4RqMsn4Zw2JPGuhoI5GJeQ7ODfrTCn8iCvXYglN0k+nOldElzfKsUR9Jyt7VYnonF4KwYMYMyQhqROQpbv9+HV0VyKJGvNutPPqHJchfdnJY5uzzw/ygKjjU/NInuDOBLayZvmI+HqwA5dJLh7Do=|t8HEW+pDxMvX/gy6tn4PBlKlqeaGiTKPwDPGRCkAT68=&quot;
+  }
+}
+</code></pre>
+<p>與我們平常常見的直接明碼傳輸帳號密碼的設計不同，在 bitwarden 中反而是優先在 Client 端進行 PBKDF2 運算出 hash 值在傳送到後端，
+這樣做的好處是我們最重要的主密碼永遠不會透過網路傳輸並且在計算出 hash 之後主密碼就會盡快從記憶體內清除這兩個作法可以大大增加安全性</p>
+<p>我們先看一下 bitwarden 提供的這張架構圖<br />
+<img src="https://bitwarden.com/_gatsby/image/b14073d5e2855dd1ccf7c5c33848318e/df3d74ff52a7f409cfdddc70d8d1be60/bitwarden-password-hashing-key-derivation-encryption.webp?eu=da8b04b5e6cba9d45a3ba9d56f273269e73c53adfa5633843930e1a71eae968021f31807719c7ee4296d0fdad1e411ec61977f351bbfd2dac2e81bf1e867fc5e55d550b623f730445b34dba7eda451102bd8491cf7d28b4bf62931cabbe6f36f1e124278ee20b9d7e4f47263af826d4e97ccf9441399fa7c80471c51976138b919fd99c1321abcccb51fbab7e6ad5fcfc9ee2f0716def36620231d4e5aeb79b9a3e60024267b191f729fed0c923f8bf66d5f2264011d57ea3f6b930da23266debfaee8408d2f39b8ee987529d99db3d5b349ee6336a39678f79c7b2459&a=w%3D850%26h%3D478%26fm%3Dwebp%26q%3D75&cd=2022-01-19T18%3A14%3A56.062Z" alt="Bitwarden-Regiser-Encrypt" class="img-fluid"></p>
+<p>從最左邊看起當我們按下送出之後第一步驟是計算 MasterKey ，會根據我們的 email 與 master password 做 PBKDF2-SHA256 Iteration 600000 次</p>
+<pre><code class="language-c#">byte[] masterKeyByte = PBKDF2.DeriveKey(password, salt, 600000, 256, new HMACSHA256());
+string masterKey = Convert.ToBase64String(masterKeyByte);
+
+MasterKey: 7nD/dc7PF1jWAIkISuVbUYEFGIADMEIogaASeUJ+2h0=
+</code></pre>
+<p>接下來第二步驟會是計算出 MasterPasswordHash 使用剛剛計算的 MasterKey 與明碼的 master password 做 PBKDF2-SHA256 運算 1 次</p>
+<pre><code class="language-c#">byte[] masterPasswordHashByte = PBKDF2.DeriveKey(masterKeyByte, password, 1, 256, new HMACSHA256());
+string masterPasswordHash = Convert.ToBase64String(masterPasswordHashByte);
+
+MasterPasswordHash: p1zz00J3GLep8IsJL5GTF2US1UyXOvT6yyjREYmHXGk=
+</code></pre>
+<p>這個 MasterPasswordHash 可以在 POST 請求中看到這個值之後準備完請求後會一起發送到後端</p>
+<p>之後的步驟會與一開始的架構圖有些為差異但還是可以參考</p>
+<p>第三步驟需要拿第一步驟計算出的結果 MasterKey 進行 <code>HKDF.Expand</code> 運算獲得 <code>EncKey</code> 與 <code>MacKey</code>
+將兩個 Key 合併在一起得到 <code>Stretched Master Key</code></p>
+<pre><code class="language-c#">byte[] strectchedMasterKeyByte = new byte[64];
+byte[] encKeyByte = HKDF.Expand(HashAlgorithmName.SHA256, masterKeyByte, 32, Encoding.UTF8.GetBytes(&quot;enc&quot;));
+byte[] macKeyByte = HKDF.Expand(HashAlgorithmName.SHA256, masterKeyByte, 32, Encoding.UTF8.GetBytes(&quot;mac&quot;));
+System.Buffer.BlockCopy(encKeyByte, 0, strectchedMasterKeyByte, 0, 32);
+System.Buffer.BlockCopy(macKeyByte, 0, strectchedMasterKeyByte, 32, 32);
+
+string encKey = Convert.ToBase64String(encKeyByte);
+string macKey = Convert.ToBase64String(macKeyByte);
+string strectchedMasterKey = Convert.ToBase64String(strectchedMasterKeyByte);
+
+EncKey: HHvL6GlIk5M43OerVI8+PuD4Xymst3k0eOPINJs/e0s=
+MacKey: WXLNqhg4V80UDMFDFtjJGi4qGRjfaKjpcyPrrbKQ1Fw=
+StrectchedMasterKey: HHvL6GlIk5M43OerVI8+PuD4Xymst3k0eOPINJs/e0tZcs2qGDhXzRQMwUMW2MkaLioZGN9oqOlzI+utspDUXA==
+</code></pre>
+<p>在 bitwarden 的設計當中有另一組與主密碼一樣重要的 Key 叫做 <code>Protected Symmetric Key</code>，我們需要先在 Client 端
+亂數產生 <code>Symmetric Key</code> 和 <code>IV</code> 在拿第三步驟的 <code>Stretched Master Key</code> 最後使用 AES-256 加密後產生 <code>Protected Symmetric Key</code>
+才能安全的上傳到 Bitwarden 的雲端倉庫內保存避免外洩的問題，之後登入帳號時只要從雲端下載 <code>Protected Symmetric Key</code> 並進行解密
+得到當初亂數產生 <code>Symmetric Key</code>，我們以後在金庫寫入的各個網站密碼時就可以用 <code>Symmetric Key</code> 來加解密資料了，
+金庫解鎖到我們登出這端時間會把 <code>Symmetric Key</code> 載入到記憶體內之後只我們只需要使用上鎖功能就能快速的把 <code>Symmetric Key</code> 從記憶體內清除。</p>
+<p>第四步驟我們需要建立亂數產生器產生一組 <code>Symmetric Key</code> 和 <code>IV</code> 值</p>
+<pre><code class="language-c#">using RandomNumberGenerator rng = new RNGCryptoServiceProvider();
+byte[] symmetricKeyByte = new byte[64];
+byte[] iVByte = new byte[16];
+rng.GetBytes(symmetricKeyByte);
+rng.GetBytes(iVByte);
+string symmetricKey = Convert.ToBase64String(symmetricKeyByte);
+
+IV: EUPg0Fo+eISDtkyxwULT7g==
+SymmetricKey: QtKDHP65U4b/9N2iva/HyVe2VYJNHJZ3W8EsiHgSRv/Qa/tHdFQPMSa++2bx9l5drECNmCSt6bYDL0OCEnXMdg==
+</code></pre>
+<p>第五步驟將使用第四步驟的 <code>Symmetric Key</code> 和 <code>IV</code> 與第三步驟的 <code>EncKey</code> 進行 AES 加密，
+要注意這裡加密的內文為 <code>Symmetric Key</code> 加密的金鑰為 <code>EncKey</code></p>
+<pre><code class="language-c#">var aesEncryptSymmetricKeyWithEncKeyByte = new byte[] { };
+
+Aes aes = Aes.Create();
+aes.Mode = CipherMode.CBC;
+aes.Key = encKeyByte;
+aes.IV = iVByte;
+
+using (MemoryStream ms = new MemoryStream())
+using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
+{
+	cs.Write(symmetricKeyByte, 0, symmetricKeyByte.Length);
+	cs.FlushFinalBlock();
+	aesEncryptSymmetricKeyWithEncKeyByte = ms.ToArray();
+}
+
+string aesEncryptSymmetricKeyWithEncKey = Convert.ToBase64String(aesEncryptSymmetricKeyWithEncKeyByte);
+
+AesEncryptSymmetricKeyWithEncKey: n9M7jSQ0kRZWkU0QvsCBFM/ZKqYRJ+v+WYYiKjjBYrLWX50ZOLXyidkmSdqoZ4j/sZsYaqCs111rfTDyaNslgNDpwJf1ovuPYiLrF3SIeXU=
+</code></pre>
+<p>第六步驟合併 <code>IV</code> 與第五步驟的<code>AesEncryptSymmetricKeyWithEncKey</code> 後使用第三步驟 <code>MacKey</code> 運行 <code>HMACSHA256</code> 運算
+得到 <code>HashEncryptSymmetricKeyWithMacKey</code></p>
+<pre><code class="language-text">byte[] encryptSymmetricKeyByte = new byte[iVByte.Length + aesEncryptSymmetricKeyWithEncKeyByte.Length];
+byte[] hashEncryptSymmetricKeyWithMacKeyByte = new byte[]{};
+
+System.Buffer.BlockCopy(iVByte, 0, encryptSymmetricKeyByte, 0, iVByte.Length);
+System.Buffer.BlockCopy(aesEncryptSymmetricKeyWithEncKeyByte, 0, encryptSymmetricKeyByte, iVByte.Length, aesEncryptSymmetricKeyWithEncKeyByte.Length);
+using (var hmacSHA256 = new HMACSHA256(macKeyByte))
+{
+	hashEncryptSymmetricKeyWithMacKeyByte = hmacSHA256.ComputeHash(encryptSymmetricKeyByte);
+}
+string hashEncryptSymmetricKeyWithMacKey = Convert.ToBase64String(hashEncryptSymmetricKeyWithMacKeyByte);
+
+HashEncryptSymmetricKeyWithMacKey: rMQJ4ncauPnKyyHtJSDXPpb2iCJOG7Kmf7l2BmG2uMg=
+</code></pre>
+<p>最後第七步驟將 <code>IV</code> 與第五步驟和第六步驟的結果合併成一個字串，這個就是最終的 <code>ProtectedSymmetricKey</code> 將會跟著 API 一起傳送到後端</p>
+<pre><code class="language-text">var protectedSymmetricKey = $&quot;2.{Convert.ToBase64String(iVByte)}|{Convert.ToBase64String(aesEncryptSymmetricKeyWithEncKeyByte)}|{Convert.ToBase64String(hashEncryptSymmetricKeyWithMacKeyByte)}&quot;;
+	
+ProtectedSymmetricKey: 2.EUPg0Fo+eISDtkyxwULT7g==|n9M7jSQ0kRZWkU0QvsCBFM/ZKqYRJ+v+WYYiKjjBYrLWX50ZOLXyidkmSdqoZ4j/sZsYaqCs111rfTDyaNslgNDpwJf1ovuPYiLrF3SIeXU=|rMQJ4ncauPnKyyHtJSDXPpb2iCJOG7Kmf7l2BmG2uMg=
+</code></pre>
+<p>經過以上步驟現在可以清楚了解 POST 請求當中的 <code>masterPasswordHash</code> 與 <code>key</code> 是如何算出來的了</p>
+<p>另外當後端收到請求最保存階段 DbContext 會使用 .net 提供的 AddDataProtection 方法分別對 <code>masterPasswordHash</code> 與 <code>key</code>
+進行加密確保儲存到資料庫的值是有經過再次加密的，最後拼上 bitwarden 加密資料的 prefix <code>p|</code> 並保存到資料庫內</p>
+<pre><code class="language-text">var dataProtector = this.GetService&lt;DP.IDataProtectionProvider&gt;().CreateProtector(
+    Constants.DatabaseFieldProtectorPurpose);
+var dataProtectionConverter = new DataProtectionConverter(dataProtector);
+eUser.Property(c =&gt; c.Key).HasConversion(dataProtectionConverter);
+eUser.Property(c =&gt; c.MasterPassword).HasConversion(dataProtectionConverter);
+        
+MasterPassword: P|CfDJ8N83xunRSMFEnHYjbQSeE4Tp1NFY3midxCUnWMtKTUuNMJwjgkpaWsYikSh3ODX5tLSoPmGz8itOUw_xZ0-pDPGBhv3cqJ1aCacMEagzwf6TC7gEJ8BRqzFTSrx56PMLCmjwcE_2wdpg97Ux6tP3NRKxVZ5SWrxcz7Ap8oe3qOCSubAoCe_Fl5rUGkA42ce2LPmdQ2l0IjFV4b09A_xahssaxsG8GGIVmjeA9yrXjt73
+Key: P|CfDJ8N83xunRSMFEnHYjbQSeE4Qjzc5zanC0jjC5_kOH-DW9PLZeW_fAlZb4nIWyrdb9sgIhxMT-X0ltA3pwsUM9o93w8tg2b8DBQhwcTcWjnKg1aArSqVhsaqzoMSN4c9erB41ui_0KxnOpj7QLa--kkRQKKcWf2UMfQIOqJ_W0yW0Kw-a3WmTqPvIyRPdTZFqq032rRx65yVRDO7FujZujM-cvO8lrNJqJTS6Je8WN83dtk4gZ_dK594y58xF92Hr3ZCPc7_4QlNw8Zs3loUFHwgFqLSLzuejsryJVNoU_PcgBr0ezvaUy5EbWIVvdaBZ3CzpsVhzgR0os3fIFg26yOz3CVUfPCM7QL5eD8nf8Kh0R
+</code></pre>
+<p>另外需要注意在 bitwarden 中自定義一個 AddDataProtection 方法並且在正式環境時會將加密憑證保存到 AzureBlobStorage 上以確保安全，
+同時我們也知道正常情況下會將金鑰存放在本機 <code>%LOCALAPPDATA%\ASP.NET\DataProtection-Keys</code> 路徑之下，所以在多機環境下可能會造成
+密碼無法解密的問題所以存放在 Azure 也可以同時解決多機部屬的問題，也可以避免本伺服器中毒時密鑰文件有可能被外洩的問題</p>
+<pre><code class="language-text">public static void AddCustomDataProtectionServices(
+    this IServiceCollection services, IWebHostEnvironment env, GlobalSettings globalSettings)
+{
+    var builder = services.AddDataProtection().SetApplicationName(&quot;Bitwarden&quot;);
+    if (env.IsDevelopment())
+    {
+        return;
+    }
+
+    if (globalSettings.SelfHosted &amp;&amp; CoreHelpers.SettingHasValue(globalSettings.DataProtection.Directory))
+    {
+        builder.PersistKeysToFileSystem(new DirectoryInfo(globalSettings.DataProtection.Directory));
+    }
+
+    if (!globalSettings.SelfHosted &amp;&amp; CoreHelpers.SettingHasValue(globalSettings.Storage?.ConnectionString))
+    {
+        X509Certificate2 dataProtectionCert = null;
+        if (CoreHelpers.SettingHasValue(globalSettings.DataProtection.CertificateThumbprint))
+        {
+            dataProtectionCert = CoreHelpers.GetCertificate(
+                globalSettings.DataProtection.CertificateThumbprint);
+        }
+        else if (CoreHelpers.SettingHasValue(globalSettings.DataProtection.CertificatePassword))
+        {
+            dataProtectionCert = CoreHelpers.GetBlobCertificateAsync(globalSettings.Storage.ConnectionString, &quot;certificates&quot;,
+                &quot;dataprotection.pfx&quot;, globalSettings.DataProtection.CertificatePassword)
+                .GetAwaiter().GetResult();
+        }
+        builder
+            .PersistKeysToAzureBlobStorage(globalSettings.Storage.ConnectionString, &quot;aspnet-dataprotection&quot;, &quot;keys.xml&quot;)
+            .ProtectKeysWithCertificate(dataProtectionCert);
+    }
+}
+</code></pre>
+<p>最後來查看 <code>ProtectedSymmetricKey</code> 的三個部份<br />
+第一個部份是 <code>2.</code> 這個數字是 enum type 用來對應加密的方式</p>
+<pre><code class="language-text">export enum EncryptionType {
+  AesCbc256_B64 = 0,
+  AesCbc128_HmacSha256_B64 = 1,
+  AesCbc256_HmacSha256_B64 = 2,
+  Rsa2048_OaepSha256_B64 = 3,
+  Rsa2048_OaepSha1_B64 = 4,
+  Rsa2048_OaepSha256_HmacSha256_B64 = 5,
+  Rsa2048_OaepSha1_HmacSha256_B64 = 6,
+}
+</code></pre>
+<p>第二個部份是 <code>IV</code> 值與 AES 加密過後的 <code>AesEncryptSymmetricKey</code>，我們知道金庫裡所有的內容都需要使用解密過後的 <code>SymmetricKey</code>
+才能還原出原始的數值，目前我們已經有 <code>IV</code> 值現在只缺少 <code>EncKey</code>， 要獲得 <code>EncKey</code> 也很簡單我們只要輸入主密碼就能獲得 <code>EncKey</code> 與 <code>MacKey</code>
+之後我們可以輕鬆的還原出 <code>SymmetricKey</code> 來操作我們的金庫了</p>
+<p>第三部份是是 <code>HashEncryptSymmetricKey</code>，我們知道這個值是由 <code>IV</code> 值與 <code>AesEncryptSymmetricKey</code> 使用 <code>MacKey</code> Hash 出來的
+所以當我們登入 bitwarden 後從雲端下載資料時就可以拿著本地的 <code>MacKey</code> 去和 <code>IV</code> 值與 <code>AesEncryptSymmetricKey</code> 快速的 Hash 一次
+即可知確保 <code>IV</code> 值與 <code>AesEncryptSymmetricKey</code> 的完整性</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>本文章學習了 Bitwarden 是如何加密會員的機密資料，從今天的內容中可以得知機密的資料只會存留在本機環境，雲端只會被用來同步資料並且可以確定
+只有加密過得資料才會被上傳道 Bitwarden 資料庫，同時也相當重要的 DataProtectionKey 也保存在第三方環境這樣如果資料庫不小心外流只要沒有
+DataProtectionKey 駭客想要解密資料庫是很難做到的，就算真的被解密之後還有 MasterPassword 這關做保護因為光是每次計算有添加 Salt 的 MasterPasswordHash
+就最少要 Iterations 600001 次很難短時間內被計算出來，並且也只要定期更換主密碼就可以避免掉這個問題</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/bitwarden-design-user-register-encryption'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
