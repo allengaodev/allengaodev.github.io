@@ -7,9 +7,9 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register">
+    <meta name="description" content="&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x6D41;&#x7A0B;">
 
-  <title>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register</title>
+  <title>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x6D41;&#x7A0B;</title>
 
 
   <link rel="canonical" href='https://blog.allengaodev.com/posts/bitwarden-design-user-register'>
@@ -21,7 +21,7 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register' />
+  <meta property="og:title" content='&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x6D41;&#x7A0B;' />
   <meta property="og:type" content="website" />
   <meta property="og:url" content='https://blog.allengaodev.com/posts/bitwarden-design-user-register' />
 
@@ -76,8 +76,8 @@
       <div class="col-md-12">
         <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/posts/bitwarden-design-user-register'>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register</a>
-              <span class="subheading">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden System Design User Register</span>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/bitwarden-design-user-register'>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x6D41;&#x7A0B;</a>
+              <span class="subheading">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x6D41;&#x7A0B;</span>
           </h1>
             <div class="meta">Published on Friday, May 12, 2023</div>
               <div class="mt-3">
@@ -94,7 +94,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h2 id="bitwarden-system-design-user-register">Bitwarden System Design User Register</h2>
+        <h2 id="bitwarden">Bitwarden 會員註冊系統流程</h2>
 <p>在上一篇的文章中成功建立起 Bitwarden 的本地開發環境並且成功的註冊了一個新會員，本篇文章會來討論 Bitwarden
 是如何處理會員註冊邏輯，並且跟一般的註冊邏輯進行比較看看有什麼不同</p>
 <p>首先我們打開 PC bitwarden client 端，因為 PC 端是使用 Angular Electron 內部其實就是個瀏覽器因此我們可以按下 F12
