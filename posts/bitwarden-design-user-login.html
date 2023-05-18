@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;">
+
+  <title>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/bitwarden-design-user-login'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/bitwarden-design-user-login' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/bitwarden-design-user-login'>&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;</a>
+              <span class="subheading">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;</span>
+          </h1>
+            <div class="meta">Published on Thursday, May 18, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="bitwarden">Bitwarden 會員系統登入流程</h2>
+<p>在之前的文章中我們已經了解 Bitwarden 的註冊與加密流程，現在我們加密帳號資料已經安全的保存在 Bitwarden 雲端上了，
+接下來我們來看看 Bitwarden 是如何進行登入流程。</p>
+<hr />
+<h2 id="knowndevice">KnownDevice</h2>
+<p>首先打開 Bitwarden Client 端，Bitwarden 將輸入信箱與輸入主密碼分成兩個階段，一般來說像是 Google 我們需要輸入使用者的信箱
+並且會先檢查使用者的信箱使否存在如果存在才能進到輸入密碼的階段，在 Bitwarden 這段檢查信箱的邏輯被整合在檢查設備的 API <code>http://localhost:4000/devices/knowndevice</code>
+不過特別的是如果信箱不存在並不會阻擋登入邏輯可以進到輸入密碼的階段</p>
+<p>Client 端會將信箱跟設備ID 設定到 Header 中，當後端接收後會透過信箱查詢使用者是否存在如果存在才去查詢目前這個登入設備是否以前有登入過</p>
+<pre><code class="language-text">[AllowAnonymous]
+[HttpGet(&quot;knowndevice&quot;)]
+public async Task&lt;bool&gt; GetByIdentifierQuery(
+    [FromHeader(Name = &quot;X-Request-Email&quot;)] string email,
+    [FromHeader(Name = &quot;X-Device-Identifier&quot;)] string deviceIdentifier)
+    =&gt; await GetByIdentifier(CoreHelpers.Base64UrlDecodeString(email), deviceIdentifier);
+
+[Obsolete(&quot;Path is deprecated due to encoding issues, use /knowndevice instead.&quot;)]
+[AllowAnonymous]
+[HttpGet(&quot;knowndevice/{email}/{identifier}&quot;)]
+public async Task&lt;bool&gt; GetByIdentifier(string email, string identifier)
+{
+    if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(identifier))
+    {
+        throw new BadRequestException(&quot;Please provide an email and device identifier&quot;);
+    }
+
+    var user = await _userRepository.GetByEmailAsync(email);
+    if (user == null)
+    {
+        return false;
+    }
+
+    var device = await _deviceRepository.GetByIdentifierAsync(identifier, user.Id);
+    return device != null;
+}
+</code></pre>
+<p>當使用者成功登入後會在資料庫的 <code>Device</code> 表寫入一筆資料，之後只要同樣一個使用者用同一個設備再次進行登入就能使用設備登入功能，
+只需要手機有安裝 Bitwarden 並開啟裝置登入的功能就可以直接推送登入請求通知到手機上，只要按下允許就能跳過輸入密碼的環節直接登入 Bitwarden，
+不過這個功能不會影響登入流程，回傳的布林值只會影響 Client 端 UI 的展示。</p>
+<hr />
+<h2 id="prelogin">PreLogin</h2>
+<p>接著我們輸入主密碼後按下登入會發送 <code>prelogin</code> API <code>http://localhost:33656/accounts/prelogin</code></p>
+<pre><code class="language-text">[HttpPost(&quot;prelogin&quot;)]
+public async Task&lt;PreloginResponseModel&gt; PostPrelogin([FromBody] PreloginRequestModel model)
+{
+    var kdfInformation = await _userRepository.GetKdfInformationByEmailAsync(model.Email);
+    if (kdfInformation == null)
+    {
+        kdfInformation = new UserKdfInformation
+        {
+            Kdf = KdfType.PBKDF2_SHA256,
+            KdfIterations = 100000,
+        };
+    }
+    return new PreloginResponseModel(kdfInformation);
+}
+</code></pre>
+<p>API 會回傳以下內容我們 Client 端才能知道要用哪種模式與 Iteration 次數才能在本地推算出 MasterPasswordHash 並送到後端 API 進行比較</p>
+<pre><code class="language-text">{
+  &quot;kdf&quot;: 0,
+  &quot;kdfIterations&quot;: 100000,
+  &quot;kdfMemory&quot;: null,
+  &quot;kdfParallelism&quot;: null
+}
+</code></pre>
+<p>可以在登入後在 Web 端重新設定加密模式與 Iteration 次數，這邊建議是條到 600000 安全性比較高
+KDF-Setting.png</p>
+<hr />
+<h2 id="access-token-refresh-token">Access Token &amp; Refresh Token</h2>
+<p>Bitwarden 在這裡是用 Identity Server 中內建的 Token 端口，這個端口提供許多模式來驗證 Client 端，預設有 <code>password</code>,
+<code>authorization_code</code>, <code>client_credentials</code>, <code>refresh_token</code> 模式可以使用</p>
+<p>發送請求後跟 Identity Server 有關的參數 <code>scope</code>, <code>client_id</code>, <code>grant_type</code>, <code>username</code>, <code>password</code></p>
+<pre><code class="language-text">scope: api offline_access
+client_id: desktop
+deviceType: 6
+deviceIdentifier: b7a87a9a-3943-4db4-bff6-1a189cb4a435
+deviceName: windows
+grant_type: password
+username: gao1121&#64;gmail.com
+password: QtbGQofu0sNTypmjy2tJwJ9kFsRUauavK1IS0Z0/TgU=
+</code></pre>
+<p>根據 Identity Server 的 <a href="https://identityserver4.readthedocs.io/en/latest/topics/resource_owner.html" target="_blank">文檔</a>，
+要使用 <code>password</code> 模式我們需要客製化實踐 <code>IResourceOwnerPasswordValidator</code> 並且使用 <code>AddResourceOwnerValidator</code> 註冊到系統內。</p>
+<p>最後使用 CheckPasswordAsync 方法檢查傳入的密碼與資料庫的密碼是否相同</p>
+<pre><code class="language-text">if (!await _userService.CheckPasswordAsync(validatorContext.User, context.Password))
+{
+    return false;
+}
+</code></pre>
+<p>成功驗證密碼後會檢查會員有沒有開啟 TwoFactor， 有開啟會直接中斷邏輯並回傳 TwoFactor 清單，Client 端會根據清單的優先度顯示最高的驗證，
+最後通過 TwoFactor 後會再次發送登入請求並新增三個參數 <code>twoFactorToken</code>, <code>twoFactorProvider</code>, <code>twoFactorRemember</code></p>
+<pre><code class="language-text">scope: api offline_access
+client_id: desktop
+deviceType: 6
+deviceIdentifier: b7a87a9a-3943-4db4-bff6-1a189cb4a435
+deviceName: windows
+twoFactorToken: twoFactorToken: {&quot;id&quot;:&quot;&quot;,&quot;rawId&quot;:&quot;&quot;,&quot;type&quot;:&quot;public-key&quot;,&quot;extensions&quot;:{&quot;appid&quot;:false},&quot;response&quot;:{&quot;authenticatorData&quot;:&quot;&quot;,&quot;clientDataJson&quot;:&quot;&quot;,&quot;signature&quot;:&quot;&quot;}}
+twoFactorProvider: 7
+twoFactorRemember: 0
+grant_type: password
+username: gao1121&#64;gmail.com
+password: QtbGQofu0sNTypmjy2tJwJ9kFsRUauavK1IS0Z0/TgU=
+</code></pre>
+<p>Identity Server 會回傳一個 JWT 給 Client 端之後我們就可以訪問後端保護資源，並且另一個重要的回傳值 <code>Key</code> 經過解密之後獲得 <code>Symmetric Key</code>
+才能加解密我們之後想要保存的網站帳號密碼</p>
+<pre><code class="language-text">{
+  &quot;access_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsImtpZCI6IkU2QzlCMkUzMjQ3NTZGMUI1RkVBMTU2OUE1QzM5RjVFRTNFRTgzQkVSUzI1NiIsInR5cCI6ImF0K2p3dCIsIng1dCI6IjVzbXk0eVIxYnh0ZjZoVnBwY09mWHVQdWc3NCJ9.eyJuYmYiOjE2ODQzOTgwNTQsImV4cCI6MTY4NDQwMTY1NCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdCIsImNsaWVudF9pZCI6ImRlc2t0b3AiLCJzdWIiOiI5MGRmYTFmOS00NzQ5LTRkMzUtYTU3MC1iMDA1MDAzN2VjYWMiLCJhdXRoX3RpbWUiOjE2ODQzOTgwNTQsImlkcCI6ImJpdHdhcmRlbiIsInByZW1pdW0iOmZhbHNlLCJlbWFpbCI6ImdhbzExMjFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJzc3RhbXAiOiIyVDRaT0FNQVVKNjRTTTZBVU5PSFNCNjJHUkhRQVg0TyIsImRldmljZSI6ImI3YTg3YTlhLTM5NDMtNGRiNC1iZmY2LTFhMTg5Y2I0YTQzNSIsImp0aSI6IjE0RkZENkJFQ0Q5Q0M4QkJBNkRGRTQ3RTc3RTE0RTMxIiwiaWF0IjoxNjg0Mzk4MDU0LCJzY29wZSI6WyJhcGkiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiQXBwbGljYXRpb24iXX0.fWa1oeMmaGN84-KIAlVVnaU1gcoNiLbwoESWpZu1YKZavlz4-jkFfw5div0cIJK3x0dm1-eioeqjWeihPG2BBh1xBysDp0UGwZUnZhTkSNwZvz6eqhnOZI9R9fVzumZ1RnttmA1oQD1CgmqzwMnG1MgmH3bhwsHlApjL-6RiAENskQc7vKnCXm2Q_yqg4xw2x92FkVlRTy7iDqVGnUDsYEPMrZtDfAe0eSuK-xffwdiV7vZlqNcGiSaJ-5HGlJqCNstADL14LrmUHpqWNz5-UVw4JILsaO1pepNSZKYxT-sd-EtL339BuJo-vr_33mVG5I92qXAUXpp8HD9N2Vc_MvVQ10L44Cih1BtSAw-vSt61Y6AFWQLgCC41c_RnfyxNmxv5QX843Q_PTlt7CmNpwyLARs86ml9nFcdENQAXCKVnDztnFDNpWWNloBkL69F884_ZCB0nSQi8aTcLQRRel_NCRlUQcdXJPMLyduiTGwRLXytx4ved6Xk2W7b9KCePairW-KMw_Qq4LMvJPpCV7Cf9sQIyQawTU7-qb3w7hYRN0smX26THVLFMnzcm6785G-vCZ07PvX-NFmG9Y8zD2y1sPMVPxe06mXa_cF0TyRhEcfIbvn1_njHEfwOtr_KchZ7fzBt90SO0ov9XvXcLrDNAuBpLZdTINCUZvHmuHlg&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;refresh_token&quot;: &quot;DA9422B177F8272CE85FA2F40CDB94B40450E73267D4D3B90624AD55D5606A97&quot;,
+  &quot;scope&quot;: &quot;api offline_access&quot;,
+  &quot;PrivateKey&quot;: &quot;2.0AsWyrRCbgb3fdnMVcQCHg==|6FZVZwmnpiOWFL6a46G+/sy0siZmAYGQSDjPUXgWOs30zj3ZPhFPNvXIiNqxQ/xEU4/V3siiQmuoJQvv9yvZN/a7fo3tzXO1JtBCgkv4Ngxm7Szi4MMYmBMLK5+wapOiqZV/W95eJCXl66PwB8Ip9uQvUi389Ujno17mCxEJCh2MwbNaV/XF3nUa4BiL2r6ZLXsMX9UGH7f6zALmYQ1z7Yq00r29U20N/6hLfAiRwJdqQG1jcq1LcIFKYSEeM0ZB/+9Hr2j5QmrRZ5L9bRxjd7epG68VyEmI5tGIKxlX5Tf/AvJl6FSEPkZpxnuuvbaG2AjQtHo79JI2jBQCPI/EF37RvAG5Oye3QsehbrV1LcIqQOpolcZUYHDtU3rLHlIihmAOcWne2OAS9Y0XPoY1lNML9YCC5+GzyluI4622w69NJvac42X8+f/O5C/LmEALaP4v5E/eAfiBz12HaVb+2y/aLiBgRCW8vH69D7Y3DwdwFDRsbK2EWCIJDPVL+tTr0fdmckTHdSMlWZhuSHruyFho5pUNKU7b8hD/2LOaN9VxOm7FygBhOY/CED32y+9hrLqaqyWsIHW4OkPGVHbuCDs93N+IhXXjwEmK5m1HxYQ7A0GkDucDZCqWy6RZ9NYBzgCCiFzObKw0HiqF5N39D6VnPQ5wxgpaFxm5z/aVyIYAJ7H1bEskdt8IgjAwKB3r1ls61jkyWeBz0N2+ZGTGpaWU+9ljW81hGF99kvkFQgtXBCW4bXl+r+ay/oQ54TkkiLM1je8osf1/EXATSdlkmd5Bbbq6T44uZAxQc3aJY7zGbg58kNOiVmWEcUIdH6+u78dxyeDL5C7+wgqpmOCn0ZoMPtxn2owMOTTeid9y6eNKDfLR0Danrblo4j6a9A7GF8L1mZyhdFYCCsIBdRREqsghdom3yipsars67ZvOMjN7BJIYo1H9L/p3ANYjC7yl0Fr13uzm5SaCRCJRKHe0MOBnFdp1vFcsIDer0d/PXAQoXYWNLJCHohQM2YyrgZv0ITyVYDN0W8nVW5abyberDApoeybqZyax4dwmPZU30G7eLqVwDB0cdvkwgQibxigzDZICSGG7p59Yz2l5J1GuMPgTJLC5rwymFGT2rXW8aTqA2oterUjWpXigjbViY4cNMeGxDzVP0D+5OvxAGNM9v76RlYBb19CeadyhlAfFyN8Cg2plqWGwmG5vf2U/fEfr+LGOxEHFF6eqg+mPMLLFYywmO7LO2qsPZPP/vsapgBvC8PMEgENp7Zw060vlg16WK21KpOITPzXIpEFIYrbCPi3LV7L98cpr1gzWVqlHwyyrNkm/QVFBhoXgqlAv3XSwDMJomFTmK2uB5F8C2xSuVcZ+lKOLf5Hb/w2vqNLzyEDd/e1azvIzEke/SNoXazdi1rGNWncrmHySPE1Ng+4x1bCSgxHELgMIfH7pyRIG23r9ie85v5sDBQeWXuwm88nWR2rh+tqVhDxrFsX0ozgGe8Zp8PLcVjqy0Hp1te85Ym878VGDzG4ACZAAL2XSjPmKwHjXwm9BTndGj39n4GG6xsOkIvHKgH1cjeKHhYd+bZuPHWF1Dw0zuzTYPcS6B1j4DaMb9ZYJEntLao68zC5yC/RrOa/H0ei0ZLZCXU3KDK4=|ld4Dvj0kkfkV3COsAk/fo3MSta0IULYjPS14Vf8zKng=&quot;,
+  &quot;Key&quot;: &quot;2.SMwOKsfqH1VAjSk8i235Nw==|AkrbmyldhUmav8w1DM9DP/XyCk/ed+FfntYTimBYMTh2A5t0+p8Y7xkMwm4asN8cWqT4ZUY5hQrKyOdX5eZN2xAzBP0aCi4BS1Vn+FSMqog=|Ffyv/e34ytimKAI1pHiD5CUJmsoeThc4E9rlWVqQ774=&quot;,
+  &quot;MasterPasswordPolicy&quot;: null,
+  &quot;ForcePasswordReset&quot;: false,
+  &quot;ResetMasterPassword&quot;: false,
+  &quot;Kdf&quot;: 0,
+  &quot;KdfIterations&quot;: 600000,
+  &quot;KdfMemory&quot;: null,
+  &quot;KdfParallelism&quot;: null
+}
+</code></pre>
+<p>最後因為 scope 有包含 <code>offline_access</code> 所以會再次請求一個 <code>refresh_token</code> 確保我們能夠在本地刷新令牌不用再次登入</p>
+<pre><code class="language-text">grant_type: refresh_token
+client_id: desktop
+refresh_token: 9107543241B025D81800FC45D91B3BD7605879F53E6BEBBFC564673C4B471A57
+</code></pre>
+<pre><code class="language-text">{
+  &quot;access_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsImtpZCI6IkU2QzlCMkUzMjQ3NTZGMUI1RkVBMTU2OUE1QzM5RjVFRTNFRTgzQkVSUzI1NiIsInR5cCI6ImF0K2p3dCIsIng1dCI6IjVzbXk0eVIxYnh0ZjZoVnBwY09mWHVQdWc3NCJ9.eyJuYmYiOjE2ODQzOTgwNTQsImV4cCI6MTY4NDQwMTY1NCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdCIsImNsaWVudF9pZCI6ImRlc2t0b3AiLCJzdWIiOiI5MGRmYTFmOS00NzQ5LTRkMzUtYTU3MC1iMDA1MDAzN2VjYWMiLCJhdXRoX3RpbWUiOjE2ODQzOTgwNTQsImlkcCI6ImJpdHdhcmRlbiIsInByZW1pdW0iOmZhbHNlLCJlbWFpbCI6ImdhbzExMjFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJzc3RhbXAiOiIyVDRaT0FNQVVKNjRTTTZBVU5PSFNCNjJHUkhRQVg0TyIsImRldmljZSI6ImI3YTg3YTlhLTM5NDMtNGRiNC1iZmY2LTFhMTg5Y2I0YTQzNSIsImp0aSI6IjgzMTBGNUEwMDlCMjRGNDdCNUMxMzFDODk2NjRBRjg5IiwiaWF0IjoxNjg0Mzk4MDU0LCJzY29wZSI6WyJhcGkiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsiQXBwbGljYXRpb24iXX0.CbcqkfshyGxruxnElYToLJ4zDaT-n3Bua3ZVhLfcoS6FGOige3Nm2hM8zXC89Vdj_fvY9VhA2HPn5PFFsg27NinuQz0v3i43QpJkMmaKlVa3tUKdpYQ-l-kQUfw4-kKJtBb27WIE0ZWyHWuvhbNNbY2k3RzRU195kQx3w3HbIWG7HzUtIbMNTtEdxmTWP0FR3FmsfrKjMqHYmra21nQbOn0ac5xctdED1lQms7ehDZfR1NZgBPcwQFRuVOX2bDBkRrgIlg-czLrixAShrn-osZyI5zfVbMEuhRD0ht2xWFjbGKpV0se34tJg4smDgBkHDBtBqEhHFKzjDiOUSfsT1lssgu-cbaaoHfmeWudVeOB5fzXNmOgOSYhZ0pEGkB-WoNv5hqmhsuZ7UbglR4EyTsnkTmBTaN6oDAUeCys0CIkOaL6VQ_Jc4XWm0gt8kcZ27f-u66u5PCzKWDi7-_-Xzjz2beIaDBIAs23qAzG0fAu2OZV9GV4T2PfvD8KB9IObblzX33OjGlIaIGUC8wqi6gQIUp3Q876w_r3EQT6r3okjUIUXQGvKHzuab6vZtGHL-whqSst5ba801Ca-PIsEqMGFg1NMJR6fZE-rLfX93Ff_FDsr0MrZTgFcisfBd3ATFviebtB-HIStxeDpOklkJLikeet-3fXxJoc2afHCcdA&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;refresh_token&quot;: &quot;DA9422B177F8272CE85FA2F40CDB94B40450E73267D4D3B90624AD55D5606A97&quot;,
+  &quot;scope&quot;: &quot;api offline_access&quot;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>本文章學習了 Bitwarden 是如何處理會員的登入流程，到此已經清楚了解會員系統的註冊與登入是如何處理的，我們成功登入後另一個就是新增想要保護的網站帳號密碼，
+基本上也是跟註冊加密邏輯差不多都是需要在本機先進行加密才能夠上傳，登入時會先檢查本地與雲端的差異以避免同時有多個裝置在使用 Bitwarden 導致同步錯誤
+以至於密碼遺失。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/bitwarden-design-user-login'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
