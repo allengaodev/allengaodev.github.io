@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x89E3;&#x8026;">
+
+  <title>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x89E3;&#x8026;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/rabbitmq-basic-decouple'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x89E3;&#x8026;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/rabbitmq-basic-decouple' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/rabbitmq-basic-decouple'>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x89E3;&#x8026;</a>
+              <span class="subheading">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x89E3;&#x8026;</span>
+          </h1>
+            <div class="meta">Published on Monday, May 22, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="rabbitmq-basic">RabbitMQ Basic</h2>
+<p>這個系列會重新複習 .NET 中 RabbitMQ 的使用方式，首先我們使用 docker 建立測試 RabbitMQ 測試環境，需要注意 image 有兩個版本一種是自帶管理界面與另一種沒有界面的版本，
+這次使用的 image 是 <code>rabbitmq:3.11-management</code> 是有界面的版本，RabbitMQ管理界面預設使用的 port 為 <code>15672</code> RabbitMQ 服務為 <code>5672</code>。</p>
+<pre><code class="language-text">docker run -it --rm --name myrabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-management
+</code></pre>
+<p>接著打開瀏覽器進入管理界面 <code>https://localhost:15672</code> 可以使用預設的使用者進行登入 <code>guest/guest</code></p>
+<p>確定建立測試環境後我們來建立新專案，這邊參考 <code>eShopOnContainers</code> 額外建立一個專案 <code>Services.Common</code> 用來註冊 RabbitMQ 服務</p>
+<pre><code class="language-text">mkdir rabbitmq-tutorial 
+cd rabbitmq-tutorial
+dotnet new sln -n RabbitMQTutorial
+mkdir src
+dotnet new console --output ./src/Send
+dotnet new console --output ./src/Receive
+dotnet new classlib --output ./src/Services.Common
+dotnet sln add ./src/Send
+dotnet sln add ./src/Receive
+dotnet sln add ./src/Services.Common
+
+dotnet add ./src/Services.Common/Services.Common.csproj package RabbitMQ.Client
+dotnet add ./src/Send/Send.csproj reference ./src/Services.Common/Services.Common.csproj
+dotnet add ./src/Receive/Receive.csproj reference ./src/Services.Common/Services.Common.csproj
+</code></pre>
+<p>在寫程式之前我們需要先了解 RabbitMQ 是如何建立與處理連線的，RabbitMQ 當中有兩種連線功能上看起來非常相似分別為 <code>connection</code> 和 <code>channel</code></p>
+<ul>
+<li>connection: 為實際建立的 TCP 連線並且為『持久連接』也就是說每次要操作 RabbitMQ 會重複使用連線以達到更高的效率，當 Client 端完成工作時應該要
+盡快的將 connection 釋放掉，詳細內容可以參考<a href="https://www.rabbitmq.com/connections.html" target="_blank">connection 文檔</a></li>
+<li>channel: 因為在 Multi-Threads 環境底下如果為每一個 Thread 都建立 TCP 連線是非常不好的作法，所以才產生出 channel 的概念來達到多路復用，
+建議是為每一個 Thread 都建立一個 channel 並且每一個 channel 都會分配一個 ID 所以每個 channel 都是獨立的並不會互相影響，最重要的是在建立 channel 之前必須要先建立 connection，
+同理可知當我們關掉 connection 時所有相關的 channel 也會被關閉，詳細內容可以參考<a href="https://www.rabbitmq.com/channels.html" target="_blank">channel 文檔</a></li>
+</ul>
+<p>了解基礎知識後首先我們建立一個 interface <code>IRabbitMQPersistentConnection</code> 會與我們之後建立的 Class 會註冊為 <code>Singleton</code> 確保之後可以共用一條 connection 才不會
+建立過多 TCP 連線造成回應緩慢等問題</p>
+<pre><code class="language-text">cd ./src/Services.Common/
+rm Class1.cs
+dotnet new interface -n IRabbitMQPersistentConnection
+</code></pre>
+<p>這裡定義了三個界面方法：</p>
+<ul>
+<li>IsConnected： 用來確認目前是否有成功建立的 Connection</li>
+<li>TryConnect: 如果 IsConnected 回傳是 false 則需要呼叫此方法建立新的連線</li>
+<li>CreateModel: 這個方法則用用來建立新的 channel 在呼叫這個方法之前需要確定 IsConnected 為 true 才能繼續建立 channel</li>
+</ul>
+<pre><code class="language-text">public interface IRabbitMQPersistentConnection : IDisposable
+{
+    bool IsConnected { get; }
+
+    bool TryConnect();
+
+    IModel CreateModel();
+}
+</code></pre>
+<p>接著建立新的 class <code>DefaultRabbitMQPersistentConnection</code> 並且實做 <code>IRabbitMQPersistentConnection</code> 界面</p>
+<pre><code class="language-text">dotnet new class -n DefaultRabbitMQPersistentConnection
+</code></pre>
+<p>這邊也是參考 <code>eShopOnContainers</code> 是如何實做此方法，之後只要將此 class 註冊為 <code>Singleton</code> 到系統內就能確保之後只會共用同一個 <code>connection</code>，
+特別的是可以和 <code>Polly</code> 這個 package 整合在一起能夠達到失敗重連的效果</p>
+<pre><code class="language-text">public class DefaultRabbitMQPersistentConnection : IRabbitMQPersistentConnection
+{
+    private readonly IConnectionFactory _connectionFactory;
+    private readonly ILogger&lt;DefaultRabbitMQPersistentConnection&gt; _logger;
+    private readonly int _retryCount;
+    private IConnection _connection;
+    public bool Disposed;
+
+    readonly object _syncRoot = new();
+
+    public DefaultRabbitMQPersistentConnection(
+        IConnectionFactory connectionFactory,
+        ILogger&lt;DefaultRabbitMQPersistentConnection&gt; logger,
+        int retryCount = 5)
+    {
+        _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _retryCount = retryCount;
+    }
+
+    public bool IsConnected =&gt; _connection is { IsOpen: true } &amp;&amp; !Disposed;
+
+    public IModel CreateModel()
+    {
+        if (!IsConnected)
+        {
+            throw new InvalidOperationException(&quot;No RabbitMQ connections are available to perform this action&quot;);
+        }
+
+        return _connection.CreateModel();
+    }
+
+    public void Dispose()
+    {
+        if (Disposed) return;
+
+        Disposed = true;
+
+        try
+        {
+            _connection.ConnectionShutdown -= OnConnectionShutdown;
+            _connection.CallbackException -= OnCallbackException;
+            _connection.ConnectionBlocked -= OnConnectionBlocked;
+            _connection.Dispose();
+        }
+        catch (IOException ex)
+        {
+            _logger.LogCritical(ex.ToString());
+        }
+    }
+
+    public bool TryConnect()
+    {
+        _logger.LogInformation(&quot;RabbitMQ Client is trying to connect&quot;);
+
+        lock (_syncRoot)
+        {
+            var policy = RetryPolicy.Handle&lt;SocketException&gt;()
+                .Or&lt;BrokerUnreachableException&gt;()
+                .WaitAndRetry(_retryCount, retryAttempt =&gt; TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                    (ex, time) =&gt;
+                    {
+                        _logger.LogWarning(ex, &quot;RabbitMQ Client could not connect after {TimeOut}s&quot;, $&quot;{time.TotalSeconds:n1}&quot;);
+                    }
+                );
+
+            policy.Execute(() =&gt;
+            {
+                _connection = _connectionFactory
+                    .CreateConnection();
+            });
+
+            if (IsConnected)
+            {
+                _connection.ConnectionShutdown += OnConnectionShutdown;
+                _connection.CallbackException += OnCallbackException;
+                _connection.ConnectionBlocked += OnConnectionBlocked;
+
+                _logger.LogInformation(&quot;RabbitMQ Client acquired a persistent connection to '{HostName}' and is subscribed to failure events&quot;, _connection.Endpoint.HostName);
+
+                return true;
+            }
+            else
+            {
+                _logger.LogCritical(&quot;Fatal error: RabbitMQ connections could not be created and opened&quot;);
+                return false;
+            }
+        }
+    }
+
+    private void OnConnectionBlocked(object sender, ConnectionBlockedEventArgs e)
+    {
+        if (Disposed) return;
+        _logger.LogWarning(&quot;A RabbitMQ connection is shutdown. Trying to re-connect...&quot;);
+        TryConnect();
+    }
+
+    void OnCallbackException(object sender, CallbackExceptionEventArgs e)
+    {
+        if (Disposed) return;
+        _logger.LogWarning(&quot;A RabbitMQ connection throw exception. Trying to re-connect...&quot;);
+        TryConnect();
+    }
+
+    void OnConnectionShutdown(object sender, ShutdownEventArgs reason)
+    {
+        if (Disposed) return;
+        _logger.LogWarning(&quot;A RabbitMQ connection is on shutdown. Trying to re-connect...&quot;);
+        TryConnect();
+    }
+}
+</code></pre>
+<p>因為剛剛建立的 Send 與 Receive 兩個 Console 專案都會需要注入剛剛建立的 <code>DefaultRabbitMQPersistentConnection</code>，所以為了方便起見我們建立一個 class
+來存放共用的擴充方法</p>
+<pre><code class="language-text">dotnet new class CommonExtensions
+</code></pre>
+<pre><code class="language-text">public static class CommonExtensions
+{
+    public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
+    {
+        var eventBusSection = configuration.GetSection(&quot;EventBus&quot;);
+        if (!eventBusSection.Exists())
+        {
+            return services;
+        }
+        
+        services.AddSingleton&lt;IRabbitMQPersistentConnection&gt;(sp =&gt;
+        {
+            var logger = sp.GetRequiredService&lt;ILogger&lt;DefaultRabbitMQPersistentConnection&gt;&gt;();
+            var factory = new ConnectionFactory()
+            {
+                HostName = configuration.GetConnectionString(&quot;EventBus&quot;),
+                DispatchConsumersAsync = true
+            };
+            var retryCount = eventBusSection.GetValue(&quot;RetryCount&quot;, 5);
+            return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+        });
+        
+        return services;
+    }
+}
+</code></pre>
+<p>連線相關的程式到這裡已經準備好了接下來處理 Send 專案，首先需要使用剛剛寫的擴充方法註冊連線方法並且建立新的 connection 與 channel，
+並且使用 BasicPublish 方法發送一串 <code>Hello World!</code> 訊息到 RabbitMQ 中</p>
+<pre><code class="language-text">using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Services.Common;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddEventBus();
+var provider = builder.Services.BuildServiceProvider();
+var connection = provider.GetService&lt;IRabbitMQPersistentConnection&gt;();
+
+if (!connection.IsConnected)
+{
+    connection.TryConnect();
+}
+using var channel = connection.CreateModel();
+channel.QueueDeclare(queue: &quot;hello&quot;,
+    durable: false, 
+    exclusive: false,
+    autoDelete: false,
+    arguments: null);
+    
+const string message = &quot;Hello World!&quot;;
+var body = Encoding.UTF8.GetBytes(message);
+
+channel.BasicPublish(exchange: string.Empty,
+    routingKey: &quot;hello&quot;,
+    mandatory: true,
+    basicProperties: null,
+    body: body);
+Console.WriteLine($&quot; [x] Sent {message}&quot;);
+
+Console.WriteLine(&quot; Press [enter] to exit.&quot;);
+Console.ReadLine();
+</code></pre>
+<p>完成後將 Send 專案運行起來可以看到以下輸出內容代表已經成功發送信息到 RabbitMQ 中了，可以多運行幾次信息會堆積在 RabbitMQ 等待之後接收程式來接收</p>
+<pre><code class="language-text">info: Services.Common.DefaultRabbitMQPersistentConnection[0]
+      RabbitMQ Client is trying to connect
+info: Services.Common.DefaultRabbitMQPersistentConnection[0]
+      RabbitMQ Client acquired a persistent connection to 'localhost' and is subscribed to failure events
+[x] Sent Hello World!
+Press [enter] to exit.
+</code></pre>
+<p>最後是 Receive 專案，流程與 Send 專案差不多只不過後半段是使用 BasicConsume 方法接收信息，並且定義一個 event 說明接收到信息後要怎麼處理</p>
+<pre><code class="language-text">using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using Services.Common;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddEventBus();
+var provider = builder.Services.BuildServiceProvider();
+var connection = provider.GetService&lt;IRabbitMQPersistentConnection&gt;();
+
+if (!connection.IsConnected)
+{
+    connection.TryConnect();
+}
+using var channel = connection.CreateModel();
+
+channel.QueueDeclare(queue: &quot;hello&quot;,
+    durable: false,
+    exclusive: false,
+    autoDelete: false,
+    arguments: null);
+
+Console.WriteLine(&quot; [*] Waiting for messages.&quot;);
+
+var consumer = new AsyncEventingBasicConsumer(channel);
+consumer.Received += (model, ea) =&gt;
+{
+    var body = ea.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    Console.WriteLine($&quot; [x] Received {message}&quot;);
+    return Task.CompletedTask;
+};
+
+channel.BasicConsume(
+    queue: &quot;hello&quot;,
+    autoAck: true,
+    consumer: consumer);
+
+Console.WriteLine(&quot; Press [enter] to exit.&quot;);
+Console.ReadLine();
+</code></pre>
+<p>完成後將 Receive 專案運行起來可以看到以下輸出內容，可以發現底下接收了剛剛使用 Send 專案發送三次的信息</p>
+<pre><code class="language-text">info: Services.Common.DefaultRabbitMQPersistentConnection[0]
+      RabbitMQ Client is trying to connect
+info: Services.Common.DefaultRabbitMQPersistentConnection[0]
+      RabbitMQ Client acquired a persistent connection to 'localhost' and is subscribed to failure events
+[*] Waiting for messages.
+Press [enter] to exit.
+[x] Received Hello World!
+[x] Received Hello World!
+[x] Received Hello World!
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>本篇文章成功建立了發送與接收的專案學習到這樣的架構的彈性很大，不管有沒有人接收都可以持續發送信息暫存到 RabbitMQ 內，不像一般傳統的架構如果兩個系統
+中壞了一個都會影響到整體的運行這就是 RabbitMQ 最主要的功能之一『解耦』。</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/RabbitMQTutorial/tree/1.0" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/rabbitmq-basic-decouple'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
