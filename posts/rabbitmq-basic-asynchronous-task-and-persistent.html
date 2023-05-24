@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;">
+
+  <title>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/rabbitmq-basic-asynchronous-task-and-persistent'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/rabbitmq-basic-asynchronous-task-and-persistent' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/rabbitmq-basic-asynchronous-task-and-persistent'>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;</a>
+              <span class="subheading">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;</span>
+          </h1>
+            <div class="meta">Published on Wednesday, May 24, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="rabbitmq-asynchronous-task">RabbitMQ Asynchronous Task</h2>
+<p>在上一篇文章內容中了解到我們能將信息傳送到 RabbitMQ 中，之後有人需要時才會把信息轉交給他，如果沒有人需要則會繼續存放在 RabbitMQ 內繼續等待接收。
+這些操作在 RabbitMQ 當中有各自的專有名詞，首先是傳送到信息 RabbitMQ 中的系統通常稱為 <code>producer</code> 與需要取得 RabbitMQ 中信息的系統稱為 <code>consumer</code>
+和 RabbitMQ 將信息保存的地方稱為 <code>Queue</code>。</p>
+<p>所以更正式一點的說法是昨天建立的 <code>Send</code> 專案是一個 <code>producer</code> 用途是用來產生信息並發送到 RabbitMQ 的 <code>Queue</code> 當中等待接收，最後 <code>Receive</code>
+專案會訂閱目標 <code>Queue</code> 當 <code>Queue</code> 內部有新信息時則發送給訂閱者也就是 <code>Receive</code> 專案如果沒有新信息 <code>Receive</code> 專案會繼續等待。</p>
+<p>今天來看一下使用 RabbitMQ 的另一個場景『異步任務』，例如在導出報表時背後可能因為數據量過大或者需要轉檔因此須要執行一段時間才能回應給會員，
+這時如果使用 RabbitMQ 就可以把導出操作視為一個任務讓它自己在背後運行，在導出期間我們可以自由的操作其他功能並不會有網頁凍住讓會員有不好的體驗。</p>
+<p>先開啟昨天的方案修改一下 <code>Send</code> 專案可以根據之後傳入的參數傳送對應的內容</p>
+<pre><code class="language-text">var message = GetMessage(args);
+
+static string GetMessage(string[] args)
+{
+    return ((args.Length &gt; 0) ? string.Join(&quot; &quot;, args) : &quot;Hello World!&quot;);
+}
+</code></pre>
+<p>接著修改 <code>Receive</code> 專案會查看信息傳入的 <code>.</code> 的數量來決定 sleep 的秒數來模擬程式在背後運行的效果</p>
+<pre><code class="language-text">var consumer = new AsyncEventingBasicConsumer(channel);
+consumer.Received += (model, ea) =&gt;
+{
+    var body = ea.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    Console.WriteLine($&quot; [x] Received {message}&quot;);
+    int dots = message.Split('.').Length - 1;
+    Thread.Sleep(dots * 1000);
+    Console.WriteLine(&quot; [x] Done&quot;);
+    return Task.CompletedTask;
+};
+</code></pre>
+<p>完成後我們運行 <code>Send</code> 專案發送五個信息到 RabbitMQ <code>Queue</code> 內</p>
+<pre><code class="language-text">cd src/Send
+dotnet run &quot;First message.&quot;
+dotnet run &quot;Second message..&quot;
+dotnet run &quot;Third message...&quot;
+dotnet run &quot;Fourth message....&quot;
+dotnet run &quot;Fifth message.....&quot;
+</code></pre>
+<p>接著運行 <code>Receive</code> 專案等待一段時間會依序執行任務</p>
+<pre><code class="language-text">cd src/Receive
+dotnet run
+
+info: Services.Common.DefaultRabbitMQPersistentConnection[0]
+      RabbitMQ Client is trying to connect
+info: Services.Common.DefaultRabbitMQPersistentConnection[0]
+      RabbitMQ Client acquired a persistent connection to 'localhost' and is subscribed to failure events
+ [*] Waiting for messages.
+ Press [enter] to exit.
+ [x] Received First message.
+ [x] Done
+ [x] Received Second message..
+ [x] Done
+ [x] Received Third message...
+ [x] Done
+ [x] Received Fourth message....
+ [x] Done
+ [x] Received Fifth message.....
+ [x] Done
+</code></pre>
+<p>不過目前程式會有一個大問題，當我們 <code>Receive</code> 專案異常時我們的信息會丟失掉，你可以再次發送五個任務並且在 <code>Receive</code> 專案執行第一個任務期間直接用 <code>Ctrl + C</code>
+中斷運行，並且再次運行 <code>Receive</code> 專案你會發現後面第二到第五的任務會沒有運行於是任務已經丟失掉了，如果在支付的場景下這樣會造成會員款項丟失的問題。</p>
+<p>為了解決這個問題 RabbitMQ 有提出一個功能叫做 <code>Message acknowledgment</code> 簡稱為 <code>ack</code> 我們之後也會很常看到 <code>ack</code> 這個詞，從字面上來看是代表
+承認或認可信息屬實的意思，我們在 <code>Receive</code> 專案下方會看到 <code>autoAck: true</code> 這個設定，代表我們一旦將 <code>Queue</code> 的信息交給 <code>consumer</code> 後就直接把
+信息從 <code>Queue</code> 裡面刪除，並不會管 <code>consumer</code> 是否有正常完成任務。</p>
+<p>所以我們可以知道 <code>autoAck: true</code> 這個設定並不是很安全，我們可以將此設定值改成 <code>false</code> 這時的流程就會改變成發送給 <code>consumer</code> 後 <code>Queue</code> 裡面的
+信息不會直接刪除，取而代之我們必須在 <code>consumer</code> 執行完成後額外跟 <code>Queue</code> 通知說任務已經完成，最後 <code>Queue</code> 才會安心的把任務刪除。</p>
+<p>我們需要將 <code>Receive</code> 專案的 <code>autoAck</code> 修改成 <code>false</code>，並且在 <code>Received</code> Event 執行完成後手動通知也就是使用 <code>BasicAck</code> 這個方法</p>
+<pre><code class="language-text">var consumer = new AsyncEventingBasicConsumer(channel);
+consumer.Received += (model, ea) =&gt;
+{
+    var body = ea.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    Console.WriteLine($&quot; [x] Received {message}&quot;);
+    int dots = message.Split('.').Length - 1;
+    Thread.Sleep(dots * 1000);
+    Console.WriteLine(&quot; [x] Done&quot;);
+    channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false ); 
+    return Task.CompletedTask;
+};
+
+channel.BasicConsume(
+    queue: &quot;hello&quot;,
+    autoAck: false,
+    consumer: consumer);
+</code></pre>
+<p>修改後再次發送五個任務到 <code>Queue</code> 當中，並且同樣也在 <code>Receive</code> 專案運行任務時直接中斷，不過這次再次運行後會發現會繼續從剛剛中斷的任務繼續執行，
+這樣就不會有丟失信息的問題了。</p>
+<hr />
+<h2 id="section">持久化</h2>
+<p>雖然已經解決資料丟失的問題，不過還有另一個可能就是 RabbitMQ 發生異常那麼目前存在記憶體內的信息也會丟失掉，值這時我們就需要開啟 RabbitMQ 的信息持久化功能，
+類似 Docker 中持久化的概念，我們可以在收到信息時同時寫一份到硬碟內部這樣一來如果 RabbitMQ 的機器當機了，只要快速將機器重啟後 RabbitMQ 會去硬碟內部
+讀取之前的資料回到到當機前的狀態。</p>
+<p>要使用持久化的功能需要重新建立一個新的 <code>Queue</code> 並且設定 durable 參數，並且修改之前所有的設定改用新的 <code>Queue</code>，需要注意的雖然 <code>Queue</code> 已經設定為持久了
+不過這樣還不夠，因為信息同時也要開啟持久化設定才會將信息保存到硬碟內，把 <code>Queue</code> 設定為持久並不代表信息是持久的同樣如果只有把信息設定為持久 <code>Queue</code> 沒有設定，
+那麼也會被認為是臨時 <code>Queue</code> 只要 RabbitMQ 一關閉 <code>Queue</code> 也會被直接刪除。</p>
+<pre><code class="language-text">channel.QueueDeclare(queue: &quot;task_queue&quot;,
+    durable: true, 
+    exclusive: false,
+    autoDelete: false,
+    arguments: null);
+    
+...
+
+var properties = channel.CreateBasicProperties();
+properties.Persistent = true; // persistent
+    
+channel.BasicPublish(exchange: string.Empty,
+    routingKey: &quot;task_queue&quot;,
+    mandatory: true,
+    basicProperties: properties,
+    body: body);
+</code></pre>
+<pre><code class="language-text">channel.QueueDeclare(queue: &quot;task_queue&quot;,
+    durable: true,
+    exclusive: false,
+    autoDelete: false,
+    arguments: null);
+    
+...
+    
+channel.BasicConsume(
+    queue: &quot;task_queue&quot;,
+    autoAck: false,
+    consumer: consumer);
+</code></pre>
+<p>測試的方法也很簡單你可以再次發送五個信息，然後直接重啟 Docker 容器來模擬 RabbitMQ 異常，重啟後如果運行 <code>Receive</code> 專案還能繼續接收任務就代表一開始的
+信息已經成功持久化了。</p>
+<p>不過這樣的作法還是會有非常低的機率會丟失信息，就是在寫入硬碟期間如果發生故障還是會丟失一小部份的信息，要解決這個問題需要在 <code>producer</code> 端的 channel
+開啟 <code>ConfirmSelect</code> 這樣就會在發佈後再次去確認是否真的有確實寫入到硬碟內才能保證不會有任何信息丟失，但是開啟後性能會降低可以按照需求判斷是否需要開啟。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了 <code>ack</code> 和持久化的使用方式，基本上這兩個設定在正式環境是必須要使用才能保證信息的安全，不過目前是用的場景非常簡單只有用到一個 <code>producer</code> 和
+一個 <code>consumer</code> 但是大多數環境可以同使用多個 <code>consumer</code> 來增加任務運行的速度之後的文章會根據這部份來討論。</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/RabbitMQTutorial/tree/1.1" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/rabbitmq-basic-asynchronous-task-and-persistent'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

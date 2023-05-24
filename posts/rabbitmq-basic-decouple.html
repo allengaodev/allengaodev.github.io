@@ -97,7 +97,7 @@
         <h2 id="rabbitmq-basic">RabbitMQ Basic</h2>
 <p>這個系列會重新複習 .NET 中 RabbitMQ 的使用方式，首先我們使用 docker 建立測試 RabbitMQ 測試環境，需要注意 image 有兩個版本一種是自帶管理界面與另一種沒有界面的版本，
 這次使用的 image 是 <code>rabbitmq:3.11-management</code> 是有界面的版本，RabbitMQ管理界面預設使用的 port 為 <code>15672</code> RabbitMQ 服務為 <code>5672</code>。</p>
-<pre><code class="language-text">docker run -it --rm --name myrabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-management
+<pre><code class="language-text">docker run -it --name myrabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-management
 </code></pre>
 <p>接著打開瀏覽器進入管理界面 <code>https://localhost:15672</code> 可以使用預設的使用者進行登入 <code>guest/guest</code></p>
 <p>確定建立測試環境後我們來建立新專案，這邊參考 <code>eShopOnContainers</code> 額外建立一個專案 <code>Services.Common</code> 用來註冊 RabbitMQ 服務</p>
