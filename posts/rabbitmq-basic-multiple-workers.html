@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;">
+
+  <title>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/rabbitmq-basic-multiple-workers'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/rabbitmq-basic-multiple-workers' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/rabbitmq-basic-multiple-workers'>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</a>
+              <span class="subheading">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</span>
+          </h1>
+            <div class="meta">Published on Thursday, May 25, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="rabbitmq-multiple-workers">RabbitMQ Multiple Workers</h2>
+<p>到目前為止我們專案同時只會運行一個 <code>producer</code> 和 一個 <code>consumer</code>，不過當 <code>producer</code> 產生過多的任務或者 <code>consumer</code> 執行每一個任務都需要許多時間，
+這時候我們可以選則執行多個 <code>consumer</code> 來分擔執行任務的壓力，例如說上一篇文章中的例子我們產生了五個任務。</p>
+<pre><code class="language-text">dotnet run &quot;First message.&quot;
+dotnet run &quot;Second message..&quot;
+dotnet run &quot;Third message...&quot;
+dotnet run &quot;Fourth message....&quot;
+dotnet run &quot;Fifth message.....&quot;
+</code></pre>
+<p>我們知道 一個 <code>consumer</code> 要完成這五個任務最少需要 15 秒的時間，那麼理論上如果開啟多個 <code>consumer</code> 任務的執行速度應該會快上不少，
+不過同時也會牽涉到列一個問題那就是如何公平分配任務給每個 <code>consumer</code>，不然假如說開啟了五個 <code>consumer</code> 但結果所有任務只會分派給第一個 <code>consumer</code> 負責處理，
+那總運行時間還是 15 秒不會有任何得加快，今天將針對這個問題做討論。</p>
+<p>首先我們先開啟兩個 shell 試試看運行兩個 <code>consumer</code> 等待之後的任務分配</p>
+<pre><code class="language-text"># shell 1
+cd src/Receive
+dotnet run
+</code></pre>
+<pre><code class="language-text"># shell 2
+cd src/Receive
+dotnet run
+</code></pre>
+<p>接著我們運行 <code>producer</code> 專案並發送五個任務到 <code>Queue</code> 內</p>
+<pre><code class="language-text">cd src/Send
+dotnet run &quot;First message.&quot;
+dotnet run &quot;Second message..&quot;
+dotnet run &quot;Third message...&quot;
+dotnet run &quot;Fourth message....&quot;
+dotnet run &quot;Fifth message.....&quot;
+</code></pre>
+<p>從輸出可以得知 <code>shell 1</code> 被分派到任務一,任務三,任務五</p>
+<pre><code class="language-text"># shell 1
+[*] Waiting for messages.
+Press [enter] to exit.
+[x] Received First message.
+[x] Done
+[x] Received Third message...
+[x] Done
+[x] Received Fifth message.....
+[x] Done
+</code></pre>
+<p>從輸出可以得知 <code>shell 2</code> 被分派到任務二,任務四</p>
+<pre><code class="language-text"># shell 2
+[*] Waiting for messages.
+Press [enter] to exit.
+[x] Received Second message..
+[x] Done
+[x] Received Fourth message....
+[x] Done
+</code></pre>
+<p>由此可知 RabbitMQ 是根據 <code>round-robin</code> 方式來分配任務，基本上就是根據 <code>consumer</code> 的數量來平均分配任務給每一個 <code>consumer</code>，所以根據這種分派方法
+假如果們有三個 <code>consumer</code>，那們 <code>consumer1</code> 會被分派到任務一跟任務四， <code>consumer2</code> 會被分派到任務二跟任務五， <code>consumer3</code> 只會分派到 任務三。</p>
+<hr />
+<h2 id="fair-dispatch">Fair Dispatch</h2>
+<p><code>round-robin</code> 方法看似很公平但是事實上公平的只有任務的數量，那麼假如說偶數任務需要執行的時間需要特別長呢？這時候就變得不太公平了。</p>
+<p>例如說我們發送以下五個任務，可以看到任務二跟四的運行時間將會為 10 秒</p>
+<pre><code class="language-text">dotnet run &quot;First message.&quot;
+dotnet run &quot;Second message....................&quot;
+dotnet run &quot;Third message...&quot;
+dotnet run &quot;Fourth message....................&quot;
+dotnet run &quot;Fifth message.....&quot;
+</code></pre>
+<p>這時 <code>shell 1</code> 的執行時間還是為 9 秒但是 <code>shell 2</code> 需要的時間為 40 秒，明顯看得出來雖然任務執行的數量差不多但是 <code>shell 2</code> 的負擔將會比 <code>shell 1</code> 還要大很多，
+還有一個有趣的情況那就是 <code>shell 1</code> 執行完任務一三五後 <code>shell 2</code> 還在執行任務二，那麼根據目前情況 <code>shell 1</code> 現在為閒置中理論上應該分派任務四給 <code>shell 1</code>
+幫忙分擔壓力才是比較好的作法，但在預設情況下 RabbitMQ 不會知道也不會管這些事情，它還是會根據任務數量平均配給每一個 <code>consumer</code>。</p>
+<p>要解決這個問題我們需要稍微修改一下 <code>Receive</code> 專案，呼叫 BasicQos 並設定每次只分配一筆任務</p>
+<pre><code class="language-text">channel.QueueDeclare(queue: &quot;task_queue&quot;,
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
+
+channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+</code></pre>
+<p>修改完成後 RabbitMQ 就不會預先分派所有任務了，會變成是需要呼叫昨天提到的 <code>ack</code> 確保任務真的完成後才分派下一筆任務給 <code>consumer</code>。</p>
+<p>所以根據調整完的結果 <code>shell 1</code> 與 <code>shell 2</code> 需要確實完成任務才能跟 RabbitMQ 要求下一個任務，這樣就能更公平的分派任務給每一個 <code>consumer</code>。</p>
+<pre><code class="language-text"># shell 1
+[*] Waiting for messages.
+Press [enter] to exit.
+[x] Received First message.
+[x] Done
+[x] Received Third message...
+[x] Done
+[x] Received Fourth message....................
+[x] Done
+</code></pre>
+<pre><code class="language-text"># shell 2
+[*] Waiting for messages.
+Press [enter] to exit.
+[x] Received Second message....................
+[x] Done
+[x] Received Fifth message.....
+[x] Done
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習到了只要使用 RabbitMQ 就能很快速的水平擴展我們的服務，例如在活動期間我們可以事先開啟更多個服務就能分擔整個系統的壓力，
+還有如何讓 RabbitMQ 更公平的分派任務給每一個服務，這樣就可以盡量分擔每一台機器的負擔，並不會有特定一台機器比較忙碌的狀態。</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/RabbitMQTutorial/tree/1.2" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/rabbitmq-basic-multiple-workers'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
