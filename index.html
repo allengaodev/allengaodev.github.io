@@ -98,6 +98,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Direct &amp; Topic &amp; Header</a></h2>
+  <p class="post-meta">Published on Thursday, June 1, 2023</p>
+<p>今天要來學習發布訂閱模式中的 <code>Direct</code> 和 <code>Topic</code> 模式這兩個模式使用起來非常相似。上一篇文章中我們學習到的 <code>Fanout</code> 模式有一個不太方便的點，那就是
+它會一次發送給有綁定到 <code>Exchange</code> 上的所有 <code>Queue</code>，如果只想要發送給某個特定族群的 <code>Queue</code> 就可以選擇使用 <code>Direct</code>, <code>Topic</code> 或者 <code>Header</code> 模式。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-fanout">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Fanout</a></h2>
   <p class="post-meta">Published on Saturday, May 27, 2023</p>
 <p>到目前為止我們已經學會了 RabbitMQ 中最基礎的應用，在上一篇文章中這種一個 <code>Queue</code> 搭配多個 <code>Consumer</code> 的模式叫做 <code>Competing Consumers Pattern</code>
@@ -111,15 +119,6 @@
   <p class="post-meta">Published on Thursday, May 25, 2023</p>
 <p>到目前為止我們專案同時只會運行一個 <code>producer</code> 和 一個 <code>consumer</code>，不過當 <code>producer</code> 產生過多的任務或者 <code>consumer</code> 執行每一個任務都需要許多時間，
 這時候我們可以選則執行多個 <code>consumer</code> 來分擔執行任務的壓力，例如說上一篇文章中的例子我們產生了五個任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-multiple-workers">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-asynchronous-task-and-persistent">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;</a></h2>
-  <p class="post-meta">Published on Wednesday, May 24, 2023</p>
-<p>在上一篇文章內容中了解到我們能將信息傳送到 RabbitMQ 中，之後有人需要時才會把信息轉交給他，如果沒有人需要則會繼續存放在 RabbitMQ 內繼續等待接收。
-這些操作在 RabbitMQ 當中有各自的專有名詞，首先是傳送到信息 RabbitMQ 中的系統通常稱為 <code>producer</code> 與需要取得 RabbitMQ 中信息的系統稱為 <code>consumer</code>
-和 RabbitMQ 將信息保存的地方稱為 <code>Queue</code>。</p>    <p class="small"><a href="/posts/rabbitmq-basic-asynchronous-task-and-persistent">Read more...</a></p>
 </div>
 
   <div>
@@ -141,7 +140,7 @@
               <a href="/tags/csharp" class="badge text-bg-light"> CSharp (16)</a>
               <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
               <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-              <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (4)</a>
+              <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (5)</a>
               <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
               <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
               <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
