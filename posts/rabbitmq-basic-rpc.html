@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;RPC &#x6A21;&#x5F0F;">
+
+  <title>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;RPC &#x6A21;&#x5F0F;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/rabbitmq-basic-rpc'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;RPC &#x6A21;&#x5F0F;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/rabbitmq-basic-rpc' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/rabbitmq-basic-rpc'>&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;RPC &#x6A21;&#x5F0F;</a>
+              <span class="subheading">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;RPC &#x6A21;&#x5F0F;</span>
+          </h1>
+            <div class="meta">Published on Sunday, June 4, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="rabbitmq-rpc">RabbitMQ RPC</h2>
+<p>今天是 RabbitMQ 基礎用法的最後一篇，之前在討論非同步任務了解到我們可以建立一個 <code>Queue</code> 並且背後建立多個 <code>Worker</code> 來分散執行的任務，這種模式有一個問題
+那就是任務執行完成後發送信息的人沒有辦法知道任務已經完成或者是任務失敗等其他狀況，發送人還需要主動的去確認任務是否已經完成，例如一個報表導出的任務當你按下按鈕後
+會發送一個信息任務到 <code>Queue</code> 中並且由 <code>Worker</code> 來執行任務，這時發送人可能就去操作網站其他功能了甚至也有忘記自己有發送報表導出的任務，之後當你回來查看結果時
+最好的情況是報表已經導出完成可以直接下載，也有可能早就任務失敗或者卡住此時你又必須重新發送一次任務。</p>
+<p>既然 <code>Worker</code> 只要綁定一組 <code>Queue</code> 之後只要有新信息會主動通知 <code>Worker</code> 來處理任務，那麼只要發送人也綁定一組特殊 <code>Queue</code> 之後 <code>Worker</code> 執行完任務後主動發送到這組特殊的 <code>Queue</code>，
+這樣發送人就可以在任務完成後收到通知。</p>
+<p>首先我們修改一下 <code>Receive</code> 專案建立一個 <code>rpc_queue</code> 並關閉自動 <code>Ack</code> 與 <code>Qos</code> 讓每個 Worker 每次只能接收處理一個任務</p>
+<pre><code class="language-text">channel.QueueDeclare(queue: &quot;rpc_queue&quot;,
+    durable: false,
+    exclusive: false,
+    autoDelete: false,
+    arguments: null);
+channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+
+var consumer = new AsyncEventingBasicConsumer(channel);
+channel.BasicConsume(
+    queue: &quot;rpc_queue&quot;,
+    autoAck: false,
+    consumer: consumer);
+</code></pre>
+<p>接下來要處理接收信息後的 Event 我們需要在任務處理完成後發送一條完成信息給專門存放回應的 <code>Queue</code> 才能完成整個流程，要做到這件事情有兩種作法
+第一個是為每一個發送者都專門建立一個回應 <code>Queue</code> 但是這種處理方式效能會比較差， 因此有第二種模式就是全部發送者都共用一個回應 <code>Queue</code> 並且搭配
+使用 <code>ReplyTo</code> 與 <code>CorrelationId</code> 來避免發送者收到別的任務回應信息。</p>
+<p>我們需要在信息發送之前就先確認好要回傳回應到哪一個 <code>Queue</code> 和哪一個發送者，這樣在 <code>Worker</code> 處理完後才能知道要回應給誰</p>
+<ul>
+<li><code>ReplyTo</code> 代表需要專門保存回應的 <code>Queue</code></li>
+<li><code>CorrelationId</code> 為一組隨機 <code>Guid</code> 用來確定該返回給發送者</li>
+</ul>
+<p>接下來繼續修該 <code>Receive</code> 專案並修改 Event 處理方法，我們將在 finally block 新增回應信息的邏輯</p>
+<pre><code class="language-text">consumer.Received += (model, ea) =&gt;
+{
+    var body = ea.Body.ToArray();
+    var props = ea.BasicProperties;
+    var replyProps = channel.CreateBasicProperties();
+    var message = Encoding.UTF8.GetString(body);
+    replyProps.CorrelationId = props.CorrelationId;
+
+    try
+    {
+        Console.WriteLine($&quot; [x] Received {message}&quot;);
+        int dots = message.Split('.').Length - 1;
+        Thread.Sleep(dots * 1000);
+        Console.WriteLine($&quot; [x] {message} Done&quot;);
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+    }
+    finally
+    {
+        var responseBytes = Encoding.UTF8.GetBytes(message + &quot;Success!&quot;);
+        channel.BasicPublish(exchange: string.Empty,
+            routingKey: props.ReplyTo,
+            basicProperties: replyProps,
+            body: responseBytes);
+        channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+    }
+
+    return Task.CompletedTask;
+};
+</code></pre>
+<p>接下來處理 <code>Send</code> 專案這邊我們可以參考 <code>RPC</code> 的設計模式將方法包裝起來建立一個 <code>RpcClient</code> Class 這樣就可以重複使用發送邏輯</p>
+<pre><code class="language-text">cd ./src/Services.Common
+dotnet new class RpcClient
+</code></pre>
+<pre><code class="language-text">using System.Collections.Concurrent;
+using System.Text;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+
+namespace Services.Common;
+
+public class RpcClient : IDisposable
+{
+    private const string QUEUE_NAME = &quot;rpc_queue&quot;;
+
+    private readonly IRabbitMQPersistentConnection _connection;
+    private readonly IModel _channel;
+    private readonly string _replyQueueName;
+    private readonly ConcurrentDictionary&lt;string, TaskCompletionSource&lt;string&gt;&gt; _callbackMapper = new();
+
+    public RpcClient(IRabbitMQPersistentConnection connection)
+    {
+        _connection = connection;
+        
+        if (!_connection.IsConnected)
+        {
+            _connection.TryConnect();
+        }
+        
+        _channel = _connection.CreateModel();
+        _replyQueueName = _channel.QueueDeclare().QueueName;
+        
+        var consumer = new AsyncEventingBasicConsumer(_channel);
+        consumer.Received += (model, ea) =&gt;
+        {
+            if (!_callbackMapper.TryRemove(ea.BasicProperties.CorrelationId, out var tcs))
+                return Task.CompletedTask;
+            var body = ea.Body.ToArray();
+            var response = Encoding.UTF8.GetString(body);
+            tcs.TrySetResult(response);
+            
+            return Task.CompletedTask;
+        };
+
+        _channel.BasicConsume(consumer: consumer,
+            queue: _replyQueueName,
+            autoAck: true);
+    }
+    
+    public Task&lt;string&gt; CallAsync(string message, CancellationToken cancellationToken = default)
+    {
+        IBasicProperties props = _channel.CreateBasicProperties();
+        var correlationId = Guid.NewGuid().ToString();
+        props.CorrelationId = correlationId;
+        props.ReplyTo = _replyQueueName;
+        var messageBytes = Encoding.UTF8.GetBytes(message);
+        var tcs = new TaskCompletionSource&lt;string&gt;();
+        _callbackMapper.TryAdd(correlationId, tcs);
+
+        _channel.BasicPublish(exchange: string.Empty,
+            routingKey: QUEUE_NAME,
+            basicProperties: props,
+            body: messageBytes);
+        
+        Console.WriteLine($&quot; [x] Sent {message}&quot;);
+
+        cancellationToken.Register(() =&gt; _callbackMapper.TryRemove(correlationId, out _));
+        return tcs.Task;
+    }
+
+    public void Dispose()
+    {
+        _connection.Dispose();
+    }
+}
+</code></pre>
+<p>最後處理 <code>Send</code> 專案，這裡因為原本的發送邏輯已經搬到 <code>RpcClient.cs</code> 因此把就的邏輯刪除改成注入 <code>RpcClient</code> 來發送信息</p>
+<pre><code class="language-text">using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Services.Common;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddEventBus();
+builder.Services.AddScoped&lt;RpcClient, RpcClient&gt;();
+var provider = builder.Services.BuildServiceProvider();
+var rpcClient = provider.GetService&lt;RpcClient&gt;();
+var response = await rpcClient.CallAsync(string.Join(&quot;&quot;, args));
+Console.WriteLine(&quot; [x] Got {0}&quot;, response);
+</code></pre>
+<p>完成後運行 <code>Send</code> 和 <code>Receive</code> 專案並發送測試信息</p>
+<pre><code class="language-text"># shell 1
+cd src/Receive
+dotnet run
+</code></pre>
+<pre><code class="language-text"># shell 2
+cd src/Send
+dotnet run &quot;Fifth message.....&quot;
+</code></pre>
+<p>這邊使用的是模式一因此在發送信息後會為個發送者建立一個專用的回應 <code>Queue</code> 所以你可以打開 RabbitMQ 後台會看到臨時的 <code>Queue</code> 並且會在完成回應後直接刪除</p>
+<pre><code class="language-text"># shell 1
+[*] Waiting for messages.
+Press [enter] to exit.
+2[x] Received Fifth message.....
+3[x] Fifth message..... Done
+</code></pre>
+<pre><code class="language-text"># shell 2
+1[x] Sent Fifth message.....
+4[x] Got Fifth message.....Success!
+</code></pre>
+<p>要改成模式二只需要修改一下 <code>_replyQueueName</code> 讓之後的回應都使用這個 <code>Queue</code> 即可</p>
+<pre><code class="language-text">_replyQueueName = _channel.QueueDeclare(&quot;replyQueue&quot;, false, false, false).QueueName;
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了怎麼透過 RabbitMQ 建立出 RPC 的功能，這樣的好處是開發者使用時並不會知道你背後的邏輯是怎麼實踐的並且使用起來
+跟使用本地方法一樣，並且可以快速的完成一個分布式的架構我們在建立微服務時就可以多多利用這個模式就可以忽略麻煩的程式與程式之間的溝通問題。</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/RabbitMQTutorial/tree/1.5" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/rabbitmq-basic-rpc'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
