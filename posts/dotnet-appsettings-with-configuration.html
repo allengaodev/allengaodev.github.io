@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;">
+
+  <title>&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/dotnet-appsettings-with-configuration'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/dotnet-appsettings-with-configuration' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/dotnet-appsettings-with-configuration'>&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a>
+              <span class="subheading">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</span>
+          </h1>
+            <div class="meta">Published on Wednesday, June 7, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="appsettings">AppSettings</h2>
+<p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
+資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
+設定檔這方面的問題。</p>
+<p>要了解這個問題可以建立一個 <code>Console</code> 專案，並且新增一個 <code>appsettings.json</code> 檔案</p>
+<pre><code class="language-text">dotnet new console -o HelloConsole
+touch appsettings.json
+</code></pre>
+<pre><code class="language-text"># appsettings.json
+{
+  &quot;JsonSettings&quot;: {
+    &quot;From&quot;: &quot;MyJsonSettings&quot;
+  }
+}
+</code></pre>
+<pre><code class="language-text">// HelloConsole.Program.cs
+Console.WriteLine(&quot;Hello, World!&quot;);
+</code></pre>
+<p>為了在程式運行時讀取 <code>appsettings.json</code> 並能夠在程式任意段落讀取其中的設定值，我們可以按照以下步驟進行細分整理。</p>
+<p>首先，我們需要實現讀取 <code>appsettings.json</code> 的功能，這表示我們的程式需要有能力讀取實體文件並解析 JSON。</p>
+<p>其次，為了在任意程式段落中讀取 <code>appsettings.json</code> 中的設定值，我們可以使用依賴注入（Dependency Injection，簡稱 DI）的機制。
+這樣我們可以將解析後的 <code>appsettings.json</code> 的設定值註冊為 Singleton（單例）到 DI 容器中。
+這樣一來，我們就可以在程式的任意地方使用 DI 容器來獲取這些設定值，而不需要在每個程式段落中都進行重複的讀取操作。</p>
+<ol>
+<li>讀取實體文件可以使用 <code>Microsoft.Extensions.FileProviders.Physical</code> Nuget Package</li>
+<li>解析 JSON 可以使用 <code>System.Text.Json</code> Nuget Package</li>
+<li>DI 容器使用 <code>Microsoft.Extensions.DependencyInjection</code> Nuget Package</li>
+<li>要註冊到 DI 容器要先建立一組 interface 與 class 並且要考慮讀取時是否支援強型別或者轉換成字典並使用 index 來讀取</li>
+</ol>
+<p>可以看得出來這幾個步驟很重要並且幾乎是每個專案都需要做，因此為了方便我們可以直接使用 <code>Microsoft.Extensions.Configuration</code> 相關的 package</p>
+<ol>
+<li>Microsoft.Extensions.Configuration</li>
+<li>Microsoft.Extensions.Configuration.Abstractions</li>
+<li>Microsoft.Extensions.Configuration.Binder</li>
+<li>Microsoft.Extensions.Configuration.EnvironmentVariables</li>
+<li>Microsoft.Extensions.Configuration.FileExtensions</li>
+<li>Microsoft.Extensions.Configuration.Ini</li>
+<li>Microsoft.Extensions.Configuration.Json</li>
+<li>Microsoft.Extensions.Configuration.UserSecrets</li>
+<li>Microsoft.Extensions.Configuration.Xml</li>
+</ol>
+<p>整理後根據我們需要的功能安裝出以下三個 Package</p>
+<ol>
+<li>Microsoft.Extensions.Configuration.Binder</li>
+<li>Microsoft.Extensions.Configuration.Json</li>
+<li>Microsoft.Extensions.DependencyInjection</li>
+</ol>
+<p>其中 <code>Microsoft.Extensions.Configuration.Json</code> 裡面有整合了 <code>Configuration</code>, <code>FileProviders</code> 與 <code>System.Text.Json</code> 因此我們安裝這個 Package 就好了，
+<code>Microsoft.Extensions.Configuration.Binder</code> 則是用來將設定值映射到強行別的 Class 上。</p>
+<p>回到我們的 HelloConsole 專案並安裝 Nuget Package</p>
+<pre><code class="language-text">dotnet add package Microsoft.Extensions.Configuration.Binder --version 7.0.4
+dotnet add package Microsoft.Extensions.Configuration.Json --version 7.0.0
+dotnet add package Microsoft.Extensions.DependencyInjection --version 7.0.0
+</code></pre>
+<p>接下來需要先了解 <code>Microsoft.Extensions.Configuration</code> 提供的這幾個 Class</p>
+<ul>
+<li>ConfigurationBuilder</li>
+<li>ConfigurationProvider</li>
+<li>ConfigurationSource</li>
+<li>ConfigurationRoot</li>
+<li>ConfigurationSection</li>
+</ul>
+<p>我們首先需要建立一個 <code>ConfigurationBuilder</code> 並使用多種不同的 <code>ConfigurationSource</code> 來建立對應的 <code>ConfigurationProvider</code>。
+例如可以使用 <code>JsonConfigurationProvider</code> 讀取 Json 格式的設定檔或者 <code>XmlConfigurationProvider</code> 讀取 Xml 格式的設定檔最後將設定匯總到 <code>ConfigurationBuilder</code>。</p>
+<p>最後透過 <code>ConfigurationBuilder</code> 的 <code>Build</code> 方法，可以獲得一個所有設定值的根節點 <code>ConfigurationRoot</code> 內部會根據設定檔建立多個
+<code>ConfigurationSection</code> 以便區分不同的設定值。例如，我們可以建立一個區段來紀錄與連線字串相關的設定，另一個區段來紀錄與日誌相關的設定。</p>
+<hr />
+<h2 id="json-configuration">Json Configuration</h2>
+<p>根據上段整理的重點寫出以下測試程式</p>
+<pre><code class="language-text">var configurationBuilder = new ConfigurationBuilder();
+configurationBuilder
+    .Add(new JsonConfigurationSource
+    {
+        FileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory()),
+        Path = &quot;appsettings.json&quot;,
+        Optional = false,
+        ReloadOnChange = false,
+    });
+
+var configurationRoot = configurationBuilder.Build();
+
+Console.WriteLine(configurationRoot.GetSection(&quot;JsonSettings:From&quot;).Value);
+</code></pre>
+<pre><code class="language-text">// HelloConsole.csproj
+&lt;ItemGroup&gt;
+  &lt;None Update=&quot;appsettings.json&quot;&gt;
+    &lt;CopyToOutputDirectory&gt;Always&lt;/CopyToOutputDirectory&gt;
+  &lt;/None&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+<p>運行之後確實可以讀取出設定值 <code>MyJsonSettings</code></p>
+<hr />
+<h2 id="xml-configuration">XML Configuration</h2>
+<p>我們可以再額外測試一下 XML 的設定檔</p>
+<pre><code class="language-text">dotnet add package Microsoft.Extensions.Configuration.Xml --version 7.0.0
+</code></pre>
+<pre><code class="language-text">touch settings.xml
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;configuration&gt;
+    &lt;XmlSettings&gt;
+        &lt;From&gt;MyXMLSettings&lt;/From&gt;
+    &lt;/XmlSettings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>並且根據同樣的邏輯添加新的 <code>XmlConfigurationSource</code></p>
+<pre><code class="language-text">var configurationBuilder = new ConfigurationBuilder();
+var physicalFileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
+configurationBuilder
+    .Add(new JsonConfigurationSource
+    {
+        FileProvider = physicalFileProvider,
+        Path = &quot;appsettings.json&quot;,
+        Optional = false,
+        ReloadOnChange = false,
+    })
+    .Add(new XmlConfigurationSource
+    {
+        FileProvider = physicalFileProvider,
+        Path = &quot;settings.xml&quot;,
+        Optional = false,
+        ReloadOnChange = false,
+    });
+
+var configurationRoot = configurationBuilder.Build();
+
+Console.WriteLine(configurationRoot.GetSection(&quot;JsonSettings:From&quot;).Value);
+Console.WriteLine(configurationRoot.GetSection(&quot;XmlSettings:From&quot;).Value);
+</code></pre>
+<pre><code class="language-text">// HelloConsole.csproj
+&lt;ItemGroup&gt;
+  &lt;None Update=&quot;appsettings.json&quot;&gt;
+    &lt;CopyToOutputDirectory&gt;Always&lt;/CopyToOutputDirectory&gt;
+  &lt;/None&gt;
+  &lt;None Update=&quot;settings.xml&quot;&gt;
+    &lt;CopyToOutputDirectory&gt;Always&lt;/CopyToOutputDirectory&gt;
+  &lt;/None&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+<pre><code class="language-text"># Shell 1
+MyJsonSettings
+MyXMLSettings
+</code></pre>
+<p>這樣的好處是儘管 Xml 與 Json 兩種檔案寫法不同但經過 <code>ConfigurationBuilder</code> 整理後得到的 <code>ConfigurationRoot</code> 卻可以使用同樣的 <code>GetSection</code>
+方法獲取到檔案內的設定值。</p>
+<hr />
+<h2 id="dependency-injection">Dependency Injection</h2>
+<p>我們已經取得關鍵的根節點 <code>ConfigurationRoot</code> 接下來需要將它註冊到 DI 容器內。</p>
+<pre><code class="language-text">var services = new ServiceCollection();
+services.AddSingleton&lt;IConfiguration&gt;(configurationBuilder.Build());
+
+var serviceProvider = services.BuildServiceProvider();
+var configuration = serviceProvider.GetService&lt;IConfiguration&gt;();
+
+Console.WriteLine(configuration.GetSection(&quot;JsonSettings:From&quot;).Value);
+Console.WriteLine(configuration.GetSection(&quot;XmlSettings:From&quot;).Value);
+</code></pre>
+<p>註冊為 Singleton 後以後就不需要重複讀取設定檔，可以直接到 DI 容器取得設定值</p>
+<hr />
+<h2 id="section">優化</h2>
+<p>我們目前是手動添加 <code>JsonConfigurationSource</code> 和 <code>XmlConfigurationSource</code> 這種方法比較不常見，推薦的作法是使用 Dotnet 封裝好的方法
+可以讓程式碼更加簡潔以及有更好的可讀性。</p>
+<pre><code class="language-text">var configurationBuilder = new ConfigurationBuilder();
+configurationBuilder
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile(&quot;appsettings.json&quot;, optional: false)
+    .AddXmlFile(&quot;settings.xml&quot;, optional: false);
+
+var services = new ServiceCollection();
+services.AddSingleton&lt;IConfiguration&gt;(configurationBuilder.Build());
+
+var serviceProvider = services.BuildServiceProvider();
+var configuration = serviceProvider.GetService&lt;IConfiguration&gt;();
+
+Console.WriteLine(configuration.GetSection(&quot;JsonSettings:From&quot;).Value);
+Console.WriteLine(configuration.GetSection(&quot;XmlSettings:From&quot;).Value);
+</code></pre>
+<p>我們可以選擇安裝 <code>Hosting</code> Package 來建立一個 Host，建立的時候會自動建立 DI 容器與呼叫 AddJsonFile 和註冊 IConfiguration，
+這也是為什麼建立一個新的 Web 專案可以直接使用 <code>appsettings.json</code> 的原因。</p>
+<pre><code class="language-text">dotnet add package Microsoft.Extensions.Hosting --version 7.0.1
+</code></pre>
+<pre><code class="language-text">var builder = Host.CreateDefaultBuilder();
+builder.ConfigureAppConfiguration(builder1 =&gt; builder1.AddXmlFile(&quot;settings.xml&quot;, optional: false));
+
+var app = builder.Build();
+var configuration = app.Services.GetService&lt;IConfiguration&gt;();
+
+Console.WriteLine(configuration.GetSection(&quot;JsonSettings:From&quot;).Value);
+Console.WriteLine(configuration.GetSection(&quot;XmlSettings:From&quot;).Value);
+
+app.Run();
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了 Dotnet 內部是如何處理設定值的並且一步一步精簡程式碼，不過太精簡也容易造成誤會因為目前建立 web 專案時會自動處理
+<code>appsettings.json</code> 所以很容易忽略這方面的知識，了解原理以後就能輕鬆的使用各種類型的設定檔了。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dotnet-appsettings-with-configuration'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
