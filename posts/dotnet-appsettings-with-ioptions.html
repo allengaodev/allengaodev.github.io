@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;">
+
+  <title>&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/dotnet-appsettings-with-ioptions'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/dotnet-appsettings-with-ioptions' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/dotnet-appsettings-with-ioptions'>&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a>
+              <span class="subheading">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</span>
+          </h1>
+            <div class="meta">Published on Thursday, June 8, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="configuration-bind">Configuration Bind</h2>
+<p>在上一篇文章中我們學到了該怎麼使用 Configuration 相關的 Package，程式將透過 DI 容器取得 <code>ConfigurationRoot</code> 可以方便
+讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
+因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
+但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>
+<p>首先先建立一個新的 Web 專案</p>
+<pre><code class="language-text">dotnet new web -o HelloWeb
+</code></pre>
+<p>根據昨天學到的知識我們已經知道專案有裝 <code>Microsoft.Extensions.Hosting</code> 並且註冊一個 IHost 其它事情 Dotnet 會幫我們註冊好
+我們可以直接使用 <code>appsettings.json</code> 同時內部也有參考 <code>Microsoft.Extensions.Configuration.Binder</code> 所以我們可以直接使用。</p>
+<p>接著修改 <code>appsettings.json</code> 的內容並建立 <code>AppSettings.cs</code></p>
+<pre><code class="language-text">// appsettings.json
+{
+  &quot;JsonSettings&quot;: {
+    &quot;From&quot;: &quot;MyJsonSettings&quot;
+  }
+}
+</code></pre>
+<pre><code class="language-text">// AppSettings.cs
+public class AppSettings
+{
+    public string From { get; set; }
+}
+</code></pre>
+<p>根據目前現有的知識寫出以下程式，我們在昨天也有從 DI 容器內取出 IConfiguration 也就是 <code>ConfigurationRoot</code>，今天建立了一個 AppSettings 類別
+在透過 Bind 方法把 <code>ConfigurationRoot</code> 的設定值映射到 AppSettings 上，本質上你自己手動映射也可以達到同樣的效果。</p>
+<pre><code class="language-text">var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+var configuration = app.Services.GetRequiredService&lt;IConfiguration&gt;();
+var settings = new AppSettings();
+configuration.GetSection(&quot;JsonSettings&quot;).Bind(settings);
+
+//var settings = new AppSettings();
+//settings.From = configuration.GetSection(&quot;JsonSettings:From&quot;).Value;
+
+Console.WriteLine(settings.From);
+</code></pre>
+<p>但是這種寫法好像沒有解決什麼問題，我們還是需要從 DI 取回 <code>ConfigurationRoot</code> 並透過字串取得設定值最後進行映射，等於是你之後每個 Controller 想要
+取得設定值都要重複這個流程，那這樣強型別反而會變得有點麻煩乾脆以後都透過字串來取值就好了。</p>
+<p>所以我們需要換一個思路，那就是讀取完設定值並映射完後就直接註冊到 DI 容器內，這樣之後就可以不用每次都取回 <code>ConfigurationRoot</code> 只需要取回 <code>AppSettings</code> 類別即可。</p>
+<p>這一個版本的程式改在 <code>WebApplication</code> Build 之前就先完成映射並註冊到 DI 容器內，這樣之後在任何一個 Controller 都能取得設定值</p>
+<pre><code class="language-text">using HelloWeb;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var settings = new AppSettings();
+builder.Configuration.GetSection(&quot;JsonSettings&quot;).Bind(settings);
+
+builder.Services.AddSingleton&lt;AppSettings&gt;(settings);
+
+var app = builder.Build();
+
+var mySetting = app.Services.GetRequiredService&lt;AppSettings&gt;();
+
+Console.WriteLine(mySetting.From);
+</code></pre>
+<hr />
+<h2 id="ioptions">IOptions<T></h2>
+<p>其實在 Dotnet 有額外封裝了一系列的方法讓我們更加方便管理設定值， Options 相關的 Package 有以下幾個</p>
+<ul>
+<li>Microsoft.Extensions.Options</li>
+<li>Microsoft.Extensions.Options.ConfigurationExtensions</li>
+<li>Microsoft.Extensions.Options.DataAnnotations</li>
+</ul>
+<p>這幾個 Package 最主要的功能就是管理設定值的生命週期，關鍵在於以下這幾個 Interface 和 AddOptions 方法</p>
+<ul>
+<li>IOptions<TOptions></li>
+<li>IOptionsSnapshot<TOptions></li>
+<li>IOptionsMonitor<TOptions></li>
+</ul>
+<pre><code class="language-text">public static IServiceCollection AddOptions(this IServiceCollection services)
+{
+    ThrowHelper.ThrowIfNull(services);
+
+    services.TryAdd(ServiceDescriptor.Singleton(typeof(IOptions&lt;&gt;), typeof(UnnamedOptionsManager&lt;&gt;)));
+    services.TryAdd(ServiceDescriptor.Scoped(typeof(IOptionsSnapshot&lt;&gt;), typeof(OptionsManager&lt;&gt;)));
+    services.TryAdd(ServiceDescriptor.Singleton(typeof(IOptionsMonitor&lt;&gt;), typeof(OptionsMonitor&lt;&gt;)));
+    services.TryAdd(ServiceDescriptor.Transient(typeof(IOptionsFactory&lt;&gt;), typeof(OptionsFactory&lt;&gt;)));
+    services.TryAdd(ServiceDescriptor.Singleton(typeof(IOptionsMonitorCache&lt;&gt;), typeof(OptionsCache&lt;&gt;)));
+    return services;
+}
+</code></pre>
+<p>從 AddOptions 方法可以看出 <code>IOptions</code> 和 <code>IOptionsMonitor</code> 註冊為 Singleton， <code>IOptionsSnapshot</code> 註冊為 Scoped，
+這三個 Interface 主要使用來判斷設定值是否有改變，也就是說程式在運行時有沒有人手動修改 <code>appsettings.json</code></p>
+<p>如果不在意 <code>appsettings.json</code> 是否有被修改可以使用 <code>IOptions</code> 注入，但這也代表你需要重啟程式設定值才會生效。
+<code>IOptionsSnapshot</code> 和 <code>IOptionsMonitor</code> 則代表需要監控 <code>appsettings.json</code> 的設定值一但有修改就要取代就有的設定值，
+其中 <code>IOptionsMonitor</code> 代表即時監控一有修改就要馬上反應，<code>IOptionsSnapshot</code> 則是在目前 Scope 結束後的下一個 Scope 才會使用新設定。</p>
+<p>接下來我們修改一下專案並修改注入的方式和建立新的 Controller。
+這裡直接使用 Configure 來註冊類別，要注意這種註冊設定值的方式之後要取回就必須使用上面提到的三種 Options Interface，才能從 DI 容器取回設定值。</p>
+<pre><code class="language-text">using HelloWeb;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+builder.Services.Configure&lt;AppSettings&gt;(
+    builder.Configuration.GetSection(&quot;JsonSettings&quot;));
+var app = builder.Build();
+app.MapControllers();
+app.Run();
+</code></pre>
+<pre><code class="language-text">// HelloController.cs
+
+[ApiController]
+[Route(&quot;[controller]&quot;)]
+public class HelloController: ControllerBase
+{
+    private readonly IOptions&lt;AppSettings&gt; _options;
+
+    public HelloController(IOptions&lt;AppSettings&gt; options)
+    {
+        _options = options;
+    }
+
+    [HttpGet(Name = &quot;Get&quot;)]
+    public string Get()
+    {
+        return _options.Value.From;
+    }
+}
+</code></pre>
+<p>完成後我們直接訪問 API <code>https://localhost:7207/Hello</code> 會回傳 MyJsonSettings 到網頁上，這時如果直接修改 <code>appsettings.json</code>
+回傳值也不會時變動需要重啟程式設定值才會變動。</p>
+<pre><code class="language-text">{
+  &quot;JsonSettings&quot;: {
+    &quot;From&quot;: &quot;MyJsonSettings1&quot;
+  }
+}
+</code></pre>
+<p>接下來將 IOptions 改成 IOptionsSnapshot 並再次運行剛剛的流程，會發現即使不重啟程式設定值也會馬上進行更動。</p>
+<pre><code class="language-text">[ApiController]
+[Route(&quot;[controller]&quot;)]
+public class HelloController: ControllerBase
+{
+    private readonly IOptionsSnapshot&lt;AppSettings&gt; _options;
+
+    public HelloController(IOptionsSnapshot&lt;AppSettings&gt; options)
+    {
+        _options = options;
+    }
+
+    [HttpGet(Name = &quot;Get&quot;)]
+    public string Get()
+    {
+        return _options.Value.From;
+    }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了如何將設定值改成強型別的形式讀取，並且了解使用 IOptions<T> 來管理我們的設定值，可以跳過映射與注入等流程而且還能夠
+有即時監控設定檔的功能，這樣就不需要每次修改設定值就重啟服務了在某些場合會十分有用。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dotnet-appsettings-with-ioptions'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
