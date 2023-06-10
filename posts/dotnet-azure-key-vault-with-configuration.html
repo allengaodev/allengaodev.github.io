@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;">
+
+  <title>&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/dotnet-azure-key-vault-with-configuration'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/dotnet-azure-key-vault-with-configuration' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/dotnet-azure-key-vault-with-configuration'>&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a>
+              <span class="subheading">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</span>
+          </h1>
+            <div class="meta">Published on Saturday, June 10, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet</a>
+                  <a href="/tags/azure" class="badge text-bg-light"> Azure</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="azure-key-vault">Azure Key-Vault</h2>
+<p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
+但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>
+<p>放到 Azure 後能獲得版本控制與軟刪除的功能，可以避免人員的誤操作與誤刪除等失誤。</p>
+<p>根據我們目前學到的流程我們可以知道，應該要有一個方法能夠把設定檔讀取下來並添加到 <code>ConfigurationBuilder</code> 最後建立出
+<code>ConfigurationRoot</code>，最後在透過 IOptions<T> 讀取回設定檔。</p>
+<p>搜尋一段時間後發現 <code>Azure.Extensions.AspNetCore.Configuration.Secrets</code> Package 有提供一個 <code>AddAzureKeyVault</code> 方法
+會添加 <code>ConfigurationSource</code> 到 <code>ConfigurationBuilder</code> 符合我們想要的流程。</p>
+<pre><code class="language-text">public static IConfigurationBuilder AddAzureKeyVault(
+    this IConfigurationBuilder configurationBuilder,
+    Uri vaultUri,
+    TokenCredential credential,
+    KeyVaultSecretManager manager)
+{
+    return AddAzureKeyVault(configurationBuilder, new SecretClient(vaultUri, credential), new AzureKeyVaultConfigurationOptions
+    {
+        Manager = manager
+    });
+}
+        
+public static IConfigurationBuilder AddAzureKeyVault(
+    this IConfigurationBuilder configurationBuilder,
+    SecretClient client,
+    AzureKeyVaultConfigurationOptions options)
+{
+    Argument.AssertNotNull(configurationBuilder, nameof(configurationBuilder));
+    Argument.AssertNotNull(options, nameof(configurationBuilder));
+    Argument.AssertNotNull(client, nameof(client));
+    Argument.AssertNotNull(options.Manager, $&quot;{nameof(options)}.{nameof(options.Manager)}&quot;);
+
+    configurationBuilder.Add(new AzureKeyVaultConfigurationSource(client, options));
+
+    return configurationBuilder;
+}
+</code></pre>
+<p>不過要訪問 Azure 資源之前需要提供憑證才能證明你的 Web App 有權限訪問 Key Vault，因此我們在使用 AddAzureKeyVault 時
+也要傳入 TokenCredential 類型的憑證才能進行訪問。</p>
+<p>我們也要安裝 Package <code>Azure.Identity</code> 裡面有提供多種不同的憑證，詳細可以參考<a href="https://learn.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme?view=azure-dotnet#defaultazurecredential" target="_blank">文檔</a>。</p>
+<p>簡單來說有幾種用法第一種是直接使用 <code>DefaultAzureCredential</code> 這個憑證可以再大部份場景中使用，
+不過要注意 <code>DefaultAzureCredential</code> 其實是一連串憑證的組合，所以它內部會有一個運行的清單它會按照這個清單內的順序一個一個進行驗證直到某一個驗證通過為止。</p>
+<ol>
+<li>EnvironmentCredential</li>
+<li>WorkloadIdentityCredential</li>
+<li>ManagedIdentityCredential</li>
+<li>VisualStudioCredential</li>
+<li>VisualStudioCodeCredential</li>
+<li>AzureCliCredential</li>
+<li>AzurePowerShellCredential</li>
+<li>AzureDeveloperCliCredential</li>
+<li>InteractiveBrowserCredential</li>
+</ol>
+<p>比如說使用 <code>AzureCliCredential</code>，如果你有安裝 Azure Cli 並且在 Shell 裡面使用 <code>az login</code> 進行登入，接下來
+<code>AzureCliCredential</code> 就能直接使用你之前登入的驗證來訪問 Azure Key Vault。</p>
+<hr />
+<h2 id="lab">Lab</h2>
+<p>接下來我們進行實做，建議是有基本的 Azure 知識再繼續閱讀。</p>
+<p>首先先建立一個新的 Web 專案與 <code>SecretSettings</code> Class</p>
+<pre><code class="language-text">dotnet new web -o HelloAzureSecret
+dotnet add package Azure.Extensions.AspNetCore.Configuration.Secrets --version 1.2.2
+dotnet add package Azure.Identity --version 1.9.0
+</code></pre>
+<pre><code class="language-text">// SecretSettings.cs
+public class SecretSettings
+{
+    public string From { get; set; }
+    public string Secret { get; set; }
+}
+</code></pre>
+<p>接下來先前往 Azure 官網並使用預設值建立新的 Key Vault 服務。</p>
+<img src="https://drive.google.com/uc?id=1kvzO-4PpIS7BietVyQlZv11xA21KCoHf" alt="Azure-Key-Vault-HelloAzureSecret" class="img-fluid">
+<p>並且新增兩個 Secret，中間需要輸入 <code>--</code> 可以用來區分 Section</p>
+<pre><code class="language-text">JsonSettings--From MyAzureSecretSettings
+JsonSettings--Secret MySecret
+</code></pre>
+<img src="https://drive.google.com/uc?id=1Ix5BYYHycPGChJBOwUnq-_Y0Cg0-pgyK" alt="HelloAzureSecret-Add-New-Secret" class="img-fluid">
+<p>目前預設的 Key Vault 服務是使用 <code>Azure Role-Based Access Control(RBAC)</code> 代表我們的帳號需要有適當的角色權限才有資格訪問 Key Vault 服務，
+也就是說如果你想要使用 <code>AzureCliCredential</code> 這種透過帳號密碼來獲取權限憑證的方式，你就需要先幫你的帳號添加新的 Key Vault Role 才會有權限訪問。</p>
+<p>不過今天要用的是 <code>EnvironmentCredential</code> 並搭配使用 Client ID/Client Secret 來獲取權限，
+因此我們需要先前往 <code>Azure Active Directory</code> 建立一個新的 Applications 命名為 <code>HelloAzureSecretWebApp</code></p>
+<img src="https://drive.google.com/uc?id=1l9NfGqu1ZjB42_mF-vb91L6SmCRXtGFs" alt="AAD-Create-HelloAzureSecretWebApp" class="img-fluid">
+<p>我們需要紀錄下這個 Applications 的 <code>Application (Client) ID</code> 和 <code>Directory (tenant) ID</code> 並建立新的 <code>Client-Secret</code> 並紀錄 Value 值</p>
+<ul>
+<li>Client ID: <code>5f006f2a-eeb8-4013-9bc0-8cd1c55bb0b4</code></li>
+<li>Tenant ID: <code>82676786-5bc7-43c6-b8f8-b3ee02b0b5f3</code></li>
+<li>Secret Value: <code>B~N8Q~H.Kibk7OaMlbXNeHMWenrQO7a~WgGVdbfe</code></li>
+</ul>
+<img src="https://drive.google.com/uc?id=1QOxfMnMwA4MA8f4EbHV6SaoawoI-qAke" alt="HelloAzureSecretWebApp-OverView" class="img-fluid">
+<img src="https://drive.google.com/uc?id=1bHVrDIUsBBRM6Ycrce4uJc8v-4dr53Yq" alt="HelloAzureSecretWebApp-Client-Secret" class="img-fluid">
+<p>最後再回到 Key Vault 添加新的 Role，讓剛剛建立的 Application 和我們目前的帳號有權限訪問 Key Vault。</p>
+<img src="https://drive.google.com/uc?id=1p7K65rhA2FIGrMmtkzRKgLISZCakof5V" alt="HelloAzureSecret-Add-Role" class="img-fluid">
+<hr />
+<p>這樣資料就準備完成了，接下來回到我們的專案。</p>
+<pre><code class="language-text">using Azure.Identity;
+using HelloAzureSecret;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddAzureKeyVault(
+    new Uri(&quot;https://helloazuresecret.vault.azure.net/&quot;), new EnvironmentCredential());
+builder.Services.AddControllers();
+builder.Services.Configure&lt;SecretSettings&gt;(
+    builder.Configuration.GetSection(&quot;JsonSettings&quot;));
+var app = builder.Build();
+app.MapControllers();
+app.Run();
+</code></pre>
+<p>這裡使用 <code>EnvironmentCredential</code> 將會使用環境變數紀錄的設定來向 Azure 取得權限，所以我們要在 <code>launchSettings.json</code> 先設定好環境變數而且必須要使用正確的環境變數名稱。</p>
+<pre><code class="language-text">&quot;https&quot;: {
+      &quot;commandName&quot;: &quot;Project&quot;,
+      &quot;dotnetRunMessages&quot;: true,
+      &quot;launchBrowser&quot;: true,
+      &quot;applicationUrl&quot;: &quot;https://localhost:7131;http://localhost:5242&quot;,
+      &quot;environmentVariables&quot;: {
+        &quot;ASPNETCORE_ENVIRONMENT&quot;: &quot;Development&quot;,
+        &quot;AZURE_CLIENT_ID&quot;: &quot;5f006f2a-eeb8-4013-9bc0-8cd1c55bb0b4&quot;,
+        &quot;AZURE_TENANT_ID&quot;: &quot;82676786-5bc7-43c6-b8f8-b3ee02b0b5f3&quot;,
+        &quot;AZURE_CLIENT_SECRET&quot;: &quot;B~N8Q~H.Kibk7OaMlbXNeHMWenrQO7a~WgGVdbfe&quot;
+      }
+</code></pre>
+<p>最後新增一個 Controller 來進行測試</p>
+<pre><code class="language-text">// HelloController.cs
+
+[ApiController]
+[Route(&quot;[controller]&quot;)]
+public class HelloController: ControllerBase
+{
+    private readonly IOptions&lt;SecretSettings&gt; _options;
+
+    public HelloController(IOptions&lt;SecretSettings&gt; options)
+    {
+        _options = options;
+    }
+
+    [HttpGet(Name = &quot;Get&quot;)]
+    public string Get()
+    {
+        return _options.Value.From + &quot;:&quot; + _options.Value.Secret;
+    }
+}
+</code></pre>
+<p>如果設定都正確的話運行專案後訪問網址 <code>https://localhost:7131/Hello</code> 會看到能正確回傳 <code>MyAzureSecretSettings:MySecret</code>。</p>
+<p>你也可以將 <code>EnvironmentCredential</code> 換成其他驗證，例如使用 <code>InteractiveBrowserCredential</code> 會彈出一個網頁視窗讓你直接輸入帳號密碼
+正常登入 Azure 後會取回設定值並運行專案，再次運行測試也能達到同樣的效果。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天了解 Azure Key-Vault 的使用方式和學習了多種驗證方式，並且能正常取回設定值後添加到 <code>ConfigurationBuilder</code> 讓大部分的
+操作流程都不需要變動，這種將設定值放在 Azure 並且搭配 Client ID/Client Secret 的方式會比直接共享 <code>appsettings.json</code> 來的安全許多，
+不過還是要注意合理的 Client Secret 過期時間就能夠避免調許多安全性的問題。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dotnet-azure-key-vault-with-configuration'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
