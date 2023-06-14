@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 1 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - &#x9818;&#x57DF;&#x5C64;&#x8207;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64;">
+
+  <title>ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 1 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - &#x9818;&#x57DF;&#x5C64;&#x8207;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-1-domain-infrastructure-layer'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 1 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - &#x9818;&#x57DF;&#x5C64;&#x8207;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-1-domain-infrastructure-layer' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-1-domain-infrastructure-layer'>ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 1 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - &#x9818;&#x57DF;&#x5C64;&#x8207;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64;</a>
+              <span class="subheading">ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 1 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - &#x9818;&#x57DF;&#x5C64;&#x8207;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64;</span>
+          </h1>
+            <div class="meta">Published on Wednesday, June 14, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge text-bg-light"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="abp-io">ABP IO</h2>
+<p>ABP 作為一套開箱即用的框架只需要一個指令就能建立出 SAAS 後台系統，如果你照著 ABP 的遊戲規則來開發那真的是又快又方便，
+不過一但你想要調整 ABP 提供的模組時就會出現很大的問題，變成你需要同時精通 Dotnet 與 ABP 才有能力去作微調，
+接下來這個系列會來逐步分解 ABP 背後的設計與各項模組背後的原理，推薦有做完 ABP 官方 1 ~ 10 回的教學後有了基礎概念後才繼續觀看。</p>
+<p>由於之前是使用 ABP 題供的 CLI 來完成 10 回的教學，這次我們將不透過 CLI 改從空白專案開始來再次完成 10 回的教學，並對比較細項的內容進行補充。
+我們先建立一個新的空的方案名稱叫做 <code>BookStoreScratch</code>，並且建立各層級的專案。</p>
+<pre><code class="language-text">dotnet new sln -o BookStoreScratch
+cd BookStoreScratch
+mkdir src
+mkdir host
+dotnet new classlib -o src/BookStoreScratch.Application
+dotnet new classlib -o src/BookStoreScratch.Application.Contracts
+dotnet new classlib -o src/BookStoreScratch.Domain
+dotnet new classlib -o src/BookStoreScratch.Domain.Shared
+dotnet new classlib -o src/BookStoreScratch.EntityFrameworkCore
+dotnet new classlib -o src/BookStoreScratch.HttpApi
+dotnet new classlib -o src/BookStoreScratch.HttpApi.Client
+dotnet new classlib -o src/BookStoreScratch.Web
+dotnet new webapi -o host/BookStoreScratch.HttpApi.Host
+dotnet new web -o host/BookStoreScratch.Web.Host
+
+dotnet sln add src/BookStoreScratch.Application
+dotnet sln add src/BookStoreScratch.Application.Contracts
+dotnet sln add src/BookStoreScratch.Domain
+dotnet sln add src/BookStoreScratch.Domain.Shared
+dotnet sln add src/BookStoreScratch.EntityFrameworkCore
+dotnet sln add src/BookStoreScratch.HttpApi
+dotnet sln add src/BookStoreScratch.HttpApi.Client
+dotnet sln add src/BookStoreScratch.Web
+dotnet sln add host/BookStoreScratch.HttpApi.Host
+dotnet sln add host/BookStoreScratch.Web.Host
+
+rm src/BookStoreScratch.Application/Class1.cs
+rm src/BookStoreScratch.Application.Contracts/Class1.cs
+rm src/BookStoreScratch.Domain/Class1.cs
+rm src/BookStoreScratch.Domain.Shared/Class1.cs
+rm src/BookStoreScratch.EntityFrameworkCore/Class1.cs
+rm src/BookStoreScratch.HttpApi/Class1.cs
+rm src/BookStoreScratch.HttpApi.Client/Class1.cs
+rm src/BookStoreScratch.Web/Class1.cs
+</code></pre>
+<p>首先正確來說 DDD 並不是一種架構，從 DDD 全名來看 <code>Domain-Driven Design</code> 領域驅動設計可以得知這是一種專注在領域的設計原則，跟我們常聽到的
+<code>clean architecture</code> 有所不同。 <code>clean architecture</code> 是專注於架構設計，簡單來說就是這架構定義了一種特殊的模式，我們只要根據這個模式來進行分層開發
+就可以說我們目前使用的架構是 <code>clean architecture</code>。</p>
+<p>不過 DDD 就不同了，它的核心為一套設計原則目標為解決程式開發人員與領域專家之間隔閡的問題，舉例來說我們的公司接到一個開發需求，需要我們提供一套飯店
+管理系統，如果我們公司是第一次接到種飯店的案子並且開發人員沒有人有開發過相關的系統，那可以很明白的說我們公司沒有這個飯店「領域」的相關經驗。</p>
+<p>因此我們需要有這個「領域」相關經驗的人才才能繼續開發，我們稱種人才為領域專家。領域專家通常為各領域的專業人才因此對於軟體開發的流程肯定不如程式開發人員
+來的清楚，因此就 DDD 的作者想出了一套原則能讓程式開發人員和領域專家這兩種完全不相關的領域知識能夠共享，只要讓這兩個領域的人完全進行知識共享與理解就能
+盡可能的貼近需求提出者內心想要的專案。</p>
+<p>因此 ABP 根據 DDD 的設計原則與建議開發模式和 <code>clean architecture</code> 的架構設計並且根據實際需求設計出以下幾個層級：</p>
+<ul>
+<li>Application Layer(應用層): 為表現層與領域層中間的一層媒介，通常會建立一個任務來操作多個商業邏輯。</li>
+<li>Domain Layer(領域層): 關鍵的商業邏輯和物件模型會放置在此層。</li>
+<li>Presentation Layer(表現層): 提供 UI 給使用者操作，此層內部依賴應用層。</li>
+<li>Infrastructure Layer(基礎設施層): 通常會將各層級會使用到的第三方 libraries 放在此層。</li>
+<li>Remote Service Layer(遠端服務層): ABP 將 Dotnet Controller 與 Http 定義相關放在此層與應用層分開。</li>
+</ul>
+<p>將我們的專案帶入以上分類:</p>
+<ol>
+<li>Application Layer:
+<ol>
+<li>BookStoreScratch.Application</li>
+<li>BookStoreScratch.Application.Contracts</li>
+</ol>
+</li>
+<li>Domain Layer:
+<ol>
+<li>BookStoreScratch.Domain</li>
+<li>BookStoreScratch.Domain.Shared</li>
+</ol>
+</li>
+<li>Presentation Layer:
+<ol>
+<li>BookStoreScratch.Web</li>
+</ol>
+</li>
+<li>Infrastructure Layer:
+<ol>
+<li>BookStoreScratch.EntityFrameworkCore</li>
+</ol>
+</li>
+<li>Remote Service Layer:
+<ol>
+<li>BookStoreScratch.HttpApi</li>
+<li>BookStoreScratch.HttpApi.Client</li>
+</ol>
+</li>
+</ol>
+<p>除此之外還有兩個 Host 專案，這兩個專案可以按照需求來決定是否需要分開，一般情況下可以合併在一起就好，不過在分散式環境下將專案分開部屬是比較好的選擇。</p>
+<p>接下來處理專案之間的依賴關係與安裝 ABP 底層 Package，這章教學會先處理 API 相關的層級所以會先跳過表現層的設定</p>
+<pre><code class="language-text">dotnet add src/BookStoreScratch.Application package Volo.Abp.Ddd.Application --version 7.2.2
+dotnet add src/BookStoreScratch.Application.Contracts package Volo.Abp.Ddd.Application.Contracts --version 7.2.2
+dotnet add src/BookStoreScratch.Domain package Volo.Abp.Ddd.Domain --version 7.2.2
+dotnet add src/BookStoreScratch.Domain.Shared package Volo.Abp.Validation --version 7.2.2
+dotnet add src/BookStoreScratch.EntityFrameworkCore package Volo.Abp.EntityFrameworkCore --version 7.2.2
+dotnet add src/BookStoreScratch.HttpApi package Volo.Abp.AspNetCore.Mvc --version 7.2.2
+dotnet add src/BookStoreScratch.HttpApi.Client package Volo.Abp.Http.Client --version 7.2.2
+dotnet add host/BookStoreScratch.HttpApi.Host package Volo.Abp.EntityFrameworkCore.SqlServer --version 7.2.2
+dotnet add host/BookStoreScratch.HttpApi.Host package Microsoft.EntityFrameworkCore.Tools --version 7.0.7
+
+dotnet add src/BookStoreScratch.Application reference src/BookStoreScratch.Application.Contracts
+dotnet add src/BookStoreScratch.Application reference src/BookStoreScratch.Domain
+dotnet add src/BookStoreScratch.Application.Contracts reference src/BookStoreScratch.Domain.Shared
+dotnet add src/BookStoreScratch.Domain reference src/BookStoreScratch.Domain.Shared
+dotnet add src/BookStoreScratch.EntityFrameworkCore reference src/BookStoreScratch.Domain
+dotnet add src/BookStoreScratch.HttpApi reference src/BookStoreScratch.Application.Contracts
+dotnet add src/BookStoreScratch.HttpApi.Client reference src/BookStoreScratch.Application.Contracts
+
+dotnet add host/BookStoreScratch.HttpApi.Host reference src/BookStoreScratch.HttpApi
+dotnet add host/BookStoreScratch.HttpApi.Host reference src/BookStoreScratch.Application
+dotnet add host/BookStoreScratch.HttpApi.Host reference src/BookStoreScratch.EntityFrameworkCore
+</code></pre>
+<p>並調整各層及專案的 <code>RootNamespace</code> 與刪除 <code>ImplicitUsings</code></p>
+<pre><code class="language-text">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net7.0&lt;/TargetFramework&gt;
+  &lt;Nullable&gt;enable&lt;/Nullable&gt;
+  &lt;RootNamespace&gt;BookStoreScratch&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;
+</code></pre>
+<p>接下來根據 ABP 的規範建立每一個層級的 Module 檔案，要注意 <code>EntityFrameworkCore</code> 為基礎設施層所以另外建立了一個 <code>EntityFrameworkCore</code> 資料夾
+來避免命名空間污染</p>
+<pre><code class="language-text">dotnet new class -o src/BookStoreScratch.Application -n BookStoreScratchApplicationModule
+dotnet new class -o src/BookStoreScratch.Application.Contracts -n BookStoreScratchApplicationContractsModule
+dotnet new class -o src/BookStoreScratch.Domain -n BookStoreScratchDomainModule
+dotnet new class -o src/BookStoreScratch.Domain.Shared -n BookStoreScratchDomainSharedModule
+dotnet new class -o src/BookStoreScratch.EntityFrameworkCore/EntityFrameworkCore -n BookStoreScratchEntityFrameworkCoreModule1
+dotnet new class -o src/BookStoreScratch.HttpApi -n BookStoreScratchHttpApiModule
+dotnet new class -o src/BookStoreScratch.HttpApi.Client -n BookStoreScratchHttpApiClientModule
+dotnet new class -o host/BookStoreScratch.HttpApi.Host -n BookStoreScratchHttpApiHostModule
+</code></pre>
+<p>最後根據 ABP 的規範我們需要設定每一個層級繼承 <code>AbpModule</code> 將我們的模組添加到 ABP 模組管理器內部，最後要使用 <code>DependsOn</code> Attribute
+註冊依賴的模組，設定後 ABP 會自動處理模組載入的優先順序。</p>
+<details> 
+   <summary>展開模組詳細設定</summary>
+<pre><code class="language-text">// BookStoreScratchDomainSharedModule.cs
+using Volo.Abp.Modularity;
+using Volo.Abp.Validation;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpValidationModule))]
+public class BookStoreScratchDomainSharedModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchDomainModule.cs
+using Volo.Abp.Domain;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpDddDomainModule))]
+[DependsOn(typeof(BookStoreScratchDomainSharedModule))]
+public class BookStoreScratchDomainModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchApplicationContractsModule.cs
+using Volo.Abp.Application;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpDddApplicationContractsModule))]
+[DependsOn(typeof(BookStoreScratchDomainSharedModule))]
+public class BookStoreScratchApplicationContractsModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchApplicationModule.cs
+using Volo.Abp.Application;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpDddApplicationModule))]
+[DependsOn(
+    typeof(BookStoreScratchApplicationContractsModule),
+    typeof(BookStoreScratchDomainModule)
+)]
+public class BookStoreScratchApplicationModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchEntityFrameworkCoreModule.cs
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+[DependsOn(typeof(AbpEntityFrameworkCoreModule))]
+[DependsOn(typeof(BookStoreScratchDomainModule))]
+public class BookStoreScratchEntityFrameworkCoreModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchHttpApiModule.cs
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpAspNetCoreMvcModule))]
+[DependsOn(typeof(BookStoreScratchHttpApiModule))]
+public class BookStoreScratchHttpApiModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchHttpApiClientModule.cs
+using Volo.Abp.Http.Client;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpHttpClientModule))]
+[DependsOn(typeof(BookStoreScratchApplicationContractsModule))]
+public class BookStoreScratchHttpApiClientModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchHttpApiHostModule.cs
+using BookStoreScratch.EntityFrameworkCore;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(
+    typeof(BookStoreScratchApplicationModule),
+    typeof(BookStoreScratchEntityFrameworkCoreModule),
+    typeof(BookStoreScratchHttpApiModule)
+)]
+public class BookStoreScratchHttpApiHostModule : AbpModule
+{
+}
+</code></pre>
+</details>
+<hr />
+<p>專案準備階段到這裡就完成了，到這裡我們可以補充說明一下 DDD 中的 strategic design (戰略設計) 與 tactical design (戰術設計)。</p>
+<p>針對戰略與戰術這兩個名詞在各自領域經常會聽到並且定義與解釋都有些微的差異，關於戰略設計的概念其實我們之前就有概略提到了，
+其中之一就是建立共通的語言以分享知識，這種關於思維的方法在 DDD 中被定義為戰略設計。</p>
+<p>有思維的方法其實還不夠畢竟這也處於紙上談兵的階段，要實際解決問題就必須要有實際的作為這個部份也可以稱之為戰術，
+這種關於實際解決問題的方法在 DDD 中被定義為戰術設計。</p>
+<p>正常來說我們需要先制定戰略才能決定戰術最後才是應用到戰鬥上，所以關於 DDD 的重點其實是戰略設計也就是思維的這一部份，
+但也不是說戰術設計就不重要了因為我們知道每個群體都會有各自的差異所以面對同樣一個問題會產生不同的解法，這時你反而去制定一個
+流程去強制規範每個人必須照我的解法來處理本身就比較不合理了，所以到了最後的戰鬥階段反而會執行的一塌糊塗。因此 DDD 的戰術設計其實有點見仁見智，
+如果你的公司已經有熟悉的處理問題方式其實也不一定需要遵守 DDD 定義的各種戰術，畢竟到戰鬥階段也就是實際寫程式的階段突然使用不熟悉的流程
+反而會造成更巨大的問題或者進而導致專案的失敗。</p>
+<p>接下來我們回到第一回的教學內容，首先按照 DDD 的設計理念選擇由最中心的領域層來作為開頭，
+我們知道軟體是用來解決現實生活中的問題，因此第一步驟必須要想出一個概念將虛擬的物件與現實中的物件連結起來，這時根據 DDD 的戰術設計關於物件
+方面的設計有以下幾個選擇：</p>
+<ol>
+<li>Entity</li>
+<li>Value object</li>
+<li>Aggregate</li>
+</ol>
+<p>首先 Entity 比較好理解就是拿來定義現實生活中的物體的一個概念，所以我們可以將一個商店的商品定義成一個 Entity，接下來思考一個問題
+如果有兩瓶重量跟外觀都一樣的可樂你可以說可樂1號跟可樂2號是完全相等的嗎？如果你把可樂視為一個 Entity 那很明顯的1號跟2號是不同的可樂，
+因為每個 Entity 都會有專屬的 ID 所以就算它們的屬性完全相同你也不可以說他們是一樣的，這個概念很簡單比如說你在拍賣網站上搜尋到1號賣家
+賣的可樂和另一個2號賣家賣的可樂，這時你決定買1號賣家的可樂在這種情況下1號賣家的可樂雖然與2號賣家賣的一模一樣，但是對你來說1號賣家賣的
+可樂才是你唯一想要是世界上僅有的。</p>
+<p>換一個思維來講如果對你來說兩個物件的屬性只要相同你就可以接受的話，就可以使用 Value object 這個物件就是專注於屬性的，因此只要兩個物件屬性相同
+就可以將這兩個物件視為相同的。</p>
+<p>這個就取決於你的觀點與需求了，在舉個例子來說如果有兩個 HTTP 500 錯誤產生並且內容都一樣的話，你覺得他們是一樣的嗎？如果你把它設計為 Entity
+那麼這就是兩個完全不同的錯誤，但如果他是 Value object 那麼因為屬性完全相同也可以說他是同一個錯誤。</p>
+<p>所以結論來說如果你在意的是身份也就是 ID 是否相等就選用 Entity 如果你在意的是屬性是否相等就使用 Value object。</p>
+<p>還有 Aggregate 從字面上來看是聚合或統合的意思，所以 Aggregate 本身就可以包含一個或多個 Entity 或 Value object，或有這個定義是
+因為操作某些物件時同時會調用到其他物件的資料因此將他們合併起來可以方便後續處理，例如說一個購物車與多個商品，我們在結帳時會將購物車的商品
+組合成一個訂單方便之後進行結帳，這時候將購物車建立成一個 Aggregate 就能方便之後結帳的流程。</p>
+<p>在 ABP 中這些物件被包含在之前安裝的 <code>Volo.Abp.Ddd.Domain</code> 這個 Package 裡面，並且根據功能分成多個額外 Entity 分別為以下</p>
+<ol>
+<li>Entity
+<ol>
+<li>Entity</li>
+<li>AuditedEntity</li>
+<li>AuditedEntityWithUser</li>
+<li>CreationAuditedEntity</li>
+<li>CreationAuditedEntityWithUser</li>
+<li>FullAuditedEntity</li>
+<li>FullAuditedEntityWithUser</li>
+</ol>
+</li>
+<li>Value object
+<ol>
+<li>ValueObject</li>
+</ol>
+</li>
+<li>Aggregate
+<ol>
+<li>AggregateRoot</li>
+<li>AuditedAggregateRoot</li>
+<li>AuditedAggregateRootWithUser</li>
+<li>CreationAuditedAggregateRoot</li>
+<li>CreationAuditedAggregateRootWithUser</li>
+<li>FullAuditedAggregateRoot</li>
+<li>FullAuditedAggregateRootWithUser</li>
+</ol>
+</li>
+</ol>
+<p>雖然看起來有很多物件不過實際上只有 <code>Entity</code>, <code>ValueObject</code>, <code>AggregateRoot</code> 其它都是 abp 根據功能
+額外定義出來的，像是 <code>AuditedEntity</code> 就會幫 <code>Entity</code> 額外添加 abp 審計日誌的功能。</p>
+<p>接下來回到 <code>BookStoreScratch.Domain</code> 建立新的資料夾 <code>Books</code> 與實體，因為案例比較簡單用 <code>Entity</code> 或者 <code>AggregateRoot</code> 都是可行的</p>
+<pre><code class="language-text">// Book.cs
+
+using System;
+using Volo.Abp.Domain.Entities;
+
+namespace BookStoreScratch.Books;
+
+public class Book : Entity&lt;Guid&gt;
+{
+    public string Name { get; set; }
+
+    public BookType Type { get; set; }
+
+    public DateTime PublishDate { get; set; }
+
+    public float Price { get; set; }
+}
+</code></pre>
+<p>接下來到 <code>BookStoreScratch.Domain.Shared</code> 建立新的資料夾 <code>Books</code> 與 enum 定義書本的分類</p>
+<pre><code class="language-text">// BookType.cs
+namespace BookStoreScratch.Books;
+
+public enum BookType
+{
+    Undefined,
+    Adventure,
+    Biography,
+    Dystopia,
+    Fantastic,
+    Horror,
+    Science,
+    ScienceFiction,
+    Poetry
+}
+</code></pre>
+<p>領域層設定完成後可以按照自己的習慣選擇設定應用層或者基礎設施層，這邊選擇先把 DB 服務處理好，因為是使用 EFCore Code First 方式建立資料庫，
+因此需要產生相關的遷移腳本，這部份可以繼續按照原始的 EFCore 流程進行處理，但是為了要兼容多種資料來源因此 DDD 提出了新的戰術設計名為 <code>Repositories Pattern</code>
+，這個模式可以將保存資料的流程抽象化讓之後應用層的服務只需要直接使用 Repository 提供的方法就可以在完全不理解底層原理之下完成保存，簡單來說我們平常使用
+EFCore 時需要先取得 DBContext 之後在進行後續操作，但是如果應用層的服務直接使用依賴注入的方式取得 DBContext 那麼就會與 EFCore 產生耦合，當我們今天
+想要改成使用 Dapper 時就必須大量改寫應用層內的服務，只要透過 <code>Repositories Pattern</code> 將取得 DBContext 改成在 Repository 內部進行，那麼之後
+應用層的服務也改用依賴注入取得需要的 Repository 就能快速的快速的轉換資料來源。</p>
+<p>這部份 ABP 當然也有提供相關的功能，可以在 <code>Volo.Abp.Ddd.Domain</code> 這個 Package 裡面看到 <code>RepositoryBase.cs</code> 這個 Class，
+之後只要繼承此 Class 就能自行建立多種來源的 Repository，例如 <code>Volo.Abp.EntityFrameworkCore</code> 建立的 EfCoreRepository，
+<code>Volo.Abp.MemoryDb</code> 建立的 MemoryDbRepository 與 <code>Volo.Abp.MongoDB</code> 建立的 MongoDbRepository。</p>
+<p>這邊我選擇的是 EfCoreRepository 因此我可以建立一個 BookRepository 來方便存取 Book 相關的資料，並且 abp 會自行處理
+取得 DBContext 的流程與自動註冊到 DI 容器內。</p>
+<pre><code class="language-text">// BookStoreScratchDbContextModelCreatingExtensions.cs
+
+using BookStoreScratch.Books;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public static class BookStoreScratchDbContextModelCreatingExtensions
+{
+    public static void ConfigureBookStoreScratch(
+        this ModelBuilder builder)
+    {
+        Check.NotNull(builder, nameof(builder));
+        
+        builder.Entity&lt;Book&gt;(b =&gt;
+        {
+            b.ToTable(&quot;AppBooks&quot;, &quot;dbo&quot;);
+            b.ConfigureByConvention();
+            b.Property(x =&gt; x.Name).IsRequired().HasMaxLength(128);
+        });
+    }
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchDbContext.cs
+
+using BookStoreScratch.Books;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public class BookStoreScratchDbContext : AbpDbContext&lt;BookStoreScratchDbContext&gt;
+{
+    public DbSet&lt;Book&gt; Books { get; set; }
+    
+    public BookStoreScratchDbContext(DbContextOptions&lt;BookStoreScratchDbContext&gt; options) 
+        : base(options)
+    {
+    }
+    
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.ConfigureBookStoreScratch();
+    }
+}
+</code></pre>
+<pre><code class="language-text">// EfCoreBookRepository.cs
+
+using System;
+using BookStoreScratch.Books;
+using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public class EfCoreBookRepository : EfCoreRepository&lt;BookStoreScratchDbContext, Book, Guid&gt;
+{
+    public EfCoreBookRepository(IDbContextProvider&lt;BookStoreScratchDbContext&gt; dbContextProvider)
+        : base(dbContextProvider)
+    {
+    }
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchEntityFrameworkCoreModule.cs
+
+using BookStoreScratch.Books;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+[DependsOn(typeof(AbpEntityFrameworkCoreModule))]
+[DependsOn(typeof(BookStoreScratchDomainModule))]
+public class BookStoreScratchEntityFrameworkCoreModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.AddAbpDbContext&lt;BookStoreScratchDbContext&gt;(options =&gt;
+        {
+            options.AddRepository&lt;Book, EfCoreBookRepository&gt;();
+        });
+    }
+}
+</code></pre>
+<p>你可能會注意到我們並沒有設定要使用哪一種資料庫也沒有設定連線字串要怎麼建立遷移腳本？到目前為止我們的是在處理 <code>BookStoreScratch</code> 這個模組，
+因此最終目標是要安裝在某個 APP 之上，所以選擇資料庫類型的工作應該交給最終使用者也就是 APP 決定，試想一下如果一個模組A在設計時就已經決定使用 <code>mssql</code>
+另一個模組B決定使用<code>mysql</code>，那麼你的 APP 同時安裝這兩個模組就必須要配合模組設計者的想法安裝這兩個資料庫與設定連線字串，雖然這樣也是可以，
+不過最好的辦法還是交給使用者自行決定。</p>
+<p>接下來我們看一下 <code>BookStoreScratch.HttpApi.Host</code> 這個專案，它比較像是用來測試專用的模組畢竟在正式發布模組前，我們還是需要先確保
+我們的模組是能單獨正常運作的，不然當多個模組同時安裝時很可能會造成問題。</p>
+<p>建立一個 EntityFrameworkCore 資料夾，並建立一個測試 DBContext 名稱為 <code>AppDbContext</code> 和一個 IDesignTimeDbContextFactory
+名稱為 <code>BookStoreScratchHttpApiHostMigrationsDbContextFactory</code> 用來產生遷移腳本。</p>
+<pre><code class="language-text">// AppDbContext.cs
+
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public class AppDbContext : AbpDbContext&lt;AppDbContext&gt;
+{
+    public AppDbContext(DbContextOptions&lt;AppDbContext&gt; options) : base(options)
+    {
+    }
+    
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+    
+        builder.ConfigureBookStoreScratch();
+    }
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchHttpApiHostMigrationsDbContextFactory.cs
+
+public class BookStoreScratchHttpApiHostMigrationsDbContextFactory : IDesignTimeDbContextFactory&lt;AppDbContext&gt;
+{
+    public AppDbContext CreateDbContext(string[] args)
+    {
+        var configuration = BuildConfiguration();
+
+        var builder = new DbContextOptionsBuilder&lt;AppDbContext&gt;()
+            .UseSqlServer(configuration.GetConnectionString(&quot;BookStoreScratch&quot;));
+
+        return new AppDbContext(builder.Options);
+    }
+    
+    private static IConfigurationRoot BuildConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(&quot;appsettings.json&quot;, optional: false);
+
+        return builder.Build();
+    }
+}
+</code></pre>
+<pre><code class="language-text">// appsettings.json
+
+{
+  &quot;ConnectionStrings&quot;: {
+    &quot;BookStoreScratch&quot;: &quot;Server=(LocalDb)\\MSSQLLocalDB;Database=BookStoreScratch;Trusted_Connection=True;TrustServerCertificate=True&quot;
+  },
+  &quot;Logging&quot;: {
+    &quot;LogLevel&quot;: {
+      &quot;Default&quot;: &quot;Information&quot;,
+      &quot;Microsoft.AspNetCore&quot;: &quot;Warning&quot;
+    }
+  },
+  &quot;AllowedHosts&quot;: &quot;*&quot;
+}
+
+</code></pre>
+<p>最後只要使用命令即可建立遷移腳本跟更新資料庫</p>
+<pre><code class="language-text">dotnet ef migrations add Created_Book_Entity
+dotnet ef database update
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天處理了領域層與基礎設施層的設定並且成功建立了資料庫，下一篇會處理應用層與遠端服務層，這些基礎層級都處理完後
+可以嘗試將我們的模組添加到新的應用程式上和添加一些更進階的功能像是使用 IdentityServer 來保護我們的 API，
+也都會在之後的文章討論到。</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/BookStoreScratch/tree/1.0" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-1-domain-infrastructure-layer'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
