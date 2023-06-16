@@ -298,7 +298,7 @@ using Volo.Abp.Modularity;
 namespace BookStoreScratch;
 
 [DependsOn(typeof(AbpAspNetCoreMvcModule))]
-[DependsOn(typeof(BookStoreScratchHttpApiModule))]
+[DependsOn(typeof(BookStoreScratchApplicationContractsModule))]
 public class BookStoreScratchHttpApiModule : AbpModule
 {
 }
