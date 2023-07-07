@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 3 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - abp &#x751F;&#x547D;&#x6D41;&#x7A0B;&#x8207; Host &#x5C64;">
+
+  <title>ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 3 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - abp &#x751F;&#x547D;&#x6D41;&#x7A0B;&#x8207; Host &#x5C64;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-3-host-layer'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 3 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - abp &#x751F;&#x547D;&#x6D41;&#x7A0B;&#x8207; Host &#x5C64;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-3-host-layer' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-3-host-layer'>ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 3 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - abp &#x751F;&#x547D;&#x6D41;&#x7A0B;&#x8207; Host &#x5C64;</a>
+              <span class="subheading">ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 3 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - abp &#x751F;&#x547D;&#x6D41;&#x7A0B;&#x8207; Host &#x5C64;</span>
+          </h1>
+            <div class="meta">Published on Thursday, July 6, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge text-bg-light"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="abp-lifecycle">Abp Lifecycle</h2>
+<p>目前已經完成了模組的基本架構，接下來可以準備將我們建立的模組運行起來，與一般的流程不同 abp 有自訂一套生命流程，
+我們需要先學習一下 abp 生命週期才能繼續進行我們的專案。</p>
+<p>在新的 Dotnet Api 專案中我們知道專案都是從 Program.cs 的 <code>Program.Main</code> 作為啟動點，之後需要建立一個 HostBuilder 並註冊需要的服務到 DI 容器中，
+完成後呼叫 Build 方法建立出 Host 實體並根據順序註冊 Middleware 最後呼叫 Run 方法將 Host 運行起來。</p>
+<pre><code class="language-text">var builder = WebApplication.CreateBuilder(args);
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+</code></pre>
+<p>從上面的程式碼中可以得知關鍵的流程為：</p>
+<ol>
+<li>var builder = WebApplication.CreateBuilder(args);</li>
+<li>var app = builder.Build();</li>
+<li>app.Run();</li>
+</ol>
+<p>有學過 net 6.0 以前的寫法的人應該會記得 Startup.cs 這個檔案，我們會在這個檔案建立兩個方法 <code>ConfigureServices</code> 用來註冊服務到 DI 容器中，
+<code>Configure</code> 用來設定設定 Middleware，現在新的模板已經省略 Startup.cs 並全部整合到 Program.cs 中。</p>
+<p>在 abp 中有自己的設定方法分別為 <code>AddApplicationAsync</code> 與 <code>InitializeApplicationAsync</code> 內部會搭配以下幾種生命週期：</p>
+<ol>
+<li>PreConfigureServices</li>
+<li>ConfigureServices</li>
+<li>PostConfigureServices</li>
+<li>OnPreApplicationInitialization</li>
+<li>OnApplicationInitialization</li>
+<li>OnPostApplicationInitialization</li>
+<li>OnApplicationShutdown</li>
+</ol>
+<p>首先上面提到的生命週期其實我們已經使用很多次了，只要是繼承 AbpModule 的各個層級 Module 中都有使用到，一般情況下只會用到 <code>ConfigureServices</code>
+與 <code>OnApplicationInitialization</code> 這兩個方法，你可以把 Startup.cs 的 <code>ConfigureServices</code> 對應成 abp 中的 <code>ConfigureServices</code>，
+<code>Configure</code> 對應成 abp 中的 <code>OnApplicationInitialization</code> 方法。</p>
+<p>其他方法可以從名稱中知道他的用途 <code>PreConfigureServices</code> 代表會在 <code>ConfigureServices</code> 運行之前優先執行，
+<code>PostConfigureServices</code> 代表會在 <code>ConfigureServices</code> 完成後運行。</p>
+<p>因此當我們建立一個新模組時需要繼承 AbpModule 如果需要註冊服務到 DI 容器內可以 override <code>ConfigureServices</code> 方法來註冊服務，
+如果模組需要使用新的 Middleware 可以 override <code>OnApplicationInitialization</code> 方法來註冊新的 Middleware。</p>
+<p>我們可以再次看看上一篇文章的 BookStoreScratchApplicationModule 在這裡我們就有使用到 ConfigureServices 將建立的 Automapper 設定
+添加到 DI 容器之中，這個模組因為不需要另外使用 Middleware 因此可以直接跳過 <code>OnApplicationInitialization</code> 的設定。</p>
+<pre><code class="language-text">[DependsOn(
+    typeof(AbpDddApplicationModule),
+    typeof(AbpAutoMapperModule)
+)]
+[DependsOn(
+    typeof(BookStoreScratchApplicationContractsModule),
+    typeof(BookStoreScratchDomainModule)
+)]
+public class BookStoreScratchApplicationModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.AddAutoMapperObjectMapper&lt;BookStoreScratchApplicationModule&gt;();
+        Configure&lt;AbpAutoMapperOptions&gt;(options =&gt;
+        {
+            options.AddMaps&lt;BookStoreScratchApplicationModule&gt;();
+        });
+    }
+}
+</code></pre>
+<p>從上面模組中你會發現一個問題，那就是該如何確保註冊 AutoMapper 服務完成後才註冊 AutoMapperProfile，否則順序不對會導致
+錯誤的產生，這時候就該提到上面說到的 <code>AddApplicationAsync</code> 與 <code>InitializeApplicationAsync</code> 方法了，我們需要使用
+<code>AddApplicationAsync</code> 方法確保模組會優先建立 DependsOn 所需要的模組，保證底層的模組都加載完成才加載高階的模組。</p>
+<p>詳細的內容可以參考 <code>AbpApplicationBase.cs</code> 的原始碼，有更詳細的流程</p>
+<pre><code class="language-text">public virtual async Task ConfigureServicesAsync()
+{
+    CheckMultipleConfigureServices();
+
+    var context = new ServiceConfigurationContext(Services);
+    Services.AddSingleton(context);
+
+    foreach (var module in Modules)
+    {
+        if (module.Instance is AbpModule abpModule)
+        {
+            abpModule.ServiceConfigurationContext = context;
+        }
+    }
+
+    //PreConfigureServices
+    foreach (var module in Modules.Where(m =&gt; m.Instance is IPreConfigureServices))
+    {
+        try
+        {
+            await ((IPreConfigureServices)module.Instance).PreConfigureServicesAsync(context);
+        }
+        catch (Exception ex)
+        {
+            throw new AbpInitializationException($&quot;An error occurred during {nameof(IPreConfigureServices.PreConfigureServicesAsync)} phase of the module {module.Type.AssemblyQualifiedName}. See the inner exception for details.&quot;, ex);
+        }
+    }
+
+    var assemblies = new HashSet&lt;Assembly&gt;();
+
+    //ConfigureServices
+    foreach (var module in Modules)
+    {
+        if (module.Instance is AbpModule abpModule)
+        {
+            if (!abpModule.SkipAutoServiceRegistration)
+            {
+                var assembly = module.Type.Assembly;
+                if (!assemblies.Contains(assembly))
+                {
+                    Services.AddAssembly(assembly);
+                    assemblies.Add(assembly);
+                }
+            }
+        }
+
+        try
+        {
+            await module.Instance.ConfigureServicesAsync(context);
+        }
+        catch (Exception ex)
+        {
+            throw new AbpInitializationException($&quot;An error occurred during {nameof(IAbpModule.ConfigureServicesAsync)} phase of the module {module.Type.AssemblyQualifiedName}. See the inner exception for details.&quot;, ex);
+        }
+    }
+
+    //PostConfigureServices
+    foreach (var module in Modules.Where(m =&gt; m.Instance is IPostConfigureServices))
+    {
+        try
+        {
+            await ((IPostConfigureServices)module.Instance).PostConfigureServicesAsync(context);
+        }
+        catch (Exception ex)
+        {
+            throw new AbpInitializationException($&quot;An error occurred during {nameof(IPostConfigureServices.PostConfigureServicesAsync)} phase of the module {module.Type.AssemblyQualifiedName}. See the inner exception for details.&quot;, ex);
+        }
+    }
+
+    foreach (var module in Modules)
+    {
+        if (module.Instance is AbpModule abpModule)
+        {
+            abpModule.ServiceConfigurationContext = null;
+        }
+    }
+
+    _configuredServices = true;
+
+    TryToSetEnvironment(Services);
+}
+</code></pre>
+<p>另外 <code>InitializeApplicationAsync</code> 註冊邏輯也是一樣的，不同的是會透過各種 LifecycleContributor 來確保各個生命週期的程式能夠正確執行</p>
+<pre><code class="language-text">// InternalServiceCollectionExtensions.cs
+services.Configure&lt;AbpModuleLifecycleOptions&gt;(options =&gt;
+{
+    options.Contributors.Add&lt;OnPreApplicationInitializationModuleLifecycleContributor&gt;();
+    options.Contributors.Add&lt;OnApplicationInitializationModuleLifecycleContributor&gt;();
+    options.Contributors.Add&lt;OnPostApplicationInitializationModuleLifecycleContributor&gt;();
+    options.Contributors.Add&lt;OnApplicationShutdownModuleLifecycleContributor&gt;();
+});
+        
+//ModuleManager.cs
+public void InitializeModules(ApplicationInitializationContext context)
+{
+    foreach (var contributor in _lifecycleContributors)
+    {
+        foreach (var module in _moduleContainer.Modules)
+        {
+            try
+            {
+                contributor.Initialize(context, module.Instance);
+            }
+            catch (Exception ex)
+            {
+                throw new AbpInitializationException($&quot;An error occurred during the initialize {contributor.GetType().FullName} phase of the module {module.Type.AssemblyQualifiedName}: {ex.Message}. See the inner exception for details.&quot;, ex);
+            }
+        }
+    }
+
+    _logger.LogInformation(&quot;Initialized all ABP modules.&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="host-layer">Host Layer</h2>
+<p>從上一段的內容中我們可以將 Host 專案的 Program.cs 進行改寫以符合 abp 需要的格式，另外建議是安裝 Autofac 來取代 Microsoft 預設的 DI 容器，
+因為 abp 一些的功能是需要透過 Autofac 來實踐的因此官方預設樣板也是直接使用 Autofac，還有安裝 Abp 打包的 SqlServer EFCore 模組。</p>
+<pre><code class="language-text">dotnet add package Volo.Abp.Autofac --version 7.2.2
+dotnet add package Volo.Abp.EntityFrameworkCore.SqlServer --version 7.2.2
+</code></pre>
+<p>我們將 Program.cs 內非必要的內容先移除只留下必要的功能，接下來的目標是把剛剛移除的內容移動到 BookStoreScratchHttpApiHostModule 裡面</p>
+<pre><code class="language-text">using BookStoreScratch;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+var builder = WebApplication.CreateBuilder(args);
+await builder.AddApplicationAsync&lt;BookStoreScratchHttpApiHostModule&gt;();
+builder.Host.UseAutofac();
+var app = builder.Build();
+await app.InitializeApplicationAsync();
+await app.RunAsync();
+</code></pre>
+<p><code>BookStoreScratchHttpApiHostModule</code> 因為 HttpApi 模組底層有依賴 <code>AbpAspNetCoreMvcModule</code> 因此 Host 模組可以省略許多設定，並且內部已經
+呼叫了 AddMvc 等於是我們專案自動會添加 Controllers 與 Razor 相關功能，另外 <code>UseConfiguredEndpoints</code> 方法是 abp 自己定義的內部會去呼叫
+常用的 app.UseEndpoints，要記得使用 UseEndpoints 方法之前需要先呼叫 UseRouting 方法。</p>
+<pre><code class="language-text">using BookStoreScratch.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Volo.Abp;
+using Volo.Abp.Autofac;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(
+    typeof(BookStoreScratchApplicationModule),
+    typeof(BookStoreScratchEntityFrameworkCoreModule),
+    typeof(BookStoreScratchHttpApiModule),
+    typeof(AbpEntityFrameworkCoreSqlServerModule),
+    typeof(AbpAutofacModule)
+)]
+public class BookStoreScratchHttpApiHostModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        base.ConfigureServices(context);
+
+        Configure&lt;AbpDbContextOptions&gt;(options =&gt;
+        {
+            options.UseSqlServer();
+        });
+
+        context.Services.AddSwaggerGen(
+            options =&gt;
+            {
+                options.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo { Title = &quot;BookStoreScratch API&quot;, Version = &quot;v1&quot; });
+                options.DocInclusionPredicate((docName, description) =&gt; true);
+                options.CustomSchemaIds(type =&gt; type.FullName);
+            });
+    }
+
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        var app = context.GetApplicationBuilder();
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        
+        app.UseHttpsRedirection();
+        
+        app.UseRouting();
+        app.UseConfiguredEndpoints();
+    }
+}
+</code></pre>
+<p>設定完成後將專案運行起來瀏覽器會開啟 swagger 網址可以看到我們的 Book Curd 成功顯示</p>
+<ul>
+<li>GET /api/book/</li>
+<li>PUT /api/book/</li>
+<li>DELETE /api/book/</li>
+<li>GET /api/book</li>
+<li>POST /api/book</li>
+</ul>
+<p>先使用 POST /api/book 新增一筆書籍到資料庫內</p>
+<pre><code class="language-text">{
+  &quot;name&quot;: &quot;mybook&quot;,
+  &quot;type&quot;: 1,
+  &quot;publishDate&quot;: &quot;2023-07-06&quot;,
+  &quot;price&quot;: 10
+}
+</code></pre>
+<p>成功後會根據之前定義的 BookDto 回傳資料，我們可以拿回傳的 id 來進行查詢</p>
+<pre><code class="language-text">{
+  &quot;name&quot;: &quot;mybook&quot;,
+  &quot;type&quot;: 1,
+  &quot;publishDate&quot;: &quot;2023-07-06T00:00:00&quot;,
+  &quot;price&quot;: 10,
+  &quot;id&quot;: &quot;767085e2-a2c3-d3f5-c37b-3a0c42d2f44e&quot;
+}
+</code></pre>
+<p>使用 Get 方法可以正常回傳資料 https://localhost:7225/api/book/767085e2-a2c3-d3f5-c37b-3a0c42d2f44e</p>
+<pre><code class="language-text">{
+  &quot;name&quot;: &quot;mybook&quot;,
+  &quot;type&quot;: 1,
+  &quot;publishDate&quot;: &quot;2023-07-06T00:00:00&quot;,
+  &quot;price&quot;: 10,
+  &quot;id&quot;: &quot;767085e2-a2c3-d3f5-c37b-3a0c42d2f44e&quot;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天成功完成了 Host 專案，這種開發方式可以將各種功能獨立在自己的模組方案之中，並且可以在自己的模組中使用 Host 專案進行測試以避免
+多個模組互相產生衝突，以上便是最基礎的模組開發方式正常情況我們可以直接使用 CLI 直接產生模組方案，但是預設產生的模組樣板會添加許多
+不需要的模組到專案之內，所以重零開始建立自己的模組可以更清楚了解 abp 的運作原則。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-part-3-host-layer'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
