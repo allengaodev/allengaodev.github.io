@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Microsoft Orleans &#x5B78;&#x7FD2;&#x6307;&#x5357; - Grain And Silo">
+
+  <title>Microsoft Orleans &#x5B78;&#x7FD2;&#x6307;&#x5357; - Grain And Silo</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/orleans-grain-silo'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Microsoft Orleans &#x5B78;&#x7FD2;&#x6307;&#x5357; - Grain And Silo' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/orleans-grain-silo' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/orleans-grain-silo'>Microsoft Orleans &#x5B78;&#x7FD2;&#x6307;&#x5357; - Grain And Silo</a>
+              <span class="subheading">Microsoft Orleans &#x5B78;&#x7FD2;&#x6307;&#x5357; - Grain And Silo</span>
+          </h1>
+            <div class="meta">Published on Wednesday, July 19, 2023</div>
+              <div class="mt-3">
+                  <a href="/tags/orleans" class="badge text-bg-light"> Orleans</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="orleans">Orleans</h2>
+<p>在現代分散式雲端計算的環境中，傳統的三層架構（Client、Server、Storage）會顯得力不從心，
+這是因為三層架構在處理高並發和大量數據時存在一些先天的限制。</p>
+<p>首先，最常碰到的就是資料庫吞吐量的問題，要解決這個問題無非是分表分庫或者是在中間建立一個快取層，
+還需要考慮如何處理負載均衡和容錯恢復等問題，這對開發人員來說可能是一個複雜的挑戰。</p>
+<p>例如一個銀行的 APP，你想要查詢自己的存款餘額。在這種情況下，Client 端內部會向 Server 端發送請求
+，然後將我的餘額顯示在我的 APP 上，由於銀行餘額的變更不是非常頻繁，也不需要像股票交易市場那樣需要即時更新數值，
+因此可以考慮將每個人的銀行餘額保存在 Redis 之中，這樣可以減輕資料庫的負載，也可以是說我們大部分的努力都是為了確保
+資料庫能夠正常運行。</p>
+<p>在這種架構下，假如你有1000個 Client 端透過 Nginx 將請求均勻分配到4台 Server 上。
+然後，這些請求會被轉發到3台Redis快取伺服器上進行快取確認。如果快取中找不到相應的資料，則最終會將這些請求交給1台資料庫進行處理。</p>
+<p>從數字上看，這樣的架構可能還可行。然而隨著客戶端數量的增加，
+可能會出現問題和異常情況。因為當客戶端數量增加時，請求的數量也會增加，這可能會導致伺服器的負載過大，導致性能下降或者出現異常。</p>
+<p>從不同的角度來思考，我們或許過度依賴資料庫和Redis了。實際上，我們只是將資料庫記憶體中的資料複製一份到其他伺服器(Redis)的記憶體中而已。
+更值得討論的是資料庫所扮演的角色，從保存資料的角度來看，你可以選擇將資料保存在關聯式資料庫（RDBMS）或者 NoSQL 資料庫中，甚至可以將資料保存在本地的 CSV 文件中。
+因此，關鍵在於可信的資料來源。同一份資料可以有多種保存方式，但正確的資料來源只會有一份，這個是需要開發者自己決定的，
+不然就會產生兩個資料來源互相有衝突最後也不確定哪份資料是正確的問題發生。
+如果你的網頁只有一個人會進行操作，那麼將資料保存在CSV文件中是足夠可靠的，我們可以將這個CSV文件的資料視為可信的資料來源。
+所以就結論來看我們只需要一個像 redis 快取資料的方式與一個可靠的資料來源和與更方便的將流量分散到每一台機器上，這也是 Orleans 框架能夠提供我們的功能。</p>
+<h2 id="orleans-grain">Orleans Grain</h2>
+<p>Orleans提供了一個底層物件稱為「Grain」，每個Grain都是獨一無二的物件。為了區分Grain，我們需要為其建立一個唯一的ID，
+就像資料庫中的主鍵一樣。當我們需要查詢特定的Grain時，可以透過這個ID快速找到該Grain並進行操作。</p>
+<p>每個 Grain 都擁有獨立的記憶體空間，我們可以將資料寫入該記憶體內。然而，這些寫入的資料目前只保存在本機記憶體中，
+為了避免故障導致資料丟失，我們需要使用「WriteStateAsync」方法將資料持久化保存到Azure或其他資料庫中，
+這個持久化的過程在 Orleans 中稱為狀態持久化（state persistence）。</p>
+<p>狀態持久化，這個概念類似於 HTTP 請求中的狀態。以 IIS 為例，
+我們可以使用 Session State 將某些會員資料存放在 Session 中，這樣可以減少回應時間並實現快取效果。
+然而，這種做法會使後端服務變成有狀態的，會導致多台伺服器的效能使用不均勻，而且在後端伺服器進行維護或故障時，會員需要重新登入才能繼續使用服務。</p>
+<p>在 .Net Core 當中使用 Session 保存資料需要使用以下寫法:</p>
+<pre><code class="language-text">HttpContext.Session.SetString(&quot;Name&quot;, &quot;User1&quot;);
+</code></pre>
+<p>使用 Orleans 需要使用以下寫法:</p>
+<pre><code class="language-text">_state.State.Name = &quot;User1&quot;;
+</code></pre>
+<p>因此一個正常的 Grain 大概會長這樣：</p>
+<pre><code class="language-text">public interface IUserGrain : IGrainWithIntegerKey
+{
+    Task SetUserName(string userName);
+    Task&lt;string&gt; GetUserName();
+}
+</code></pre>
+<pre><code class="language-text">public class UserGrain : Grain, IUserGrain
+{
+    private readonly IPersistentState&lt;UserDetail&gt; _state;
+
+    public UserGrain([PersistentState(stateName: &quot;user&quot;, storageName: &quot;users&quot;)] IPersistentState&lt;UserDetail&gt; state)
+    {
+        _state = state;
+    }
+
+    public async Task SetUserName(string userName)
+    {
+        _state.State.Name = userName;
+        await _state.WriteStateAsync();
+    }
+    
+    public Task&lt;string&gt; GetUserName()
+    {
+        return Task.FromResult(_state.State.Name);
+    }
+}
+
+[GenerateSerializer]
+public record class UserDetails
+{
+    [Id(0)]
+    public string Name { get; set; }
+}
+</code></pre>
+<p>這裡繼承了 IGrainWithIntegerKey 界面代表我們建立的 IUserGrain 界面的主鍵為 Integer 類型，同樣的 Orleans 也有提供以下其他主鍵類型</p>
+<ul>
+<li>IGrainWithGuidKey: 使用 Guid 作為主鍵</li>
+<li>IGrainWithIntegerKey: 使用 Int64 作為主鍵</li>
+<li>IGrainWithStringKey: 使用 String 作為主鍵</li>
+<li>IGrainWithGuidCompoundKey: 使用 Guid + String 作為主鍵</li>
+<li>IGrainWithIntegerCompoundKey: 使用 Int64 + String 作為主鍵</li>
+</ul>
+<p>並且提供了兩個方法 <code>SetUserName</code> 與 <code>GetUserName</code> 分別會設定使用者的姓名到 State 與讀取 State 內部的使用者名稱。</p>
+<img src="https://learn.microsoft.com/en-us/dotnet/orleans/media/grain-formulation.svg#lightbox" alt="container-layers" class="img-fluid">
+<p>總結來看一個 Grain 就是由三個部分組成:</p>
+<ol>
+<li>Identity: 唯一主鍵</li>
+<li>behavior: 所具備的功能</li>
+<li>state: 持久或暫存設定值</li>
+</ol>
+<p>我們可以添加資料到 Grain 裡的 State 既可以有快取的功能也可以選擇使用 state persistence 幫忙把資料持久化。</p>
+<hr />
+<h2 id="orleans-silo">Orleans Silo</h2>
+<p>當我們在討論 Grain 的與狀態持久化時有講到有狀態的後端服務會產生一些缺點，那麼 Orleans 是怎麼解決這些缺點的呢?</p>
+<p>Orleans 是引入了類似管理器的概念名為 「Silo」，就如同之前提到的 Grain 是 Orleans 中最小最基礎的單位，Silo 的功能就是監管 Grain 的生命週期
+與平均分配 Grain 該在哪一台機器實例化，有了 Silo 之後我們就可以添加多個後端服務器，將這些機器組合成一個 Cluster 就可以達到 Orleans 主打的原生
+分散式服務框架。</p>
+<p>所以當我們帶著一個 Grain Id 來進行查詢時，內部第一個動作就是透過 Silo 去 Grain 目錄 (<a href="https://learn.microsoft.com/en-us/dotnet/orleans/host/grain-directory" target="_blank">Grain Directory</a>)
+查詢目錄內是否有我們想要的 Grain 存在，如果有就根據目錄回傳的機器位置將請求發送到目標機器上，如果沒有則會選擇一台機器並建立新的 Grain 最後將位置寫回到目錄內。</p>
+<img src="https://learn.microsoft.com/en-us/dotnet/orleans/media/cluster-silo-grain-relationship.svg#lightbox" alt="container-layers" class="img-fluid">
+<p>為了避免同時建立太多 Grain 導致記憶體不夠的情況發生，因此每一個 Grain 都有生命週期，當 <a href="https://learn.microsoft.com/en-us/dotnet/orleans/host/configuration-guide/activation-garbage-collection" target="_blank">Orleans GC</a>
+標記 Grain 可以被移除時就會將 Grain State 的資料清除掉，以後如果要讀取同一個 Grain 時就會根據持久化資料的版本將 Grain 還原到記憶體內供我們使用。
+<img src="https://learn.microsoft.com/en-us/dotnet/orleans/media/grain-lifecycle.svg#lightbox" alt="container-layers" class="img-fluid"></p>
+<hr />
+<p>接下來我們進行實作，首先先建立一個專案並安裝 Orleans Package</p>
+<pre><code class="language-text">dotnet new web -o OrleansHelloWorld
+dotnet add package Microsoft.Orleans.Server --version 7.2.1
+</code></pre>
+<p>接下來新增 IUserGrain.cs 與 UserGrain.cs</p>
+<pre><code class="language-text">public interface IUserGrain : IGrainWithIntegerKey
+{
+    Task SetUserName(string userName);
+    Task&lt;string&gt; GetUserName();
+}
+</code></pre>
+<pre><code class="language-text">public class UserGrain : Grain, IUserGrain
+{
+    private readonly IPersistentState&lt;UserDetail&gt; _state;
+
+    public UserGrain([PersistentState(stateName: &quot;user&quot;, storageName: &quot;users&quot;)] IPersistentState&lt;UserDetail&gt; state)
+    {
+        _state = state;
+    }
+
+    public Task&lt;string&gt; GetUserName()
+    {
+        return Task.FromResult(_state.State.Name);
+    }
+
+    public async Task SetUserName(string userName)
+    {
+        _state.State.Name = userName;
+        await _state.WriteStateAsync();
+    }
+}
+
+[GenerateSerializer]
+public record class UserDetail
+{
+    [Id(0)]
+    public string Name { get; set; }
+}
+</code></pre>
+<p>接下來設定 Silo 與 Api，這裡因為只有一個 Silo 與 Memory Storage 因此我們持久化的狀態只會保存到記憶體內方便開發環境使用</p>
+<pre><code class="language-text">var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseOrleans(siloBuilder =&gt;
+{
+    siloBuilder.UseLocalhostClustering();
+    siloBuilder.AddMemoryGrainStorage(&quot;users&quot;);
+});
+
+var app = builder.Build();
+
+app.MapGet(&quot;/user/{userId}/{userName}&quot;,
+    async (IGrainFactory grainFactory, int userId, string userName) =&gt;
+    {
+        var grain = grainFactory.GetGrain&lt;IUserGrain&gt;(userId);
+        await grain.SetUserName(userName);
+        return Results.Ok(&quot;Success!&quot;);
+    });
+app.MapGet(&quot;/user/{userId}&quot;,
+    async (IGrainFactory grainFactory, int userId) =&gt;
+    {
+        var grain = grainFactory.GetGrain&lt;IUserGrain&gt;(userId);
+        var userName = await grain.GetUserName();
+        
+        return Results.Ok(userName);
+    });
+
+app.Run();
+</code></pre>
+<p>完成後新增兩個會員，主鍵分別為 1 跟 2<br />
+https://localhost:7008/user/1/Gao111<br />
+https://localhost:7008/user/2/Gao222</p>
+<p>接下來使用讀取的 Api 可以從 Grain State 讀取會員名稱<br />
+https://localhost:7008/user/1</p>
+<pre><code class="language-text">&quot;Gao111&quot;
+</code></pre>
+<p>https://localhost:7008/user/2</p>
+<pre><code class="language-text">&quot;Gao222&quot;
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了 Orleans 中最重要的兩個元素 <code>Grain</code> 和 <code>Silo</code>，基本上其他功能都是讓這個機制更佳完善與穩定，有了 Orleans 之後
+可以簡化很多基礎功能的架設與更適合不熟悉分散式設計的工程師開發使用，許多複雜的機制 Orleans 內部就幫忙處理掉了，
+之後的內容會在進行更深入的討論。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/orleans-grain-silo'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2023</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
