@@ -165,27 +165,27 @@ public class SecretSettings
 }
 </code></pre>
 <p>接下來先前往 Azure 官網並使用預設值建立新的 Key Vault 服務。</p>
-<img src="https://drive.google.com/uc?id=1kvzO-4PpIS7BietVyQlZv11xA21KCoHf" alt="Azure-Key-Vault-HelloAzureSecret" class="img-fluid">
+<img src="https://lh3.googleusercontent.com/d/1kvzO-4PpIS7BietVyQlZv11xA21KCoHf" alt="Azure-Key-Vault-HelloAzureSecret" class="img-fluid">
 <p>並且新增兩個 Secret，中間需要輸入 <code>--</code> 可以用來區分 Section</p>
 <pre><code class="language-text">JsonSettings--From MyAzureSecretSettings
 JsonSettings--Secret MySecret
 </code></pre>
-<img src="https://drive.google.com/uc?id=1Ix5BYYHycPGChJBOwUnq-_Y0Cg0-pgyK" alt="HelloAzureSecret-Add-New-Secret" class="img-fluid">
+<img src="https://lh3.googleusercontent.com/d/1Ix5BYYHycPGChJBOwUnq-_Y0Cg0-pgyK" alt="HelloAzureSecret-Add-New-Secret" class="img-fluid">
 <p>目前預設的 Key Vault 服務是使用 <code>Azure Role-Based Access Control(RBAC)</code> 代表我們的帳號需要有適當的角色權限才有資格訪問 Key Vault 服務，
 也就是說如果你想要使用 <code>AzureCliCredential</code> 這種透過帳號密碼來獲取權限憑證的方式，你就需要先幫你的帳號添加新的 Key Vault Role 才會有權限訪問。</p>
 <p>不過今天要用的是 <code>EnvironmentCredential</code> 並搭配使用 Client ID/Client Secret 來獲取權限，
 因此我們需要先前往 <code>Azure Active Directory</code> 建立一個新的 Applications 命名為 <code>HelloAzureSecretWebApp</code></p>
-<img src="https://drive.google.com/uc?id=1l9NfGqu1ZjB42_mF-vb91L6SmCRXtGFs" alt="AAD-Create-HelloAzureSecretWebApp" class="img-fluid">
+<img src="https://lh3.googleusercontent.com/d/1l9NfGqu1ZjB42_mF-vb91L6SmCRXtGFs" alt="AAD-Create-HelloAzureSecretWebApp" class="img-fluid">
 <p>我們需要紀錄下這個 Applications 的 <code>Application (Client) ID</code> 和 <code>Directory (tenant) ID</code> 並建立新的 <code>Client-Secret</code> 並紀錄 Value 值</p>
 <ul>
 <li>Client ID: <code>5f006f2a-eeb8-4013-9bc0-8cd1c55bb0b4</code></li>
 <li>Tenant ID: <code>82676786-5bc7-43c6-b8f8-b3ee02b0b5f3</code></li>
 <li>Secret Value: <code>B~N8Q~H.Kibk7OaMlbXNeHMWenrQO7a~WgGVdbfe</code></li>
 </ul>
-<img src="https://drive.google.com/uc?id=1QOxfMnMwA4MA8f4EbHV6SaoawoI-qAke" alt="HelloAzureSecretWebApp-OverView" class="img-fluid">
-<img src="https://drive.google.com/uc?id=1bHVrDIUsBBRM6Ycrce4uJc8v-4dr53Yq" alt="HelloAzureSecretWebApp-Client-Secret" class="img-fluid">
+<img src="https://lh3.googleusercontent.com/d/1QOxfMnMwA4MA8f4EbHV6SaoawoI-qAke" alt="HelloAzureSecretWebApp-OverView" class="img-fluid">
+<img src="https://lh3.googleusercontent.com/d/1bHVrDIUsBBRM6Ycrce4uJc8v-4dr53Yq" alt="HelloAzureSecretWebApp-Client-Secret" class="img-fluid">
 <p>最後再回到 Key Vault 添加新的 Role，讓剛剛建立的 Application 和我們目前的帳號有權限訪問 Key Vault。</p>
-<img src="https://drive.google.com/uc?id=1p7K65rhA2FIGrMmtkzRKgLISZCakof5V" alt="HelloAzureSecret-Add-Role" class="img-fluid">
+<img src="https://lh3.googleusercontent.com/d/1p7K65rhA2FIGrMmtkzRKgLISZCakof5V" alt="HelloAzureSecret-Add-Role" class="img-fluid">
 <hr />
 <p>這樣資料就準備完成了，接下來回到我們的專案。</p>
 <pre><code class="language-text">using Azure.Identity;
@@ -281,7 +281,7 @@ public class HelloController: ControllerBase
       <div class="col-md-12 text-center">
           <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
           <br />
-        <p class="copyright">&#xA9; Allen Gao 2023</p>
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
 
       </div>
     </div>
