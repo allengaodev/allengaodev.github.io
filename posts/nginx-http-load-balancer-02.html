@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5728;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x6703;&#x4ECB;&#x7D39; HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;&#x7684;&#x5167;&#x90E8;&#x6A5F;&#x5236;&#x3002;">
+
+  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-http-load-balancer-02'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-http-load-balancer-02' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-http-load-balancer-02'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;</a>
+              <span class="subheading">&#x5728;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x6703;&#x4ECB;&#x7D39; HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;&#x7684;&#x5167;&#x90E8;&#x6A5F;&#x5236;&#x3002;</span>
+          </h1>
+            <div class="meta">Published on Friday, July 19, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/nginx" class="badge text-bg-light"> Nginx</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在第一篇的<a href="https://blog.allengaodev.com/posts/nginx-prepare-environment-01" target="_blank">文章</a>中，學習到
+如何使用 Play with Docker 建構一個 Nginx 開發環境，還有進行簡單的測試。</p>
+<hr />
+<h2 id="round-robindefault">Round-Robin(Default)</h2>
+<p>今天要學習 HTTP 負載均衡內部的內部機制了解 Nginx 是怎麼進行請求分配的。
+首先複習一下昨天的設定檔：</p>
+<pre><code class="language-text">upstream node {
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<p>在這分設定檔中我們設定了一個 Server Group 名稱為 node，在這邊我們只有設定兩台伺服器並沒有設定分配方法，所以會預設使用 round-robin
+方法來分配每一個請求，這也是昨天我們測試時每次按下重新整理伺服器會循環切換的原因。</p>
+<hr />
+<h2 id="least-connected">Least Connected</h2>
+<p>當某些需要長時間執行請求可以選擇 Least Connected 方法來分配請求，Least connected 會檢查目前 Server Group 內部的伺服器找出連線數量
+最低的那一台機器並分配給它。</p>
+<p>要使用 Least Connected 方法需要額外在 upstream 添加 <code>least_conn</code> 命令。</p>
+<pre><code class="language-text">upstream node {
+      least_conn;
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<hr />
+<h2 id="ip-hash">IP Hash</h2>
+<p>前兩種分配請求的方式都是無狀態的，代表之後同一個客戶端發出的每次請求都不會轉發到同一台伺服器上，這樣第一次連線的伺服器所建立的緩存就沒辦法生效，
+這種時候可以改用 IP Hash 方法，IP Hash 方法會在分配請求前將客戶端的 IP 進行 Hash 計算這樣就能得出一個固定的值，所以之後的請求就能一直轉發到
+同一台伺服器上。</p>
+<p>要使用 IP Hash 方法需要額外在 upstream 添加 <code>ip_hash</code> 命令。</p>
+<pre><code class="language-text">upstream node {
+      ip_hash;
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<hr />
+<h2 id="least-time">Least Time(商業版)</h2>
+<p><code>least_time</code> 與 <code>least_conn</code> 命令類似，不過 <code>least_time</code> 會參考 Server Group 裡每台伺服器的請求回應時間，並將請求轉發給執行時間
+最短的伺服器上，<code>least_time</code> 可以算是優化過後的 <code>least_conn</code> 不過要決定哪一台伺服器執行請求的時間是最短的，還需要額外搭配幾個參數
+<code>header</code>、<code>last_byte</code>、<code>inflight(可選)</code>。</p>
+<p>使用 <code>least_time</code> 的設定檔會有以下內容</p>
+<pre><code class="language-text">upstream node {
+      least_time header inflight;
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<p>上面的設定檔在 <code>least_time</code> 後面額外添加了 <code>header</code> 與 <code>inflight</code> 參數，這代表了我們判斷最短時間的依據是回傳 response header 所需的時間，
+也可以選用 <code>last_byte</code> 參數將判斷改成完整回傳 response 的時間，最後的 <code>inflight</code> 參數代表會把報錯的也計算到統計時間內。</p>
+<hr />
+<h2 id="hash">Hash(商業版)</h2>
+<p><code>hash</code> 與 <code>ip_hash</code> 命令類似，不過 <code>hash</code> 能夠自己指定要進行雜湊計算的 key 值，不像是 <code>ip_hash</code> 只能夠只用客戶端的 IP 來做為 key 值，
+所以這邊可以搭配自訂的 cookie 變數讓雜湊之後的結果為固定的一個值，也能做到像 <code>ip_hash</code> 那種固定轉換到某一台機器上的結果。</p>
+<p>使用 <code>hash</code> 的設定檔會有以下內容</p>
+<pre><code class="language-text">upstream node {
+      hash $cookie_sessionid consistent;
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<p>上面的設定檔使用了 <code>hash</code> 方法， key 值為 $cookie_sessionid 變數，這樣當我們傳送請求的 cookie 內有 sessionid 這個 header 時就會自動
+將 value 進行雜湊計算，最後搭配了 <code>consistent</code> 參數內部能夠切換到另一種雜湊算法 ketama，使用這個算法可以降低伺服器數量增加或減少時對效能的影響。</p>
+<hr />
+<h2 id="random">Random(商業版)</h2>
+<p><code>random</code> 則是全部從 Server Group 挑選一台伺服器，還可以另外搭配 <code>two</code> 參數這樣就會變成全隨機挑選兩台伺服器，最後還需要指定一種分配方法例如 <code>least_conn</code>
+，這樣的結果就會變成隨機挑選兩台然後再使用 <code>least_conn</code> 方法從這兩台中挑選出要轉發的一台伺服器。</p>
+<p>使用 <code>random</code> 的設定檔會有以下內容</p>
+<pre><code class="language-text">upstream node {
+      random two least_conn;
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了 Http Load Balancer 內提供的轉發方法，除了社群版提供的方法外還學習了商業版提供的方法，
+下一篇文章會挑選幾個轉發方法進行測試，看看是不是真的會像說明那樣進行轉發。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-http-load-balancer-02'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
