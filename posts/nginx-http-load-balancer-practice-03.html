@@ -7,12 +7,12 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x4ECB;&#x7D39;&#x5982;&#x4F55;&#x4F7F;&#x7528; Play with Docker &#x5EFA;&#x69CB;&#x4E00;&#x500B; Nginx &#x958B;&#x767C;&#x74B0;&#x5883;&#x3002;">
+    <meta name="description" content="&#x5BE6;&#x6E2C; HTTP &#x591A;&#x7A2E;&#x8CA0;&#x8F09;&#x5747;&#x8861;&#x7684;&#x6A5F;&#x5236;&#x3002;">
 
-  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C;-&#x6E96;&#x5099;&#x958B;&#x767C;&#x74B0;&#x5883;</title>
+  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;&#x5BE6;&#x6E2C;</title>
 
 
-  <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-prepare-environment-01'>
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -21,9 +21,9 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C;-&#x6E96;&#x5099;&#x958B;&#x767C;&#x74B0;&#x5883;' />
+  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;&#x5BE6;&#x6E2C;' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-prepare-environment-01' />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03' />
 
   <link rel="icon" href='/favicon.svg'>
 
@@ -77,10 +77,10 @@
       <div class="col-md-12">
         <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-prepare-environment-01'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C;-&#x6E96;&#x5099;&#x958B;&#x767C;&#x74B0;&#x5883;</a>
-              <span class="subheading">&#x4ECB;&#x7D39;&#x5982;&#x4F55;&#x4F7F;&#x7528; Play with Docker &#x5EFA;&#x69CB;&#x4E00;&#x500B; Nginx &#x958B;&#x767C;&#x74B0;&#x5883;&#x3002;</span>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - HTTP &#x8CA0;&#x8F09;&#x5747;&#x8861;&#x5BE6;&#x6E2C;</a>
+              <span class="subheading">&#x5BE6;&#x6E2C; HTTP &#x591A;&#x7A2E;&#x8CA0;&#x8F09;&#x5747;&#x8861;&#x7684;&#x6A5F;&#x5236;&#x3002;</span>
           </h1>
-            <div class="meta">Published on Thursday, July 18, 2024</div>
+            <div class="meta">Published on Friday, July 26, 2024</div>
               <div class="mt-3">
                   <a href="/tags/nginx" class="badge text-bg-light"> Nginx</a>
               </div>
@@ -95,10 +95,9 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h2 id="play-with-docker-install-nginx">Play with Docker install Nginx</h2>
-<p>最近在重新學習 Nginx 的相關基礎設定，首先需要一個方便測試反向代理還有附載均衡的功能，所以利用以前常用的 <a href="https://labs.play-with-docker.com/" target="_blank">Play with Docker</a>
-網站提供的快速建構 node 功能，來學習我們想要了解的相關功能，也不會影響到自己的本地環境。</p>
-<p>點擊 Add New Instance 自動建立三台虛擬機。</p>
+        <p>在第上一篇的<a href="https://blog.allengaodev.com/posts/nginx-http-load-balancer-02" target="_blank">文章</a>中，學習到
+多種 HTTP 負載均衡的分配方法，今天要挑選幾個來實測看看。</p>
+<p>還是用 Play with Docker 建立三台虛擬機。</p>
 <table class="table">
   <thead>
     <tr>
@@ -121,67 +120,9 @@
     </tr>
   </tbody>
 </table>
-<img src="https://lh3.googleusercontent.com/d/1e-Q79wP-zK_DZeKq05SPwsKh_xfZ3Arr" alt="New-Play-with-Docker" class="img-fluid">
-<p>接下來在分別三台虛擬機安裝 Nginx 並且運行 Nginx</p>
-<pre><code class="language-text">apk add nginx
-</code></pre>
-<p>由於目前的 alpine package 並沒有包含 nginx 預設的 html 頁面，所以直接訪問後會顯示錯誤404，因此可以先加入預設頁面方便測試</p>
-<pre><code class="language-text">vi /etc/nginx/http.d/default.conf
-</code></pre>
-<pre><code class="language-text">server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-
-        # Everything is a 404
-        location / {
-                root   /usr/share/nginx/html;
-                index  index.html index.htm;
-        }
-
-        # You may need this to prevent return 404 recursion.
-        location = /404.html {
-                internal;
-        }
-}
-</code></pre>
-<pre><code class="language-text">mkdir /usr/share/nginx/html
-cd /usr/share/nginx/html
-vi index.html
-</code></pre>
-<p>這邊可以幫每台虛擬機的 index.html 分別設定內容以區分目前 nginx 連線到哪一台機器上。</p>
-<pre><code class="language-text">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;title&gt;Welcome to nginx!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;p&gt;192.168.0.18&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<p>都設定完成後就可以將 nginx 服務運行。</p>
-<pre><code class="language-text">nginx
-</code></pre>
-<br>
-<br>
-<br>
-<p>最後到 Play with Docker 面板上點擊 OPEN PORT 按鈕，並對外開放 80 port。</p>
-<img src="https://lh3.googleusercontent.com/d/1F6F5gCsMk9I-S4-2C76LWfEIQZ42717d" alt="Nginx01-Before-80-Port" class="img-fluid">
-<p>能夠成功回應 IP 的話就代表操作都成功了。</p>
-<img src="https://lh3.googleusercontent.com/d/15LmGiFcA2VPL1RSWxaP7A2ze1qWh1tzC" alt="Nginx01-Open-80-Port" class="img-fluid">
-<br>
-<br>
-<br>
 <hr />
-<h2 id="nginx-load-balancer">Nginx Load Balancer</h2>
-<p>在上一小節我們已經成功在三台虛擬機上運行 Nginx 服務，並且可以根據回應的內容來判斷目前運行的機器 IP 是多少，
-接下來可以稍微測試一下 Nginx Load Balancer 功能，我們將稍微修改一下 default.conf 讓其中一台虛擬機變成 Load Balancer，
-並且它的任務就是將請求平均分配到其他兩台機器上。</p>
-<p>修改 192.168.0.18 的 default.conf</p>
-<pre><code class="language-text">vi /etc/nginx/http.d/default.conf
-</code></pre>
-<p>這邊建立一個新的 upstream 名稱為 node，並且新增另外兩台的 IP 到這個 node upstream 當中，最後當我們訪問 192.168.0.18 時
-將請求轉發給這個 upstream。</p>
+<h2 id="round-robindefault">Round-Robin(Default)</h2>
+<p>Round-Robin 會檢查目前 Server Group 內部的伺服器並根據順序轉送請求，因為是預設方法所以不需要明確設定 Round-Robin 模式。</p>
 <pre><code class="language-text">upstream node {
       server 192.168.0.17:80;
       server 192.168.0.16:80;
@@ -195,16 +136,64 @@ server {
       }
 }
 </code></pre>
-<p>這邊傳送 s 參數讓 nginx 能夠讀取新的設定值。</p>
-<pre><code class="language-text">nginx -s reload
+<p>開啟瀏覽器後訪問 Load Balancer 192.168.0.18，按下重新整理之後會輪流顯示 192.168.0.16 與 192.168.0.17 符合 Round-Robin 的規則。</p>
+<hr />
+<h2 id="least-connected">Least Connected</h2>
+<p>Least connected 會檢查目前 Server Group 內部的伺服器找出連線數量最低的那一台機器並分配給它，要測試這個方法我們可以
+將 192.168.0.17 的回應時間延長，Nginx 會判斷 192.168.0.17 目前是有一條連線佔用中這樣之後就會把請求優先傳送給 192.168.0.16。</p>
+<p>首先先把 192.168.0.18 default.conf 修改成 <code>least_conn</code> 負載均衡方法。</p>
+<pre><code class="language-text">vi /etc/nginx/http.d/default.conf
 </code></pre>
-<p>能看到按下重新整理後IP每次都會變動，代表我們的 Load Balancer 有成功將請求分配給剩餘的兩台機器上
-<img src="https://lh3.googleusercontent.com/d/1kMe8UFnrw9U1CxUGWCLnBm5Q7oI9pWkV" alt="Nginx01-LoadBalancer-16" class="img-fluid">
-<img src="https://lh3.googleusercontent.com/d/1AM3B1VpWTjtdrszunmBpnSrubaidLqeZ" alt="Nginx01-LoadBalancer-17" class="img-fluid"></p>
+<pre><code class="language-text">upstream node {
+      least_conn;
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<p>要延長 192.168.0.17 回應時間有許多辦法，這邊選擇使用 <code>iproute2</code> 的 <a href="https://manpages.debian.org/unstable/iproute2/tc.8.en.html" target="_blank">tc</a> 命令直接控制網路介面流量來模擬長時間運行的請求</p>
+<pre><code class="language-text">apk add iproute2
+</code></pre>
+<p>這裡新增一個規則將 eth0 網路介面的回應時間延長成 10 秒。</p>
+<pre><code class="language-text">tc qdisc add dev eth0 root netem delay 10000ms
+</code></pre>
+<p>接下來開啟兩個分頁都訪問 Load Balancer 192.168.0.18，如果其中一個分頁回傳的時間很長就代表被分配給了 192.168.0.17 執行請求，
+這樣另一個分頁根據 <code>least_conn</code> 分配的模式就只會固定分配給 192.168.0.16 符合 Least Connected 的規則。。</p>
+<pre><code class="language-text">tc qdisc del dev eth0 root netem delay 10000ms
+</code></pre>
+<hr />
+<h2 id="ip-hash">IP Hash</h2>
+<p>IP Hash 方法會將客戶端的 IP 進行 Hash 計算之後就能將同一個 IP 請求轉發到同一台伺服器上。</p>
+<p>首先先把 192.168.0.18 default.conf 修改成 <code>ip_hash</code> 負載均衡方法。</p>
+<pre><code class="language-text">vi /etc/nginx/http.d/default.conf
+</code></pre>
+<pre><code class="language-text">upstream node {
+      ip_hash;
+      server 192.168.0.17:80;
+      server 192.168.0.16:80;
+}
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+      
+      location / {
+          proxy_pass http://node;
+      }
+}
+</code></pre>
+<p>接下來也是訪問 Load Balancer 192.168.0.18，重新刷新之後也是固定將請求轉發到 192.168.0.17 並不會轉發給 192.168.0.16 符合
+<code>ip_hash</code> 的規則</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>今天複習了 Play with Docker 提供的相關功能與 Nginx 安裝的方式，最後將其中一台虛擬機改成
-Load Balancer 將請求分配給其他兩台機器上，之後的文章會依照這個流程來建立測試環境來學習更深入的內容。</p>
+<p>今天實測了三種常用的負載均衡方法，並搭配使用 Play with Docker 看到實際的效果。
+其他的模式是商業版才可以使用，之後有機會的話會在測試看看。</p>
 
 
         
@@ -212,7 +201,7 @@ Load Balancer 將請求分配給其他兩台機器上，之後的文章會依照
       </div>
     </div>
   <div id="comments-container" class="row">
-    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-prepare-environment-01'></div>
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
 
 <script src="https://giscus.app/client.js"
