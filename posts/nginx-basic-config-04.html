@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5B78;&#x7FD2; Nginx &#x5167;&#x90E8;&#x7684; nginx.conf &#x76F8;&#x95DC;&#x8A2D;&#x5B9A;&#x548C;&#x5169;&#x7A2E;&#x6307;&#x4EE4;&#x7684;&#x5340;&#x5225;&#x8207;&#x4F5C;&#x7528;&#x74B0;&#x5883;&#x7684;&#x6982;&#x5FF5;&#x3002;">
+
+  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x57FA;&#x790E;&#x8A2D;&#x5B9A;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-basic-config-04'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x57FA;&#x790E;&#x8A2D;&#x5B9A;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-basic-config-04' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-basic-config-04'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x57FA;&#x790E;&#x8A2D;&#x5B9A;</a>
+              <span class="subheading">&#x5B78;&#x7FD2; Nginx &#x5167;&#x90E8;&#x7684; nginx.conf &#x76F8;&#x95DC;&#x8A2D;&#x5B9A;&#x548C;&#x5169;&#x7A2E;&#x6307;&#x4EE4;&#x7684;&#x5340;&#x5225;&#x8207;&#x4F5C;&#x7528;&#x74B0;&#x5883;&#x7684;&#x6982;&#x5FF5;&#x3002;</span>
+          </h1>
+            <div class="meta">Published on Tuesday, July 30, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03" target="_blank">文章</a>中，實做了多種 HTTP 負載均衡的分配方法，
+在這幾篇的文章中只有修改 <code>/etc/nginx/http.d/default.conf</code> 這個檔案，那為什麼 Nginx 知道要到這個目錄底下讀取 <code>default.conf</code> 呢？</p>
+<p>要解答這個問題就要先了解 <code>nginx.conf</code> 這個設定檔還有 <code>include</code> 這個指令了。</p>
+<hr />
+<h2 id="nginx.conf">nginx.conf</h2>
+<p>我們可以先看一下 Alpine 打包的 <code>nginx.conf</code> 原始設定碼 <a href="https://git.alpinelinux.org/aports/tree/main/nginx/nginx.conf?h=v3.20.0" target="_blank">Github</a>。</p>
+<pre><code class="language-text"># /etc/nginx/nginx.conf
+
+user nginx;
+
+# Set number of worker processes automatically based on number of CPU cores.
+worker_processes auto;
+
+# Enables the use of JIT for regular expressions to speed-up their processing.
+pcre_jit on;
+
+# Configures default error logger.
+error_log /var/log/nginx/error.log warn;
+
+# Includes files with directives to load dynamic modules.
+include /etc/nginx/modules/*.conf;
+
+# Include files with config snippets into the root context.
+include /etc/nginx/conf.d/*.conf;
+
+events {
+	# The maximum number of simultaneous connections that can be opened by
+	# a worker process.
+	worker_connections 1024;
+}
+
+http {
+	# Includes mapping of file name extensions to MIME types of responses
+	# and defines the default type.
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	# Name servers used to resolve names of upstream servers into addresses.
+	# It's also needed when using tcpsocket and udpsocket in Lua modules.
+	#resolver 1.1.1.1 1.0.0.1 [2606:4700:4700::1111] [2606:4700:4700::1001];
+
+	# Don't tell nginx version to the clients. Default is 'on'.
+	server_tokens off;
+
+	# Specifies the maximum accepted body size of a client request, as
+	# indicated by the request header Content-Length. If the stated content
+	# length is greater than this size, then the client receives the HTTP
+	# error code 413. Set to 0 to disable. Default is '1m'.
+	client_max_body_size 1m;
+
+	# Sendfile copies data between one FD and other from within the kernel,
+	# which is more efficient than read() + write(). Default is off.
+	sendfile on;
+
+	# Causes nginx to attempt to send its HTTP response head in one packet,
+	# instead of using partial frames. Default is 'off'.
+	tcp_nopush on;
+
+
+	# Enables the specified protocols. Default is TLSv1 TLSv1.1 TLSv1.2.
+	# TIP: If you're not obligated to support ancient clients, remove TLSv1.1.
+	ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+
+	# Path of the file with Diffie-Hellman parameters for EDH ciphers.
+	# TIP: Generate with: `openssl dhparam -out /etc/ssl/nginx/dh2048.pem 2048`
+	#ssl_dhparam /etc/ssl/nginx/dh2048.pem;
+
+	# Specifies that our cipher suits should be preferred over client ciphers.
+	# Default is 'off'.
+	ssl_prefer_server_ciphers on;
+
+	# Enables a shared SSL cache with size that can hold around 8000 sessions.
+	# Default is 'none'.
+	ssl_session_cache shared:SSL:2m;
+
+	# Specifies a time during which a client may reuse the session parameters.
+	# Default is '5m'.
+	ssl_session_timeout 1h;
+
+	# Disable TLS session tickets (they are insecure). Default is 'on'.
+	ssl_session_tickets off;
+
+
+	# Enable gzipping of responses.
+	#gzip on;
+
+	# Set the Vary HTTP header as defined in the RFC 2616. Default is 'off'.
+	gzip_vary on;
+
+
+	# Helper variable for proxying websockets.
+	map $http_upgrade $connection_upgrade {
+		default upgrade;
+		'' close;
+	}
+
+
+	# Specifies the main log format.
+	log_format main '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+			'$status $body_bytes_sent &quot;$http_referer&quot; '
+			'&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;';
+
+	# Sets the path, format, and configuration for a buffered log write.
+	access_log /var/log/nginx/access.log main;
+
+
+	# Includes virtual hosts configs.
+	include /etc/nginx/http.d/*.conf;
+}
+</code></pre>
+<p>這個 <code>nginx.conf</code> 是 nginx 預設的設定檔名稱，可以看到裡面有各式各樣的設定值但基本上可以分成兩種格式 <strong>簡單指令</strong> 與 <strong>區塊指令</strong></p>
+<h3 id="section">1. 簡單指令</h3>
+<p>由一個名稱與參數組成需要使用分號作結尾 ex:</p>
+<pre><code class="language-text">worker_processes auto;
+</code></pre>
+<h3 id="section-1">2. 區塊指令</h3>
+<p>基本上與簡單指令相同但是需要改用一組大括號作為結尾 ex:</p>
+<pre><code class="language-text">http {}
+</code></pre>
+<hr />
+<h2 id="context">Context</h2>
+<p>使用區塊指令需要注意 <code>Context</code> 這個概念如果將簡單指令寫在區塊指令的大括號內部這樣就會改變簡單指令的作用環境，
+另外有一些簡單指令只能放在特定的 <code>Context</code> 內，所以在撰寫設定檔時需要多注意官方文檔的設定語法與作用環境。</p>
+<p>以下是官方文檔中 <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#http" target="_blank">http</a> 指令的範例，
+從內容中可以看出語法是開頭寫 http 之後搭配一組大括號，並且作用環境是在 main 底下。</p>
+<pre><code class="language-text">Syntax:	http { ... }
+Default:	—
+Context:	main
+</code></pre>
+<p>當指令沒有放在任何 <code>Context</code> 底下就會被歸類到 <code>main</code> 底下，所以從上面的設定檔可以知道 <code>http</code> <code>events</code> 與最上方的 <code>include</code> 這些指令都是作用在
+<code>main</code> 環境底下。</p>
+<p>所以根據文檔對 http 指令的限制，如果在 http 指令底下在寫一組 http 指令的寫法就是不允許的。</p>
+<pre><code class="language-text">http {
+    http {}
+}
+</code></pre>
+<hr />
+<h2 id="include">Include</h2>
+<p>了解兩種指令與作用環境的概念後就可以來看 <code>include</code> 這個命令。</p>
+<pre><code class="language-text">Syntax:	include file | mask;
+Default:	—
+Context:	any
+</code></pre>
+<p>從文檔的作用環境限制中可以得知這個指令可以在任何作用環境中使用，所以從上方的 <code>nginx.conf</code> 的範例中就可以看到在 <code>main</code> 環境與 <code>http</code>
+內部都有使用 <code>include</code>，這個指令的用途是簡化 <code>nginx.conf</code> 的複雜度，我們可以將一些過長或需要重複使用的內容搬到獨立的設定檔內部，
+就可以不用把所有的內容都寫在 <code>nginx.conf</code> 底下了。</p>
+<p>像是 MIME type 就是一個很好的例子，我們可以將 MINE 類型都寫到另一個檔案以避免我們主要的 <code>nginx.conf</code> 變得太冗長，
+這個也是上方這段指令所做的事情 <code>include /etc/nginx/mime.types;</code>。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了 Nginx 的兩種指令與作用環境還有 <code>Include</code> 這個指令的相關概念，了解這些內容後就可以回答為甚麼我們前幾天只有修改
+<code>http.d/default.conf</code> 這個設定檔而已，並且從 <code>include /etc/nginx/http.d/*.conf</code> 這段指令可以得知我們修改的設定檔都是作用在
+<code>http</code> 這個作用環境底下。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-basic-config-04'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
