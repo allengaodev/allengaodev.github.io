@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5B78;&#x7FD2; Nginx &#x5167;&#x90E8;&#x7684; nginx.conf &#x8B8A;&#x6578;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x9084;&#x6709;&#x8A2D;&#x5B9A;&#x81EA;&#x5DF1;&#x7684;&#x8B8A;&#x6578;&#x3002;">
+
+  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x8B8A;&#x6578;&#x8B80;&#x53D6;&#x8207;&#x8A2D;&#x5B9A;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-basic-variable-05'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x8B8A;&#x6578;&#x8B80;&#x53D6;&#x8207;&#x8A2D;&#x5B9A;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-basic-variable-05' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-basic-variable-05'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x8B8A;&#x6578;&#x8B80;&#x53D6;&#x8207;&#x8A2D;&#x5B9A;</a>
+              <span class="subheading">&#x5B78;&#x7FD2; Nginx &#x5167;&#x90E8;&#x7684; nginx.conf &#x8B8A;&#x6578;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x5F0F;&#x9084;&#x6709;&#x8A2D;&#x5B9A;&#x81EA;&#x5DF1;&#x7684;&#x8B8A;&#x6578;&#x3002;</span>
+          </h1>
+            <div class="meta">Published on Wednesday, July 31, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-basic-config-04" target="_blank">文章</a>中，學習了 Nginx 指令的兩種格式，
+還有參考官方文檔了解每個指令都有對應的限制。</p>
+<p>今天要來學習 Nginx 中寫設定檔時也是相當重要的變數功能。</p>
+<hr />
+<h2 id="variables">Variables</h2>
+<p>我們可以從官方的變數清單 <a href="https://nginx.org/en/docs/varindex.html" target="_blank">文檔</a> 中，了解到 Nginx 內建就提供了多種變數，並且每個模組都有事先定義好的變數只要我們有啟用
+或安裝對應的模組就可以直接使用該變數。</p>
+<p>例如我想要使用 $geoip_city 這個變數那麼就需要先安裝 ngx_http_geoip_module 這個模組。</p>
+<p>不過有大部分的變數都是包含在核心模組裡面 ngx_http_core_module， 這個模組是預先就有安裝所以我們可以先使用核心模組的變數來進行測試。</p>
+<p>首先也是使用 Play with Docker 建立一台新的虛擬機安裝 nginx 並修改 <code>http.d/default.conf</code></p>
+<pre><code class="language-text">apk add nginx
+vi /etc/nginx/http.d/default.conf
+</code></pre>
+<p>在設定檔中使用 location 指令定義了一組 uri 所以等我們待會訪問 <code>/uri</code> 這個路徑時就會回傳 uri 與後方的參數</p>
+<pre><code class="language-text">server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        # Everything is a 404
+        location / {
+                return 404;
+		}
+
+		location /uri {
+			add_header Content-Type text/plain;
+			return 200 $request_uri;
+		}
+
+        # You may need this to prevent return 404 recursion.
+        location = /404.html {
+                internal;
+        }
+}
+</code></pre>
+<p>設定完成後重啟 Nginx 開放 80 端口，即可以在瀏覽器上看到回傳的 uri 與參數</p>
+<img src="https://lh3.googleusercontent.com/d/1ikQcW3KItmOawRIJMmRVwSTfFwdfxK4c" alt="Nginx05-Request-Uri-Variable" class="img-fluid">
+<hr />
+<h2 id="set">Set</h2>
+<p>內建的變數可能沒辦法滿足需求，這個時候就可以使用 Set 指令來定義自己的參數。</p>
+<pre><code class="language-text">server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        # Everything is a 404
+        location / {
+                return 404;
+		}
+
+		location /uri {
+			add_header Content-Type text/plain;
+			set $a '2024';
+			return 200 $a;
+		}
+
+        # You may need this to prevent return 404 recursion.
+        location = /404.html {
+                internal;
+        }
+}
+</code></pre>
+<img src="https://lh3.googleusercontent.com/d/1kGkwwZk_oRglrANdsxA1APQUpWTqsBvj" alt="Nginx05-A-Variable" class="img-fluid">
+<p>另外也可以將兩個變數組合之後同時輸出。</p>
+<pre><code class="language-text">server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        # Everything is a 404
+        location / {
+                return 404;
+		}
+
+		location /uri {
+			add_header Content-Type text/plain;
+			set $a '2024';
+			set $b '0731';
+			return 200 $a$b;
+		}
+
+        # You may need this to prevent return 404 recursion.
+        location = /404.html {
+                internal;
+        }
+}
+</code></pre>
+<img src="https://lh3.googleusercontent.com/d/1E3WS1L-5IQzQ9YstgcGdajYzO8uIQiIy" alt="Nginx05-AB-Variable" class="img-fluid">
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了變數該如何使用與這個指令的相關應用，例如我們可以使用 $http_user_agent 這個變數檢查目前客戶端的 User Agent 為何，如果檢查後判斷是
+不正常的 User Agent 就使用 limit_rate 指令進行限速，或者是定義日誌格式類似的應用。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-basic-variable-05'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

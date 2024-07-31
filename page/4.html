@@ -99,6 +99,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on Saturday, June 10, 2023</p>
+<p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
+但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-usersecrets-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; UserSecrets &#x8B80;&#x53D6;&#x4FDD;&#x8B77;&#x7684;&#x8A2D;&#x5B9A;&#x503C;</a></h2>
   <p class="post-meta">Published on Friday, June 9, 2023</p>
 <p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
@@ -114,15 +122,6 @@
 讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
 因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
 但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on Wednesday, June 7, 2023</p>
-<p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
-資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
-設定檔這方面的問題。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-configuration">Read more...</a></p>
 </div>
 
   <div>
@@ -146,7 +145,7 @@
               <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
               <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
               <a href="/tags/rabbitmq" class="badge text-bg-secondary"> RabbitMQ (6)</a>
-              <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (4)</a>
+              <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (5)</a>
               <a href="/tags/bitwarden" class="badge text-bg-secondary"> Bitwarden (4)</a>
               <a href="/tags/statiq" class="badge text-bg-secondary"> Statiq (4)</a>
             <div class="mt-3">
