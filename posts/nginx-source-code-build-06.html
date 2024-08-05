@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5B78;&#x7FD2;&#x7DE8;&#x8B6F; Nginx &#x539F;&#x59CB;&#x78BC;&#x8207;&#x76F8;&#x95DC;&#x7DE8;&#x8B6F;&#x53C3;&#x6578;&#x3002;">
+
+  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x7DE8;&#x8B6F;&#x539F;&#x59CB;&#x78BC;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-source-code-build-06'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x7DE8;&#x8B6F;&#x539F;&#x59CB;&#x78BC;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-source-code-build-06' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-source-code-build-06'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x7DE8;&#x8B6F;&#x539F;&#x59CB;&#x78BC;</a>
+              <span class="subheading">&#x5B78;&#x7FD2;&#x7DE8;&#x8B6F; Nginx &#x539F;&#x59CB;&#x78BC;&#x8207;&#x76F8;&#x95DC;&#x7DE8;&#x8B6F;&#x53C3;&#x6578;&#x3002;</span>
+          </h1>
+            <div class="meta">Published on Monday, August 5, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <hr />
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-basic-variable-05" target="_blank">文章</a>中，
+內建的變數與設定客製的變數，並且有稍微提到模組的概念。</p>
+<p>要安裝模組首先需要學習編譯 Nginx 原始碼，今天要先來學習學習如何從頭編譯原始碼。</p>
+<hr />
+<h2 id="nginx-source-code">Nginx Source Code</h2>
+<p>首先看一下官方的安裝<a href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#installing-nginx-dependencies" target="_blank">文檔</a></p>
+<p>這邊只有 pcre2 是必需的函式庫，Nginx 會依賴這個模組來處理 Regular Expressions 相關功能，
+要使用 Nginx Gzip 模組需要額外安裝 zlib 函式庫，要使用 HTTPS 則需要安裝 openssl 函式庫並且編譯 openssl 時需要依賴 perl 函式庫。</p>
+<pre><code class="language-text">apk add perl
+
+wget -P ~ https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.42/pcre2-10.42.tar.gz
+tar -zxf pcre2-10.42.tar.gz
+cd pcre2-10.42
+./configure
+make
+sudo make install
+
+wget -P ~ https://github.com/madler/zlib/releases/download/v1.2.13/zlib-1.2.13.tar.gz
+tar -zxf zlib-1.2.13.tar.gz
+cd zlib-1.2.13
+./configure
+make
+sudo make install
+
+wget -P ~ https://github.com/openssl/openssl/releases/download/openssl-3.2.2/openssl-3.2.2.tar.gz
+tar -zxf openssl-3.2.2.tar.gz
+cd openssl-3.2.2
+./Configure linux-x86_64 --prefix=/usr
+make
+sudo make install
+</code></pre>
+<p>上面是直接透過原始碼編譯的方式來安裝依賴的函式庫，可以改用 alpine 官方打包的函式庫也能達到同樣的效果。</p>
+<pre><code class="language-text">apk add pcre2-dev
+apk add zlib-dev
+apk add openssl
+</code></pre>
+<p>安裝完相關依賴後開始下載 nginx 原始碼，這邊選擇的是下載目前 stable 版本 1.26.1</p>
+<pre><code class="language-text">wget -P ~ https://nginx.org/download/nginx-1.26.1.tar.gz
+tar zxf nginx-1.26.1.tar.gz
+cd nginx-1.26.1
+</code></pre>
+<p>觀查一下 nginx 頂層的目錄結構，發現有幾個文檔幾個資料夾和一個 configure 可執行檔，
+需要先運行 configure 產生 makefile 才能進行安裝。</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/nginx-1.26.1
+$ ls -lh
+total 824K   
+-rw-r--r--    1 502      dialout   319.9K May 29 14:30 CHANGES
+-rw-r--r--    1 502      dialout   489.4K May 29 14:30 CHANGES.ru
+-rw-r--r--    1 502      dialout     1.4K May 28 13:28 LICENSE
+-rw-r--r--    1 502      dialout       49 May 28 13:28 README
+drwxr-xr-x    6 502      dialout      326 Aug  5 09:42 auto
+drwxr-xr-x    2 502      dialout      168 Aug  5 09:42 conf
+-rwxr-xr-x    1 502      dialout     2.5K May 28 13:28 configure
+drwxr-xr-x    4 502      dialout       72 Aug  5 09:42 contrib
+drwxr-xr-x    2 502      dialout       40 Aug  5 09:42 html
+drwxr-xr-x    2 502      dialout       21 Aug  5 09:42 man
+drwxr-xr-x    9 502      dialout       91 Aug  5 09:42 src
+</code></pre>
+<p>configure 能夠接收多個參數提供我們進行細項的設定，這邊參考 alpine 打包<a href="https://git.alpinelinux.org/aports/tree/main/nginx/APKBUILD?h=v3.20.0#n304" target="_blank">腳本</a>的參數來設定我們的 Nginx。</p>
+<pre><code class="language-text">./configure \
+--sbin-path=/usr/sbin/nginx \
+--conf-path=/etc/nginx/nginx.conf \
+--pid-path=/run/nginx/nginx.pid \
+--with-http_ssl_module
+</code></pre>
+<p>如果是手動編譯的函式庫需要自行指定路徑。</p>
+<pre><code class="language-text">./configure \
+--sbin-path=/usr/sbin/nginx \
+--conf-path=/etc/nginx/nginx.conf \
+--pid-path=/run/nginx/nginx.pid \
+--with-pcre=../pcre2-10.42 \
+--with-zlib=../zlib-1.2.13 \
+--with-http_ssl_module
+</code></pre>
+<p>在產生過程後會顯示設定的總結，可以看到這邊使用的系統安裝的的 <code>PCRE2</code> <code>OpenSSL</code> <code>zlib</code> 函式庫，
+還有把 <code>sbin</code> <code>conf</code> <code>pid</code> 都修改成我們想要的路徑，沒有特別指定的都是使用預設的路徑。</p>
+<pre><code class="language-text">Configuration summary
+  + using system PCRE2 library
+  + using system OpenSSL library
+  + using system zlib library
+
+  nginx path prefix: &quot;/usr/local/nginx&quot;
+  nginx binary file: &quot;/usr/sbin/nginx&quot;
+  nginx modules path: &quot;/usr/local/nginx/modules&quot;
+  nginx configuration prefix: &quot;/etc/nginx&quot;
+  nginx configuration file: &quot;/etc/nginx/nginx.conf&quot;
+  nginx pid file: &quot;/run/nginx/nginx.pid&quot;
+  nginx error log file: &quot;/usr/local/nginx/logs/error.log&quot;
+  nginx http access log file: &quot;/usr/local/nginx/logs/access.log&quot;
+  nginx http client request body temporary files: &quot;client_body_temp&quot;
+  nginx http proxy temporary files: &quot;proxy_temp&quot;
+  nginx http fastcgi temporary files: &quot;fastcgi_temp&quot;
+  nginx http uwsgi temporary files: &quot;uwsgi_temp&quot;
+  nginx http scgi temporary files: &quot;scgi_temp&quot;
+</code></pre>
+<p>產生完後根目錄底下會產生 Makefile 與 objs。</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/nginx-1.26.1
+$ ls -lh
+total 828K   
+-rw-r--r--    1 502      dialout   319.9K May 29 14:30 CHANGES
+-rw-r--r--    1 502      dialout   489.4K May 29 14:30 CHANGES.ru
+-rw-r--r--    1 502      dialout     1.4K May 28 13:28 LICENSE
+-rw-r--r--    1 root     root         393 Aug  5 10:23 Makefile
+-rw-r--r--    1 502      dialout       49 May 28 13:28 README
+drwxr-xr-x    6 502      dialout      326 Aug  5 09:42 auto
+drwxr-xr-x    2 502      dialout      168 Aug  5 09:42 conf
+-rwxr-xr-x    1 502      dialout     2.5K May 28 13:28 configure
+drwxr-xr-x    4 502      dialout       72 Aug  5 09:42 contrib
+drwxr-xr-x    2 502      dialout       40 Aug  5 09:42 html
+drwxr-xr-x    2 502      dialout       21 Aug  5 09:42 man
+drwxr-xr-x    3 root     root         125 Aug  5 10:23 objs
+drwxr-xr-x    9 502      dialout       91 Aug  5 09:42 src
+</code></pre>
+<pre><code class="language-text">default:        build
+
+clean:
+        rm -rf Makefile objs
+
+.PHONY: default clean
+
+build:
+        $(MAKE) -f objs/Makefile
+
+install:
+        $(MAKE) -f objs/Makefile install
+
+modules:
+        $(MAKE) -f objs/Makefile modules
+
+upgrade:
+        /usr/sbin/nginx -t
+
+        kill -USR2 `cat /run/nginx/nginx.pid`
+        sleep 1
+        test -f /run/nginx/nginx.pid.oldbin
+
+        kill -QUIT `cat /run/nginx/nginx.pid.oldbin`
+
+.PHONY: build install modules upgrade
+</code></pre>
+<p>輸入命令安裝 Nginx。</p>
+<pre><code class="language-text">make &amp;&amp; make install
+</code></pre>
+<p>安裝完最後運行 sbin 底下的 nginx 的可執行檔，並且訪問 80 port 即可看到 Nginx 的歡迎頁面。</p>
+<pre><code class="language-text">/usr/sbin/nginx
+</code></pre>
+<p>可以輸入 -V 參數在底下可以看到編譯時有帶入什麼參數。</p>
+<pre><code class="language-text">[node1] (local) root&#64;192.168.0.18 ~/nginx-1.26.1
+$ /usr/sbin/nginx -V
+nginx version: nginx/1.26.1
+built by gcc 12.2.1 20220924 (Alpine 12.2.1_git20220924-r10) 
+built with OpenSSL 3.1.4 24 Oct 2023
+TLS SNI support enabled
+configure arguments: --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/run/nginx/nginx.pid --with-http_ssl_module
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了如何從原始碼編譯 Nginx 執行檔，也學習到編譯可以帶入多個參數也可以開啟或關閉特定的模組，
+接下來要學習如何添加第三方的模組。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-source-code-build-06'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
