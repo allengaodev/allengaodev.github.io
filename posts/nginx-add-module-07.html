@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x6E2C;&#x8A66;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x6DFB;&#x52A0;&#x7B2C;&#x4E09;&#x65B9;&#x7684; nginx &#x6A21;&#x7D44; echo-nginx-module&#x3002;">
+
+  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9; echo &#x6A21;&#x7D44;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-add-module-07'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9; echo &#x6A21;&#x7D44;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-add-module-07' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-add-module-07'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9; echo &#x6A21;&#x7D44;</a>
+              <span class="subheading">&#x6E2C;&#x8A66;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x6DFB;&#x52A0;&#x7B2C;&#x4E09;&#x65B9;&#x7684; nginx &#x6A21;&#x7D44; echo-nginx-module&#x3002;</span>
+          </h1>
+            <div class="meta">Published on Tuesday, August 6, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-source-code-build-06" target="_blank">文章</a>中，
+學習了該如何編譯 Nginx 原始碼還有安裝相關的依賴。</p>
+<p>今天就延續昨天的進度來學習如何在 Nginx 中安裝第三方的模組。</p>
+<p>首先也是安裝相關依賴 <code>pcre2</code> <code>zlib</code> <code>openssl</code></p>
+<pre><code class="language-text">apk add pcre2-dev
+apk add zlib-dev
+apk add openssl
+</code></pre>
+<p>這邊我們選擇下載 <code>echo-nginx-module</code> 這個第三方模組。</p>
+<pre><code class="language-text">wget -P ~ https://github.com/openresty/echo-nginx-module/archive/refs/tags/v0.63.tar.gz
+tar zxf v0.63.tar.gz
+</code></pre>
+<p>這個 <code>echo-nginx-module</code> 模組能夠提供一些常用的功能例如：</p>
+<ol>
+<li>echo: 直接回傳我們想要的字串，可以用來做 healthy check。</li>
+<li>sleep: 要求目前進程進行 non-blocking 睡眠。</li>
+<li>timer: 可以用來統計 Nginx 運行請求的秒數。</li>
+<li>exec: 可以用來進行轉跳的操作。</li>
+</ol>
+<p>接下來下載 Nginx stable 版本原始碼。</p>
+<pre><code class="language-text">wget -P ~ https://nginx.org/download/nginx-1.26.1.tar.gz
+tar zxf nginx-1.26.1.tar.gz
+cd ~/nginx-1.26.1
+</code></pre>
+<p>這邊的設定基本與上一篇相同，不過最後新增了 <code>add-module</code> 參數，這個步驟可以讓 Nginx 知道要將這個模組一起進行編譯。</p>
+<pre><code class="language-text">./configure \
+--sbin-path=/usr/sbin/nginx \
+--conf-path=/etc/nginx/nginx.conf \
+--pid-path=/run/nginx/nginx.pid \
+--with-http_ssl_module \
+--add-module=/root/echo-nginx-module-0.63
+</code></pre>
+<p>在設定過程的提示訊息中可以看到一段添加模組訊息。</p>
+<pre><code class="language-text">configuring additional modules
+adding module in /root/echo-nginx-module-0.63
+</code></pre>
+<p>最後也是使用 Makefile 進行安裝。</p>
+<pre><code class="language-text">make &amp;&amp; make install
+</code></pre>
+<p>這樣就成功將 <code>echo-nginx-module</code> 添加到 Nginx 內部了，現在來試試看模組內的功能。</p>
+<pre><code class="language-text">vi /etc/nginx/nginx.conf
+</code></pre>
+<p>這裡我添加了四個 location 來測試這個模組的功能 <code>echo</code> <code>echo_with_sleep</code> <code>echo_with_timer</code> <code>echo_with_exec</code></p>
+<pre><code class="language-text">http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    server {
+        listen       80;
+        server_name  localhost;
+        
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }   
+        
+        location /echo {
+            default_type text/plain;
+            echo hello, world!$arg_text1$arg_text2;
+        } 
+        
+        location /echo_with_sleep {
+            echo hello;
+            echo &quot;sleep 3 second&quot;;
+            echo_flush;
+            echo_sleep 3;
+            echo world;
+        }
+        
+        location /echo_with_timer {
+            echo_reset_timer;
+            echo_sleep 3;  # in sec
+            echo hello world;
+            echo &quot;'hello world' takes about $echo_timer_elapsed sec.&quot;;
+        }
+        
+        location /echo_with_exec {
+            echo_exec /hello text1=$arg_mytext1&amp;text2=$arg_mytext2;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }   
+    }
+}
+</code></pre>
+<p><code>location /echo</code> 使用起來與前幾天談設定<a href="https://blog.allengaodev.com/posts/nginx-basic-variable-05" target="_blank">變數</a>的文章
+裡面直接使用 <code>return 200 $a;</code> 意思是一樣的</p>
+<pre><code class="language-text">curl &quot;192.168.0.23/echo&quot;
+hello, world!
+</code></pre>
+<p><code>location /echo_with_sleep</code> 這邊的 <code>echo_flush</code> 是能夠將目前 Buffer 裡面的內容直接強制輸出所以這裡我們才能直接先看到第一二行的內容，
+並且等待三秒之後輸出第三行。</p>
+<pre><code class="language-text">curl &quot;192.168.0.23/echo_with_sleep&quot;
+hello
+sleep 3 second
+world
+</code></pre>
+<p><code>location /echo_with_timer</code> 這邊的 <code>echo_reset_timer</code> 指令可以用來計時與重啟計時器，並且把時間保存在 <code>$echo_timer_elapsed</code> 變數裡面</p>
+<pre><code class="language-text">curl &quot;192.168.0.23/echo_with_timer&quot;
+hello world
+'hello world' takes about 3.001 sec.
+</code></pre>
+<p><code>location /echo_with_exec</code> 這邊的 <code>echo_exec</code> 可以用來進行轉跳工作，這裡我定義了兩個變數並轉跳給 <code>echo</code></p>
+<pre><code class="language-text">curl &quot;192.168.0.23/echo_with_exec?mytext1=2024&amp;mytext2=0807&quot;
+hello, world!20240807
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>今天學習了在編譯之前添加 Nginx 第三方的模組，這種方式雖然很直觀但是每次添加新模組不太方便，
+所以還有另一種動態的安裝方式，之後會再來測試看看。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-add-module-07'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
