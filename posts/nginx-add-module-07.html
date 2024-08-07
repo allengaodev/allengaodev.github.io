@@ -9,7 +9,7 @@
 
     <meta name="description" content="&#x6E2C;&#x8A66;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x6DFB;&#x52A0;&#x7B2C;&#x4E09;&#x65B9;&#x7684; nginx &#x6A21;&#x7D44; echo-nginx-module&#x3002;">
 
-  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9; echo &#x6A21;&#x7D44;</title>
+  <title>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9;&#x6A21;&#x7D44;</title>
 
 
   <link rel="canonical" href='https://blog.allengaodev.com/posts/nginx-add-module-07'>
@@ -21,7 +21,7 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9; echo &#x6A21;&#x7D44;' />
+  <meta property="og:title" content='Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9;&#x6A21;&#x7D44;' />
   <meta property="og:type" content="website" />
   <meta property="og:url" content='https://blog.allengaodev.com/posts/nginx-add-module-07' />
 
@@ -77,7 +77,7 @@
       <div class="col-md-12">
         <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-add-module-07'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9; echo &#x6A21;&#x7D44;</a>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/nginx-add-module-07'>Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9;&#x6A21;&#x7D44;</a>
               <span class="subheading">&#x6E2C;&#x8A66;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x6DFB;&#x52A0;&#x7B2C;&#x4E09;&#x65B9;&#x7684; nginx &#x6A21;&#x7D44; echo-nginx-module&#x3002;</span>
           </h1>
             <div class="meta">Published on Tuesday, August 6, 2024</div>
@@ -121,9 +121,12 @@ cd ~/nginx-1.26.1
 </code></pre>
 <p>這邊的設定基本與上一篇相同，不過最後新增了 <code>add-module</code> 參數，這個步驟可以讓 Nginx 知道要將這個模組一起進行編譯。</p>
 <pre><code class="language-text">./configure \
+--prefix=/var/lib/nginx \
+--modules-path=/usr/lib/nginx/modules \
 --sbin-path=/usr/sbin/nginx \
 --conf-path=/etc/nginx/nginx.conf \
 --pid-path=/run/nginx/nginx.pid \
+--lock-path=/run/nginx/nginx.lock \
 --with-http_ssl_module \
 --add-module=/root/echo-nginx-module-0.63
 </code></pre>

@@ -99,6 +99,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-external-provider-google">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</a></h2>
+  <p class="post-meta">Published on Saturday, April 22, 2023</p>
+<p>今天來學習如何在 .Net 中使用第三方登入, 我們之前在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面了解
+微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>    <p class="small"><a href="/posts/dotnet-identity-external-provider-google">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
   <p class="post-meta">Published on Thursday, April 20, 2023</p>
 <p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
@@ -110,15 +118,6 @@
   <p class="post-meta">Published on Monday, April 17, 2023</p>
 <p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
 現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
-  <p class="post-meta">Published on Sunday, April 16, 2023</p>
-<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
-在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
-閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
 </div>
 
   <div>
@@ -140,8 +139,8 @@
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
               <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (16)</a>
               <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
+              <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
               <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
-              <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (7)</a>
               <a href="/tags/rabbitmq" class="badge text-bg-secondary"> RabbitMQ (6)</a>
               <a href="/tags/bitwarden" class="badge text-bg-secondary"> Bitwarden (4)</a>
               <a href="/tags/statiq" class="badge text-bg-secondary"> Statiq (4)</a>
