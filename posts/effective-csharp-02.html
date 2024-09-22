@@ -7,11 +7,12 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
+    <meta name="description" content="Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const (Prefer readonly to const)">
 
-  <title>Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</title>
+  <title>Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const</title>
 
 
-  <link rel="canonical" href='https://blog.allengaodev.com/tags/azure'>
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-02'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -20,9 +21,9 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;' />
+  <meta property="og:title" content='Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://blog.allengaodev.com/tags/azure' />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-02' />
 
   <link rel="icon" href='/favicon.svg'>
 
@@ -74,10 +75,15 @@
   <div class="container position-relative">
     <div class="row">
       <div class="col-md-12">
-        <div class='site-heading'>
+        <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/tags/azure'>Azure</a>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-02'>Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const</a>
+              <span class="subheading">Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const (Prefer readonly to const)</span>
           </h1>
+            <div class="meta">Published on Sunday, September 22, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
         </div>
       </div>
     </div>
@@ -89,46 +95,65 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-          <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+        <h2 id="readonly-const-prefer-readonly-to-const">偏好 readonly 而非 const (Prefer readonly to const)</h2>
+<p>C# 有兩種常數的寫法：</p>
+<ol>
+<li>readonly: runtime 常數</li>
+<li>const: compile-time 常數</li>
+</ol>
+<pre><code class="language-text">// compile-time 常數
+public const int Millennium = 2000;
+
+// runtime 常數
+public static readonly int ThisYear = 2004;
+</code></pre>
+<h3 id="compile-time">compile-time 常數</h3>
+<p>使用 compile-time 常數 <code>const</code> 需要注意它會在編譯時期直接將賦值的內容取代變數。</p>
+<pre><code class="language-text">if(myDateTime.Year == Millennium)
+
+編譯後使用反編譯軟體查看會發現 Millennium 變數的位置直接被 2000 取代。
+
+if(myDateTime.Year == 2000)
+</code></pre>
+<p><code>const</code> 只能用來宣告數字、布林值、字串與 null 這些類型，其它類型需要使用 <code>readonly</code> 來宣告。</p>
+<h3 id="runtime">runtime 常數</h3>
+<p>使用 runtime 常數 <code>readonly</code> 與 <code>const</code> 不同，它在編譯完成後還是會保留變數的參考，並不會直接用值來取代。</p>
+<pre><code class="language-text">if (DateTime.Now.Year == ThisYear)
+
+編譯後使用反編譯軟體查看會發現 ThisYear 變數的位置並沒有被值取代。
+
+if (DateTime.Now.Year == ThisYear)
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>只有確定要在編譯期間確定的值或者那些永遠不會變換的值才使用 <code>const</code> 宣告常數，否則應該盡量使用 <code>readonly</code> 宣告常數。</p>
+
+
         
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on Saturday, June 10, 2023</p>
-<p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
-但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
-</div>
-
-
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
-          <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (18)</a>
-          <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-secondary"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-secondary"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-secondary"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-secondary"> ABP (3)</a>
-          <a href="/tags/linux" class="badge text-bg-secondary"> Linux (3)</a>
-          <a href="/tags/security" class="badge text-bg-secondary"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-secondary"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-secondary"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-secondary"> Azure (1)</a>
       </div>
     </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-02'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
   </div>
-
-        
-
-      </div>
-    </div>
   </div>
 
   <hr>
