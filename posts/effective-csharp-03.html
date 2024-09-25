@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB; (Prefer the is or as Operators to Casts)">
+
+  <title>Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-03'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-03' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-03'>Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB;</a>
+              <span class="subheading">Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB; (Prefer the is or as Operators to Casts)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, September 25, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="is-as-prefer-the-is-or-as-operators-to-casts">偏好 is 或 as 運算子而非型別轉換 (Prefer the is or as Operators to Casts)</h2>
+<p>在某些場合我們需要手動對 object 類型進行轉型的操作，目前常用的轉型方式有以下幾種：</p>
+<ol>
+<li>轉換運算式(Cast expression)</li>
+<li>as 運算子</li>
+<li>pattern matching</li>
+</ol>
+<p>首先建立兩個類別 <code>Car</code> 和 <code>Bus</code>，我們可以設定乘客數量，並且添加使用者自訂的轉換型別方法讓我們可以直接進行隱含轉換。</p>
+<pre><code class="language-text">public class Car
+{
+	private int _passenger;
+	public int Passenger
+	{
+		get { return _passenger; }
+		set
+		{
+			if (value &gt; 3)
+				throw new ArgumentException(&quot;Too Many People&quot;);
+			_passenger = value;
+		}
+	}
+	
+	public Car(int passenger)
+	{
+		Passenger = passenger;
+	}
+
+	public static implicit operator Bus(Car car)
+	{
+		return new Bus(car.Passenger);
+	}
+}
+
+public class Bus
+{
+	private int _passenger;
+	public int Passenger
+	{
+		get { return _passenger; }
+		set { _passenger = value; }
+	}
+
+	public Bus(int passenger)
+	{
+		Passenger = passenger;
+	}
+
+	public static implicit operator Car(Bus bus)
+	{
+		return new Car(bus.Passenger);
+	}
+}
+</code></pre>
+<h2 id="section">型別轉換</h2>
+<p>為了方便測試，我們建立一個 Factory 類別，並回傳 object 類型。</p>
+<pre><code class="language-text">public class Factory
+{
+    public static object GetObject(int passenger, Type t)
+	{
+		return Activator.CreateInstance(t, passenger);
+	}
+}
+</code></pre>
+<p>最傳統的的轉換方式需要搭配 <code>try/catch</code> 來攔截例外錯誤，還需要另外檢查 null 類型，因為 null 可以直接轉換成任何參考型別。</p>
+<pre><code class="language-text">// 1.轉換運算式(Cast expression)
+object o = Factory.GetObject(3, typeof(Car));
+try
+{	        
+	if (o != null)
+	{
+		Car t = (Car)o;
+		Console.WriteLine($&quot;Passenger Count: {t.Passenger}&quot;);
+	}
+}
+catch (Exception ex)
+{
+	Console.WriteLine(&quot;Error&quot;);
+}
+</code></pre>
+<p>使用 as 運算子如果轉換錯誤並不會拋出例外，因此只要檢查 null 類型就好。</p>
+<pre><code class="language-text">// 2. as 運算子
+object o = Factory.GetObject(3, typeof(Car));
+Car t = o as Car;
+if (t != null)
+	Console.WriteLine($&quot;Passenger Count: {t.Passenger}&quot;);
+else
+	Console.WriteLine(&quot;Error&quot;);
+</code></pre>
+<p>使用 is 運算子搭配 pattern matching 寫法可以更精簡。</p>
+<pre><code class="language-text">// 3. pattern matching
+object o = Factory.GetObject(3, typeof(Car));
+if (o is Car t)
+	Console.WriteLine($&quot;Passenger Count: {t.Passenger}&quot;);
+else
+	Console.WriteLine(&quot;Error&quot;);
+</code></pre>
+<h2 id="section-1">使用者自訂的轉換型別方法</h2>
+<p>接下來測試一下之前寫的自訂的轉換型別方法，根據程式碼可以得知 <code>Car</code> 和 <code>Bus</code> 可以來回轉換，唯一的限制是 <code>Car</code> 類型 Passenger 不能超過三人否則會報錯。</p>
+<p>從三名乘客的 <code>Car</code> 隱含轉換成 <code>Bus</code> 類別可以轉換成功。</p>
+<pre><code class="language-text">var c = new Car(3);
+Bus b = c;
+Console.WriteLine($&quot;Passenger Count: {b.Passenger}&quot;);
+</code></pre>
+<p>從四名乘客的 <code>Bus</code> 隱含轉換成 <code>Car</code> 類別因為超過三人所以會報錯。</p>
+<pre><code class="language-text">var b = new Bus(4);
+Car c = b;
+Console.WriteLine($&quot;Passenger Count: {b.Passenger}&quot;);
+</code></pre>
+<p>另外我們也可以用明確轉型，但是要注意自訂的轉換型別方法只能用 <code>Cast expression</code> 處理轉型操作，沒辦法使用 <code>as</code> 和 <code>pattern matching</code>。</p>
+<pre><code class="language-text">//無法編譯
+Car c = new Car(3);
+Bus b = c as Bus;
+Console.WriteLine($&quot;Passenger Count: {b.Passenger}&quot;);
+
+Car c = new Car(3);
+Bus b = (Bus)c;
+Console.WriteLine($&quot;Passenger Count: {b.Passenger}&quot;);
+</code></pre>
+<p>那麼使用上一節的 <code>Factory.GetObject</code> 方法建立出來的隱藏型別的 object 是否也能進行隱含轉換呢?</p>
+<pre><code class="language-text">object o = Factory.GetObject(3, typeof(Car));
+if (o != null)
+{
+	Bus c = (Bus)o;
+	Console.WriteLine($&quot;Passenger Count: {c.Passenger}&quot;);
+}
+else
+	Console.WriteLine(&quot;Error&quot;);
+</code></pre>
+<p>答案是不行的，因為編譯器不會知道 o 的執行期型別，編譯器認為沒有 <code>object</code> 至 <code>Bus</code> 的使用者自訂轉換型別方法。</p>
+<h2 id="foreach">Foreach</h2>
+<p>在這個例子中我們傳入一個非泛型的 IEnumerable，並且使用 foreach 遍歷每一個元素。
+可以發現 foreach 背後將元素轉換為 <code>Car</code> 型別，並不是由我們使用一開始提到的三種轉換方式來轉換。</p>
+<pre><code class="language-text">public void UseCollection(IEnumerable array)
+{
+	foreach (Car c in array)
+	{
+		Console.WriteLine(&quot;Success&quot;);
+	}
+}
+</code></pre>
+<p>使用反編譯軟體查看背後的程式碼，發現他內部是使用 <code>Cast expression</code> 來轉換，所以要注意可能會拋出 <code>InvalidCastException</code></p>
+<pre><code class="language-text">IEnumerator enumerator = array.GetEnumerator ();
+try
+{
+     while (enumerator.MoveNext ())
+     {
+          Car c = (Car)enumerator.Current;
+          Console.WriteLine (&quot;Success&quot;);
+     }
+}
+finally
+{
+     IDisposable disposable = enumerator as IDisposable;
+     if (disposable != null)
+     {
+          disposable.Dispose ();
+     }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>最好是盡量避免轉型的操作，如果一定要的話優先使用 <code>as</code> 與 <code>is</code> 來進行，不僅可以避免拋出 <code>InvalidCastException</code>，
+而且只需要查結果是否為 <code>null</code> 就好，另外語意也更接近英文可讀性會提高，另外如果方法有提供泛型的版本那就優先使用。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-03'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
