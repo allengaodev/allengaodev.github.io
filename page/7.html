@@ -99,6 +99,16 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-ioptions">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on Thursday, June 8, 2023</p>
+<p>在上一篇文章中我們學到了該怎麼使用 Configuration 相關的 Package，程式將透過 DI 容器取得 <code>ConfigurationRoot</code> 可以方便
+讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
+因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
+但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
   <p class="post-meta">Published on Wednesday, June 7, 2023</p>
 <p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
@@ -114,14 +124,6 @@
 那就是任務執行完成後發送信息的人沒有辦法知道任務已經完成或者是任務失敗等其他狀況，發送人還需要主動的去確認任務是否已經完成，例如一個報表導出的任務當你按下按鈕後
 會發送一個信息任務到 <code>Queue</code> 中並且由 <code>Worker</code> 來執行任務，這時發送人可能就去操作網站其他功能了甚至也有忘記自己有發送報表導出的任務，之後當你回來查看結果時
 最好的情況是報表已經導出完成可以直接下載，也有可能早就任務失敗或者卡住此時你又必須重新發送一次任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-rpc">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Direct &amp; Topic &amp; Header</a></h2>
-  <p class="post-meta">Published on Thursday, June 1, 2023</p>
-<p>今天要來學習發布訂閱模式中的 <code>Direct</code> 和 <code>Topic</code> 模式這兩個模式使用起來非常相似。上一篇文章中我們學習到的 <code>Fanout</code> 模式有一個不太方便的點，那就是
-它會一次發送給有綁定到 <code>Exchange</code> 上的所有 <code>Queue</code>，如果只想要發送給某個特定族群的 <code>Queue</code> 就可以選擇使用 <code>Direct</code>, <code>Topic</code> 或者 <code>Header</code> 模式。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">Read more...</a></p>
 </div>
 
   <div>
@@ -140,8 +142,8 @@
             <h3>Tags</h3>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (20)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (19)</a>
               <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
               <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
               <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
