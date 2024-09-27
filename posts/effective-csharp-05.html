@@ -7,12 +7,12 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const (Prefer readonly to const)">
+    <meta name="description" content="Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString (Prefer FormattableString for Culture-Specific Strings)">
 
-  <title>Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const</title>
+  <title>Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString</title>
 
 
-  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-02'>
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-05'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -21,9 +21,9 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const' />
+  <meta property="og:title" content='Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-02' />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-05' />
 
   <link rel="icon" href='/favicon.svg'>
 
@@ -77,10 +77,10 @@
       <div class="col-md-12">
         <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-02'>Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const</a>
-              <span class="subheading">Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const (Prefer readonly to const)</span>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-05'>Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString</a>
+              <span class="subheading">Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString (Prefer FormattableString for Culture-Specific Strings)</span>
           </h1>
-            <div class="meta">Published on Sunday, September 22, 2024</div>
+            <div class="meta">Published on Thursday, September 26, 2024</div>
               <div class="mt-3">
                   <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
               </div>
@@ -95,37 +95,52 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <p>C# 有兩種常數的寫法：</p>
-<ol>
-<li>readonly: runtime 常數</li>
-<li>const: compile-time 常數</li>
-</ol>
-<pre><code class="language-text">// compile-time 常數
-public const int Millennium = 2000;
-
-// runtime 常數
-public static readonly int ThisYear = 2004;
+        <p>在做法 4 中，介紹了字串插值的寫法，但是某些功能需要根據不同的文化產生不同的結果，例如時間輸出的格式就會根據目前電腦的文化設定來輸出時間。</p>
+<pre><code class="language-text">Console.WriteLine(CultureInfo.CurrentCulture);
+var time1 = $&quot;{DateTime.Now}&quot;;
+Console.WriteLine(time1);
 </code></pre>
-<h3 id="compile-time">compile-time 常數</h3>
-<p>使用 compile-time 常數 <code>const</code> 需要注意它會在編譯時期直接將賦值的內容取代變數。</p>
-<pre><code class="language-text">if(myDateTime.Year == Millennium)
-
-編譯後使用反編譯軟體查看會發現 Millennium 變數的位置直接被 2000 取代。
-
-if(myDateTime.Year == 2000)
+<pre><code class="language-text">zh-TW
+2024/9/27 下午 05:31:38
 </code></pre>
-<p><code>const</code> 只能用來宣告數字、布林值、字串與 null 這些類型，其它類型需要使用 <code>readonly</code> 來宣告。</p>
-<h3 id="runtime">runtime 常數</h3>
-<p>使用 runtime 常數 <code>readonly</code> 與 <code>const</code> 不同，它在編譯完成後還是會保留變數的參考，並不會直接用值來取代。</p>
-<pre><code class="language-text">if (DateTime.Now.Year == ThisYear)
-
-編譯後使用反編譯軟體查看會發現 ThisYear 變數的位置並沒有被值取代。
-
-if (DateTime.Now.Year == ThisYear)
+<p>這裡直接設定 CultureInfo 可以將目前環境切換成 <code>en-us</code></p>
+<pre><code class="language-text">CultureInfo.CurrentCulture = new CultureInfo(&quot;en-us&quot;);
+Console.WriteLine(CultureInfo.CurrentCulture);
+var time2 = $&quot;{DateTime.Now}&quot;;
+Console.WriteLine(time2);
+</code></pre>
+<pre><code class="language-text">en-US
+9/27/2024 5:37:04 PM
+</code></pre>
+<p>除了直接調整 CultureInfo 也可以將字串改宣告成 FormattableString 而不是 string。
+這個類型也很好理解，主要就是透過 Format 屬性取得字串的格式和 GetArguments 方法取得傳入的參數，最後就可以使用 String.Format 來格式化字串。</p>
+<pre><code class="language-text">FormattableString time3 = $&quot;Current Time: {DateTime.Now.ToString()}&quot;;
+Console.WriteLine(time3.Format);
+Console.WriteLine(time3.GetArguments());
+Console.WriteLine(time3);
+</code></pre>
+<pre><code class="language-text">Current Time: {0}
+2024/9/27 下午 05:59:51
+Current Time: 2024/9/27 下午 06:04:47
+</code></pre>
+<p>例如我們可以寫一個方法只要輸入 FormattableString 就能轉成德文格式的字串。</p>
+<pre><code class="language-text">public static string ToGerman(FormattableString src)
+{
+	return string.Format(CultureInfo.CreateSpecificCulture(&quot;de-de&quot;),
+						src.Format,
+						src.GetArguments());
+}
+</code></pre>
+<pre><code class="language-text">Console.WriteLine(ToGerman(time3));
+</code></pre>
+<pre><code class="language-text">Current Time: 27.09.2024 18:06:54
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>只有確定要在編譯期間確定的值或者那些永遠不會變換的值才使用 <code>const</code> 宣告常數，否則應該盡量使用 <code>readonly</code> 宣告常數。</p>
+<p>這個做法是用來補充說明字串插值的寫法，從結果可以知道背後還是要使用 string.Format 來轉換字串的文化，其實就跟我們自己寫 string.Format
+是差不多的意思，但是選擇字串插值的寫法可以輸出 string 或者 FormattableString，有需要處理文化就輸出 FormattableString ，
+不需要的話也可以直接輸出 string，所以選擇類型是根據我們的需求來選的，這個做法主要就是在介紹使用字串插值彈性比較高，直接使用 string.Format
+是沒辦法輸出 FormattableString。</p>
 
 
         
@@ -133,7 +148,7 @@ if (DateTime.Now.Year == ThisYear)
       </div>
     </div>
   <div id="comments-container" class="row">
-    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-02'></div>
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-05'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
 
 <script src="https://giscus.app/client.js"

@@ -95,8 +95,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h2 id="prefer-implicitly-typed-local-variables">偏好隱含型別的區域變數 (Prefer Implicitly Typed Local Variables)</h2>
-<p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
+        <p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
 當編譯器看到 <code>var</code> 關鍵字時會參考 <code>=</code> 右側的運算式，背後宣告這個區域變數的型別，可以省掉我們自行判斷宣告型別的流程。</p>
 <p>第二個好處是能避免變數被錯誤宣告為不正確的型別。常見的問題就是 <code>IEnumerable&lt;T&gt;</code> 和 <code>IQueryable&lt;T&gt;</code> 轉換錯誤導致的性能問題。</p>
 <p>當我們使用 <code>EFCore</code> 搭配 <code>LINQ</code> 來存取資料庫數據時，會使用到<code>LINQ to Objects</code> 與 <code>LINQ to SQL</code> 來篩選或排序我們想要的資料。</p>
