@@ -99,29 +99,27 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/abp-io-tutorials-from-scratch-part-2-application-remote-layer">ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 2 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - &#x61C9;&#x7528;&#x5C64;&#x8207;&#x9060;&#x7AEF;&#x670D;&#x52D9;&#x5C64;</a></h2>
+  <p class="post-meta">Published on Friday, June 16, 2023</p>
+<p>今天要來處理剩下的應用層與遠端服務層，這兩個層級概念跟我們常用的 MVC 的模式有點類似，背後需要建立 Controller 與
+ViewModel 來處理 CRUD 的操作，不過在 DDD 戰術設計中建立了兩個概念分別為 <code>Application Services</code> 與 <code>Data Transfer Objects (DTOs)</code>。</p>    <p class="small"><a href="/posts/abp-io-tutorials-from-scratch-part-2-application-remote-layer">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/abp-io-tutorials-from-scratch-part-1-domain-infrastructure-layer">ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 1 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - &#x9818;&#x57DF;&#x5C64;&#x8207;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64;</a></h2>
+  <p class="post-meta">Published on Wednesday, June 14, 2023</p>
+<p>ABP 作為一套開箱即用的框架只需要一個指令就能建立出 SAAS 後台系統，如果你照著 ABP 的遊戲規則來開發那真的是又快又方便，
+不過一但你想要調整 ABP 提供的模組時就會出現很大的問題，變成你需要同時精通 Dotnet 與 ABP 才有能力去作微調，
+接下來這個系列會來逐步分解 ABP 背後的設計與各項模組背後的原理，推薦有做完 ABP 官方 1 ~ 10 回的教學後有了基礎概念後才繼續觀看。</p>    <p class="small"><a href="/posts/abp-io-tutorials-from-scratch-part-1-domain-infrastructure-layer">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
   <p class="post-meta">Published on Saturday, June 10, 2023</p>
 <p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
 但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-usersecrets-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; UserSecrets &#x8B80;&#x53D6;&#x4FDD;&#x8B77;&#x7684;&#x8A2D;&#x5B9A;&#x503C;</a></h2>
-  <p class="post-meta">Published on Friday, June 9, 2023</p>
-<p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
-可能被外漏出去會造成很大的問題，因此 Dotnet 提供了 <code>Microsoft.Extensions.Configuration.UserSecrets</code>
-這個 Package 給我們使用。</p>    <p class="small"><a href="/posts/dotnet-usersecrets-with-configuration">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-ioptions">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on Thursday, June 8, 2023</p>
-<p>在上一篇文章中我們學到了該怎麼使用 Configuration 相關的 Package，程式將透過 DI 容器取得 <code>ConfigurationRoot</code> 可以方便
-讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
-因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
-但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
 </div>
 
   <div>
@@ -139,7 +137,7 @@
           <div>
             <h3>Tags</h3>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (22)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (24)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
               <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>

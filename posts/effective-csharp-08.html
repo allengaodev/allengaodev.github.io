@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50; (Use the Null Conditional Operator for Event Invocations)">
+
+  <title>Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-08'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-08' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-08'>Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</a>
+              <span class="subheading">Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50; (Use the Null Conditional Operator for Event Invocations)</span>
+          </h1>
+            <div class="meta">Published on Sunday, September 29, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>本做法介紹了 <code>?</code> 運算子的使用方式，與錯誤的使用 event 可能會造成 <code>NullReferenceException</code>。
+首先同樣也複習一下 event 的使用方式，典型的事件用法是在類別或物件發生變動時，告知其他類別或物件或者執行方法，
+通常會有一個發佈者(publisher)與接收者(subscriber)。</p>
+<p>從原始碼可以知道事件其實也是一種特殊的委派因此我們可以自己手動寫一個事件委派。</p>
+<pre><code class="language-text">public delegate void SampleEventHandler(object sender, SampleEventArgs e);
+
+public class SampleEventArgs
+{
+	public SampleEventArgs(string text) { Text = text; }
+	public string Text { get; } // readonly
+}
+</code></pre>
+<p>同樣.NET 也有提供內建的事件委派給叫做 <code>EventHandler</code> 給我們使用，通常使用內建的就夠了，基本上不需要自己宣告事件委派，</p>
+<pre><code class="language-text">public delegate void EventHandler(object? sender, EventArgs e);
+</code></pre>
+<p>與一般委派不同，我們需要使用 event 關鍵字宣告事件 ThresholdReached，並且根據官方文檔建議建立一個 <code>On</code> 開頭的事件名稱，
+這裡叫做 OnThresholdReached，最後使用 Invoke 方法呼叫他的訂閱者。</p>
+<pre><code class="language-text">public class Counter
+{
+	public event EventHandler ThresholdReached;
+
+	public virtual void OnThresholdReached(EventArgs e)
+	{
+		ThresholdReached?.Invoke(this, e);
+	}
+}
+</code></pre>
+<p>接下來建立一個事件處理方法 <code>c_ThresholdReached</code> 並把它加入到 <code>ThresholdReached</code> 事件裡面，讓我們寫得這個方法變成一個訂閱者。
+最後呼叫 <code>OnThresholdReached</code> 方法，模擬事件觸發可以看到視窗輸出提示訊息。</p>
+<pre><code class="language-text">void Main()
+{
+	var c = new MyCounter();
+	c.ThresholdReached += c_ThresholdReached;
+	
+	c.OnThresholdReached(new ThresholdReachedEventArgs());
+}
+
+static void c_ThresholdReached(object sender, EventArgs e)
+{
+	Console.WriteLine(&quot;The threshold was reached.&quot;);
+}
+
+public class MyCounter : Counter
+{
+	public override void OnThresholdReached(EventArgs e)
+	{
+		base.OnThresholdReached(e);
+	}
+}
+</code></pre>
+<p>接下來要了解 <code>?</code> 運算子的用法，從這個結構可以得知我們有可能沒有加入任何訂閱者，那就有可能造成 <code>NullReferenceException</code>，因此需要
+事先檢查 <code>ThresholdReached</code> 是否為空，可以直接將 <code>?</code> 拿掉即可看到錯誤產生。</p>
+<pre><code class="language-text">public class Counter
+{
+	public event EventHandler ThresholdReached;
+
+	public virtual void OnThresholdReached(EventArgs e)
+	{
+		ThresholdReached?.Invoke(this, e);
+	}
+}
+</code></pre>
+<p>在 <code>?</code> 運算子還沒有出現前是使用傳統的 null 檢查來避免報錯。</p>
+<pre><code class="language-text">public class Counter
+{
+	public event EventHandler ThresholdReached;
+
+	public virtual void OnThresholdReached(EventArgs e)
+	{
+		if(ThresholdReached != null)
+		{
+			ThresholdReached(this, e);
+		}
+	}
+}
+</code></pre>
+<p>但是上面的寫法並不是線程安全的，因此產生出下面這個特殊寫法，也就是先將目前的 EventHandler 複製到區域變數之中，
+這個用意是複製所當初有訂閱的 EventHandler 的參考，這樣即使 ThresholdReached 在某一個線程突然被修改為空也沒關係。</p>
+<pre><code class="language-text">public class Counter
+{
+	public event EventHandler ThresholdReached;
+
+	public virtual void OnThresholdReached(EventArgs e)
+	{
+		var handler = ThresholdReached;
+		if(handler != null)
+		{
+			handler(this, e);
+		}
+	}
+}
+</code></pre>
+<p>但是上面這個已經是過時的寫法了，現在是建議使用一開始的寫法，不僅可以檢查空值也能確保線程安全。</p>
+<pre><code class="language-text">public class Counter
+{
+	public event EventHandler ThresholdReached;
+
+	public virtual void OnThresholdReached(EventArgs e)
+	{
+		ThresholdReached?.Invoke(this, e);
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法複習了 <code>EventHandler</code> 這個委派的用法還有 <code>event</code> 關鍵字，還有主要的內容 <code>?</code> 運算子，現在建議最佳的做法
+就是使用事件一定要使用 <code>?.Invoke</code> 這種寫法才安全也比較好懂，使用複製區域變數的方式雖然也可以但是需要有經驗的程式設計師
+才會了解其用意，一般的的程式設計師看到可能會誤解他的用法或者是移除。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-08'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
