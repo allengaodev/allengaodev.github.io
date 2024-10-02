@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing (Minimize Boxing and Unboxing)">
+
+  <title>Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-09'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-09' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-09'>Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing</a>
+              <span class="subheading">Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing (Minimize Boxing and Unboxing)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, October 2, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在討論 boxing 與 unboxing 的運作方式與背後理論。
+首先要先複習 <code>Value Type</code> 和 <code>Reference Type</code> 兩者關鍵的區別，<code>Value Type</code> 的複製是 Copy-by-value，<code>Reference Type</code> 的複製是 Copy-by-reference。</p>
+<p>建立 <code>Reference Type</code> 時會有以下行為會影響效能:</p>
+<ol>
+<li>由 Managed Heap 管理及分配記憶體。</li>
+<li>每個 Heap 上分配的物件會有幾個額外的 members 需要初始化。</li>
+<li>物件內含的 fields 會初始化為 0。</li>
+<li>Managed Heap 為物件分配記憶體時可能會強制執行 GC。</li>
+</ol>
+<p>試想如果 .NET 中所有物件都是 <code>Reference Type</code> 那麼每次使用例如 <code>int</code> 背後都要進行一次內存分配那效能會有多差。</p>
+<p>因此提供了 <code>Value Type</code> 這個更輕量級的類型，<code>Value Type</code> 是由 Thread Stack 管理及分配記憶體，並且特色是
+一個 <code>Value Type</code> 的變數儲存的是實際的值而並不是記憶體位置，因此讀取這類型的變數不需要 dereference，並且
+不受 GC 管控，所以可以大大降低 Managed Heap 的壓力與 GC 的次數。</p>
+<h2 id="boxing">Boxing</h2>
+<p>但並不是所有方法都有多載的版本能夠接受 <code>Value Type</code>，例如 string.Concat 這個把字串相連在一起的方法就是其中一個例子。</p>
+<p>以這段程式為例子 string.Concat 一般來說傳入的參數為 string 類型，很明顯我們的 int 類型它是不會接受的。</p>
+<pre><code class="language-text">void Main()
+{
+	int year = 2024;
+	Console.WriteLine(string.Concat(year));
+}
+</code></pre>
+<p>所以這裡我們有兩個選擇:</p>
+<ol>
+<li>將呼叫 ToString 方法將 year 轉換成 string 類型。</li>
+<li>將 year 轉換成 object 類型，使用 object 多載的版本。</li>
+</ol>
+<p>而將 <code>Value Type</code> 轉換成 object 類型的操作就叫做 <code>boxing</code>，從 object 轉回當初的類型就叫做 <code>unboxing</code>。</p>
+<p>可以從 IL 碼中看出 <code>IL_0008</code> 就是一個 <code>boxing</code> 的操作。</p>
+<pre><code class="language-text">IL_0000	nop	
+IL_0001	ldc.i4	E8 07 00 00  // 2024
+IL_0006	stloc.0	   // year
+IL_0007	ldloc.0	   // year
+IL_0008	box	Int32
+IL_000D	call	String.Concat(Object)
+IL_0012	call	Console.WriteLine(String)
+IL_0017	nop	
+IL_0018	ret	
+</code></pre>
+<p>當一個 <code>Value Type</code> 裝箱成 object 類型就正式變成一個 <code>Reference Type</code>，
+從上面整理的影響效能的清單中可以得出 <code>boxing</code> 就是一個影響效能的操作。</p>
+<p>從 IL 碼中可以得知 <code>Stack</code> 目前有分配 int32 也就是 4 個 Byte 的記憶體來記錄 year 變數，
+接下來 <code>boxing</code> 會在 <code>Heap</code> 中建立一個新的箱子並把 year 變數資料複製到這個箱子裡面，之後把這個箱子的參考位址記錄到 <code>Stack</code> 裡面。
+也同樣得出 <code>boxing</code> 是一個影響效能的操作。</p>
+<h2 id="unboxing">Unboxing</h2>
+<p>接下來看 <code>unboxing</code> 也就是把 object 轉回原本的類型，有一個需要注意的特性那就是不可以轉型到其他類型，不是原本的型別會報 <code>InvalidCastException</code> 錯誤。</p>
+<pre><code class="language-text">void Main()
+{
+	object year = (object)2024;
+	long nextYear = (long)year + 1;
+}
+</code></pre>
+<p><code>unboxing</code> 會將原本 <code>Heap</code> 中的資料複製回 <code>Stack</code>，所以可以想像出一次裝箱拆箱會占用許多不必要使用的記憶體。</p>
+<pre><code class="language-text">void Main()
+{
+	object year = (object)2024;
+	int nextYear = (int)year + 1;
+}
+</code></pre>
+<p>從 IL 碼中的 IL_000D 可以看到 unbox 的操作。</p>
+<pre><code class="language-text">IL_0000	nop	
+IL_0001	ldc.i4	E8 07 00 00  // 2024
+IL_0006	box	Int32
+IL_000B	stloc.0	   // year
+IL_000C	ldloc.0	   // year
+IL_000D	unbox.any	Int32
+IL_0012	ldc.i4.1	
+IL_0013	add	
+IL_0014	stloc.1	   // nextYear
+IL_0015	ret	
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>從這個做法中可以學到 <code>Value Type</code> 和 <code>Reference Type</code> 的區別還有 <code>boxing</code> 與 <code>unboxing</code> 處理的流程與它的缺點，
+其中最不容易發現的就是隱含轉型的裝箱，也就是上面 <code>string.Concat</code> 的例子，這種背後自動轉型的很容易沒注意到就會影響到效能，
+所以當不確定是否寫法中有 <code>boxing</code> 與 <code>unboxing</code> 的行為時，最好是搭配反編譯軟體查看 IL 碼才是最準確的。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-09'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
