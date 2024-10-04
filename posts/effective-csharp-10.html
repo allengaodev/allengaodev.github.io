@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E; (Use the new Modifier Only to React to Base Class Updates)">
+
+  <title>Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-10'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-10' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-10'>Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;</a>
+              <span class="subheading">Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E; (Use the new Modifier Only to React to Base Class Updates)</span>
+          </h1>
+            <div class="meta">Published on Thursday, October 3, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在討論在衍生類別使用 new 和 override 對基底類別的影響，內容基本上與 LSP 原則重疊。</p>
+<p>首先建立一組測試範例:</p>
+<pre><code class="language-text">void Main()
+{
+	BaseClass bc = new BaseClass();
+	DerivedClass dc = new DerivedClass();
+	BaseClass bcdc = new DerivedClass();
+
+	bc.Method1();
+	bc.Method2();
+	dc.Method1();
+	dc.Method2();
+	bcdc.Method1();
+	bcdc.Method2();
+}
+
+class BaseClass
+{
+	public virtual void Method1()
+	{
+		Console.WriteLine(&quot;Base - Method1&quot;);
+	}
+
+	public void Method2()
+	{
+		Console.WriteLine(&quot;Base - Method2&quot;);
+	}
+}
+
+class DerivedClass : BaseClass
+{
+	public override void Method1()
+	{
+		Console.WriteLine(&quot;Derived - Method1&quot;);
+	}
+	
+	public new void Method2()
+	{
+		Console.WriteLine(&quot;Derived - Method2&quot;);
+	}
+}
+</code></pre>
+<p>從輸出的結果來看 <code>bc</code> 與 <code>dc</code> 的執行結果比較沒有爭議，符合預計的結果。</p>
+<pre><code class="language-text">Base - Method1
+Base - Method2
+Derived - Method1
+Derived - Method2
+Derived - Method1
+Base - Method2
+</code></pre>
+<p>需要討論的是 <code>bcdc</code> 執行的結果，可以看出 <code>dc</code> 與 <code>bcdc</code> 同樣都是 <code>new DerivedClass()</code>，而且同樣都是呼叫 Method1 與 Method2
+唯一的區別是 <code>bcdc</code> 使用的是基底的類型，這個細微的差別就很容易混淆開發者，並且也違反 LSP 原則，也就是 「子型態(subtype)必須能夠替換掉它們的基底型態(base type)」。</p>
+<p>但這也不代表要將所有基底類別的方法或屬性都設定為 <code>virtual</code>，這個設計叫做「預設虛擬」，此設計會帶給開發者明白自己可以修改衍生類別的方法的行為，
+這種全部都預設虛擬的設計也可能讓別人認為你沒有思考衍生類型方法被修改後的結果，所以正確的做法是詳細考慮後只將需要多型的方法與屬性設定為虛擬。</p>
+<p>另外作者建議只有一種情況才建議使用 <code>new</code>，也就是衍生類型實做了一個方法然後在未來基底類型也實做了相同名稱的方法時。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p><code>new</code> 修飾詞需要小心使用，如果隨便使用它，會導致基底類型與衍生類型的方法產生不一致的行為。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-10'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
