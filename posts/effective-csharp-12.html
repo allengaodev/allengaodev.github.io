@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0; (Prefer Member Initializers to Assignment Statements)">
+
+  <title>Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-12'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-12' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-12'>Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0;</a>
+              <span class="subheading">Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0; (Prefer Member Initializers to Assignment Statements)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, October 8, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法介紹了成員初始化的另一種做法，一般來說都是常用建構函式來初始化成員，不過一個類別通常會有超過一個建構函式，
+在這種情況下時間一長就很容易造成每個建構函式有細微的區別產生不同步的情況。</p>
+<p>要避免這種情況最好是直接在聲明的時候就直接初始化(Initializers)，不要等建構函式運行在去賦值。</p>
+<pre><code class="language-text">public class MyClass
+{
+	private List&lt;string&gt; labels = new List&lt;string&gt;();
+}
+</code></pre>
+<p>使用這種寫法不管以後新增多少成員都可以正確初始化，就不用到每個建構函式額外新增初始化的程式。
+但需要注意成員 <code>Initializers</code> 的執行順序是比 <code>Constructors</code> 還優先的。</p>
+<p>有三種情況不應該使用 <code>Initializers</code> 來初始化成員:</p>
+<ol>
+<li>要將成員初始化成 0 或 null 時。</li>
+<li>已經在建構函式初始化過的成員。</li>
+<li>搭配 try/catch 初始化成員。</li>
+</ol>
+<p>在初始化時不用特別使用 <code>Initializers</code></p>
+<pre><code class="language-text">MyValType myVal1;
+MyValType myVal2 = new MyValType();
+    
+public struct MyValType
+{
+	public int MyProperty { get; set; }	
+    public string MyProperty1 { get; set; }
+}
+
+</code></pre>
+<p>在編譯過後的程式碼會長的像下面這樣，<code>debug</code> 模式會編譯使用 default 來進行歸零，不過這個步驟在更底層也會自動處理歸零，
+所以在 <code>release</code> 模式會把這段程式碼優化掉。</p>
+<pre><code class="language-text">// debug
+private MyValType myVal1;
+private MyValType myVal2 = default(MyValType);
+
+// release
+private MyValType myVal1;
+private MyValType myVal2;
+</code></pre>
+<p>在建構函式初始化過成員的例子來說
+<code>msg</code> 會先被初始化為 <code>Set by initializer</code> 之後在執行 <code>Constructors</code> 把 <code>msg</code> 換成 <code>Constructed in main</code>。</p>
+<pre><code class="language-text">void Main()
+{
+	var d = new B();
+}
+
+class B
+{
+	private readonly string msg = &quot;Set by initializer&quot;; // 1
+	public B()
+	{
+		msg = &quot;Set by constructor&quot;; // 2
+	}
+}
+</code></pre>
+<p>編譯後的 C# 大概會像下面這個形式，所以就結果來說在 B 的 <code>Constructors</code> 中 <code>msg</code> 被初始化了兩次，這樣導致第一個 <code>Set by initializer</code>
+還沒有做事情就馬上被當成垃圾準備等 GC 進行回收，也可以看出 <code>Initializers</code> 是比 <code>base..ctor()</code> 還優先執行的這個特性。</p>
+<pre><code class="language-text">B..ctor
+    msg = &quot;Set by initializer&quot;;
+    base..ctor();
+    msg = &quot;Set by constructor&quot;;
+</code></pre>
+<p>最後是搭配 try/catch 初始化成員，如果你初始化需要檢查例外錯誤就只能在建構函式中處理，<code>Initializers</code> 只能做基礎的初始化。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>在這個做法中建議是盡量使用 <code>Initializers</code>，不僅寫起來比較直觀，特別是在有多個建構函式的情況底下也很方便閱讀跟維護。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-12'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

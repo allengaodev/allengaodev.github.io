@@ -97,6 +97,21 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-02">Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const</a></h2>
+  <p class="post-meta">Published on Sunday, September 22, 2024</p>
+<p>C# 有兩種常數的寫法：</p>    <p class="small"><a href="/posts/effective-csharp-02">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-01">Effective C# 01.&#x504F;&#x597D;&#x96B1;&#x542B;&#x578B;&#x5225;&#x7684;&#x5340;&#x57DF;&#x8B8A;&#x6578;</a></h2>
+  <p class="post-meta">Published on Saturday, September 21, 2024</p>
+<p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
+當編譯器看到 <code>var</code> 關鍵字時會參考 <code>=</code> 右側的運算式，背後宣告這個區域變數的型別，可以省掉我們自行判斷宣告型別的流程。</p>    <p class="small"><a href="/posts/effective-csharp-01">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-server-identity">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server With ASP.NET Core Identity</a></h2>
   <p class="post-meta">Published on Tuesday, May 9, 2023</p>
 <p>到目前為止 Identity Server 基礎部份都學習過了最後只剩下會員的添加與管理方式，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
@@ -158,21 +173,6 @@
 微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>    <p class="small"><a href="/posts/dotnet-identity-external-provider-google">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
-  <p class="post-meta">Published on Thursday, April 20, 2023</p>
-<p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
-  <p class="post-meta">Published on Monday, April 17, 2023</p>
-<p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
-現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/tags/csharp" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -185,7 +185,7 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (26)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (28)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
