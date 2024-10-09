@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 13.&#x5C0D;&#x975C;&#x614B;&#x985E;&#x5225;&#x6210;&#x54E1;&#x9032;&#x884C;&#x9069;&#x7576;&#x7684;&#x521D;&#x59CB;&#x5316; (Use Proper Initialization for Static Class Members)">
+
+  <title>Effective C# 13.&#x5C0D;&#x975C;&#x614B;&#x985E;&#x5225;&#x6210;&#x54E1;&#x9032;&#x884C;&#x9069;&#x7576;&#x7684;&#x521D;&#x59CB;&#x5316;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-13'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 13.&#x5C0D;&#x975C;&#x614B;&#x985E;&#x5225;&#x6210;&#x54E1;&#x9032;&#x884C;&#x9069;&#x7576;&#x7684;&#x521D;&#x59CB;&#x5316;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-13' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-13'>Effective C# 13.&#x5C0D;&#x975C;&#x614B;&#x985E;&#x5225;&#x6210;&#x54E1;&#x9032;&#x884C;&#x9069;&#x7576;&#x7684;&#x521D;&#x59CB;&#x5316;</a>
+              <span class="subheading">Effective C# 13.&#x5C0D;&#x975C;&#x614B;&#x985E;&#x5225;&#x6210;&#x54E1;&#x9032;&#x884C;&#x9069;&#x7576;&#x7684;&#x521D;&#x59CB;&#x5316; (Use Proper Initialization for Static Class Members)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, October 9, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在討論靜態成員與靜態建構函式該如何初始化。</p>
+<p>首先一個靜態成員是屬於類型而不是屬於某個特定物件(object)(instance)，
+也就是說只要被宣告為靜態就不能實例化，一般的類型成員實例化後是各自獨立不會互相影響，反而靜態的成員是所有實例都共享這個成員，
+因此說一個靜態成員是屬於類型，而不是屬於 instance 自己的。</p>
+<p>在下面這個例子中建立了一個靜態屬性 <code>MyStaticProp</code> 與一個屬性 <code>MyProp</code>，我們在 <code>c1</code> 實例中兩個屬性都設定成 <code>2</code>，接著
+讀取它們的內容，會發現 <code>MyStaticProp</code> 屬性讀取出來都是一樣的並且可以不用實例化就直接讀取它的值，從這個特性也可以得知
+靜態成員是屬於類型的，<code>MyProp</code> 讀取後只有 <code>c1</code> 有修改可以得知一般成員是屬於 <code>instance</code> 自己的。</p>
+<pre><code class="language-text">void Main()
+{
+	var c1 = new MyClass();
+	c1.SetProperty(2);
+	Console.WriteLine(c1.GetStaticProperty());
+	Console.WriteLine(c1.GetProperty());
+	var c2 = new MyClass();
+	Console.WriteLine(c2.GetStaticProperty());
+	Console.WriteLine(c2.GetProperty());
+	Console.WriteLine(MyClass.MyStaticProp);
+	// Console.WriteLine(MyClass.MyProp);
+}
+
+public class MyClass
+{
+	public int MyProp { get; set; }
+	public static int MyStaticProp { get; set; }
+
+	public int GetStaticProperty() =&gt; MyStaticProp;
+
+	public int GetProperty() =&gt; MyProp;
+
+	public void SetProperty(int i)
+	{
+		MyProp = i;
+		MyStaticProp = i;
+	}
+}
+</code></pre>
+<p>從上面提到的特性可以知道一般的建構函式是沒辦法初始化靜態成員的，因為一般的建構函式是只有在創建 instance 才會呼叫。</p>
+<pre><code class="language-text">void Main()
+{
+	Console.WriteLine(MyClass.MyStaticProp);
+}
+
+public class MyClass
+{
+	public static int MyStaticProp { get; set; }
+	
+	public MyClass()
+	{
+		MyStaticProp = 1;
+	}
+}
+</code></pre>
+<p>所以要初始化靜態成員需要使用靜態建構函式或使用做法 12 提到的 <code>Initializers</code>，同樣也要注意執行的順序以下範例也同樣
+<code>Initializers</code> 會先執行之後才是靜態建構函式所以結果會輸出 1。</p>
+<pre><code class="language-text">void Main()
+{
+	Console.WriteLine(MyClass.MyStaticProp);
+}
+
+public class MyClass
+{
+	public static int MyStaticProp { get; set; } = 2;
+
+	static MyClass()
+	{
+		MyStaticProp = 1;
+	}
+}
+</code></pre>
+<p>通常靜態建構函式是最優先執行的，但是在下面這個例子因為是在靜態欄位就直接呼叫實例化因此私有的建構函式才會先執行。</p>
+<pre><code class="language-text">public class Singleton
+{
+	// Static field initializer calls instance constructor.
+	private static Singleton instance = new Singleton();
+
+	private Singleton()
+	{
+		Console.WriteLine(&quot;Executes before static constructor.&quot;);
+	}
+
+	static Singleton()
+	{
+		Console.WriteLine(&quot;Executes after instance constructor.&quot;);
+	}
+
+	public static Singleton Instance =&gt; instance;
+}
+</code></pre>
+<p>靜態建構函式最常見的用途是 Singleton 模式，以下寫法就能建立單例模式。</p>
+<pre><code class="language-text">public sealed class Singleton
+{
+    private static readonly Singleton instance = new Singleton();
+
+    static Singleton() {}
+
+    private Singleton() {}
+
+    public static Singleton Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法重新討論的靜態成員的特性還有靜態建構函式的用法，基本上建立單例模式一定會用到靜態這個概念，</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-13'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
