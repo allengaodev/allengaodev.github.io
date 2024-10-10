@@ -12,7 +12,7 @@
   <title>Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</title>
 
 
-  <link rel="canonical" href='https://blog.allengaodev.com/page/24'>
+  <link rel="canonical" href='https://blog.allengaodev.com/page/31'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -23,7 +23,7 @@
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
   <meta property="og:title" content='Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://blog.allengaodev.com/page/24' />
+  <meta property="og:url" content='https://blog.allengaodev.com/page/31' />
 
   <link rel="icon" href='/favicon.svg'>
 
@@ -77,8 +77,8 @@
       <div class="col-md-12">
         <div class='site-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/page/24'>&#x958B;&#x767C;&#x7A7A;&#x9593;</a>
-              <small>(Page 24)</small>
+            <a style="color:white" href='https://blog.allengaodev.com/page/31'>&#x958B;&#x767C;&#x7A7A;&#x9593;</a>
+              <small>(Page 31)</small>
               <span class="subheading">&#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</span>
           </h1>
         </div>
@@ -99,40 +99,16 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-tmpfs">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Tmpfs Mounts</a></h2>
-  <p class="post-meta">Published on Tuesday, February 28, 2023</p>
-<p>目前我們已經瞭解了兩種資料儲存方式 <code>Volume</code> 和 <code>Bind mount</code>， Docker其實還有提供第三種儲特殊的存資料方法，那就是 <code>Tmpfs mount</code><br>
-Tmpfs mount` 跟其它兩種寫入方式最大的不同就是它是直接寫入到 Host 的記憶體內，只要 container 一停止運行， 用此方式掛載的資料路徑會直接被清除掉<br>
-因為只會寫入到 Host 記憶體內所以很適合用臨時保存一次性生成的密鑰或一些敏感資料
-<img src="https://docs.docker.com/storage/images/types-of-mounts-tmpfs.png" class="img-fluid" alt="mounts-tmpfs"></p>    <p class="small"><a href="/posts/dca-tmpfs">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-volume-cli">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME CLI and Bind Mounts</a></h2>
-  <p class="post-meta">Published on Monday, February 27, 2023</p>
-<p>在上一篇的文章中: <a href="https://blog.allengaodev.com/posts/dca-volume" target="_blank">Docker Certified Associate(DCA)認證考試學習- VOLUME</a><br>
-我們學到了該怎麼在 Docker 中建立並且使用一個 volume ，今天要來學習另一種創建 volume 的方式<br>
-Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關功能</p>    <p class="small"><a href="/posts/dca-volume-cli">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-volume">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME</a></h2>
-  <p class="post-meta">Published on Sunday, February 26, 2023</p>
-<p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-containerlayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker可讀寫層</a><br>
-我們知道 Docker 在建立 container 的時候會在 image layer 上再多加一層可讀寫層<br>
-但是有一個問題是此如果將 container 刪除，那麼在我們剛剛在可讀寫層所作的變更會一起被刪除掉<br>
-所以像是讀寫資料庫這種需求，如果資料沒辦法持久保存那顯然是會造成很大的問題<br>
-這時最簡易的作法可以在 Dockerfile 之內使用 VOLUME 指令</p>    <p class="small"><a href="/posts/dca-volume">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/statiq-githubpage">&#x4F7F;&#x7528; Statiq &#x5728;Github Page &#x90E8;&#x5C6C;&#x975C;&#x614B;&#x90E8;&#x843D;&#x683C;&#x7DB2;&#x7AD9; 1 &#x5EFA;&#x7ACB;&#x5C08;&#x6848;</a></h2>
+  <p class="post-meta">Published on Tuesday, February 7, 2023</p>
+<p><a href="https://www.statiq.dev/" target="_blank">Statiq</a> 是一個主打靜態生成的平台，</p>    <p class="small"><a href="/posts/statiq-githubpage">Read more...</a></p>
 </div>
 
   <div>
     <div class="float-sm-start">
-        <a class="btn btn-primary" href="/page/23" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
+        <a class="btn btn-primary" href="/page/30" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
     </div>
     <div class="float-sm-end">
-        <a class="btn btn-primary" href="/page/25" role="button">Older <i class="fas fa-angle-double-right"></i></a>
     </div>
     <div class="clearfix"></div>
   </div>
