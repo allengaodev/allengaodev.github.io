@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F; (Minimize Duplicate Initialization Logic)">
+
+  <title>Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-14'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-14' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-14'>Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;</a>
+              <span class="subheading">Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F; (Minimize Duplicate Initialization Logic)</span>
+          </h1>
+            <div class="meta">Published on Thursday, October 10, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在做法 12 提到多個建構函式很容易造成每個建構函式有細微的區別，因此使用 <code>Member Initializers</code> 在宣告時直接賦值以解決這個問題。</p>
+<p>這個做法提到了另一種實做多個建構函式的方法，下面這個例子中就是比較不好的做法，因為每個建構函式都有相似的邏輯，並且有新增成員的話
+就需要每個建構函式一一補上初始化邏輯。</p>
+<pre><code class="language-text">public class MyClass
+{
+	public List&lt;int&gt; coll { get; set; }
+	public string name { get; set; }
+	public MyClass()
+	{
+		coll = new List&lt;int&gt;();
+		this.name = default;
+	}
+	public MyClass(int initialCount)
+	{
+		coll = (initialCount &gt; 0) ? new List&lt;int&gt;(initialCount) : new List&lt;int&gt;();
+		this.name = default;
+	}
+	public MyClass(int initialCount, string name)
+	{
+		coll = (initialCount &gt; 0) ? new List&lt;int&gt;(initialCount) : new List&lt;int&gt;();
+		this.name = name;
+	}
+}
+</code></pre>
+<p>下面第二種做法是把共用的初始化邏輯搬到私有方法裡面，但缺點就是成員是 <code>readonly</code> 這種只能在建構函式初始化的成員沒辦法在私有方法初始化。</p>
+<pre><code class="language-text">public class MyClass
+{
+	private List&lt;int&gt; coll;
+	private string name;
+	public MyClass()
+	{
+		CommonConstructor(0, &quot;&quot;);
+	}
+	public MyClass(int initialCount)
+	{
+		CommonConstructor(initialCount, &quot;&quot;);
+	}
+	public MyClass(int initialCount, string name)
+	{
+		CommonConstructor(initialCount, name);
+	}
+	private void CommonConstructor(int initialCount, string name)
+	{
+		coll = (initialCount &gt; 0) ? new List&lt;int&gt;(initialCount) : new List&lt;int&gt;();
+		this.name = name;
+	}
+}
+</code></pre>
+<p>上面提到的兩種方法都不太適合，現在可以使用 <code>Constructor initializers</code> 也就是使用 <code>this</code>接在建構函式後面，
+這樣就能共用一個最底層的建構函式，也不會有上個例子提到無法初始化的問題。</p>
+<pre><code class="language-text">public class MyClass
+{
+	private List&lt;int&gt; coll;
+	private string name;
+	public MyClass() : this(0, &quot;&quot;)
+	{
+	}
+	public MyClass(int initialCount) : this(initialCount, string.Empty)
+	{
+	}
+	public MyClass(int initialCount, string name)
+	{
+		coll = (initialCount &gt; 0) ? new List&lt;int&gt;(initialCount) : new List&lt;int&gt;();
+		this.name = name;
+	}
+}
+</code></pre>
+<p>也可以使用預設值的語法能夠在少寫一個建構函式</p>
+<pre><code class="language-text">public class MyClass
+{
+	private List&lt;int&gt; coll;
+	private string name;
+	public MyClass() : this(0, string.Empty)
+	{
+	}
+	public MyClass(int initialCount = 0, string name = &quot;&quot;)
+	{
+		var coll = (initialCount &gt; 0) ? new List&lt;int&gt;(initialCount) : new List&lt;int&gt;();
+		this.name = name;
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>在這個做法中建議是使用 this 來減少建構函式的數量，也盡量減少初始化程式碼的數量，也可以使用做法 12 提到的
+<code>Member Initializers</code> 也能進一步減少數量。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-14'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
