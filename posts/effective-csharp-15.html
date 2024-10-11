@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6; (Avoid Creating Unnecessary Objects)">
+
+  <title>Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-15'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-15' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-15'>Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6;</a>
+              <span class="subheading">Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6; (Avoid Creating Unnecessary Objects)</span>
+          </h1>
+            <div class="meta">Published on Friday, October 11, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法提出了建立過多物件會影響效率的概念，雖然我們的系統有 GC 能夠高效的管理記憶體中的物件，
+但清除的效率在快還不如不創建無意義的物件，從根本上解決過度使用 GC 的導致的效率問題。</p>
+<p>在做法 11 中有提到 GC 的基礎觀念，GC 就是在管理 Heap 記憶體空間，所以要減少 GC 執行的次數，等同於要盡量減少
+在 Heap 中分配記憶體的相關操作，也就是所有的參考型別都包含在內。</p>
+<p>以下面這段程式碼為例，假設 OnPaint 經常被呼叫的話，相同的 Font 物件就會不斷被創建並且結束後呼叫 <code>Dispose</code> 方法釋放掉記憶體。</p>
+<pre><code class="language-text">public class Draw
+{
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        using (Font MyFont = new Font(&quot;Arial&quot;, 10.0f))
+        {
+            e.Graphics.DrawString(DateTime.Now.ToString(),
+                MyFont, Brushes.Black, new PointF(0, 0));
+        }
+        base.OnPaint(e);
+    }
+}
+</code></pre>
+<p>所以有一個技巧是把 Font 物件從區域變數改成成員變數，這樣就只需要初始化一次就能重複使用 Font 物件了，不過這種做法會導致 Font 物件
+不會即時釋放掉，所以要把這個類別也實做 IDisposable 才能正確釋放掉。</p>
+<pre><code class="language-text">public class Draw : IDisposable
+{
+	private readonly Font myFont = new Font(&quot;Arial&quot;, 10.0f);
+	protected override void OnPaint(PaintEventArgs e)
+	{
+		e.Graphics.DrawString(DateTime.Now.ToString(),
+			myFont, Brushes.Black, new PointF(0, 0));
+		base.OnPaint(e);
+	}
+	public void Dispose()
+	{
+		myFont.Dispose();
+		...
+	}
+}
+</code></pre>
+<p>上面的做法只適用於非常常用的物件才建議這麼處理，並不代表要把所有區域變數改成成員變數，一般的物件還是使用第一種 <code>using</code> 方法直接釋放掉就好。</p>
+<p>第二個技巧是將物件改成靜態，靜態成員在前幾個做法有提到，我們可以透過它只會共用的特性來避免建立過多重複的物件，例如剛剛的程式碼裡面有個
+<code>Brushes.Black</code> 取得筆刷的屬性就是個靜態的屬性。</p>
+<pre><code class="language-text">public static Brush Black =&gt; GetBrush(s_blackKey, Color.Black);
+</code></pre>
+<p>還有一個是 System.String 類別使用上要注意的問題，在下面的寫法中雖然看起來是將資料拼接到同一個變數，但實際上 System.String 類別是
+immutable 代表建構出字串後就不能再次修改了，所以我們下面的寫法實際上是不斷建立新的字串並且取代掉舊的，所以背後建立了多個垃圾變數。</p>
+<pre><code class="language-text">void Main()
+{
+	string msg = &quot;Hello&quot;;
+	msg += &quot;. Today is &quot;;
+	msg += System.DateTime.Now.ToString();
+	Console.WriteLine(msg);
+}
+</code></pre>
+<p>所以需要改用字串插值或者 <code>StringBuilder</code> 來減少背後變數建立的數量。</p>
+<pre><code class="language-text">void Main()
+{
+	string msg = string.Format(&quot;Hello. Today is {0}&quot;, DateTime.Now.ToString());
+	Console.WriteLine(msg);
+}
+
+void Main()
+{
+	StringBuilder msg = new StringBuilder(&quot;Hello, &quot;);
+	msg.Append(&quot;. Today is &quot;);
+	msg.Append(DateTime.Now.ToString());
+	string finalMsg = msg.ToString();
+	Console.WriteLine(msg);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法主要核心是不要建立過多個參考型別變數，因為會導致 GC 運作過於頻繁，並且提出兩種辦法讓變數盡量少創建，不過可能會導致記憶體釋放
+不夠即時，最後是 System.String 是一個不變的類型，所以在修改時背後會建立多個隱藏的變數，使用字串插值或 <code>StringBuilder</code> 可以解決相關問題。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-15'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
