@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 17.&#x5BE6;&#x4F5C;&#x6A19;&#x6E96;&#x7684; Dispose &#x6A21;&#x5F0F; (Implement the Standard Dispose Pattern)">
+
+  <title>Effective C# 17.&#x5BE6;&#x4F5C;&#x6A19;&#x6E96;&#x7684; Dispose &#x6A21;&#x5F0F;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-17'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 17.&#x5BE6;&#x4F5C;&#x6A19;&#x6E96;&#x7684; Dispose &#x6A21;&#x5F0F;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-17' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-17'>Effective C# 17.&#x5BE6;&#x4F5C;&#x6A19;&#x6E96;&#x7684; Dispose &#x6A21;&#x5F0F;</a>
+              <span class="subheading">Effective C# 17.&#x5BE6;&#x4F5C;&#x6A19;&#x6E96;&#x7684; Dispose &#x6A21;&#x5F0F; (Implement the Standard Dispose Pattern)</span>
+          </h1>
+            <div class="meta">Published on Monday, October 14, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在前幾個作法都有提到 IDisposable 的相關概念，這個作法就是在討論如何寫出標準的 Dispose 模式。</p>
+<p>之前也有提到實做 <code>IDisposable</code> 介面時使用者需要自行注意釋放的時機，因此最方便的做法就是搭配 <code>using</code> 這樣內部程式碼結束後會自動呼叫
+<code>Dispose</code> 方法，為了避免使用者忘記釋放掉記憶體或不知道要使用 <code>using</code> 來釋放，我們在實做的時候可以選擇將 <code>finalizer</code> 與 <code>IDisposable</code> 結合起來的寫法
+，這樣即可以手動釋放也可以避免使用者忘記的情況發生。</p>
+<p>以下是實做 <code>IDisposable</code> 介面通常會實做的方法，這個也算是一種常用的設計模式叫做 <code>Dispose Pattern</code></p>
+<pre><code class="language-text">public class DisposableResourceHolder : IDisposable {
+
+    bool _disposed = false;
+    private SafeHandle resource; // handle to a resource
+
+    public DisposableResourceHolder() {
+        this.resource = ... // allocates the resource
+    }
+    
+    // ~DisposableResourceHolder() { 
+    //    Dispose(false); 
+    // } 
+
+    public void Dispose() {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+    	if (_disposed)
+			return;
+        if (disposing) {
+            // 釋放 managed resource
+            if (resource!= null) resource.Dispose();
+        }
+        
+        // 釋放 unmanaged resource
+        _disposed = true;
+    }
+}
+</code></pre>
+<p>你在寫一個新的 class 時首先要考慮要不要在這個 class 實做 <code>IDisposable</code> 介面，以下有兩個建議可以參考:</p>
+<ol>
+<li>當你寫的類型包含有實做 <code>IDisposable</code> 的成員時，請實做 Dispose Pattern。</li>
+<li>當你寫的類型沒有包含實做 <code>IDisposable</code> 的成員和 unmanaged 資源，但衍生的類別會有包含，考慮實做 Dispose Pattern。</li>
+</ol>
+<p>第一點在作法 15 有提到，這種寫法主要在避免重複創建過多的物件。</p>
+<pre><code class="language-text">public class MyResource : IDisposable
+{
+	FileStream fileStream = new FileStream(&#64;&quot;c:\test1.txt&quot;, FileMode.Open);
+
+	public void Dispose()
+	{
+		fileStream.Dispose();
+	}
+}
+</code></pre>
+<p>第二點有一個例子是 <code>Stream</code> 抽象類別就有實做 <code>IDisposable</code> 介面，因為它的衍生類別例如 <code>FileStream</code> 都需要 <code>Dispose</code> 資源因此直接在
+底層的抽象類別實做 <code>IDisposable</code> 介面。</p>
+<p>接下來看一下 <code>Dispose Pattern</code> 裡面為什麼需要這麼多內容，第一個問題是為什麼需要在寫一個 <code>Dispose</code> 多載方法</p>
+<pre><code class="language-text">protected virtual void Dispose(bool disposing) {
+    if (disposing) {
+        // 釋放 managed resource
+        if (resource!= null) resource.Dispose();
+    }
+    
+    // 釋放 unmanaged resource
+}
+</code></pre>
+<p>原因是 <code>finalizer</code> 與 <code>Dispose</code> 方法基本上要做的事情是相同的，一個是加入到 Finalize queue 等待清除一個是呼叫後馬上清除，
+所以它們之間會有許多重複的邏輯，所以建議是把這些清除邏輯都搬到 <code>Dispose</code> 多載方法，這樣 <code>finalizer</code> 與 <code>Dispose</code> 只需要呼叫多載方法就好。</p>
+<p>下一個是 Dispose 方法為什麼要寫成這樣?</p>
+<pre><code class="language-text">public void Dispose() {
+    Dispose(true);
+    GC.SuppressFinalize(this);
+}
+
+~DisposableResourceHolder() { 
+   Dispose(false); 
+} 
+</code></pre>
+<p>呼叫 <code>Dispose</code> 方法代表我們需要即時釋放掉記憶體資源，所以可以確認 <code>Dispose</code> 方法前物件還存活著，<code>finalizer</code> 則是 GC 確認這個物件已經
+不需要時會把它排入到 Finalize queue 等待，一段時間後才會呼叫你寫的 <code>finalizer</code> 方法，注意到這裡提到的一段時間沒有人能確定是多久，因此
+很有可能你想釋放的物件已經釋放掉了。</p>
+<p>所以 <code>Dispose</code> 方法裡面通常都是寫 <code>Dispose(true)</code> 並馬上接著 <code>GC.SuppressFinalize(this)</code>，因為馬上呼叫 <code>Dispose</code> 方法可以確定
+<code>managed resource</code> 與 <code>unmanaged resource</code> 都會執行到釋放邏輯，因此就可以搭配 <code>SuppressFinalize</code> 通知 GC 不要把這個物件加入到
+Finalize queue 裡面了。</p>
+<p>但是如果忘記呼叫 <code>Dispose</code> 方法，也只需要寫 <code>Dispose(false)</code> 就好，因為 <code>managed resource</code> GC 自己會想辦法清除掉也有可能執行 <code>finalizer</code> 前已經清除掉了，
+所以 <code>finalizer</code> 就不需要主動釋放 <code>managed resource</code> 了。</p>
+<p>另外還有幾個補充建議可以讓 <code>Dispose Pattern</code> 更加實用</p>
+<ol>
+<li>不要把無參數的 <code>Dispose</code> 方法宣告成 <code>virtual</code>。</li>
+<li>讓 Dispose(bool) 能夠被重複呼叫而不會導致問題。</li>
+</ol>
+<p>第一點很容易懂，如果宣告成 <code>virtual</code> 那衍生的類別就會 <code>override</code> 基底類別的 <code>Dispose</code> 方法，可能會導致基底類別無法釋放。
+第二點只需要加上一個 <code>flag</code> 就可以達成想要的效果，以下寫法新增了一個 <code>_disposed</code> 欄位，這樣就能確保釋放邏輯只會跑一次。</p>
+<pre><code class="language-text">public class DisposableResourceHolder :IDisposable
+{
+	bool _disposed = false;
+	protected virtual void Dispose(bool disposing)
+	{
+		if (_disposed)
+		{
+			return;
+		}
+		// cleanup 
+		_disposed = true;
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法學到了 <code>Dispose Pattern</code> 的標準做法還有它為什麼是這樣實踐的，最完整的做法可以參考 <code>SafeHandle</code> 這個類別，基本上就是把
+上面提到的建議都寫在 <code>SafeHandle</code> 裡面了，所以實務上其實也可以從 <code>SafeHandle</code> 衍生出自己的類別這樣可以省事不少。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-17'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
