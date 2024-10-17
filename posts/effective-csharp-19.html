@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 19.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x671F;&#x578B;&#x5225;&#x6AA2;&#x67E5;&#x7279;&#x5316;&#x6CDB;&#x578B;&#x6F14;&#x7B97;&#x6CD5; (Specialize Generic Algorithms Using Runtime Type Checking)">
+
+  <title>Effective C# 19.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x671F;&#x578B;&#x5225;&#x6AA2;&#x67E5;&#x7279;&#x5316;&#x6CDB;&#x578B;&#x6F14;&#x7B97;&#x6CD5;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-19'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 19.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x671F;&#x578B;&#x5225;&#x6AA2;&#x67E5;&#x7279;&#x5316;&#x6CDB;&#x578B;&#x6F14;&#x7B97;&#x6CD5;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-19' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-19'>Effective C# 19.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x671F;&#x578B;&#x5225;&#x6AA2;&#x67E5;&#x7279;&#x5316;&#x6CDB;&#x578B;&#x6F14;&#x7B97;&#x6CD5;</a>
+              <span class="subheading">Effective C# 19.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x671F;&#x578B;&#x5225;&#x6AA2;&#x67E5;&#x7279;&#x5316;&#x6CDB;&#x578B;&#x6F14;&#x7B97;&#x6CD5; (Specialize Generic Algorithms Using Runtime Type Checking)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, October 16, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在討論泛型演算法傳入的參數會影響演算法的效率。</p>
+<p>以下是一個進行倒序的演算法，從建構函式可以看出演算法會將傳入的 <code>IEnumerable&lt;T&gt;</code> 複製到 <code>sourceSequence</code>，之後取得 <code>ReverseEnumerator</code> 進行到序。</p>
+<pre><code class="language-text">public sealed class ReverseEnumerable&lt;T&gt; : IEnumerable&lt;T&gt;
+{
+	IEnumerable&lt;T&gt; sourceSequence;
+	IList&lt;T&gt; originalSequence;
+
+	public ReverseEnumerable(IEnumerable&lt;T&gt; sequence)
+	{
+		sourceSequence = sequence;
+	}
+	
+	public IEnumerator&lt;T&gt; GetEnumerator()
+	{
+		if (originalSequence == null)
+		{
+			originalSequence = new List&lt;T&gt;();
+			foreach (T item in sourceSequence)
+				originalSequence.Add(item);
+		}
+		
+		return new ReverseEnumerator(originalSequence);
+	}
+
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return this.GetEnumerator();
+	}
+
+	private class ReverseEnumerator : IEnumerator&lt;T&gt;
+	{
+		int currentIndex;
+		IList&lt;T&gt; collection;
+
+		public ReverseEnumerator(IList&lt;T&gt; srcCollection)
+		{
+			collection = srcCollection;
+			currentIndex = collection.Count;
+		}
+
+		public T Current =&gt; collection[currentIndex];
+
+		object IEnumerator.Current =&gt; this.Current;
+
+		public void Dispose()
+		{
+		}
+
+		public bool MoveNext()
+		{
+			return --currentIndex &gt;= 0;
+		}
+
+		public void Reset()
+		{
+			currentIndex = collection.Count;
+		}
+	}
+}
+</code></pre>
+<p>這個演算法關鍵的就是取得傳入參數的 <code>IEnumerator</code>，但是這個演算法只有假設傳入的參數有實做 <code>IEnumerable</code> 介面，所以不管你實際傳入的
+參數是什麼型別，編譯器只會讓你使用 <code>IEnumerable</code> 能用的那些方法，最後只能建立一個中繼的區域變數 <code>originalSequence</code> 因為 <code>ReverseEnumerable</code>
+只支援有實做 <code>IList</code> 的參數，所以複製 <code>originalSequence</code> 是一個折衷的處理方法。</p>
+<pre><code class="language-text">IEnumerable&lt;T&gt; sourceSequence;
+IList&lt;T&gt; originalSequence;
+
+public ReverseEnumerable(IEnumerable&lt;T&gt; sequence)
+{
+	sourceSequence = sequence;
+}
+
+public IEnumerator&lt;T&gt; GetEnumerator()
+{
+	if (originalSequence == null)
+	{
+		originalSequence = new List&lt;T&gt;();
+		foreach (T item in sourceSequence)
+			originalSequence.Add(item);
+	}
+	
+	return new ReverseEnumerator(originalSequence);
+}
+</code></pre>
+<p>我們可以優化一下上面的演算法，由於傳入參數只有最低要求實作 <code>IEnumerable</code> 就好，所以實際上執行期別可能為其它類型的參數，可以直接在建構函式
+直接測試是否能轉型並直接賦值，這樣執行期別有實做 <code>IList</code> 就能直接略過下面的 if 檢查，或者直接添加額外的多載。</p>
+<pre><code class="language-text">public ReverseEnumerable(IEnumerable&lt;T&gt; sequence)
+{
+	sourceSequence = sequence;
+	originalSequence = sequence as IList&lt;T&gt;;
+}
+
+public ReverseEnumerable(IList&lt;T&gt; sequence)
+{
+   sourceSequence = sequence;
+   originalSequence = sequence;
+}
+</code></pre>
+<p>但還是有一些特例沒有實作<code>IList&lt;T&gt;</code> 但是有實做 <code>ICollection&lt;T&gt;</code> 的集合，我們可以多加一個 if 檢查這種特例。</p>
+<pre><code class="language-text">public IEnumerator&lt;T&gt; GetEnumerator()
+{
+	if (originalSequence == null)
+	{
+		if (sourceSequence is ICollection)
+		{
+			var source = sourceSequence as ICollection;
+			originalSequence = new List&lt;T&gt;(source.Count);
+		}
+		else
+		{
+			originalSequence = new List&lt;T&gt;();
+		}
+	}
+	foreach (T item in sourceSequence)
+		originalSequence.Add(item);
+
+	return new ReverseEnumerator(originalSequence);
+}
+</code></pre>
+<p>最後還有一種特例就是 string 類別，我們可以再加一個 <code>ReverseStringEnumerator</code> 最後輸出一個倒序的 char 集合。</p>
+<pre><code class="language-text">public IEnumerator&lt;T&gt; GetEnumerator()
+{
+	if (sourceSequence is string)
+	{
+		return new ReverseStringEnumerator(sourceSequence as string) as IEnumerator&lt;T&gt;;
+	}
+	if (originalSequence == null)
+	{
+		if (sourceSequence is ICollection)
+		{
+			var source = sourceSequence as ICollection;
+			originalSequence = new List&lt;T&gt;(source.Count);
+		}
+		else
+		{
+			originalSequence = new List&lt;T&gt;();
+		}
+	}
+	foreach (T item in sourceSequence)
+		originalSequence.Add(item);
+
+	return new ReverseEnumerator(originalSequence);
+}
+	
+private sealed class ReverseStringEnumerator : IEnumerator&lt;char&gt;
+{
+	private string sourceSequence;
+	private int currentIndex;
+	public ReverseStringEnumerator(string source)
+	{
+		sourceSequence = source;
+		currentIndex = source.Length;
+	}
+	public char Current =&gt; sourceSequence[currentIndex];
+	public void Dispose()
+	{
+	}
+	object System.Collections.IEnumerator.Current
+		=&gt; sourceSequence[currentIndex];
+	public bool MoveNext() =&gt; --currentIndex &gt;= 0;
+	public void Reset() =&gt; currentIndex = sourceSequence.
+	Length;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法主要在顯示如何用最少的約束條件，也能透過內部型別檢查獲得那些專屬於某型別的功能，而且這些檢查被隱藏在我們的泛型類別裡面，
+並且就算沒有供特殊的類型檢查也能夠運行，這些特例檢查只是用來提示演算法運行速度。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-19'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
