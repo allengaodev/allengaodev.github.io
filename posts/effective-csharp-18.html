@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 18.&#x5B9A;&#x7FA9;&#x6700;&#x5C11;&#x8207;&#x8DB3;&#x5920;&#x7684;&#x7D04;&#x675F; (Always Define Constraints That Are Minimal and Sufficient)">
+
+  <title>Effective C# 18.&#x5B9A;&#x7FA9;&#x6700;&#x5C11;&#x8207;&#x8DB3;&#x5920;&#x7684;&#x7D04;&#x675F;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-18'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 18.&#x5B9A;&#x7FA9;&#x6700;&#x5C11;&#x8207;&#x8DB3;&#x5920;&#x7684;&#x7D04;&#x675F;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-18' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-18'>Effective C# 18.&#x5B9A;&#x7FA9;&#x6700;&#x5C11;&#x8207;&#x8DB3;&#x5920;&#x7684;&#x7D04;&#x675F;</a>
+              <span class="subheading">Effective C# 18.&#x5B9A;&#x7FA9;&#x6700;&#x5C11;&#x8207;&#x8DB3;&#x5920;&#x7684;&#x7D04;&#x675F; (Always Define Constraints That Are Minimal and Sufficient)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, October 15, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>接下來的幾個做法都會與泛型相關，這個做法建議了泛型中使用約束的幾個方式，首先複習一下泛型的基礎知識與名詞。</p>
+<hr />
+<h2 id="open-close-generic-type-type-parameter">開放 &amp; 封閉泛型類型(open &amp; close generic type) &amp; 類型參數(type parameter)</h2>
+<p>下面這段程式碼是一個常見的泛型 Class 寫法，可以輸入一個類型參數(type parameter) <code>TValue</code>，
+這個 <code>TValue</code> 只是個 placeholder 因此使用者可以傳入任意類型作為參數，所以可以稱 <code>DictionaryStringKey&lt;&gt;</code> 是一個開放泛型類型(open generic type)</p>
+<pre><code class="language-text">class DictionaryStringKey&lt;TValue&gt; : Dictionary&lt;String, TValue&gt; { }
+
+Type t = typeof(Dictionary&lt;,&gt;);  // 也是 open generic type
+</code></pre>
+<p>有開放類型那就有封閉泛型類型(close generic type)</p>
+<pre><code class="language-text">Type t = typeof(DictionaryStringKey&lt;Guid&gt;); // close generic type
+</code></pre>
+<p>所以根據上面的描述可以得出定義為:
+type parameter 只有部分傳入還有其它空位等待傳入的泛型類型就是個開放泛型類型(open generic type)。
+反之 type parameter 全部都定義完成就稱為封閉泛型類型(close generic type)</p>
+<h2 id="generic-type-definition">泛型類型定義(generic type definition)</h2>
+<p>泛型可以理解成一個模板，等到運行時才會把你指定的 <code>type arguments</code> 轉換成實際的機器碼，運行以下程式碼可以判斷出這個類型
+是不是一個 generic type definition，還可以透過 GetGenericTypeDefinition 方法把這個類型的定義讀取出來。</p>
+<pre><code class="language-text">public class Test
+{
+	public static void Main()
+	{
+		Console.WriteLine(&quot;\r\n--- Get the generic type that defines a constructed type.&quot;);
+     
+		Dictionary&lt;string, Test&gt; d = new Dictionary&lt;string, Test&gt;();
+
+		Type constructed = d.GetType();
+		DisplayTypeInfo(constructed);
+
+		Type generic = constructed.GetGenericTypeDefinition();
+		DisplayTypeInfo(generic);
+	}
+
+	private static void DisplayTypeInfo(Type t)
+	{
+		Console.WriteLine(&quot;\r\n{0}&quot;, t);
+		Console.WriteLine(&quot;\tIs this a generic type definition? {0}&quot;,
+			t.IsGenericTypeDefinition);
+		Console.WriteLine(&quot;\tIs it a generic type? {0}&quot;,
+			t.IsGenericType);
+		Type[] typeArguments = t.GetGenericArguments();
+		Console.WriteLine(&quot;\tList type arguments ({0}):&quot;, typeArguments.Length);
+		foreach (Type tParam in typeArguments)
+		{
+			Console.WriteLine(&quot;\t\t{0}&quot;, tParam);
+		}
+	}
+}
+
+--- Get the generic type that defines a constructed type.
+
+System.Collections.Generic.Dictionary`2[System.String,UserQuery+Test]
+    Is this a generic type definition? False
+    Is it a generic type? True
+    List type arguments (2):
+        System.String
+        UserQuery+Test
+
+System.Collections.Generic.Dictionary`2[TKey,TValue]
+    Is this a generic type definition? True
+    Is it a generic type? True
+    List type arguments (2):
+        TKey
+        TValue
+</code></pre>
+<p>generic type definition 是一個相當重要的概念，首先編譯器會把它編譯成 IL 碼，要注意編譯器這個時候還沒有把我們要的 type arguments 帶入進去，
+要等到 JIT 運行時才會傳入 type arguments 編譯出實際的機械碼，不過還會分成兩種情況，一個是傳入的是參考型別一個是值型別。</p>
+<p>因為參考型別是傳入地址，所以 JIT 會幫所有參考型別建構共用機械碼，所以以下的程式碼在執行期間其實用的都是同一段機械碼。</p>
+<pre><code class="language-text">List&lt;string&gt; stringList = new List&lt;string&gt;();
+List&lt;Stream&gt; OpenFiles = new List&lt;Stream&gt;();
+List&lt;MyClassType&gt; anotherList = new List&lt;MyClassType&gt;();
+</code></pre>
+<p>值型別不一樣 JIT 會幫每個值型別都建立不同的機械碼，所以以下的程式碼在執行期間都會額外建立單獨的機械碼，雖然這樣的設計會需要額外的成本
+，但是可以避免裝箱與拆箱的行為產生。</p>
+<pre><code class="language-text">List&lt;double&gt; doubleList = new List&lt;double&gt;();
+List&lt;int&gt; markers = new List&lt;int&gt;();
+List&lt;MyStruct&gt; values = new List&lt;MyStruct&gt;();
+</code></pre>
+<hr />
+<p>接下來回到做法 18 的建議，這裡提到了約束這個概念，以下面這個泛型方法為例，這個方法會將傳入的參數進行比較所以傳入的類型需要實作
+<code>IComparable</code> 這個介面，所以光是檢查邏輯是否有實做就佔了許多程式碼。</p>
+<pre><code class="language-text">public static bool AreEqual&lt;T&gt;(T left, T right)
+{
+	if (left == null)
+		return right == null;
+	if (left is IComparable&lt;T&gt;)
+	{
+		IComparable&lt;T&gt; lval = left as IComparable&lt;T&gt;;
+		if (right is IComparable&lt;T&gt;)
+			return lval.CompareTo(right) == 0;
+		else
+			throw new ArgumentException( &quot;Type does not implement IComparable&lt;T&gt;&quot;, nameof(right));
+	}
+	else // failure
+	{
+		throw new ArgumentException(&quot;Type does not implement IComparable&lt;T&gt;&quot;, nameof(left));
+	}
+}
+</code></pre>
+<p>有了約束之後就可以把程式碼精簡成下面這樣，這裡的 where 代表 T 必須要實作 IComparable 這個介面，所以編譯器可以直接假設傳入的參數
+一定有實做 IComparable 介面就不用我們一一去檢查了。</p>
+<pre><code class="language-text">public static bool AreEqual2&lt;T&gt;(T left, T right)
+   where T : IComparable&lt;T&gt; =&gt;
+	   left.CompareTo(right) == 0;
+</code></pre>
+<p>如果沒有約束的話編譯器就無從判斷傳入的參數是什麼類型的，只能把它當成底層的 Object 類型，所以只能使用 Object 提供的那幾個基礎方法。</p>
+<p>當然也可以添加多個約束，但是越多的約束會導致使用者的困擾所以建議是只約束需要的介面即可。</p>
+<pre><code class="language-text">public static bool AreEqual3&lt;T&gt;(T left, T right)
+   where T : IComparable&lt;T&gt;, IEquatable&lt;T&gt; =&gt;
+	   left.CompareTo(right) == 0;
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法複習了泛型的基本知識與名詞還有介紹了約束的概念，我們可以運用約束讓編譯器在編譯時期就先了解傳入的參數是什麼類型的，
+並且可以大量減少檢查的邏輯，但並不是增加越多約束越好還是要視情況來添加約束。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-18'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
