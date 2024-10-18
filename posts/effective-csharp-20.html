@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 20.&#x4EE5; IComparable&lt;T&gt; &#x8207; IComparer&lt;T&gt; &#x5BE6;&#x4F5C;&#x6392;&#x5E8F;&#x95DC;&#x4FC2; (Implement Ordering Relations with IComparable&lt;T&gt; and IComparer&lt;T&gt;)">
+
+  <title>Effective C# 20.&#x4EE5; IComparable&lt;T&gt; &#x8207; IComparer&lt;T&gt; &#x5BE6;&#x4F5C;&#x6392;&#x5E8F;&#x95DC;&#x4FC2;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-20'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 20.&#x4EE5; IComparable&lt;T&gt; &#x8207; IComparer&lt;T&gt; &#x5BE6;&#x4F5C;&#x6392;&#x5E8F;&#x95DC;&#x4FC2;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-20' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-20'>Effective C# 20.&#x4EE5; IComparable&lt;T&gt; &#x8207; IComparer&lt;T&gt; &#x5BE6;&#x4F5C;&#x6392;&#x5E8F;&#x95DC;&#x4FC2;</a>
+              <span class="subheading">Effective C# 20.&#x4EE5; IComparable&lt;T&gt; &#x8207; IComparer&lt;T&gt; &#x5BE6;&#x4F5C;&#x6392;&#x5E8F;&#x95DC;&#x4FC2; (Implement Ordering Relations with IComparable&lt;T&gt; and IComparer&lt;T&gt;)</span>
+          </h1>
+            <div class="meta">Published on Thursday, October 17, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在教你如何用 IComparable<T> 與 IComparer<T> 介面來實作排序的功能。</p>
+<p>首先準備一下測試資料:</p>
+<pre><code class="language-text">void Main()
+{
+	Car[] arrayOfCars = new Car[6]
+	{
+		 new Car(&quot;Ford&quot;,1992),
+		 new Car(&quot;Fiat&quot;,1988),
+		 new Car(&quot;Buick&quot;,1932),
+		 new Car(&quot;Ford&quot;,1932),
+		 new Car(&quot;Dodge&quot;,1999),
+		 new Car(&quot;Honda&quot;,1977)
+	};
+}
+
+public class Car
+{
+	public int year { get; set; }
+	public string make { get; set; }
+
+	public Car(string Make, int Year)
+	{
+		make = Make;
+		year = Year;
+	}
+}
+</code></pre>
+<p>目前有 IComparable<T> 與 IComparable 兩種版本，建議是直接實作泛型版本就好，IComparable 介面會進行額外的拆裝箱所以除了要兼容
+就版本否則只實作 IComparable<T> 就好，接下來在 <code>Car</code> 類別實作這兩個介面試試。</p>
+<pre><code class="language-text">public class Car : IComparable&lt;Car&gt;, IComparable
+{
+	public int year { get; set; }
+	public string make { get; set; }
+
+	public Car(string Make, int Year)
+	{
+		make = Make;
+		year = Year;
+	}
+
+	public int CompareTo(object obj)
+	{
+		if (!(obj is Car))
+			throw new ArgumentException(&quot;Argument is not a Car&quot;, &quot;obj&quot;);
+		Car other = (Car)obj;
+		return this.CompareTo(other);
+	}
+
+	public int CompareTo(Car other)
+	{
+		return String.Compare(this.make, other.make);
+	}
+}
+</code></pre>
+<p>這裡可以用 Linq 的 OrderBy 方法進行測試，目前會使用預設的 <code>Comparer&lt;T&gt;.Default</code> 最後會取得 <code>IComparable&lt;T&gt;</code>
+也就是上面寫的 <code>Car</code> 類別的 CompareTo 方法來判斷兩個元素的優先順序，所以結果會輸出由名稱排序。</p>
+<pre><code class="language-text">void Main()
+{
+	Car[] arrayOfCars = new Car[6]
+	{
+		 new Car(&quot;Ford&quot;,1992),
+		 new Car(&quot;Fiat&quot;,1988),
+		 new Car(&quot;Buick&quot;,1932),
+		 new Car(&quot;Ford&quot;,1932),
+		 new Car(&quot;Dodge&quot;,1999),
+		 new Car(&quot;Honda&quot;,1977)
+	};
+	
+	var sorted = arrayOfCars.OrderBy(x =&gt; x);
+
+	foreach (var stuff in sorted)
+	{
+		Console.WriteLine(stuff.make);
+	}
+}
+
+Buick
+Dodge
+Fiat
+Ford
+Ford
+Honda
+</code></pre>
+<p>也可以多載常用的運算子讓可讀性更加提升。</p>
+<pre><code class="language-text">public class Car : IComparable&lt;Car&gt;, IComparable
+{
+	public int year { get; set; }
+	public string make { get; set; }
+
+	public Car(string Make, int Year)
+	{
+		make = Make;
+		year = Year;
+	}
+
+	public int CompareTo(object obj)
+	{
+		if (!(obj is Car))
+			throw new ArgumentException(&quot;Argument is not a Car&quot;, &quot;obj&quot;);
+		Car other = (Car)obj;
+		return this.CompareTo(other);
+	}
+
+	public int CompareTo(Car other)
+	{
+		return String.Compare(this.make, other.make);
+	}
+
+	public static bool operator &lt;(Car left, Car right) =&gt; 
+		left.CompareTo(right) &lt; 0;
+	public static bool operator &lt;=(Car left, Car right) =&gt;
+		left.CompareTo(right) &lt;= 0;
+	public static bool operator &gt;(Car left, Car right) =&gt;
+		left.CompareTo(right) &gt; 0;
+	public static bool operator &gt;=(Car left, Car right) =&gt;
+		left.CompareTo(right) &gt;= 0;
+}
+</code></pre>
+<p>我們就可以直接比較兩個值的大小，例如下面檢查 <code>Buick</code> 小於 <code>Fiat</code> 結果返回 True。</p>
+<pre><code class="language-text">Console.WriteLine(arrayOfCars[2] &lt; arrayOfCars[1]);
+True
+</code></pre>
+<p>目前都是用字串名稱排序方法來進行排序，可以看到我們的測試資料裡面有包含年份，接下來可以試試寫一個根據年份排序的方法。
+要做到這樣的效果主要是透過實作 <code>IComparer&lt;T&gt;</code> 介面。</p>
+<p>可以在之前的 <code>Car</code> 類別裡面寫一個 Nested Cass <code>YearComparer</code> 並且使用年份來進行比較。</p>
+<pre><code class="language-text">private static Lazy&lt;YearComparer&gt; yearComp = new Lazy&lt;YearComparer&gt;(() =&gt; new YearComparer());
+public static IComparer&lt;Car&gt; YearCompare =&gt; yearComp.Value;
+public static Comparison&lt;Car&gt; CompareByYear =&gt; (left, right) =&gt; left.year.CompareTo(right.year);
+	
+private class YearComparer : IComparer&lt;Car&gt;
+{
+	//  IComparer&lt;Customer&gt; Members
+	int IComparer&lt;Car&gt;.Compare(Car left, Car right) =&gt;
+		left.year.CompareTo(right.year);
+}
+</code></pre>
+<p>最後可以利用靜態成員的特性取得專用的 <code>YearComparer</code> 就能看到結果會優先用年份來排序了。</p>
+<pre><code class="language-text">var sorted = arrayOfCars.OrderBy(x =&gt; x, Car.YearCompare);
+
+foreach (var stuff in sorted)
+{
+	Console.WriteLine(stuff.make);
+}
+</code></pre>
+<p>不過由於現在 Linq 已經支援 <code>OrderBy</code>, <code>ThenBy</code>, <code>OrderByDescending</code>, <code>ThenByDescending</code> 這些好用的方法，
+所以現在簡單的排序工作可以直接利用 Linq 就好，有一些特殊的排序在自行實作 <code>IComparer&lt;T&gt;</code> 就好。</p>
+<pre><code class="language-text">var sorted = arrayOfCars
+	.OrderBy(x =&gt; x.year)
+	.ThenBy(x =&gt; x.make);
+
+foreach (var stuff in sorted)
+{
+	Console.WriteLine(stuff.make);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法主要在教如何使用 IComparable<T> 與 IComparer<T> 這兩個介面，在舊版本的 C# 都是透過這兩個介面來處理排序的關係，
+但是現在已經有更好用的 Linq 擴充方法，所以簡單的工作透過 Linq 就好，複雜的排序在自己實作 <code>IComparer&lt;T&gt;</code> 就好。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-20'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
