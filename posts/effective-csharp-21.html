@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 21.&#x5EFA;&#x69CB;&#x652F;&#x63F4; Disposable &#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x6CDB;&#x578B;&#x985E;&#x5225; (Always Create Generic Classes That Support Disposable Type Parameters)">
+
+  <title>Effective C# 21.&#x5EFA;&#x69CB;&#x652F;&#x63F4; Disposable &#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x6CDB;&#x578B;&#x985E;&#x5225;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-21'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 21.&#x5EFA;&#x69CB;&#x652F;&#x63F4; Disposable &#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x6CDB;&#x578B;&#x985E;&#x5225;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-21' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-21'>Effective C# 21.&#x5EFA;&#x69CB;&#x652F;&#x63F4; Disposable &#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x6CDB;&#x578B;&#x985E;&#x5225;</a>
+              <span class="subheading">Effective C# 21.&#x5EFA;&#x69CB;&#x652F;&#x63F4; Disposable &#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x6CDB;&#x578B;&#x985E;&#x5225; (Always Create Generic Classes That Support Disposable Type Parameters)</span>
+          </h1>
+            <div class="meta">Published on Friday, October 18, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法討論了泛型中一個特殊情況，就是當傳入的類型參數(type parameter)有實做 IDisposable 介面的時候，可能會導致記憶體釋放的問題。</p>
+<p>例如下面這段程式碼，傳入的 <code>Engine</code> 類別有實做 <code>IDisposable</code> 介面，但是泛型類別的 <code>driver</code> 區域變數並沒有用 <code>using</code> 包裝起來，
+所以並不會呼叫 <code>Dispose</code> 方法這樣會導致記憶體釋放的問題。</p>
+<pre><code class="language-text">void Main()
+{
+	var xx = new EngineDriverOne&lt;Engins&gt;();
+}
+
+public class Engine : IEngine, IDisposable
+{
+	public void Dispose()
+	{
+	}
+
+	public void DoWork()
+	{
+	}
+}
+
+public interface IEngine
+{
+	void DoWork();
+}
+
+public class EngineDriverOne&lt;T&gt; where T : IEngine, new()
+{
+	public void GetThingsDone()
+	{
+		T driver = new T();
+		driver.DoWork();
+	}
+}
+</code></pre>
+<p>稍微修改一下上面的程式碼，這樣假如 T 沒有實作 <code>IDisposable</code> 介面那麼背後隱藏的區域變數會為 null，所以並不會呼叫 <code>Dispose</code> 方法。</p>
+<pre><code class="language-text">public class EngineDriverOne&lt;T&gt; where T : IEngine, new()
+{
+	public void GetThingsDone()
+	{
+		T driver = new T();
+		using (driver as IDisposable)
+		{
+			driver.DoWork();
+		}
+	}
+}
+</code></pre>
+<p>編譯過後的程式碼大概會長這樣子。</p>
+<pre><code class="language-text">IDisposable disposable = driver as IDisposable;
+try
+{
+    driver.DoWork();
+}
+finally
+{
+    if (disposable != null)
+    {
+         disposable.Dispose();
+    }
+}
+</code></pre>
+<p>但是你如果把類型參數(type parameter)提升為成員變數，這樣就必須將目前的類別實作 <code>IDisposable</code> 介面，這在以前做法 17 有提到過。</p>
+<pre><code class="language-text">public sealed class EngineDriver2&lt;T&gt; : IDisposable
+   where T : IEngine, new()
+{
+	private Lazy&lt;T&gt; driver = new Lazy&lt;T&gt;(() =&gt; new T());
+	public void GetThingsDone() =&gt; driver.Value.DoWork();
+	public void Dispose()
+	{
+		if (driver.IsValueCreated)
+		{
+			var resource = driver.Value as IDisposable;
+			resource?.Dispose();
+		}
+	}
+}
+</code></pre>
+<p>但是在實務上上面的寫法不允許多次呼叫 <code>Dispose</code> 方法，這個也在做法 17 有提到，我們要能自己寫的 Dispose Pattern 能夠被重複執行，
+因此建議乾脆把 <code>Dispose</code> 的責任移到別的類別上同時也可以把 new() 約束移除掉，避免建構 T 時可能要耗費的資源，也就不用考慮使用 Lazy 成員
+導致的釋放問題了。</p>
+<pre><code class="language-text">public sealed class EngineDriver&lt;T&gt; where T : IEngine
+{
+	// It's expensive to create, so initialize to null
+	private T driver;
+	public EngineDriver(T driver)
+	{
+		this.driver = driver;
+	}
+	public void GetThingsDone()
+	{
+		driver.DoWork();
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在建議實做泛型類別時要時刻考慮傳入的參數的類型，像是這種有實做 <code>IDisposable</code> 介面的參數時就必須產生對應的處理方式，這個並沒有最佳
+解法要看實際情況來決定，所以關鍵是要有防衛性的思考模式才不會導致記憶體洩漏問題。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-21'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
