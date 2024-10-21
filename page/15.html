@@ -99,6 +99,16 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/rabbitmq-basic-rpc">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;RPC &#x6A21;&#x5F0F;</a></h2>
+  <p class="post-meta">Published on Sunday, June 4, 2023</p>
+<p>今天是 RabbitMQ 基礎用法的最後一篇，之前在討論非同步任務了解到我們可以建立一個 <code>Queue</code> 並且背後建立多個 <code>Worker</code> 來分散執行的任務，這種模式有一個問題
+那就是任務執行完成後發送信息的人沒有辦法知道任務已經完成或者是任務失敗等其他狀況，發送人還需要主動的去確認任務是否已經完成，例如一個報表導出的任務當你按下按鈕後
+會發送一個信息任務到 <code>Queue</code> 中並且由 <code>Worker</code> 來執行任務，這時發送人可能就去操作網站其他功能了甚至也有忘記自己有發送報表導出的任務，之後當你回來查看結果時
+最好的情況是報表已經導出完成可以直接下載，也有可能早就任務失敗或者卡住此時你又必須重新發送一次任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-rpc">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Direct &amp; Topic &amp; Header</a></h2>
   <p class="post-meta">Published on Thursday, June 1, 2023</p>
 <p>今天要來學習發布訂閱模式中的 <code>Direct</code> 和 <code>Topic</code> 模式這兩個模式使用起來非常相似。上一篇文章中我們學習到的 <code>Fanout</code> 模式有一個不太方便的點，那就是
@@ -112,14 +122,6 @@
 <p>到目前為止我們已經學會了 RabbitMQ 中最基礎的應用，在上一篇文章中這種一個 <code>Queue</code> 搭配多個 <code>Consumer</code> 的模式叫做 <code>Competing Consumers Pattern</code>
 ，不過就如同它名稱所示 <code>消費者競爭模式</code> 每一個 <code>Consumer</code> 都是競爭關係代表信息被某一個 <code>Consumer</code> 取得之後其它的 <code>Consumer</code>
 就再也沒有機會知道這條信息裡面有什麼內容。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-fanout">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-multiple-workers">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</a></h2>
-  <p class="post-meta">Published on Thursday, May 25, 2023</p>
-<p>到目前為止我們專案同時只會運行一個 <code>producer</code> 和 一個 <code>consumer</code>，不過當 <code>producer</code> 產生過多的任務或者 <code>consumer</code> 執行每一個任務都需要許多時間，
-這時候我們可以選則執行多個 <code>consumer</code> 來分擔執行任務的壓力，例如說上一篇文章中的例子我們產生了五個任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-multiple-workers">Read more...</a></p>
 </div>
 
   <div>
@@ -136,7 +138,7 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (41)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (42)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
