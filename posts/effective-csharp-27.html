@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 27.&#x4EE5;&#x64F4;&#x5145;&#x65B9;&#x6CD5;&#x52A0;&#x5165;&#x6700;&#x5C11;&#x7684;&#x4ECB;&#x9762;&#x5408;&#x7D04; (Augment Minimal Interface Contracts with Extension Methods)">
+
+  <title>Effective C# 27.&#x4EE5;&#x64F4;&#x5145;&#x65B9;&#x6CD5;&#x52A0;&#x5165;&#x6700;&#x5C11;&#x7684;&#x4ECB;&#x9762;&#x5408;&#x7D04;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-27'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 27.&#x4EE5;&#x64F4;&#x5145;&#x65B9;&#x6CD5;&#x52A0;&#x5165;&#x6700;&#x5C11;&#x7684;&#x4ECB;&#x9762;&#x5408;&#x7D04;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-27' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-27'>Effective C# 27.&#x4EE5;&#x64F4;&#x5145;&#x65B9;&#x6CD5;&#x52A0;&#x5165;&#x6700;&#x5C11;&#x7684;&#x4ECB;&#x9762;&#x5408;&#x7D04;</a>
+              <span class="subheading">Effective C# 27.&#x4EE5;&#x64F4;&#x5145;&#x65B9;&#x6CD5;&#x52A0;&#x5165;&#x6700;&#x5C11;&#x7684;&#x4ECB;&#x9762;&#x5408;&#x7D04; (Augment Minimal Interface Contracts with Extension Methods)</span>
+          </h1>
+            <div class="meta">Published on Sunday, October 20, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法建議只在介面上定義必要的功能，剩下需要的功能新增在這個介面上的擴充方法就好。
+例如 <code>System.Linq.Enumerable</code> 就是個很好的例子，它幫 <code>IEnumerable&lt;T&gt;</code> 介面定義了許多常用的擴充方法，例如 Where、OrderBy、ThenBy。</p>
+<p>像下面這段程式碼就是幫 <code>IComparable</code> 建立了一組擴充方法這樣在使用的時候可以提升可讀性。</p>
+<pre><code class="language-text">public static class Comparable
+{
+   public static bool LessThan&lt;T&gt;(this T left, T right)
+      where T : IComparable&lt;T&gt; =&gt; left.CompareTo(right) &lt; 0;
+   public static bool GreaterThan&lt;T&gt;(this T left, T right)
+      where T : IComparable&lt;T&gt; =&gt; left.CompareTo(right) &lt; 0;
+   public static bool LessThanEqual&lt;T&gt;(this T left, T right)
+      where T : IComparable&lt;T&gt; =&gt; left.CompareTo(right) &lt;= 0;
+   public static bool GreaterThanEqual&lt;T&gt;(this T left, T right)
+      where T : IComparable&lt;T&gt; =&gt; left.CompareTo(right) &lt;= 0;
+}
+</code></pre>
+<p>不過要注意假如已經對某個介面定義了擴充方法，之後其他類型又想要實做自己的方法，這樣會產生問題。
+例如下面這個範例在 <code>IFoo</code> 介面上定義擴充方法 <code>FooExtensions.NextMarker()</code>，輸出的結果為 <code>1</code>。</p>
+<pre><code class="language-text">void Main()
+{
+	MyType t = new MyType();
+	UpdateMarker(t);
+	Console.WriteLine(t.Marker);
+}
+
+public static void UpdateMarker(MyType foo) =&gt; foo.NextMarker();
+public class MyType : IFoo
+{
+	public int Marker { get; set; }
+}
+
+public interface IFoo
+{
+	int Marker { get; set; }
+}
+
+public static class FooExtensions
+{
+	public static void NextMarker(this IFoo thing)
+	{
+		thing.Marker += 1;
+	}
+}
+</code></pre>
+<p>但是之後某人在自己的類別也實做了 <code>NextMarker()</code>，會導致輸出結果被錯誤的修改成 <code>5</code>。</p>
+<pre><code class="language-text">public class MyType : IFoo
+{
+	public int Marker { get; set; }
+	
+	public void NextMarker() =&gt; Marker += 5;
+}
+</code></pre>
+<p>這個問題沒辦法完全避免，使用者在開發的時候應該自行確保兩邊的方法的行為是相同的，或者是搭配 unit test 才不會影響程式運行。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>如果有很多 class 需要實做你寫的介面，那麼在定義介面的時候就應該只定義必要的方法，等之後透過擴充方法的方式來編寫需要的方法，
+這樣不僅可以讓實做介面的使用者少寫一些程式碼，也能讓使用介面的人使用我們寫的擴充方法。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-27'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

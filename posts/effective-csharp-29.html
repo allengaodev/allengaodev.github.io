@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 29.&#x504F;&#x597D;&#x4EE5; Iterator &#x65B9;&#x6CD5;&#x56DE;&#x50B3;&#x96C6;&#x5408; (Prefer Iterator Methods to Returning Collections)">
+
+  <title>Effective C# 29.&#x504F;&#x597D;&#x4EE5; Iterator &#x65B9;&#x6CD5;&#x56DE;&#x50B3;&#x96C6;&#x5408;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-29'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 29.&#x504F;&#x597D;&#x4EE5; Iterator &#x65B9;&#x6CD5;&#x56DE;&#x50B3;&#x96C6;&#x5408;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-29' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-29'>Effective C# 29.&#x504F;&#x597D;&#x4EE5; Iterator &#x65B9;&#x6CD5;&#x56DE;&#x50B3;&#x96C6;&#x5408;</a>
+              <span class="subheading">Effective C# 29.&#x504F;&#x597D;&#x4EE5; Iterator &#x65B9;&#x6CD5;&#x56DE;&#x50B3;&#x96C6;&#x5408; (Prefer Iterator Methods to Returning Collections)</span>
+          </h1>
+            <div class="meta">Published on Monday, October 21, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>本作法提到了 <code>Iterator Methods</code> 與 <code>yield return</code> 這兩個新的名詞以及使用它的好處。
+根據定義只要使用 <code>yield return</code> 並且回傳值是 <code>IEnumerable</code> 或 <code>IEnumerable&lt;T&gt;</code> 就可以稱為這是一個 <code>Iterator Methods</code>。</p>
+<p>首先我們先看一下不使用 <code>yield return</code> 的產生英文26個字母的方法，這裡建立了一個 <code>List&lt;char&gt;</code> 來保存結果並輸出。</p>
+<pre><code class="language-text">public static List&lt;char&gt; GenerateAlphabet()
+{
+	var result = new List&lt;char&gt;();
+	var letter = 'a';
+	while (letter &lt;= 'z')
+	{
+		result.Add(letter);
+		letter++;
+	}
+	
+	return result;
+}
+</code></pre>
+<p>接下來將同樣的方法改成使用 <code>yield return</code> 來處理，可以很明顯地發現 <code>List&lt;char&gt;</code> 被省略掉了，然後改成在迴圈中搭配 <code>yield return</code> 回傳結果。</p>
+<pre><code class="language-text">public static IEnumerable&lt;char&gt; GenerateAlphabet()
+{
+	var letter = 'a';
+	while (letter &lt;= 'z')
+	{
+		yield return letter;
+		letter++;
+	}
+}
+</code></pre>
+<p>雖然看起來沒什麼區別但是編譯過後的程式碼卻差非常的多，其中最重要的特性就是 <code>Lazy Evaluation</code> 也就是確定要使用才會去產生 <code>IEnumerable&lt;char&gt;</code> 內部的值。
+這個特性在大型的資料集中是相當關鍵的，例如下面這個 <code>allNumbers</code> 變數如果馬上就把所有的值保存到記憶體中是非常浪費的。</p>
+<pre><code class="language-text">var allNumbers = Enumerable.Range(0, int.MaxValue);
+</code></pre>
+<p>但是需要注意這個 <code>Lazy Evaluation</code> 特性最好不要把參數檢查放在 <code>Iterator Methods</code> 裡面，否則只有到真正需要用到值的時候才會進行參數檢查，
+例如下面這段程式碼明顯的有錯誤，但是呼叫的當下並不會拋出錯誤而是會繼續運行，直到需要值的時候才會拋出錯誤。</p>
+<pre><code class="language-text">void Main()
+{
+ 	var result = GenerateAlphabetSubset('z', 'a');
+}
+
+public static IEnumerable&lt;char&gt; GenerateAlphabetSubset(char first, char last)
+{
+	if (first &lt; 'a')
+		throw new ArgumentException(&quot;first must be at least the letter a&quot;, nameof(first));
+	if (first &gt; 'z')
+		throw new ArgumentException(&quot;first must be no greater than z&quot;, nameof(first));
+	if (last &lt; first)
+		throw new ArgumentException(&quot;last must be at least as large as first&quot;, nameof(last));
+	if (last &gt; 'z')
+		throw new ArgumentException(&quot;last must not be past z&quot;, nameof(last));
+	var letter = first;
+	while (letter &lt;= last)
+	{
+		yield return letter;
+		letter++;
+	}
+}
+</code></pre>
+<p>這個問題也很好解決，只需要把 <code>Iterator Methods</code> 獨立到另一個方法即可，將同一段邏輯分成兩部分這樣不僅馬上就會進行參數檢查也能同時保有
+<code>Lazy Evaluation</code> 的特性。</p>
+<pre><code class="language-text">public static IEnumerable&lt;char&gt; GenerateAlphabetSubset(char first, char last)
+{
+	if (first &lt; 'a')
+		throw new ArgumentException(&quot;first must be at least the letter a&quot;, nameof(first));
+	if (first &gt; 'z')
+		throw new ArgumentException(&quot;first must be no greater than z&quot;, nameof(first));
+	if (last &lt; first)
+		throw new ArgumentException(&quot;last must be at least as large as first&quot;, nameof(last));
+	if (last &gt; 'z')
+		throw new ArgumentException(&quot;last must not be past z&quot;, nameof(last));
+	return GenerateAlphabetSubsetImpl(first, last);
+}
+private static IEnumerable&lt;char&gt; GenerateAlphabetSubsetImpl(char first, char last)
+{
+	var letter = first;
+	while (letter &lt;= last)
+	{
+		yield return letter;
+		letter++;
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個作法主要在討論 <code>Iterator Methods</code> 與 <code>yield return</code> 使用上的好處，最大的好處就是節省記憶體也能同時讓產生集合的這個步驟快上不少，
+但是要注意參數檢查這種需要事先執行的邏輯最好要隔離開來。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-29'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

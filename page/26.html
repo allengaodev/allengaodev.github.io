@@ -99,29 +99,28 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-network-bridge">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Network Bridge Mode</a></h2>
-  <p class="post-meta">Published on Thursday, March 2, 2023</p>
-<p>今天要來了解 Docker 網路的相關基礎知識，網路相關的功能有一個專用的命令 <code>docker network</code>
-我們試著輸入以下命令，查看有什麼功能可以使用</p>    <p class="small"><a href="/posts/dca-network-bridge">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-compose-yaml-env">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Environment</a></h2>
+  <p class="post-meta">Published on Saturday, March 11, 2023</p>
+<p>今天要來學習如何在 Docker Compose 設定環境變數讓我們可以在 container 內部使用，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#environment" target="_blank">文檔</a><br>
+首先先建立環境與輸入以下內容</p>    <p class="small"><a href="/posts/dca-compose-yaml-env">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-attach-exec">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Attach vs Exec</a></h2>
-  <p class="post-meta">Published on Wednesday, March 1, 2023</p>
-<p>之前在進入 Container 內部時經常使用到 <code>docker attach &lt;ContainerId&gt;</code> 這個命令，不過 Docker 還有提供另一個命令 <code>docker exec</code><br>
-<code>docker exec</code> 顧名思義就是在 container 內部運行一段命令，我們可以在 Host 環境底下直接將命令傳送給 container 內部<br>
-交由 container 內部的系統來運行，所以範用性比起 <code>docker attach</code> 更加的廣泛，今天要來比較這兩個命令的區別</p>    <p class="small"><a href="/posts/dca-attach-exec">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-compose-yaml-ports">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Ports</a></h2>
+  <p class="post-meta">Published on Friday, March 10, 2023</p>
+<p>今天要來學習如何在 Docker Compose 開放 Port 讓我們可以使用到 container 提供的服務，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#ports" target="_blank">文檔</a><br>
+用法也跟之前類似，之前的作法是需要先在 Dockerfile 設定要開放的 container port， 之後在 <code>docker run</code> 帶入 <code>-p</code> 參數，指定要和哪個 Host port 進行綁定<br>
+在docker compose 中也是要先在 Dockerfile 設定，之後在 docker-compose.yml 中進行設定</p>    <p class="small"><a href="/posts/dca-compose-yaml-ports">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-tmpfs">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Tmpfs Mounts</a></h2>
-  <p class="post-meta">Published on Tuesday, February 28, 2023</p>
-<p>目前我們已經瞭解了兩種資料儲存方式 <code>Volume</code> 和 <code>Bind mount</code>， Docker其實還有提供第三種儲特殊的存資料方法，那就是 <code>Tmpfs mount</code><br>
-Tmpfs mount` 跟其它兩種寫入方式最大的不同就是它是直接寫入到 Host 的記憶體內，只要 container 一停止運行， 用此方式掛載的資料路徑會直接被清除掉<br>
-因為只會寫入到 Host 記憶體內所以很適合用臨時保存一次性生成的密鑰或一些敏感資料
-<img src="https://docs.docker.com/storage/images/types-of-mounts-tmpfs.png" class="img-fluid" alt="mounts-tmpfs"></p>    <p class="small"><a href="/posts/dca-tmpfs">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-compose-yaml-volumes">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Volumes</a></h2>
+  <p class="post-meta">Published on Thursday, March 9, 2023</p>
+<p>根據之前的文章我們了解到創建 Volume 有兩種方式一種是在 Dockerfile 設定 VOLUMES 指令，<a href="https://blog.allengaodev.com/posts/dca-volume" target="_blank">文章地址</a><br>
+另一種方式則是透過 Docker Cli 的方式先使用 Cli 建立好 Volume 之後在透過 docker run 啟動時帶入<code>-v</code>參數即可使用到剛剛設定的 Volume，<a href="https://blog.allengaodev.com/posts/dca-volume-cli" target="_blank">文章地址</a><br>
+並且還有其他兩種做資料持久化的方式，一個是使用 Bind mount 直接將 Host 目錄綁定到 container 內部， 令一種則是特殊的 tmpfs 方式，能直接把資料寫入到 Host 的記憶體內部，<a href="https://blog.allengaodev.com/posts/dca-tmpfs" target="_blank">文章地址</a></p>    <p class="small"><a href="/posts/dca-compose-yaml-volumes">Read more...</a></p>
 </div>
 
   <div>
@@ -138,7 +137,7 @@ Tmpfs mount` 跟其它兩種寫入方式最大的不同就是它是直接寫入�
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (38)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (47)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

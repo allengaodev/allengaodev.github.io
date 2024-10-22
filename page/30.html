@@ -99,24 +99,30 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-containerlayer">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker&#x53EF;&#x8B80;&#x5BEB;&#x5C64;</a></h2>
-  <p class="post-meta">Published on Friday, February 17, 2023</p>
-<p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-imagebasic" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Images</a></p>    <p class="small"><a href="/posts/dca-containerlayer">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-volume-cli">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME CLI and Bind Mounts</a></h2>
+  <p class="post-meta">Published on Monday, February 27, 2023</p>
+<p>在上一篇的文章中: <a href="https://blog.allengaodev.com/posts/dca-volume" target="_blank">Docker Certified Associate(DCA)認證考試學習- VOLUME</a><br>
+我們學到了該怎麼在 Docker 中建立並且使用一個 volume ，今天要來學習另一種創建 volume 的方式<br>
+Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關功能</p>    <p class="small"><a href="/posts/dca-volume-cli">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-arg-env">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- ARG and ENV</a></h2>
-  <p class="post-meta">Published on Thursday, February 16, 2023</p>
-<p>今天要來學習 ENV 的使用方法<br>
-照慣例先看一下<a href="https://docs.docker.com/engine/reference/builder/#env" target="_blank">ENV文檔</a></p>    <p class="small"><a href="/posts/dca-arg-env">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-volume">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME</a></h2>
+  <p class="post-meta">Published on Sunday, February 26, 2023</p>
+<p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-containerlayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker可讀寫層</a><br>
+我們知道 Docker 在建立 container 的時候會在 image layer 上再多加一層可讀寫層<br>
+但是有一個問題是此如果將 container 刪除，那麼在我們剛剛在可讀寫層所作的變更會一起被刪除掉<br>
+所以像是讀寫資料庫這種需求，如果資料沒辦法持久保存那顯然是會造成很大的問題<br>
+這時最簡易的作法可以在 Dockerfile 之內使用 VOLUME 指令</p>    <p class="small"><a href="/posts/dca-volume">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-accessingcontainer">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-&#x9032;&#x5165;Container&#x74B0;&#x5883;</a></h2>
-  <p class="post-meta">Published on Thursday, February 16, 2023</p>
-<p>在這篇文章中: <a href="https://blog.allengaodev.com/posts/dca-dockerfile" target="_blank">Docker Certified Associate(DCA)認證考試學習-Dockerfile</a></p>    <p class="small"><a href="/posts/dca-accessingcontainer">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-image-multi-stage-builds">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Image Multi-Stage Builds</a></h2>
+  <p class="post-meta">Published on Saturday, February 25, 2023</p>
+<p>在這篇文章<a href="https://blog.allengaodev.com/posts/dca-imagelayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a>當中有提到一個Dockerfile的規則<br>
+當使用<code>RUN</code>, <code>COPY</code>, <code>ADD</code>任意一個指令，Docker就會幫我們創建一個layers</p>    <p class="small"><a href="/posts/dca-image-multi-stage-builds">Read more...</a></p>
 </div>
 
   <div>
@@ -133,7 +139,7 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (38)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (47)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

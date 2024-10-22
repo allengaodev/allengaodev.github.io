@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 26.&#x9664;&#x6CDB;&#x578B;&#x4ECB;&#x9762;&#x5916;&#x9084;&#x8981;&#x5BE6;&#x4F5C;&#x50B3;&#x7D71;&#x4ECB;&#x9762; (Implement Classic Interfaces in Addition to Generic Interfaces)">
+
+  <title>Effective C# 26.&#x9664;&#x6CDB;&#x578B;&#x4ECB;&#x9762;&#x5916;&#x9084;&#x8981;&#x5BE6;&#x4F5C;&#x50B3;&#x7D71;&#x4ECB;&#x9762;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-26'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 26.&#x9664;&#x6CDB;&#x578B;&#x4ECB;&#x9762;&#x5916;&#x9084;&#x8981;&#x5BE6;&#x4F5C;&#x50B3;&#x7D71;&#x4ECB;&#x9762;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-26' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-26'>Effective C# 26.&#x9664;&#x6CDB;&#x578B;&#x4ECB;&#x9762;&#x5916;&#x9084;&#x8981;&#x5BE6;&#x4F5C;&#x50B3;&#x7D71;&#x4ECB;&#x9762;</a>
+              <span class="subheading">Effective C# 26.&#x9664;&#x6CDB;&#x578B;&#x4ECB;&#x9762;&#x5916;&#x9084;&#x8981;&#x5BE6;&#x4F5C;&#x50B3;&#x7D71;&#x4ECB;&#x9762; (Implement Classic Interfaces in Addition to Generic Interfaces)</span>
+          </h1>
+            <div class="meta">Published on Sunday, October 20, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法提到在某幾種狀況下除了實做泛型介面最好也同時實做傳統介面，例如作法 20 裡面提到的 <code>Car</code> 類別就有同時實做
+<code>IComparable&lt;T&gt;</code> 與 <code>IComparable</code> 兩種介面。</p>
+<p>首先先看以下 <code>Name</code> 類別，它只有實做 <code>IComparable&lt;T&gt;</code> 與 <code>IEquatable&lt;T&gt;</code> 這兩個泛型介面。</p>
+<pre><code class="language-text">public class Name : IComparable&lt;Name&gt;, IEquatable&lt;Name&gt;
+{
+	public string First { get; set; }
+	public string Last { get; set; }
+	public string Middle { get; set; }
+	//  IComparable&lt;Name&gt; Members
+	public int CompareTo(Name other)
+	{
+		if (Object.ReferenceEquals(this, other))
+			return 0;
+		if (Object.ReferenceEquals(other, null))
+			return 1; // Any non-null object &gt; null.
+		int rVal = Comparer&lt;string&gt;.Default.Compare
+			(Last, other.Last);
+		if (rVal != 0)
+			return rVal;
+		rVal = Comparer&lt;string&gt;.Default.Compare
+			(First, other.First);
+		if (rVal != 0)
+			return rVal;
+		return Comparer&lt;string&gt;.Default.Compare(Middle,
+			other.Middle);
+	}
+	// IEquatable&lt;Name&gt; Members
+	public bool Equals(Name other)
+	{
+		if (Object.ReferenceEquals(this, other))
+			return true;
+		if (Object.ReferenceEquals(other, null))
+			return false;
+		// Semantically equivalent to using
+		// EqualityComparer&lt;string&gt;.Default
+		return Last == other.Last &amp;&amp;
+			First == other.First &amp;&amp;
+			Middle == other.Middle;
+	}
+}
+</code></pre>
+<p>假設我今天寫了一個檢查兩個物件是否相等的方法，並且傳入的類型是 <code>System.Object</code>，你會發現結果會是 <code>false</code> 並不是 <code>true</code>，這是因為
+程式背後呼叫的是 <code>System.Object.Equals</code> 方法而不是執行我們在上面實做的 <code>IEquatable&lt;Name&gt;</code> 方法。</p>
+<pre><code class="language-text">public static bool CheckEquality(object left, object right)
+{
+	if (left == null)
+		return right == null;
+	return left.Equals(right);
+}
+
+void Main()
+{
+	var n1 = new Name();
+	var n2 = new Name();
+	
+	CheckEquality(n1, n2);
+}
+</code></pre>
+<p>這個也比較好解決，如果 <code>CheckEquality</code> 方法是我們自己的程式碼，那就多寫一個泛型版本就能修正這個問題。</p>
+<pre><code class="language-text">public static bool CheckEquality&lt;T&gt;(T left, T right)
+	where T : IEquatable&lt;T&gt;
+{
+	if (left == null)
+		return right == null;
+	return left.Equals(right);
+}
+</code></pre>
+<p>但如果不是的話就只能覆寫 <code>Equals</code> 方法然後內部在呼叫自己寫的 <code>IEquatable&lt;Name&gt;</code> 方法，同時也要記住有修改 <code>Equals</code> 方法就要修改 <code>GetHashCode</code> 方法
+，需要在 <code>Name</code> 類別內加入下面這段程式碼。</p>
+<pre><code class="language-text">public override bool Equals(object obj)
+{
+	if (obj.GetType() == typeof(Name))
+		return this.Equals(obj as Name);
+	else return false;
+}
+
+public override int GetHashCode()
+{
+	int hashCode = 0;
+	if (Last != null)
+		hashCode ^= Last.GetHashCode();
+	if (First != null)
+		hashCode ^= First.GetHashCode();
+	if (Middle != null)
+		hashCode ^= Middle.GetHashCode();
+	return hashCode;
+}
+</code></pre>
+<p>最後還有處理運算子 <code>==</code> 和 <code>!=</code> 才算修改完成</p>
+<pre><code class="language-text">public static bool operator ==(Name left, Name right)
+{
+	return left.Equals(right);
+}
+public static bool operator !=(Name left, Name right)
+{
+	return !left.Equals(right);
+}
+</code></pre>
+<hr />
+<p>針對相等性的修改已經足夠了，但我們還有實做 <code>IComparable&lt;T&gt;</code> 接下來把 <code>IComparable</code> 也實做完成，同時也處理一下運算子，
+最終成果會像下面這樣。</p>
+<pre><code class="language-text">public class Name : IComparable&lt;Name&gt;, IEquatable&lt;Name&gt;, IComparable
+{
+	public string First { get; set; }
+	public string Last { get; set; }
+	public string Middle { get; set; }
+	//  IComparable&lt;Name&gt; Members
+	public int CompareTo(Name other)
+	{
+		if (Object.ReferenceEquals(this, other))
+			return 0;
+		if (Object.ReferenceEquals(other, null))
+			return 1; // Any non-null object &gt; null.
+		int rVal = Comparer&lt;string&gt;.Default.Compare
+			(Last, other.Last);
+		if (rVal != 0)
+			return rVal;
+		rVal = Comparer&lt;string&gt;.Default.Compare
+			(First, other.First);
+		if (rVal != 0)
+			return rVal;
+		return Comparer&lt;string&gt;.Default.Compare(Middle,
+			other.Middle);
+	}
+
+	public int CompareTo(object obj)
+	{
+		if (obj.GetType() != typeof(Name))
+			throw new ArgumentException(&quot;Argument is not a Name object&quot;);
+		return this.CompareTo(obj as Name);
+	}
+
+	// IEquatable&lt;Name&gt; Members
+	public bool Equals(Name other)
+	{
+		if (Object.ReferenceEquals(this, other))
+			return true;
+		if (Object.ReferenceEquals(other, null))
+			return false;
+		// Semantically equivalent to using
+		// EqualityComparer&lt;string&gt;.Default
+		return Last == other.Last &amp;&amp;
+			First == other.First &amp;&amp;
+			Middle == other.Middle;
+	}
+
+	public override bool Equals(object obj)
+	{
+		if (obj.GetType() == typeof(Name))
+			return this.Equals(obj as Name);
+		else return false;
+	}
+	
+	public override int GetHashCode()
+	{
+		int hashCode = 0;
+		if (Last != null)
+			hashCode ^= Last.GetHashCode();
+		if (First != null)
+			hashCode ^= First.GetHashCode();
+		if (Middle != null)
+			hashCode ^= Middle.GetHashCode();
+		return hashCode;
+	}
+
+	public static bool operator ==(Name left, Name right)
+	{
+		return left.Equals(right);
+	}
+	public static bool operator !=(Name left, Name right)
+	{
+		return !left.Equals(right);
+	}
+	public static bool operator &lt;(Name left, Name right)
+	{
+		return left.CompareTo(right) &lt; 0;
+	}
+	public static bool operator &gt;(Name left, Name right)
+	{
+		return left.CompareTo(right) &lt; 0;
+	}
+	public static bool operator &lt;=(Name left, Name right)
+	{
+		return left.CompareTo(right) &lt;= 0;
+	}
+	public static bool operator &gt;=(Name left, Name right)
+	{
+		return left.CompareTo(right) &gt;= 0;
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法主要在建議同時實做舊的介面，這樣做的目的主要在保持兼容性，但大部分的程式在搬到 .net core 之後都重寫過了，除非是自己公司
+有需要兼容舊的環境才有必要繼續實做舊的介面。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-26'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
