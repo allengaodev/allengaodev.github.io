@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 32.&#x5F9E;&#x52D5;&#x4F5C;&#x3001;&#x8FF0;&#x8A5E;&#x8207;&#x51FD;&#x5F0F;&#x4E2D;&#x89E3;&#x8026;&#x8FED;&#x4EE3; (Decouple Iterations from Actions, Predicates, and Functions)">
+
+  <title>Effective C# 32.&#x5F9E;&#x52D5;&#x4F5C;&#x3001;&#x8FF0;&#x8A5E;&#x8207;&#x51FD;&#x5F0F;&#x4E2D;&#x89E3;&#x8026;&#x8FED;&#x4EE3;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-32'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 32.&#x5F9E;&#x52D5;&#x4F5C;&#x3001;&#x8FF0;&#x8A5E;&#x8207;&#x51FD;&#x5F0F;&#x4E2D;&#x89E3;&#x8026;&#x8FED;&#x4EE3;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-32' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-32'>Effective C# 32.&#x5F9E;&#x52D5;&#x4F5C;&#x3001;&#x8FF0;&#x8A5E;&#x8207;&#x51FD;&#x5F0F;&#x4E2D;&#x89E3;&#x8026;&#x8FED;&#x4EE3;</a>
+              <span class="subheading">Effective C# 32.&#x5F9E;&#x52D5;&#x4F5C;&#x3001;&#x8FF0;&#x8A5E;&#x8207;&#x51FD;&#x5F0F;&#x4E2D;&#x89E3;&#x8026;&#x8FED;&#x4EE3; (Decouple Iterations from Actions, Predicates, and Functions)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, October 22, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法也是在對 <code>Iterator Methods</code> 與 <code>yield return</code> 進行延伸討論，並把做法 7 中的 <code>delegate</code> 概念加入進來。</p>
+<p>我們已經知道 <code>Iterator Methods</code> 是用來處理集合中資料迭代的功能，但是一個只會進行迴圈的方法是沒什麼意義，通常還會有另一部分
+就是對集合中的元素進行處理，例如在做法 31 中把資料去重複就是這樣的概念。</p>
+<p>如果我們把這兩種職責寫在同一個方法裡面，那就會產生耦合會導致之後進行修改的時會很難找到問題點，跟 SRP 原則想表達的意思差不多。</p>
+<p>也就是說最好是想辦法把這兩種職責分開來，長久來看是比較好的做法，要達到這樣的目的可以使用 做法 7 有提到的 <code>delegate</code>。</p>
+<p>我們在做法 7 有提到常用的 <code>delegate</code> 格式可以直接用微軟內建的就好，不用自己在建立一個類似的 <code>delegate</code>。</p>
+<pre><code class="language-text">namespace System
+{
+	public delegate bool Predicate&lt;T&gt;(T obj);
+	public delegate void Action&lt;T&gt;(T obj);
+	public delegate TResult Func&lt;T, TResult&gt;(T arg);
+}
+</code></pre>
+<p>例如今天我想要將傳入的集合過濾掉某一個數字，不依靠 <code>delegate</code> 可能會長的像這樣，這個方法同時有迭代跟比較兩種職責存在。</p>
+<pre><code class="language-text">void Main()
+{
+	var xx = new List&lt;int&gt;() {1, 2, 3, 4, 5, 6,};	
+	
+	Where&lt;int&gt;(xx, 6).Dump();
+}
+
+public static IEnumerable&lt;T&gt; Where&lt;T&gt;(IEnumerable&lt;T&gt; sequence, T filter)
+{
+	if (sequence == null)
+		throw new ArgumentNullException(nameof(sequence), &quot;sequence must not be null&quot;);
+	foreach (T item in sequence)
+		if (!item.Equals(filter))
+			yield return item;
+}
+</code></pre>
+<p>改成 <code>delegate</code> 的版本會發現比較的職責被移出方法外了，也就是會透過 filterFunc 參數把 <code>delegate</code> 傳入進來，這樣方法就能維持一個職責。</p>
+<pre><code class="language-text">public static IEnumerable&lt;T&gt; Where&lt;T&gt; (IEnumerable&lt;T&gt; sequence, Predicate&lt;T&gt; filterFunc)
+{
+	if (sequence == null)
+		throw new ArgumentNullException(nameof(sequence), &quot;sequence must not be null&quot;);
+	if (filterFunc == null)
+		throw new ArgumentNullException(&quot;Predicate must not be null&quot;);
+	foreach (T item in sequence)
+		if (filterFunc(item))
+			yield return item;
+}
+</code></pre>
+<p>關鍵就是把其它職責透過參數的方式來傳入，也可以改用 <code>Func</code> 產生輸出。</p>
+<pre><code class="language-text">public static IEnumerable&lt;T&gt; Select&lt;T&gt;(IEnumerable&lt;T&gt; sequence, Func&lt;T, T&gt; method)
+{
+	foreach (T element in sequence)
+		yield return method(element);
+}
+</code></pre>
+<p>使用起來會像下面這樣，會將我們寫的 Lambda 語法轉換成參數之後進行平方運算完成後輸出結果。</p>
+<pre><code>void Main()
+{
+	var ll = new List&lt;int&gt;() { 1, 2, 3, 4, 5, 6 };
+	var r = Select&lt;int&gt;(ll, x =&gt; x * x);
+	Console.WriteLine(r);
+}
+</code></pre>
+<p>也可以使用做法 31 提到 <code>Iterator Methods</code> 的組合特性，將兩個 <code>Iterator Methods</code> 進行結合。</p>
+<pre><code class="language-text">void Main()
+{
+	var ll = new List&lt;int&gt;() { 1, 2, 3, 4, 5, 6 };
+	var r = Select&lt;int&gt;(Where&lt;int&gt;(ll, x =&gt; x &gt; 3), x =&gt; x * x);
+	Console.WriteLine(r);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在複習做法 7 有提到的內建三個 <code>delegate</code> 方法，並且建議把職責都分開來讓每一個方法盡量都只有保持一個職責。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-32'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
