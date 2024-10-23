@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 33.&#x88AB;&#x8ACB;&#x6C42;&#x6642;&#x7522;&#x751F;&#x5E8F;&#x5217;&#x9805;&#x76EE; (Generate Sequence Items as Requested)">
+
+  <title>Effective C# 33.&#x88AB;&#x8ACB;&#x6C42;&#x6642;&#x7522;&#x751F;&#x5E8F;&#x5217;&#x9805;&#x76EE;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-33'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 33.&#x88AB;&#x8ACB;&#x6C42;&#x6642;&#x7522;&#x751F;&#x5E8F;&#x5217;&#x9805;&#x76EE;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-33' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-33'>Effective C# 33.&#x88AB;&#x8ACB;&#x6C42;&#x6642;&#x7522;&#x751F;&#x5E8F;&#x5217;&#x9805;&#x76EE;</a>
+              <span class="subheading">Effective C# 33.&#x88AB;&#x8ACB;&#x6C42;&#x6642;&#x7522;&#x751F;&#x5E8F;&#x5217;&#x9805;&#x76EE; (Generate Sequence Items as Requested)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, October 22, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法也是繼續在對 <code>Iterator Methods</code> 與 <code>yield return</code> 進行延伸討論，這次是在對 <code>Lazy Evaluation</code> 特性進行更詳細的說明，
+還有不使用 <code>Iterator Methods</code> 可能會導致轉換問題。</p>
+<p>首先產生集合這個需求是非常常見的，例如在讀取完資料庫後通常需要轉換成可操作的集合，假設我有一個產生集合的方法像下面這段程式碼:</p>
+<pre><code class="language-text">static IList&lt;int&gt; CreateSequence(int numberOfElements, int startAt, int stepBy)
+{
+	var collection = new List&lt;int&gt;(numberOfElements);
+	for (int i = 0; i &lt; numberOfElements; i++)
+		collection.Add(startAt + i * stepBy);
+	return collection;
+}
+</code></pre>
+<p>了解前幾個做法的概念後可以知道，上面這段程式碼並不是 <code>Iterator Methods</code> 因為它沒有使用 <code>yield return</code> 回傳值也不是 <code>IEnumerable&lt;T&gt;</code>，
+所以上面這種寫法是常見的傳統寫法，它會先建立一個暫時的 <code>List&lt;int&gt;</code> 保存中繼結果等處理完成後進行輸出。</p>
+<p>假設我有一個 <code>BindingList&lt;int&gt;</code> 結構，我之後使用上面的方法產生的集合進行初始化，這會導致一個問題就是建構 <code>BindingList</code> 所用的
+<code>CreateSequence(100,0,5).ToList()</code> 並不會複製一份新的結果而是複製地址，所以假設同時有另一個地方使用到了同一分資料地址那可能會導致
+初始化錯誤。</p>
+<pre><code class="language-text">var data = new BindingList&lt;int&gt;(CreateSequence(100,0,5).ToList());
+</code></pre>
+<p>另一個問題在做法 31 有提到，<code>CreateSequence</code> 因為不是 <code>Iterator Methods</code> 所以並不具備 <code>Continuable methods</code> 的特性，也就是說
+它一但開始運行就必須完成為止。</p>
+<p>當然解決的方法也很簡單那就是改成 <code>Iterator Methods</code> 就好。</p>
+<pre><code class="language-text">static IEnumerable&lt;int&gt; CreateSequence(int numberOfElements, int startAt, int stepBy)
+{
+	for (var i = 0; i &lt; numberOfElements; i++)
+		yield return startAt + i * stepBy;
+}
+</code></pre>
+<p>另外要提一下下面這兩種寫法，第一種回傳的是 <code>IEnumerable&lt;T&gt;</code> 所以建構 <code>List&lt;int&gt;</code> 時所用的建構函式使用的是 <code>IEnumerable&lt;T&gt;</code> 的多載版本，
+第二種則是會先把呼叫 ToList() 方法把結果轉換成 <code>List</code> 這樣感覺起來效能比較差，但其實 <code>BindingList</code> 會直接使用剛剛建立的 <code>List</code> 的參考，
+所以不會再完整複製一次，所以效能不會比較差。</p>
+<pre><code class="language-text">var listStorage = new List&lt;int&gt;(CreateSequence(100, 0, 5));
+var data = new BindingList&lt;int&gt;(CreateSequence(100,0,5).ToList());
+</code></pre>
+<p>最後又對 <code>Continuable methods</code> 這個特性提出一個範例，也就是本做法要提出的重點，下面這段程式碼展現出可中斷的特性，
+雖然 <code>CreateSequence</code> 會建立一個 10000 個元素的集合，但是關鍵在最後的 <code>FirstOrDefault</code> 代表我們只需要第一個元素即可，
+如果使用舊的寫法那會先把這 10000 個元素的集合先產生完成之後在挑出第一個。</p>
+<p>但是在 <code>yield return</code> 的版本中透過中斷的特性，迴圈就真的只會執行一次，剩下的 9999 次都可以省略掉了。</p>
+<pre><code class="language-text">void Main()
+{
+	var sequence = CreateSequence(10000, 0, 7).FirstOrDefault();
+}
+
+static IEnumerable&lt;int&gt; CreateSequence(int numberOfElements, int startAt, int stepBy)
+{
+	for (var i = 0; i &lt; numberOfElements; i++)
+		yield return startAt + i * stepBy;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法比較沒有什麼新的知識點，基本上都是對過去提到的內容提出範例與補充說明，主要還是在建議使用者多使用 <code>yield return</code>。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-33'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
