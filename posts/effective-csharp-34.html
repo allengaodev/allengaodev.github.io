@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 34.&#x4F7F;&#x7528;&#x51FD;&#x5F0F;&#x53C3;&#x6578;&#x89E3;&#x8026; (Loosen Coupling by Using Function Parameters)">
+
+  <title>Effective C# 34.&#x4F7F;&#x7528;&#x51FD;&#x5F0F;&#x53C3;&#x6578;&#x89E3;&#x8026;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-34'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 34.&#x4F7F;&#x7528;&#x51FD;&#x5F0F;&#x53C3;&#x6578;&#x89E3;&#x8026;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-34' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-34'>Effective C# 34.&#x4F7F;&#x7528;&#x51FD;&#x5F0F;&#x53C3;&#x6578;&#x89E3;&#x8026;</a>
+              <span class="subheading">Effective C# 34.&#x4F7F;&#x7528;&#x51FD;&#x5F0F;&#x53C3;&#x6578;&#x89E3;&#x8026; (Loosen Coupling by Using Function Parameters)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, October 23, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法是做法 32 的延伸說明，主要在說明把函式當成參數來傳遞所帶來的好處。</p>
+<p>首先提出一個沒有使用 Function Parameters 設計的範例，我們在做法 32 有提到使用 Function Parameters 的關鍵是把實做的邏輯由我們
+轉交給使用者自行決定這點跟 DIP 原則有點類似，所以如果微軟沒有設計出 Predicate 這幾個 <code>delegate</code> 的概念，那勢必就只能通過介面來
+翻轉職責，也就是會變成下面這樣子非常冗長。</p>
+<pre><code class="language-text">void Main()
+{
+	var xx = new List&lt;int&gt;();
+	var myPredicate = new MyPredicate();
+	xx.RemoveAll(myPredicate);
+}
+
+public interface IPredicate&lt;T&gt;
+{
+	bool Match(T soughtObject);
+}
+public class List&lt;T&gt;
+{
+	public void RemoveAll(IPredicate&lt;T&gt; match)
+	{
+	}
+}
+public class MyPredicate : IPredicate&lt;int&gt;
+{
+	public bool Match(int target) =&gt; target &lt; 100;
+}
+</code></pre>
+<p>或者是利用繼承的特性，建立一個抽象的基礎類別之後衍生類別實現需要的抽象方法，這個方法跟上面提到的介面處理耦合都是常用的方式。</p>
+<p>下面段程式碼就是個好例子，最內層的 <code>string.Format</code> 就是個具體實現也強烈的跟 <code>Zip</code> 方法耦合在一起。</p>
+<pre><code class="language-text">public static IEnumerable&lt;string&gt; Zip(IEnumerable&lt;string&gt; first, IEnumerable&lt;string&gt; second)
+{
+	using (var firstSequence = first.GetEnumerator())
+	{
+		using (var secondSequence = second.GetEnumerator())
+		{
+			while (firstSequence.MoveNext() &amp;&amp; secondSequence.MoveNext())
+			{
+				yield return string.Format(&quot;{0} {1}&quot;,
+					firstSequence.Current,
+					secondSequence.Current);
+			}
+		}
+	}
+}
+</code></pre>
+<p>使用 Function Parameters 的設計後，可以把具體的實現移出方法外解除耦合。</p>
+<pre><code class="language-text">public static IEnumerable&lt;TResult&gt; Zip&lt;T1, T2, TResult&gt;(IEnumerable&lt;T1&gt; first, IEnumerable&lt;T2&gt; second, Func&lt;T1, T2, TResult&gt; zipper)
+{
+	using (var firstSequence = first.GetEnumerator())
+	{
+		using (var secondSequence = second.GetEnumerator())
+		{
+			while (firstSequence.MoveNext() &amp;&amp; secondSequence.MoveNext())
+			{
+				yield return zipper(firstSequence.Current,secondSequence.Current);
+			}
+		}
+	}
+}
+</code></pre>
+<p>最後使用 Zip 方法時需要額外傳入具體 Function 即可。</p>
+<pre><code class="language-text">void Main()
+{
+	var first = &quot;Hello&quot;;
+	var second = &quot;World!&quot;;
+	var result = Zip(first, second, (one, two) =&gt; string.Format(&quot;{0} {1}&quot;, one, two));
+}
+</code></pre>
+<p>我們可以把做法 33 使用到的方法進行改寫用 Function Parameters 的設計。</p>
+<pre><code class="language-text">static IEnumerable&lt;int&gt; CreateSequence(int numberOfElements, int startAt, int stepBy)
+{
+	for (var i = 0; i &lt; numberOfElements; i++)
+		yield return startAt + i * stepBy;
+}
+
+public static IEnumerable&lt;T&gt; CreateSequence&lt;T&gt;(int numberOfElements, Func&lt;T&gt; generator)
+{
+	for (var i = 0; i &lt; numberOfElements; i++)
+		yield return generator();
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法跟做法 32 內容差不多，只是多了幾個例子與背後思考的邏輯，使用 Function Parameters 的設計可以解決耦合的問題，
+但是我們撰寫程式碼的時候需要花費額外的功夫，當然使用抽象或是介面也是一種好方法，可以按照實際情況搭配使用。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-34'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
