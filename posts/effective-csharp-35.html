@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 35.&#x4E0D;&#x8981;&#x904E;&#x8F09;&#x64F4;&#x5145;&#x65B9;&#x6CD5; (Never Overload Extension Methods)">
+
+  <title>Effective C# 35.&#x4E0D;&#x8981;&#x904E;&#x8F09;&#x64F4;&#x5145;&#x65B9;&#x6CD5;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-35'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 35.&#x4E0D;&#x8981;&#x904E;&#x8F09;&#x64F4;&#x5145;&#x65B9;&#x6CD5;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-35' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-35'>Effective C# 35.&#x4E0D;&#x8981;&#x904E;&#x8F09;&#x64F4;&#x5145;&#x65B9;&#x6CD5;</a>
+              <span class="subheading">Effective C# 35.&#x4E0D;&#x8981;&#x904E;&#x8F09;&#x64F4;&#x5145;&#x65B9;&#x6CD5; (Never Overload Extension Methods)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, October 23, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在討論多載這個特性與多載擴充方法是非常不好的。</p>
+<p>用下面這段程式碼做例子，它會使用 <code>Format</code> 擴充方法直接將 Person 的名稱進行輸出，注意到擴充方法的 namespace 為 <code>ConsoleExtensions</code>
+與主程式的 namespace 不同。</p>
+<pre><code class="language-text">using ConsoleExtensions;
+
+void Main()
+{
+	List&lt;Person&gt; somePresidents = new List&lt;Person&gt;{
+		 new Person{FirstName = &quot;George&quot;,LastName = &quot;Washington&quot; },
+		 new Person{FirstName = &quot;Thomas&quot;,LastName = &quot;Jefferson&quot; },
+		 new Person{FirstName = &quot;Abe&quot;,LastName = &quot;Lincoln&quot; }
+	};
+		 
+	foreach (Person p in somePresidents)
+		Console.WriteLine(p.Format());
+}
+
+public sealed class Person
+{
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+}
+
+namespace ConsoleExtensions
+{
+	public static class ConsoleReport
+	{
+		public static string Format(this Person target) =&gt; $&quot;{target.LastName,20},{target.FirstName,15}&quot;;
+	}
+}
+
+Washington,         George
+ Jefferson,         Thomas
+   Lincoln,            Abe
+</code></pre>
+<p>從上面的擴充方法可以得知，它是用來組合名稱後回傳一個字串，但是今天有另一個需求想要輸出 XML 格式的話，你可能會在寫一個擴充方法。</p>
+<pre><code class="language-text">namespace XmlExtensions
+{
+	public static class XmlReport
+	{
+		public static string Format(this Person target) =&gt;
+			new XElement(&quot;Person&quot;,
+				new XElement(&quot;LastName&quot;, target.LastName),
+				new XElement(&quot;FirstName&quot;, target.FirstName)
+				).ToString();
+	}
+}
+</code></pre>
+<p>最後再把最上方的 namespace 切換成 XmlExtensions 就可以做到不修改主程式也能改變輸出結果。</p>
+<pre><code class="language-text">using XmlExtensions;
+
+void Main()
+{
+	List&lt;Person&gt; somePresidents = new List&lt;Person&gt;{
+		 new Person{FirstName = &quot;George&quot;,LastName = &quot;Washington&quot; },
+		 new Person{FirstName = &quot;Thomas&quot;,LastName = &quot;Jefferson&quot; },
+		 new Person{FirstName = &quot;Abe&quot;,LastName = &quot;Lincoln&quot; }
+	};
+		 
+	foreach (Person p in somePresidents)
+		Console.WriteLine(p.Format());
+}
+
+
+&lt;Person&gt;
+  &lt;LastName&gt;Washington&lt;/LastName&gt;
+  &lt;FirstName&gt;George&lt;/FirstName&gt;
+&lt;/Person&gt;
+&lt;Person&gt;
+  &lt;LastName&gt;Jefferson&lt;/LastName&gt;
+  &lt;FirstName&gt;Thomas&lt;/FirstName&gt;
+&lt;/Person&gt;
+&lt;Person&gt;
+  &lt;LastName&gt;Lincoln&lt;/LastName&gt;
+  &lt;FirstName&gt;Abe&lt;/FirstName&gt;
+&lt;/Person&gt;
+</code></pre>
+<p>這種寫法就是本做法提到的多載擴充方法，雖然看起來可能但實際上會碰到某些問題，例如忘記把 using 加上去整個程式就沒版法編譯了，
+或是同一個 class 的兩個方法需要個別使用 Xml 與 字串輸出，同時引用 namespace 後導致編譯器不知道要選擇哪一個版本。</p>
+<p>這是一個誤用擴充方法的案例，另外使用擴充方法應該注重在這些類型本就應該有的功能，所以上面的案例中對 <code>Person</code> 進行 Console 輸出
+或 Xml 輸出其實跟 <code>Person</code> 沒有關係，這個功能應該使用者自行處理，關鍵在於擴充方法是用來增強類別原本就應該具有的功能。</p>
+<p>所以上面那種行為的功能需求可以改成使用一般的靜態方法即可，並且把名子分開後使用者也比較容易理解方法的內部行為。</p>
+<pre><code class="language-text">public static class PersonReports
+{
+	public static string FormatAsText(Person target) =&gt; $&quot;{target.LastName,20},{target.FirstName,15}&quot;;
+	public static string FormatAsXML(Person target) =&gt; new XElement(&quot;Person&quot;,
+			new XElement(&quot;LastName&quot;, target.LastName),
+			new XElement(&quot;FirstName&quot;, target.FirstName)
+	).ToString();
+}
+
+void Main()
+{
+	List&lt;Person&gt; somePresidents = new List&lt;Person&gt;{
+		 new Person{FirstName = &quot;George&quot;,LastName = &quot;Washington&quot; },
+		 new Person{FirstName = &quot;Thomas&quot;,LastName = &quot;Jefferson&quot; },
+		 new Person{FirstName = &quot;Abe&quot;,LastName = &quot;Lincoln&quot; }
+	};
+		 
+	foreach (Person p in somePresidents)
+		Console.WriteLine(PersonReports.FormatAsXML(p));
+}
+
+public sealed class Person
+{
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法透過切換 using 的方式來說明多載擴充方法很容易造成問題，另外提到擴充方法應該是要用來增強類別用的而不是用來操作類別用的。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-35'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
