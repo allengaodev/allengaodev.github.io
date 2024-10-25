@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 36.&#x8A8D;&#x8B58;&#x67E5;&#x8A62;&#x8868;&#x793A;&#x5F0F;&#x5982;&#x4F55;&#x5C0D;&#x61C9;&#x65B9;&#x6CD5;&#x547C;&#x53EB; (Understand How Query Expressions Map to Method Calls)">
+
+  <title>Effective C# 36.&#x8A8D;&#x8B58;&#x67E5;&#x8A62;&#x8868;&#x793A;&#x5F0F;&#x5982;&#x4F55;&#x5C0D;&#x61C9;&#x65B9;&#x6CD5;&#x547C;&#x53EB;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-36'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 36.&#x8A8D;&#x8B58;&#x67E5;&#x8A62;&#x8868;&#x793A;&#x5F0F;&#x5982;&#x4F55;&#x5C0D;&#x61C9;&#x65B9;&#x6CD5;&#x547C;&#x53EB;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-36' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-36'>Effective C# 36.&#x8A8D;&#x8B58;&#x67E5;&#x8A62;&#x8868;&#x793A;&#x5F0F;&#x5982;&#x4F55;&#x5C0D;&#x61C9;&#x65B9;&#x6CD5;&#x547C;&#x53EB;</a>
+              <span class="subheading">Effective C# 36.&#x8A8D;&#x8B58;&#x67E5;&#x8A62;&#x8868;&#x793A;&#x5F0F;&#x5982;&#x4F55;&#x5C0D;&#x61C9;&#x65B9;&#x6CD5;&#x547C;&#x53EB; (Understand How Query Expressions Map to Method Calls)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, October 23, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法算是做法 30 的詳細說明版本，主要在把 Query Expressions 背後的機制說明一下與它轉換的過程。</p>
+<p>在做法 30 有提到基本上每個 <code>Query Syntax</code> 的寫法都有對應的 <code>Method Call Syntax</code>，更詳細的說不管哪種寫法最後都會轉換成 Method Call，
+還有學習到 <code>query expression</code> 的基本語法。
+例如下面這段就是使用 <code>query expression</code> 的一段範例程式碼。</p>
+<pre><code class="language-text">var foo = (from n in Enumerable.Range(0, 100)
+			   select n * n).ToArray();
+</code></pre>
+<p>當我們寫完一段 <code>query expression</code> 之後會進行轉換，而這個轉換會根據 <code>query expression pattern</code> 裡面提供的方法來轉換成 Method Call，
+這個 pattern 裡面有以下幾種方法讓編譯器挑選最適當的方法後進行轉換。</p>
+<pre><code class="language-text">class C&lt;T&gt; : C
+{
+	public C&lt;T&gt; Where(Func&lt;T, bool&gt; predicate);
+	public C&lt;U&gt; Select&lt;U&gt;(Func&lt;T, U&gt; selector);
+
+	public C&lt;V&gt; SelectMany&lt;U, V&gt;(Func&lt;T, C&lt;U&gt;&gt; selector,
+		Func&lt;T, U, V&gt; resultSelector);
+
+	public C&lt;V&gt; Join&lt;U, K, V&gt;(C&lt;U&gt; inner, Func&lt;T, K&gt; outerKeySelector,
+		Func&lt;U, K&gt; innerKeySelector, Func&lt;T, U, V&gt; resultSelector);
+	public C&lt;V&gt; GroupJoin&lt;U, K, V&gt;(C&lt;U&gt; inner, Func&lt;T, K&gt; outerKeySelector,
+		Func&lt;U, K&gt; innerKeySelector, Func&lt;T, C&lt;U&gt;, V&gt; resultSelector);
+	public O&lt;T&gt; OrderBy&lt;K&gt;(Func&lt;T, K&gt; keySelector);
+	public O&lt;T&gt; OrderByDescending&lt;K&gt;(Func&lt;T, K&gt; keySelector);
+	public C&lt;G&lt;K, T&gt;&gt; GroupBy&lt;K&gt;(Func&lt;T, K&gt; keySelector);
+	public C&lt;G&lt;K, E&gt;&gt; GroupBy&lt;K, E&gt;(Func&lt;T, K&gt; keySelector,
+		Func&lt;T, E&gt; elementSelector);
+}
+class O&lt;T&gt; : C&lt;T&gt;
+{
+	public O&lt;T&gt; ThenBy&lt;K&gt;(Func&lt;T, K&gt; keySelector);
+	public O&lt;T&gt; ThenByDescending&lt;K&gt;(Func&lt;T, K&gt; keySelector);
+}
+class G&lt;K, T&gt; : C&lt;T&gt;
+{
+	public K Key { get; }
+}
+</code></pre>
+<p>也就是說我們寫一段 <code>query expression</code> 背後會被轉換成這 11 個方法的其中幾個。
+Where, Select, SelectMany, Join, GroupJoin, OrderBy, OrderByDescending, ThenBy, ThenByDescending, GroupBy, and Cast</p>
+<p>目前有按照 <code>query expression pattern</code> 這個模式進行實作的類型有 <code>IEnumerable&lt;T&gt;</code> 與 <code>IQueryable&lt;T&gt;</code>，
+System.Linq.Enumerable 幫 <code>IEnumerable&lt;T&gt;</code> 提供了豐富的擴充方法來實踐這個模式，System.Linq.Queryable 也有幫 <code>IQueryable&lt;T&gt;</code> 提供
+一組類似功能的擴充方法，但它背後使用的是 <code>query provider</code> 的技術讓它有能力把 <code>query expression</code> 轉換成另一種執行格式，
+例如 LINQ to SQL 就是把我們寫的 Linq 語法轉換成 SQL 語法，基本上我們使用的 LINQ 語法都會是者兩種其中之一。</p>
+<p>接下來依次解讀這段查詢語句背後的意義。</p>
+<pre><code class="language-text">void Main()
+{
+	int[] numbers = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	var smallNumbers = from n in numbers
+					   where n &lt; 5
+					   select n;
+}
+</code></pre>
+<p>第一段 <code>from n in numbers</code> 背後會把 numbers 元素依次賦值給 range variable(範圍變數) n， <code>where</code> 子句會產生一個過濾器並且會轉換成
+上面提到的 11 個方法中的 <code>Where</code> 方法，會轉換成像下面這樣的格式。</p>
+<pre><code class="language-text">numbers.Where(n =&gt; n &lt; 5);
+</code></pre>
+<p><code>Where</code> 方法需要傳入一個 predicate 委派這個在之前的做法有提到過，它會把符合條件的元素進行輸出。
+最後是 <code>select</code> 子句在通常有兩個情況，第一個是像上面的範例中的 <code>select n</code> 因為它選取的是 <code>where</code> 子句所產生的結果集合，
+也就是說輸入跟輸出的集合是不相同的，這種特例情況 <code>select</code> 子句就不會轉換成 <code>Select</code> 方法，而是直接被優化省略掉了。</p>
+<p>所以最後的結果如下所示</p>
+<pre><code class="language-text">var smallNumbers = numbers.Where(n =&gt; n &lt; 5);
+</code></pre>
+<p>第二種則是輸入跟輸出的集合是相同的，這樣 <code>select</code> 子句就會跟預期的一樣轉換成 <code>Select</code> 方法。</p>
+<pre><code class="language-text">var allNumbers = from n in numbers 
+                 select n;
+
+var allNumbers = numbers.Select(n =&gt; n);
+</code></pre>
+<p>這個轉換流程背後編譯器會先把 <code>query expression</code> 轉換成 <code>method call</code>，這也是第一步驟所以編譯器這時並不知道
+要使用 <code>method call</code> 中的哪一個多載方法可以選用和不管類型的綁定工作，等到把所有的 <code>query expression</code> 的每一個步驟都轉換完成後
+才會搜尋挑選最好的多載方法。</p>
+<p><code>select</code> 子句通常可以拿來對過濾後的結果進行二次操作例如下面這個例子，一個會把 <code>where</code> 過濾完的資料進行平方運算，
+另一個會使用原本的元素並產生一個新的資料類型集合。</p>
+<pre><code class="language-text">void Main()
+{
+
+	int[] numbers = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	var smallNumbers = from n in numbers
+					   where n &lt; 5
+					   select n * n;
+
+	var squares = from n in numbers
+				  select new { Number = n, Square = n * n };
+}
+</code></pre>
+<hr />
+<p>接下來討論 <code>orderby</code> 相關的子句，這邊同樣也進行過濾後把結果按照順序進行排序，跟排序相關的方法有這幾個 OrderBy, OrderByDescending, ThenBy, ThenByDescending</p>
+<pre><code class="language-text">var people = from e in employees
+			 where e.Age &gt; 30
+			 orderby e.LastName, e.FirstName, e.Age
+			 select e;
+</code></pre>
+<pre><code class="language-text">var people = employees.Where(e =&gt; e.Age &gt; 30).
+             OrderBy(e =&gt; e.LastName).
+             ThenBy(e =&gt; e.FirstName).
+             ThenBy(e =&gt; e.Age);
+</code></pre>
+<p><code>ThenBy</code> 這個方法需要在 <code>OrderBy</code> 或另一個 <code>ThenBy</code> 後面，因為它會把排序完的結果往下傳遞，並且它會把整理後的資料打上標記(markers)
+這樣 <code>ThenBy</code> 就會知道 <code>sorted subranges</code> 該處理的範圍有多大。</p>
+<p>要注意下面的寫法會與上面的不同，因為下面使用的是三個 <code>orderby</code> 子句因此資料會先根據 <code>LastName</code> 進行完整排序，之後再根據 <code>FirstName</code>
+排序最後又根據 <code>Age</code> 排序。</p>
+<pre><code class="language-text">var people = from e in employees
+			 where e.Age &gt; 30
+			 orderby e.LastName
+			 orderby e.FirstName
+			 orderby e.Age
+			 select e;
+</code></pre>
+<p>也可以使用 descending 進行修飾，可以將集合進行到序排序。</p>
+<pre><code class="language-text">var people = from e in employees
+			 where e.Age &gt; 30
+			 orderby e.LastName descending, e.FirstName, e.Age
+			 select e;
+</code></pre>
+<hr />
+<p>下一個是 group 的相關操作，這個語句通常會包含分組操作與多個 from 子句，因此會需要經過多個步驟才能轉換成對應的 Method Call。</p>
+<p>下面這個例子就會進行多步驟的轉換。</p>
+<pre><code class="language-text">var results = from e in employees
+			  group e by e.Department into d
+			  select new
+			  {
+				  Department = d.Key,
+				  Size = d.Count()
+			  };
+</code></pre>
+<p>第二步驟會轉換成嵌套式的寫法。</p>
+<pre><code class="language-text">var results = from d in
+              from e in employees group e by e.Department
+              select new 
+              { 
+				  Department = d.Key,
+				  Size = d.Count()
+              };
+</code></pre>
+<p>最後才轉換成 Method Call。</p>
+<pre><code class="language-text">var results = employees.GroupBy(e =&gt; e.Department).
+    Select(d =&gt; new { 
+        Department = d.Key,
+        Size = d.Count() 
+    });
+</code></pre>
+<pre><code class="language-text">(5 items)•••
+DepartmentΞΞ	SizeΞΞ
+0	            1
+1	            2
+2	            2
+3	            2
+4	            2
+10	            9
+</code></pre>
+<p>上面的語句會會傳一個分組過的集合，下面的語句則會產生新分組元素的集合。</p>
+<pre><code class="language-text">var results = from e in employees
+              group e by e.Department into d
+              select new
+              {
+                  Department = d.Key,
+                  Employees = d.AsEnumerable()
+              };
+</code></pre>
+<pre><code class="language-text">var results2 = employees.GroupBy(e =&gt; e.Department).
+    Select(d =&gt; new {
+        Department = d.Key,
+        Employees = d.AsEnumerable()
+    });
+</code></pre>
+<hr />
+<p>最後是 SelectMany, Join, GroupJoin 這三種方法的例子，這些方法通常會操作一個以上的集合，
+例如下面這個例子就是把兩個集合進行處理後輸出一個新集合。</p>
+<pre><code class="language-text">void Main()
+{
+	int[] odds = { 1, 3, 5, 7 };
+	int[] evens = { 2, 4, 6, 8 };
+	var pairs = from oddNumber in odds
+				from evenNumber in evens
+				select new
+				{
+					oddNumber,
+					evenNumber,
+					Sum = oddNumber + evenNumber
+				};
+}
+
+(16 items)•••
+oddNumberΞΞ	evenNumberΞΞ	SumΞΞ
+1	        2	            3
+1	        4	            5
+1	        6	            7
+1	        8	            9
+3	        2	            5
+3	        4	            7
+3	        6	            9
+3	        8	            11
+5	        2	            7
+5	        4	            9
+5	        6	            11
+5	        8	            13
+7	        2	            9
+7	        4	            11
+7	        6	            13
+7	        8	            15
+64	        80	            144
+</code></pre>
+<p>背後會轉換成 SelectMany 方法，它會需要兩個參數第一個參數是用來把 <code>odds</code> 陣列的每個元素對應到 <code>evens</code> 陣列上，跟兩個 foreach 迴圈意思差不多，
+第二個參數是會創建兩個集合中各自的元素值選擇器。</p>
+<pre><code class="language-text">int[] odds = { 1, 3, 5, 7 };
+int[] evens = { 2, 4, 6, 8 };
+var values = odds.SelectMany(oddNumber =&gt; evens,
+   (oddNumber, evenNumber) =&gt;
+   new
+   {
+	   oddNumber,
+	   evenNumber,
+	   Sum = oddNumber + evenNumber
+   });
+</code></pre>
+<p>背後的邏輯大概是像下面這段方法，第一個參數是原始集合，第二個參數會把第一個參數傳給 inputSelector 並得出第二個集合，
+最後把第一個集合的元素與第二個集合的元素傳給 resultSelector 進行處理。</p>
+<pre><code class="language-text">static IEnumerable&lt;TOutput&gt; SelectMany&lt;T1, T2, TOutput&gt;(
+	this IEnumerable&lt;T1&gt; src,
+	Func&lt;T1, IEnumerable&lt;T2&gt;&gt; inputSelector,
+	Func&lt;T1, T2, TOutput&gt; resultSelector)
+{
+	foreach (T1 first in src)
+	{
+		foreach (T2 second in inputSelector(first))
+			yield return resultSelector(first, second);
+	}
+}
+</code></pre>
+<p>如果在這種多個 from 所組成的語句，則會使用多個 SelectMany 方法將多個結果串接起來。</p>
+<pre><code class="language-text">var triples = from n in new int[] { 1, 2, 3 }
+			  from s in new string[] { &quot;one&quot;, &quot;two&quot;, &quot;three&quot;}
+			  from r in new string[] { &quot;I&quot;, &quot;II&quot;, &quot;III&quot; }
+			  select new { Arabic = n, Word = s, Roman = r };
+</code></pre>
+<pre><code class="language-text">var numbers = new int[] { 1, 2, 3 };
+var words = new string[] { &quot;one&quot;, &quot;two&quot;, &quot;three&quot; };
+var romanNumerals = new string[] { &quot;I&quot;, &quot;II&quot;, &quot;III&quot; };
+var triples = numbers.SelectMany(n =&gt; words,
+	(n, s) =&gt; new { n, s })
+	.SelectMany(pair =&gt; romanNumerals,
+   (pair, n) =&gt; new { Arabic = pair.n, Word = pair.s, Roman = n }
+);
+</code></pre>
+<p>join 子句會先看語句中是否有包含 into 子句，如果有的話會轉換成 GroupJoin，不包含 into 子句則轉換成 Join。</p>
+<pre><code class="language-text">var numbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+var labels = new string[] { &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot; };
+var query = from num in numbers
+			join label in labels on num.ToString() equals label
+			select new { num, label };
+			
+			
+var query = numbers.Join(labels, num =&gt; num.ToString(),
+    label =&gt; label, (num, label) =&gt; new { num, label });
+</code></pre>
+<p>into 子句會直接把結果進行分組，並且把這些組放在同一個集合中。</p>
+<pre><code class="language-text">var groups = from p in projects
+             join t in tasks on p equals t.Parent
+             into projTasks
+             select new { Project = p, projTasks };
+             
+var groups = projects.GroupJoin(tasks,
+	p =&gt; p, t =&gt; t.Parent, (p, projTasks) =&gt;
+		new { Project = p, TaskList = projTasks });
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在講 <code>query expression pattern</code> 裡面提供的方法背後轉換的邏輯與運作方式，但這些工作基本上都是交由編譯器自動處理，
+只要你寫的類型實現了 <code>IEnumerable&lt;T&gt;</code> 那麼使用者就能用 query expression 完成日常操作。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-36'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
