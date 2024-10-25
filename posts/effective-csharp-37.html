@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 37.&#x5728;&#x67E5;&#x8A62;&#x504F;&#x597D;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x800C;&#x975E;&#x7A4D;&#x6975;&#x6C42;&#x503C; (Prefer Lazy Evaluation to Eager Evaluation in Queries)">
+
+  <title>Effective C# 37.&#x5728;&#x67E5;&#x8A62;&#x504F;&#x597D;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x800C;&#x975E;&#x7A4D;&#x6975;&#x6C42;&#x503C;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-37'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 37.&#x5728;&#x67E5;&#x8A62;&#x504F;&#x597D;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x800C;&#x975E;&#x7A4D;&#x6975;&#x6C42;&#x503C;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-37' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-37'>Effective C# 37.&#x5728;&#x67E5;&#x8A62;&#x504F;&#x597D;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x800C;&#x975E;&#x7A4D;&#x6975;&#x6C42;&#x503C;</a>
+              <span class="subheading">Effective C# 37.&#x5728;&#x67E5;&#x8A62;&#x504F;&#x597D;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x800C;&#x975E;&#x7A4D;&#x6975;&#x6C42;&#x503C; (Prefer Lazy Evaluation to Eager Evaluation in Queries)</span>
+          </h1>
+            <div class="meta">Published on Thursday, October 24, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在做法 29 與做法 33 提到的 <code>Lazy Evaluation</code> 在這個做法又提到了一次，不過這次有提出相對的概念也就是 <code>Eager Evaluation</code>。
+首先還是複習一下 <code>Lazy Evaluation</code> 的運作邏輯，下面這一段程式碼建立了一個 <code>Iterator Methods</code> Generate，當我們呼叫靜態方法
+LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會產生不同的三個 DateTime.Now。</p>
+<pre><code class="language-text">void Main()
+{
+	LazyEvaluation();
+}
+
+private static IEnumerable&lt;TResult&gt; Generate&lt;TResult&gt;(int number, Func&lt;TResult&gt; generator)
+{
+	for (var i = 0; i &lt; number; i++)
+		yield return generator();
+}
+private static void LazyEvaluation()
+{
+	Console.WriteLine($&quot;Start time for Test One: {DateTime.Now:T}&quot;);
+	var sequence = Generate(3, () =&gt; DateTime.Now);
+	Console.WriteLine(&quot;Waiting....\tPress Return&quot;);
+	Console.ReadLine();
+	Console.WriteLine(&quot;Iterating...&quot;);
+	foreach (var value in sequence)
+		Console.WriteLine($&quot;{value:T}&quot;);
+	Console.WriteLine(&quot;Waiting....\tPress Return&quot;);
+	Console.ReadLine();
+	Console.WriteLine(&quot;Iterating...&quot;);
+	foreach (var value in sequence)
+		Console.WriteLine($&quot;{value:T}&quot;);
+}
+</code></pre>
+<pre><code class="language-text">Start time for Test One: 下午 07:25:00
+Waiting....    Press Return
+Iterating...
+下午 07:25:02
+下午 07:25:02
+下午 07:25:02
+Waiting....    Press Return
+Iterating...
+下午 07:25:04
+下午 07:25:04
+下午 07:25:04
+</code></pre>
+<p>這個特性就叫做 <code>Lazy Evaluation</code> 關鍵就在變數 <code>var sequence = Generate(3, () =&gt; DateTime.Now);</code>，這個變數 sequence 保存的並不是運算過後的值
+而是 <code>expression tree</code>。</p>
+<p><code>expression tree</code> 有一個特點就是可以進行拼接，例如下面這個例子可以將 sequence1 拼接在 sequence2 變數上，並且拼接時並不會馬上把 sequence1
+計算出來而是拼接完後一起運行，也就是說它是把這兩個功能而不是把數據進行拼接。</p>
+<pre><code class="language-text">var sequence1 = Generate(3, () =&gt; DateTime.Now);
+var sequence2 = from value in sequence1
+				select value.ToUniversalTime();
+</code></pre>
+<p>這種特性就很適合用來操作無窮序列，下面這段程式碼就會產生一個 0 到 MaxValue 的值，但實際上我們只需要前十個值， <code>Lazy Evaluation</code>
+就使會檢查前十個值不會完整檢查到 MaxValue。</p>
+<pre><code class="language-text">void Main()
+{
+	var answers = from number in AllNumbers()
+				  select number;
+	var smallNumbers = answers.Take(10);
+	foreach (var num in smallNumbers)
+		Console.WriteLine(num);
+}
+
+static IEnumerable&lt;int&gt; AllNumbers()
+{
+	var number = 0;
+	while (number &lt; int.MaxValue)
+	{
+		yield return number++;
+	}
+}
+</code></pre>
+<p>但如果你寫了 where 子句那麼就會一一檢查所有元素，所以整個集合都會全部檢查一次，會產生這樣的結果的方法還包含 OrderBy, Max, Min，
+因為它們同樣也需要所有元素的內容才能產出結果。</p>
+<pre><code class="language-text">void Main()
+{
+	var answers = from number in AllNumbers()
+				  where number &lt; 10
+				  select number;
+	foreach (var num in answers)
+		Console.WriteLine(num);
+}
+
+static IEnumerable&lt;int&gt; AllNumbers()
+{
+	var number = 0;
+	while (number &lt; int.MaxValue)
+	{
+		yield return number++;
+	}
+}
+</code></pre>
+<p>所以在寫  <code>query expression</code> 的時候要注意子句的執行順序，一個正確的順序可以縮小方法的處理範圍，第一種寫法會先排序所有元素才進行過濾，
+第二種寫法比較好先過濾縮小範圍才進行排序。</p>
+<pre><code class="language-text">var sortedProductsSlow =
+	   from p in products
+	   orderby p.UnitsInStock descending
+	   where p.UnitsInStock &gt; 100
+	   select p;
+
+var sortedProductsFast =
+	   from p in products
+	   where p.UnitsInStock &gt; 100
+	   orderby p.UnitsInStock descending
+	   select p;
+</code></pre>
+<p><code>Eager Evaluation</code> 與 <code>Lazy Evaluation</code> 相反，他會馬上處理你的查詢語句，背後的概念跟快照差不多，
+可以利用 <code>ToList()</code> 或 <code>ToArray()</code> 直接保存完整的資料到記憶體內，通常是馬上需要處理數據或者之後的操作需要同一個查詢結果才會用到 <code>Eager Evaluation</code>。</p>
+<p>把之前用過的範例加上 <code>ToList()</code> 之後 sequence1 就不再是保存 <code>expression tree</code> 而是實際的 List<T>，
+所以對 sequence2 來說它兩次操作的 sequence1 其實都是同一份數據結果。</p>
+<pre><code class="language-text">var sequence1 = Generate(3, () =&gt; DateTime.Now).ToList();
+var sequence2 = from value in sequence1
+				select value.ToUniversalTime();
+
+sequence2.Dump();
+Console.ReadLine();
+sequence2.Dump();
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p><code>Lazy Evaluation</code> 可以大大的減少程式的工作量運作起來也比較智能，但是需要 <code>Eager Evaluation</code> 的場合也可以使用 <code>ToList()</code> 或 <code>ToArray()</code>
+將數據值保存到記憶體內，除非真的很確定需要 <code>Eager Evaluation</code> 的特性否則優先使用 <code>Lazy Evaluation</code>。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-37'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
