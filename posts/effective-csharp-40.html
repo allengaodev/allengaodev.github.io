@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 40.&#x5340;&#x5206;&#x63D0;&#x524D;&#x8207;&#x5EF6;&#x9072;&#x57F7;&#x884C; (Distinguish Early from Deferred Execution)">
+
+  <title>Effective C# 40.&#x5340;&#x5206;&#x63D0;&#x524D;&#x8207;&#x5EF6;&#x9072;&#x57F7;&#x884C;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-40'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 40.&#x5340;&#x5206;&#x63D0;&#x524D;&#x8207;&#x5EF6;&#x9072;&#x57F7;&#x884C;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-40' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-40'>Effective C# 40.&#x5340;&#x5206;&#x63D0;&#x524D;&#x8207;&#x5EF6;&#x9072;&#x57F7;&#x884C;</a>
+              <span class="subheading">Effective C# 40.&#x5340;&#x5206;&#x63D0;&#x524D;&#x8207;&#x5EF6;&#x9072;&#x57F7;&#x884C; (Distinguish Early from Deferred Execution)</span>
+          </h1>
+            <div class="meta">Published on Friday, October 25, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>本做法提到了 <code>Declarative code</code> 與  <code>Imperative code</code> 兩種程式碼風格，還有提前與延遲執行推薦的使用情況。</p>
+<p>採用 <code>Imperative code</code> 的寫法，內部的會根據你的命令先將資料準備好後再進行運算，例如下面這段程式碼需要傳入三個參數，
+在命令式的風格下需要由上到下把 <code>Method1</code>、<code>Method2</code>、<code>Method3</code> 的值先求出來後才會調用 <code>DoStuff()</code> 方法。</p>
+<pre><code class="language-text">var answer = DoStuff(Method1(),
+ Method2(),
+ Method3());
+</code></pre>
+<p>另一種寫法可以採用 lambda 或 query expression 來實現，雖然看起來與上面的例子差不多，但是實際上第一步驟是調用 <code>DoStuff()</code> 方法，
+並把 <code>Method1</code>、<code>Method2</code>、<code>Method3</code> 傳給它，等待真正要用到這些方法的內容時才會運行該方法。</p>
+<pre><code class="language-text">var answer = DoStuff(() =&gt; Method1(),
+ () =&gt; Method2(),
+ () =&gt; Method3())
+</code></pre>
+<p>那麼這兩種寫法有其中一個是比較好的嗎?其實還是要看實際需求，關鍵還是要修改後的結果會不會產生副作用，例如在做法 37 提到的時間案例，
+變數 sequence 保存的並不是運算過後的值而是程式的邏輯，這也代表每次運作的時候結果都會不同，如果這個變化會影響你的程式那可能就不適合你。</p>
+<p>有的時候把兩種方式混用會得到更好的效果，例如下面把 <code>Method1()</code> 委派賦值給 cache 變數，並且在 DoStuff 執行的時候會馬上運行 cache 變數
+的委派並傳回值，這種方式可以盡快把需要的值緩存起來。</p>
+<pre><code class="language-text">var cache = Method1();
+var answer = DoStuff(() =&gt; cache,
+() =&gt; Method2(),
+() =&gt; Method3());
+</code></pre>
+<p>另外還有一個判斷標準是你這個方法需不需要在資料庫中執行也就是 LINQ to SQL，有些方法可以交給資料庫引擎執行，另一些就只能先當成本地方法處理，
+之後 LINQ to SQL 會解析 <code>expression tree</code>，最後再提交給資料庫前把那些需要本地方法處理的值替換上去。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法主要在解析提前與延遲執行的運作方式與如何挑選，首先還是要確保兩種執行方式都不會影響呼叫方的結果，要先確定結果相同才來考慮到底哪種比較好，
+如果在很判斷的場合可以先試著傳遞方法本身就好，因為它平常就是延遲執行也可以馬上變成提前執行非常靈活。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-40'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
