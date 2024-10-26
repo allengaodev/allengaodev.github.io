@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 39.&#x907F;&#x514D;&#x5728;&#x51FD;&#x5F0F;&#x8207;&#x52D5;&#x4F5C;&#x4E2D;&#x62CB;&#x51FA;&#x4F8B;&#x5916; (Avoid Throwing Exceptions in Functions and Actions)">
+
+  <title>Effective C# 39.&#x907F;&#x514D;&#x5728;&#x51FD;&#x5F0F;&#x8207;&#x52D5;&#x4F5C;&#x4E2D;&#x62CB;&#x51FA;&#x4F8B;&#x5916;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-39'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 39.&#x907F;&#x514D;&#x5728;&#x51FD;&#x5F0F;&#x8207;&#x52D5;&#x4F5C;&#x4E2D;&#x62CB;&#x51FA;&#x4F8B;&#x5916;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-39' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-39'>Effective C# 39.&#x907F;&#x514D;&#x5728;&#x51FD;&#x5F0F;&#x8207;&#x52D5;&#x4F5C;&#x4E2D;&#x62CB;&#x51FA;&#x4F8B;&#x5916;</a>
+              <span class="subheading">Effective C# 39.&#x907F;&#x514D;&#x5728;&#x51FD;&#x5F0F;&#x8207;&#x52D5;&#x4F5C;&#x4E2D;&#x62CB;&#x51FA;&#x4F8B;&#x5916; (Avoid Throwing Exceptions in Functions and Actions)</span>
+          </h1>
+            <div class="meta">Published on Friday, October 25, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法建議不要在 Func 與 Action 的執行過程中拋出 Exceptions，因為這會導致物件狀態難以還原回原狀態的情況發生。</p>
+<p>例如下面這段程式碼會將所有員工的薪資增加 5%，假如說在運行期間拋出錯誤這個時候可能已經有部分員工已經加了薪另一部份員工並沒有被加到薪，
+這種數據錯亂的情況就很難還原回原狀態，最糟情況只能手動一一重新檢查數據。</p>
+<pre><code class="language-text">void Main()
+{
+	var allEmployees = FindAllEmployees();
+	allEmployees.ForEach(e =&gt; e.MonthlySalary *= 1.05M);
+	Console.WriteLine(allEmployees);
+}
+
+public List&lt;Employee&gt; FindAllEmployees()
+{
+	var result = new List&lt;Employee&gt;
+	{
+		new Employee{
+			Name = &quot;User1&quot;,
+			Classification = EmployeeType.Salary,
+			MonthlySalary = 1000,
+			YearsOfService = 1
+		},
+		new Employee{
+			Name = &quot;User2&quot;,
+			Classification = EmployeeType.Salary,
+			MonthlySalary = 3000,
+			YearsOfService = 21
+		},
+		new Employee{
+			Name = &quot;User3&quot;,
+			Classification = EmployeeType.Salary,
+			MonthlySalary = 1500,
+			YearsOfService = 1
+		}
+	};
+
+	return result;
+}
+
+public class Employee
+{
+	public string Name { get; set; }
+	public EmployeeType Classification { get; set; }
+	public int YearsOfService { get; set; }
+	public decimal MonthlySalary { get; set; }
+}
+
+public enum EmployeeType
+{
+	Salary
+}
+</code></pre>
+<p>會發生這種問題也很明顯，因為我們直接修改了源數據的元素，雖然這時數據狀態可能是錯亂的但還是可以進行操作，這種例外錯誤的設計方式叫做
+<code>Basic exception guarantee</code>。</p>
+<p>其它還有兩種，分別是 <code>No-fail guarantee</code> 與 <code>Strong exception guarantee</code>，以下是它們各自的定義。</p>
+<ol>
+<li>No-throw guarantee: 保證你寫的方法不會拋出例外錯誤，也是約束最強的一種設計，一但方法內部有錯誤產生需要馬上進行內部處理，不能讓外部的使用者發覺。</li>
+<li>Strong exception guarantee: 可以拋出錯誤但需要保證發生錯誤時數據要返回原始狀態，要保證錯誤產生時不能有副作用。</li>
+<li>Basic exception guarantee: 最寬鬆的一種設計，錯誤產生時數據可能是錯亂的狀態但還是可以操作數據。</li>
+</ol>
+<p>所以在加薪的這種需求至少需要 <code>Strong exception guarantee</code> 保證發生錯誤的時候還可以回滾成原始狀態，那麼要怎麼做才能確保我們的程式碼
+能有 <code>Strong exception guarantee</code>?</p>
+<p>再次看範例的關鍵程式就是下面的修改邏輯，所以最簡單的方式就是確保執行這段程式的期間不要拋出錯誤就好。</p>
+<pre><code class="language-text">allEmployees.ForEach(e =&gt; e.MonthlySalary *= 1.05M);
+</code></pre>
+<p>在這個範例是把所有員工都查詢出來後一一進行加薪操作，所以可能發生的問題點之一就在於員工裡面的數據可能造成錯誤的產生，
+例如離職的員工，那麼我們就可以先把可能發生錯誤的數據過濾掉提前避免錯誤的產生。</p>
+<pre><code class="language-text">allEmployees.FindAll(
+    e =&gt; e.Classification == EmployeeType.Active).
+    ForEach(e =&gt; e.MonthlySalary *= 1.05M);
+</code></pre>
+<p>但有的時候問題只是偶發性的，這樣就很難找出問題點那麼就可以利用做法 37 提到的積極求值，也就是用 <code>ToList()</code> 先在記憶體內做數據備份，
+等到錯誤真的產生的時候在進行回滾覆蓋，不過這種方式是透過額外備份一組資料所以這樣做會增加程式碼運作的負擔。</p>
+<p>下面就是使用 <code>ToList()</code> 方法先備份數據，這樣成功之後才會賦值給 allEmployees，如果運作途中拋出錯誤也不會運行到賦值的那段程式碼，
+這樣就能保證 allEmployees 一值都是原始數據。</p>
+<pre><code class="language-text">var updates = (from e in allEmployees
+               select new Employee
+               {
+                   EmployeeID = e.EmployeeID,
+                   Classification = e.Classification,
+                   YearsOfService = e.YearsOfService,
+                   MonthlySalary = e.MonthlySalary *= 1.05M
+               }).ToList();
+allEmployees = updates;
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>只要是運行的 Action 與 Func 拋出錯誤，那麼就很難確保正確的狀態，問題點就發生在直接修改原數據，
+所以搭配 <code>ToList()</code> 方法先備份數據，並且確定運行都無誤才對原數據進行覆蓋是相對可行的處理方式。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-39'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
