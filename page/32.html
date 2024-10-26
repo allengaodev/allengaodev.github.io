@@ -99,6 +99,15 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dca-attach-exec">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Attach vs Exec</a></h2>
+  <p class="post-meta">Published on Wednesday, March 1, 2023</p>
+<p>之前在進入 Container 內部時經常使用到 <code>docker attach &lt;ContainerId&gt;</code> 這個命令，不過 Docker 還有提供另一個命令 <code>docker exec</code><br>
+<code>docker exec</code> 顧名思義就是在 container 內部運行一段命令，我們可以在 Host 環境底下直接將命令傳送給 container 內部<br>
+交由 container 內部的系統來運行，所以範用性比起 <code>docker attach</code> 更加的廣泛，今天要來比較這兩個命令的區別</p>    <p class="small"><a href="/posts/dca-attach-exec">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-tmpfs">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Tmpfs Mounts</a></h2>
   <p class="post-meta">Published on Tuesday, February 28, 2023</p>
 <p>目前我們已經瞭解了兩種資料儲存方式 <code>Volume</code> 和 <code>Bind mount</code>， Docker其實還有提供第三種儲特殊的存資料方法，那就是 <code>Tmpfs mount</code><br>
@@ -116,17 +125,6 @@ Tmpfs mount` 跟其它兩種寫入方式最大的不同就是它是直接寫入�
 Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關功能</p>    <p class="small"><a href="/posts/dca-volume-cli">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-volume">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME</a></h2>
-  <p class="post-meta">Published on Sunday, February 26, 2023</p>
-<p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-containerlayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker可讀寫層</a><br>
-我們知道 Docker 在建立 container 的時候會在 image layer 上再多加一層可讀寫層<br>
-但是有一個問題是此如果將 container 刪除，那麼在我們剛剛在可讀寫層所作的變更會一起被刪除掉<br>
-所以像是讀寫資料庫這種需求，如果資料沒辦法持久保存那顯然是會造成很大的問題<br>
-這時最簡易的作法可以在 Dockerfile 之內使用 VOLUME 指令</p>    <p class="small"><a href="/posts/dca-volume">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/page/31" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -141,7 +139,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (54)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (55)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

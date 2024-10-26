@@ -97,6 +97,13 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-server-efcore">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server EFCore</a></h2>
+  <p class="post-meta">Published on Monday, May 8, 2023</p>
+<p>到目前為止我們已經成功架設了 Identity Server 服務但是目前資料都是保存在記憶體內，今天來看看該怎麼把資料利用 EFCore 保存到任意資料庫內</p>    <p class="small"><a href="/posts/dotnet-identity-server-efcore">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-server-ui">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</a></h2>
   <p class="post-meta">Published on Friday, May 5, 2023</p>
 <p>在上一篇的文章我們跟著 Identity Server 的官方教學照做了一遍，不過用起來跟 Google 好像不太一樣
@@ -167,15 +174,6 @@
 閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-manager">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</a></h2>
-  <p class="post-meta">Published on Saturday, April 15, 2023</p>
-<p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
-但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 設計就是會將商業邏輯與存取邏輯分開<br>
-所以今天我們來看看 Identity 中常用的 Manager</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/tags/csharp/4" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -188,7 +186,7 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (54)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (55)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
