@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 41.&#x907F;&#x514D;&#x6355;&#x6349;&#x6602;&#x8CB4;&#x7684;&#x8CC7;&#x6E90; (Avoid Capturing Expensive Resources)">
+
+  <title>Effective C# 41.&#x907F;&#x514D;&#x6355;&#x6349;&#x6602;&#x8CB4;&#x7684;&#x8CC7;&#x6E90;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-41'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 41.&#x907F;&#x514D;&#x6355;&#x6349;&#x6602;&#x8CB4;&#x7684;&#x8CC7;&#x6E90;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-41' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-41'>Effective C# 41.&#x907F;&#x514D;&#x6355;&#x6349;&#x6602;&#x8CB4;&#x7684;&#x8CC7;&#x6E90;</a>
+              <span class="subheading">Effective C# 41.&#x907F;&#x514D;&#x6355;&#x6349;&#x6602;&#x8CB4;&#x7684;&#x8CC7;&#x6E90; (Avoid Capturing Expensive Resources)</span>
+          </h1>
+            <div class="meta">Published on Sunday, October 27, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法都是以 closure(閉包)為討論主軸，並討論背後轉換的原理以及為什麼在使用 closure 的時候可能會導致記憶體流失的問題。
+首先 closure 這個名詞很常在 javascript 中討論以及只使用到， closure 是一種能讓內部方法取得外部變數的一種寫法，
+例如以下範例中的 <code>counter</code> 變數明明作用範圍是在 Main 底下，但是我們透過 lambda 把 delegate 當成參數傳給 <code>Generate</code> 方法，
+之後在最內部的執行範圍竟然可以操作不同作用範圍的 <code>counter</code> 變數。</p>
+<pre><code class="language-text">void Main()
+{
+	var counter = 0;
+	var numbers = Extensions.Generate(30, () =&gt; counter++);
+	Console.WriteLine(numbers);
+	Console.WriteLine(counter);
+}
+
+public static class Extensions
+{
+	public static IEnumerable&lt;int&gt; Generate(int max, Action func)
+	{
+		for (int i = 0; i &lt;= max; i++)
+		{
+			func();
+			yield return i;
+		}
+	}
+}
+</code></pre>
+<p>為什麼可以做到這樣的效果，可以透過反編譯軟體了解它背後做的處理，其實也很簡單就是透過建立一個隱藏的類別並把 <code>counter</code> 變數直接變成它的成員變數，
+也就是說 <code>counter</code> 原本只是個區域變數居然直接被提升成了成員。</p>
+<pre><code class="language-text">private sealed class &lt;&gt;c__DisplayClass0_0
+{
+    public int counter;
+
+    internal void &lt;Main&gt;b__0()
+    {
+        counter++;
+    }
+}
+
+public void Main()
+{
+    &lt;&gt;c__DisplayClass0_0 &lt;&gt;c__DisplayClass0_ = new &lt;&gt;c__DisplayClass0_0();
+    &lt;&gt;c__DisplayClass0_.counter = 0;
+    IEnumerable&lt;int&gt; value = Extensions.Generate(30, new Action(&lt;&gt;c__DisplayClass0_.&lt;Main&gt;b__0));
+    Console.WriteLine(value);
+    Console.WriteLine(&lt;&gt;c__DisplayClass0_.counter);
+}
+</code></pre>
+<p>區域變數提升為成員這個概念在做法 17 與做法 21 有提到，也很清楚這樣做會導致的記憶體流失的問題，在這兩個做法建議是如果類別內部有 <code>IDisposable</code> 介面
+的成員，那麼這個類別也要實做 <code>IDisposable</code> 介面，例如下面我們約束 IEngine 需要實做 <code>IDisposable</code> 介面同時 <code>driver</code> 又是一個成員，
+這種時候就需要在 <code>EngineDriver2</code> 實做 <code>IDisposable</code> 介面。</p>
+<pre><code class="language-text">public sealed class EngineDriver2&lt;T&gt; : IDisposable
+   where T : IEngine, new()
+{
+	private Lazy&lt;T&gt; driver = new Lazy&lt;T&gt;(() =&gt; new T());
+	public void GetThingsDone() =&gt; driver.Value.DoWork();
+	public void Dispose()
+	{
+		if (driver.IsValueCreated)
+		{
+			var resource = driver.Value as IDisposable;
+			resource?.Dispose();
+		}
+	}
+}
+</code></pre>
+<p>所以 closure 是透過隱藏類別的方式來讓內部變數操作外部變數的能力，這也代表原本的區域變數因為被提升成成員所以生命週期也隨之延長，
+在這個情況下需要注意並不是離開方法 scope 時就會呼叫 GC 進行清除，因為這個成員已經跟委派綁定到一起了，而委派又有延遲值型的特性，
+所以可能隨時會呼叫也可能等一段時間才會呼叫，導致我們很難判斷什麼時候不需要這個委派，</p>
+<p>不過不用太擔心這個問題，因為大多數區域變數都是 managed resource 所以遲早還是會釋放掉的，但是如果你不小心讓 unmanaged resource
+自動提升為成員的時候就要注意了，例如下面這個範例中的 <code>ReadNumbersFromStream</code> 方法使用了 <code>query expression</code> 去查詢檔案內的資料，
+由於延遲執行的特性，要真正去使用 <code>rowsOfNumbers</code> 內部的值時才會真的去運行 <code>TextReader</code>。</p>
+<pre><code class="language-text">void Main()
+{
+	var t = new StreamReader(File.OpenRead(&quot;TestFile.txt&quot;));
+	var rowsOfNumbers = ReadNumbersFromStream(t);
+}
+
+public static IEnumerable&lt;IEnumerable&lt;int&gt;&gt; ReadNumbersFromStream(TextReader t)
+{
+	var allLines = from line in t.ReadLines()
+				   select line.Split(',');
+	var matrixOfValues = from line in allLines
+						 select from item in line
+						 select item.DefaultParse(0);
+
+	return matrixOfValues;
+}
+
+
+public static class Extensions
+{
+	public static IEnumerable&lt;string&gt; ReadLines(this TextReader reader)
+	{
+		var txt = reader.ReadLine();
+		while (txt != null)
+		{
+			yield return txt;
+			txt = reader.ReadLine();
+		}
+	}
+	public static int DefaultParse(this string input, int defaultValue)
+	{
+		int answer;
+		return (int.TryParse(input, out answer)) ? answer : defaultValue;
+	}
+}
+</code></pre>
+<p>當你運行的時候會發現程式碼已經執行完畢但是 <code>TextReader</code> 並沒有被主動關閉，接下來你可能會用 using 把 <code>TextReader</code> 包起來以達到
+讀取完釋放的效果，但實際上執行後會拋出 <code>ObjectDisposedException</code> 錯誤因為 <code>TextReader</code> 已經被釋放掉了。</p>
+<pre><code class="language-text">void Main()
+{
+	IEnumerable&lt;IEnumerable&lt;int&gt;&gt; rowsOfNumbers;
+	using (TextReader t = new StreamReader(File.OpenRead(&quot;TestFile.txt&quot;)))
+	{
+		rowsOfNumbers = ReadNumbersFromStream(t);
+	}
+		
+	Console.WriteLine(rowsOfNumbers);
+}
+</code></pre>
+<p>由此可知如果在 closure 內部有 <code>IDisposable</code> 介面的成員，一種是發生記憶體洩漏的問題另一種則是拋出物件已釋放的問題，
+這個問題也很簡單處理，只要在物件釋放掉之前進行讀取即可。</p>
+<pre><code class="language-text">void Main()
+{
+	IEnumerable&lt;IEnumerable&lt;int&gt;&gt; rowsOfNumbers;
+	using (TextReader t = new StreamReader(File.OpenRead(&quot;TestFile.txt&quot;)))
+	{
+		rowsOfNumbers = ReadNumbersFromStream(t);
+		Console.WriteLine(rowsOfNumbers);
+	}
+}
+</code></pre>
+<p>更好的解決方式是由開啟文件的邏輯同時執行讀取的邏輯。</p>
+<pre><code class="language-text">void Main()
+{
+	var rowsOfNumbers = ReadNumbersFromStream(&quot;TestFile.txt&quot;);
+	Console.WriteLine(rowsOfNumbers);
+}
+
+public static IEnumerable&lt;IEnumerable&lt;int&gt;&gt; ReadNumbersFromStream(string path)
+{
+	var allLines = from line in Extensions.ParseFile(path)
+				   select line.Split(',');
+	var matrixOfValues = from line in allLines
+						 select from item in line
+								select item.DefaultParse(0);
+
+	return matrixOfValues;
+}
+
+
+public static class Extensions
+{
+	public static IEnumerable&lt;string&gt; ParseFile(string path)
+	{
+		using (var r = new StreamReader(File.OpenRead(path)))
+		{
+			var line = r.ReadLine();
+			while (line != null)
+			{
+				yield return line;
+				line = r.ReadLine();
+			}
+		}
+	}
+
+	public static int DefaultParse(this string input, int defaultValue)
+	{
+		int answer;
+		return (int.TryParse(input, out answer)) ? answer : defaultValue;
+	}
+}
+</code></pre>
+<p>也可以搭配委派將數據處理的部分分離出去，例如下面這段程式就是把讀取後的資料透過委派把最大值找出來。</p>
+<pre><code class="language-text">void Main()
+{
+	var maximum = ProcessFile(&quot;testFile.txt&quot;, (arrayOfNums) =&gt;
+	(from line in arrayOfNums select line.Max()).Max());
+}
+
+public delegate TResult ProcessElementsFromFile&lt;TResult&gt;(
+	IEnumerable&lt;IEnumerable&lt;int&gt;&gt; values);
+
+public static TResult ProcessFile&lt;TResult&gt;(string filePath,
+   ProcessElementsFromFile&lt;TResult&gt; action)
+{
+	using (TextReader t = new StreamReader(File.Open(filePath, FileMode.Open)))
+	{
+		var allLines = from line in t.ReadLines()
+					   select line.Split(',');
+		var matrixOfValues = from line in allLines
+							 select from item in line
+									select item.
+									DefaultParse(0);
+		return action(matrixOfValues);
+	}
+}
+
+public static class Extensions
+{
+	public static IEnumerable&lt;string&gt; ReadLines(this TextReader reader)
+	{
+		var txt = reader.ReadLine();
+		while (txt != null)
+		{
+			yield return txt;
+			txt = reader.ReadLine();
+		}
+	}
+	public static int DefaultParse(this string input, int defaultValue)
+	{
+		int answer;
+		return (int.TryParse(input, out answer)) ? answer : defaultValue;
+	}
+}
+</code></pre>
+<hr />
+<p>接下來看另一個案例，下面實例化了 <code>ResourceHog</code> 類別，並且因為延遲執行的特性所以並不會在 <code>ExpensiveSequence</code> 方法結束後就把 hog 釋放掉，
+如果 <code>ResourceHog</code> 類別並沒有實做 <code>IDisposable</code> 介面，那麼就是根據一般物件的釋放要等到所有相關的物件都 unreachable 才會被 GC 釋放掉。</p>
+<pre><code class="language-text">IEnumerable&lt;int&gt; ExpensiveSequence()
+{
+	int counter = 0;
+	var numbers = Extensions.Generate(30, () =&gt; counter++);
+	Console.WriteLine(&quot;counter: {0}&quot;, counter);
+	var hog = new ResourceHog();
+	numbers = numbers.Union(hog.SequenceGeneratedFromResourceHog(
+		(val) =&gt; val &lt; counter));
+	return numbers;
+}
+</code></pre>
+<p>這種時候就可以搭配 <code>ToList</code> 方法盡早把數據生成出來，這樣就能在離開 <code>ExpensiveSequence</code> 方法後馬上釋放掉資源。</p>
+<pre><code class="language-text">IEnumerable&lt;int&gt; ExpensiveSequence()
+{
+	var counter = 0;
+	var numbers = Extensions.Generate(30, () =&gt; counter++);
+	Console.WriteLine(&quot;counter: {0}&quot;, counter);
+	var hog = new ResourceHog();
+	var mergeSequence = hog.SequenceGeneratedFromResourceHog(
+		(val) =&gt; val &lt; counter).ToList();
+	numbers = numbers.Union(mergeSequence);
+	return numbers;
+}
+</code></pre>
+<hr />
+<p>最後是多線程的案例，例如下面這段程式碼把變數 i 加入到 closure 內部，並且注意是用 ref 傳遞參數，這種時候就是看哪一條線程運行的更快一點
+，也就是說 i 的值可能隨時都被其中一條線程修改掉。</p>
+<pre><code class="language-text">private static void SomeMethod(ref int i)
+{
+	//...
+}
+private static void DoSomethingInBackground()
+{
+	var i = 0;
+	var thread = new Thread(delegate () { SomeMethod(ref i); });
+	thread.Start();
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法全部都在討論使用 closure 所可能帶來的相關問題，關鍵的原因就是 closure 會把區域變數加入到自己的隱藏類別裡面同時又修改為成員，
+才有後面的記憶體洩漏與訪問已釋放物件等問題，使用 closure 時首先該考慮是否真的需要用到這些區域變數，如果不需要那直接調整程式碼這樣既不會
+有隱藏的類別成員，原本的區域變數也可以照流程釋放。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-41'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
