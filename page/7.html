@@ -99,6 +99,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-29">Effective C# 29.&#x504F;&#x597D;&#x4EE5; Iterator &#x65B9;&#x6CD5;&#x56DE;&#x50B3;&#x96C6;&#x5408;</a></h2>
+  <p class="post-meta">Published on Monday, October 21, 2024</p>
+<p>本作法提到了 <code>Iterator Methods</code> 與 <code>yield return</code> 這兩個新的名詞以及使用它的好處。
+根據定義只要使用 <code>yield return</code> 並且回傳值是 <code>IEnumerable</code> 或 <code>IEnumerable&lt;T&gt;</code> 就可以稱為這是一個 <code>Iterator Methods</code>。</p>    <p class="small"><a href="/posts/effective-csharp-29">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-28">Effective C# 28.&#x4EE5;&#x64F4;&#x5145;&#x65B9;&#x6CD5;&#x52A0;&#x5F37;&#x5EFA;&#x69CB;&#x578B;&#x5225;</a></h2>
   <p class="post-meta">Published on Sunday, October 20, 2024</p>
 <p>這個做法提到了一個新的名詞叫做 <code>Constructed	Types</code> 也叫做 <code>Constructed Generic Type</code>。</p>    <p class="small"><a href="/posts/effective-csharp-28">Read more...</a></p>
@@ -110,14 +118,6 @@
   <p class="post-meta">Published on Sunday, October 20, 2024</p>
 <p>這個做法建議只在介面上定義必要的功能，剩下需要的功能新增在這個介面上的擴充方法就好。
 例如 <code>System.Linq.Enumerable</code> 就是個很好的例子，它幫 <code>IEnumerable&lt;T&gt;</code> 介面定義了許多常用的擴充方法，例如 Where、OrderBy、ThenBy。</p>    <p class="small"><a href="/posts/effective-csharp-27">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-26">Effective C# 26.&#x9664;&#x6CDB;&#x578B;&#x4ECB;&#x9762;&#x5916;&#x9084;&#x8981;&#x5BE6;&#x4F5C;&#x50B3;&#x7D71;&#x4ECB;&#x9762;</a></h2>
-  <p class="post-meta">Published on Sunday, October 20, 2024</p>
-<p>這個做法提到在某幾種狀況下除了實做泛型介面最好也同時實做傳統介面，例如作法 20 裡面提到的 <code>Car</code> 類別就有同時實做
-<code>IComparable&lt;T&gt;</code> 與 <code>IComparable</code> 兩種介面。</p>    <p class="small"><a href="/posts/effective-csharp-26">Read more...</a></p>
 </div>
 
   <div>
@@ -134,7 +134,7 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (62)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (63)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
