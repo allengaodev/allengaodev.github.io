@@ -97,6 +97,13 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-38">Effective C# 38.&#x504F;&#x597D; lambda &#x8868;&#x9054;&#x5F0F;&#x800C;&#x975E;&#x65B9;&#x6CD5;</a></h2>
+  <p class="post-meta">Published on Thursday, October 24, 2024</p>
+<p>這個做法是與寫法相關，建議是用 <code>Lazy Evaluation</code> 的延遲特性來處理需要共用邏輯的場合而不是寫一個方法把共用邏輯放進去。</p>    <p class="small"><a href="/posts/effective-csharp-38">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-37">Effective C# 37.&#x5728;&#x67E5;&#x8A62;&#x504F;&#x597D;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x800C;&#x975E;&#x7A4D;&#x6975;&#x6C42;&#x503C;</a></h2>
   <p class="post-meta">Published on Thursday, October 24, 2024</p>
 <p>在做法 29 與做法 33 提到的 <code>Lazy Evaluation</code> 在這個做法又提到了一次，不過這次有提出相對的概念也就是 <code>Eager Evaluation</code>。
@@ -163,13 +170,6 @@ LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會
 根據定義只要使用 <code>yield return</code> 並且回傳值是 <code>IEnumerable</code> 或 <code>IEnumerable&lt;T&gt;</code> 就可以稱為這是一個 <code>Iterator Methods</code>。</p>    <p class="small"><a href="/posts/effective-csharp-29">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-28">Effective C# 28.&#x4EE5;&#x64F4;&#x5145;&#x65B9;&#x6CD5;&#x52A0;&#x5F37;&#x5EFA;&#x69CB;&#x578B;&#x5225;</a></h2>
-  <p class="post-meta">Published on Sunday, October 20, 2024</p>
-<p>這個做法提到了一個新的名詞叫做 <code>Constructed	Types</code> 也叫做 <code>Constructed Generic Type</code>。</p>    <p class="small"><a href="/posts/effective-csharp-28">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/tags/csharp" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -182,7 +182,7 @@ LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (63)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (64)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
