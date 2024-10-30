@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 49.&#x504F;&#x597D;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x800C;&#x975E; catch &#x8207;&#x91CD;&#x65B0;&#x62CB;&#x51FA; (Prefer Exception Filters to catch and re-throw)">
+
+  <title>Effective C# 49.&#x504F;&#x597D;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x800C;&#x975E; catch &#x8207;&#x91CD;&#x65B0;&#x62CB;&#x51FA;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-49'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 49.&#x504F;&#x597D;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x800C;&#x975E; catch &#x8207;&#x91CD;&#x65B0;&#x62CB;&#x51FA;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-49' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-49'>Effective C# 49.&#x504F;&#x597D;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x800C;&#x975E; catch &#x8207;&#x91CD;&#x65B0;&#x62CB;&#x51FA;</a>
+              <span class="subheading">Effective C# 49.&#x504F;&#x597D;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x800C;&#x975E; catch &#x8207;&#x91CD;&#x65B0;&#x62CB;&#x51FA; (Prefer Exception Filters to catch and re-throw)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, October 29, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法說明了 Exception Filters 與 when 子句的使用方式，還有與舊的判斷語句寫法進行比較。</p>
+<p>例如這段程式碼會嘗試發送網路請求，並且捕捉 <code>TimeoutException</code> 但如果今天想要先判斷程式運行的狀態就必須透過在 catch 區塊中添加判斷語句，
+進行分析，所以這段程式會不斷運行迴圈直到 retryCount 到達三個時才放棄請求，最後把錯誤進行拋出。</p>
+<pre><code class="language-text">var retryCount = 0;
+var dataString = default(String);
+while (dataString == null)
+{
+	try
+	{
+		dataString = MakeWebRequest();
+	}
+	catch (TimeoutException e)
+	{
+		if (retryCount++ &lt; 3)
+		{
+			WriteLine(&quot;Timed out. Trying again&quot;);
+			// pause before trying again.
+			Task.Delay(1000 * retryCount);
+		}
+		else
+			throw;
+	}
+}
+</code></pre>
+<p>這裡要特別注意 else 裡面的 <code>throw</code> 這個寫法是正確的，它會向外拋出原始錯誤並保留原始的 stack trace，不要寫成 <code>throw e</code> 這種寫法
+雖然會拋出拋出原始錯誤但會把 stack trace 清除導致資訊丟失，更不要寫成 <code>throw new Exception</code> 這會建立新的 <code>Exception</code>;</p>
+<p>接下來可以使用 <code>when</code> 子句達到同樣的效果並且更容易閱讀，注意到程式會先判斷 <code>when</code> 的條件是否達成才會執行內部邏輯，
+並且內部並沒有寫到 <code>throw</code> 將錯誤進行拋出，這是因為它找不到符合的 catch 內部會往 call stack 上層進行尋找。</p>
+<pre><code class="language-text">var retryCount = 0;
+var dataString = default(String);
+while (dataString == null)
+{
+	try
+	{
+		dataString = MakeWebRequest();
+	}
+	catch (TimeoutException e) when (retryCount++ &lt; 3)
+	{
+		WriteLine(&quot;Operation timed out. Trying again&quot;);
+		// pause before trying again.
+		Task.Delay(1000 * retryCount);
+	}
+}
+</code></pre>
+<p>另外實際上的錯誤發生地點也會有些微差異，例如第一種寫法會在報告中看到發生地點是在 <code>throw</code> 那行造成的，但如果改用 <code>Exception Filters</code>
+的寫法則會在報告中看到發生地點是在 <code>SingleBadThing</code> 也就是實際發生問題的地點，這個微小差距在大型的程式中帶來非常有用的幫助，
+並且 .NET CLR 會對有 when 子句的 try/catch 區塊進行優化並且提升運作的效率。</p>
+<pre><code class="language-text">static void TreeOfErrors()
+{
+	try
+	{
+		SingleBadThing();
+	}
+	catch (RecoverableException e)
+	{
+		throw; // reported on Call Stack
+	}
+}
+static void TreeOfErrorsTwo()
+{
+	try
+	{
+		SingleBadThing(); // reported on Call Stack
+	}
+	catch (RecoverableException e) when (false)
+	{
+		WriteLine(&quot;Can't happen&quot;);
+	}
+}
+</code></pre>
+<p>也就是說我們應該徹底改變之前的使用習慣，改成用 <code>Exception Filters</code> 是更好的選擇，例如說 <code>HTTPException</code> 它的 GetHttpCode 方法
+會回傳 Http Response Code 表示請求的結果，像是可以在 when 子句判斷 code 是否為 404 之後在進行相對應的處理。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>使用 Exception Filters 能夠把原本傳統判斷寫法大幅省略，只需要留下 catch 與 when 進行檢查，所以跟傳統的拋出處理方式這樣做
+又可以把原始的錯誤訊息保留下來也可能讓程式運作得更快一點。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-49'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
