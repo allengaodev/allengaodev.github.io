@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 50.&#x5229;&#x7528;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x7684;&#x526F;&#x4F5C;&#x7528; (Leverage Side Effects in Exception Filters)">
+
+  <title>Effective C# 50.&#x5229;&#x7528;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x7684;&#x526F;&#x4F5C;&#x7528;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-50'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 50.&#x5229;&#x7528;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x7684;&#x526F;&#x4F5C;&#x7528;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-50' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-50'>Effective C# 50.&#x5229;&#x7528;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x7684;&#x526F;&#x4F5C;&#x7528;</a>
+              <span class="subheading">Effective C# 50.&#x5229;&#x7528;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x7684;&#x526F;&#x4F5C;&#x7528; (Leverage Side Effects in Exception Filters)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, October 29, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在對做法 49 的 Exception Filters 進行補充以及它的特性。</p>
+<p>下面這段程式碼 <code>ConsoleLogException</code> 會將 Exception 相關的訊息輸出到 Console 上面，並且注意到最後一行只會回傳 false，
+所以使用上就可以透過 when 子句會先對條件進行檢查的特性，來做到安插監控程式碼的功能。</p>
+<p>也就是說 ConsoleLogException(e) 這段程式碼在錯誤攔截的時候一定會優先運行，但結果又只會回傳 false 所以不會對結果有任何影響，
+所以就很適合拿來寫一些日誌相關的程式碼。</p>
+<pre><code class="language-text">void Main()
+{
+	try
+	{
+		data = MakeWebRequest();
+	}
+	catch (Exception e) when (ConsoleLogException(e)) { }
+	catch (TimeoutException e) when (failures++ &lt; 10)
+	{
+		Console.WriteLine(&quot;Timeout error: trying again&quot;);
+	}
+}
+
+public static bool ConsoleLogException(Exception e)
+{
+	var oldColor = Console.ForegroundColor;
+	Console.ForegroundColor = ConsoleColor.Red;
+	Console.WriteLine(&quot;Error: {0}&quot;, e);
+	Console.ForegroundColor = oldColor;
+	return false;
+}
+</code></pre>
+<p>需要注意這種寫法一定要確保回傳的值為 false 絕對不可以是 true 否則錯誤檢查就會停止了，所以我們可以把
+<code>catch (Exception e) when (ConsoleLogException(e))</code> 這段程式碼放在第一個優先檢查的 catch，
+就能在任何想要進行輸出檢查的地方進行檢查，同時又不會造成任何影響。</p>
+<p>還有另一種放在最後檢查的寫法，這種寫法可以用來記錄 <code>TimeoutException</code> 已經失敗 10 次的錯誤。</p>
+<pre><code class="language-text">void Main()
+{
+	try
+	{
+		data = MakeWebRequest();
+	}
+	catch (TimeoutException e) when (failures++ &lt; 10)
+	{
+		Console.WriteLine(&quot;Timeout error: trying again&quot;);
+	}
+	catch (Exception e) when (ConsoleLogException(e)) { }
+}
+</code></pre>
+<p>最後一個寫法可以確保在 Debugger 在連接的狀態底下不會攔截錯誤，下面這段程式碼只要連接上 Debugger 那麼就可知道目前是
+測試中那竟沒有必要攔截 <code>TimeoutException</code>，只需要運作第一行的 <code>ConsoleLogException</code> 方法即可。</p>
+<pre><code class="language-text">void Main()
+{
+	try
+	{
+		data = MakeWebRequest();
+	}
+	catch (Exception e) when (ConsoleLogException(e)) { }
+	catch (TimeoutException e) when ((failures++ &lt; 10) &amp;&amp; (!System.Diagnostics.Debugger.IsAttached))
+	{
+		WriteLine(&quot;Timeout error: trying again&quot;);
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法透過 Exception Filters 會優先執行 when 字句裡的程式碼的這種特性來達到安插紀錄日誌的程式碼，
+在龐大的項目中這個技巧可以幫助開發者更快的發現故障點。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-50'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
