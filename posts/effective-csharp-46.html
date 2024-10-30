@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 46.&#x4EE5; using &#x8207; try/final &#x6E05;&#x7406;&#x8CC7;&#x6599; (Utilize using and try/finally for Resource Cleanup)">
+
+  <title>Effective C# 46.&#x4EE5; using &#x8207; try/final &#x6E05;&#x7406;&#x8CC7;&#x6599;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-46'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 46.&#x4EE5; using &#x8207; try/final &#x6E05;&#x7406;&#x8CC7;&#x6599;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-46' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-46'>Effective C# 46.&#x4EE5; using &#x8207; try/final &#x6E05;&#x7406;&#x8CC7;&#x6599;</a>
+              <span class="subheading">Effective C# 46.&#x4EE5; using &#x8207; try/final &#x6E05;&#x7406;&#x8CC7;&#x6599; (Utilize using and try/finally for Resource Cleanup)</span>
+          </h1>
+            <div class="meta">Published on Monday, October 28, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在之前也提到過很多次了，就是要用 using 或是 try/final 來確保資源一定能正確釋放掉。</p>
+<p>例如下面這個方法建立兩個物件 myConnection 與 mySqlCommand，並且它們又都是有實做 IDisposable，
+所以這段程式碼只有使用資源並沒有釋放資源的流程。</p>
+<pre><code class="language-text">public void ExecuteCommand(string connString, string commandString)
+{
+	var myConnection = new SqlConnection(connString);
+	var mySqlCommand = new SqlCommand(commandString, myConnection);
+	myConnection.Open();
+	mySqlCommand.ExecuteNonQuery();
+}
+</code></pre>
+<p>你可能會這樣直接結束後呼叫 Dispose 方法來釋放掉對應的物件，但這樣的處理方式並不是最正確的，因為假如 mySqlCommand 執行中發生異常
+那麼下面那兩個 Dispose 方法就會被跳過不會執行了。</p>
+<pre><code class="language-text">public void ExecuteCommand(string connString, string commandString)
+{
+	var myConnection = new SqlConnection(connString);
+	var mySqlCommand = new SqlCommand(commandString, myConnection);
+	myConnection.Open();
+	mySqlCommand.ExecuteNonQuery();
+	mySqlCommand.Dispose();
+	myConnection.Dispose();
+}
+</code></pre>
+<p>使用 using 關鍵字才是比較好的處理方式，因為它實際上內部是利用 try/final 把程式碼包裹起來，確保把呼叫 Dispose 方法的邏輯放在 final
+裡面保證釋放邏輯一定會被執行。</p>
+<pre><code class="language-text">public void ExecuteCommand(string connString, string commandString)
+{
+	using (SqlConnection myConnection = new SqlConnection(connString))
+	{
+		using (SqlCommand mySqlCommand = new SqlCommand(commandString, myConnection))
+		{
+			myConnection.Open();
+			mySqlCommand.ExecuteNonQuery();
+		}
+	}
+}
+</code></pre>
+<p>使用 using 關鍵字之後編譯器會生成下面 try/final 的程式碼，由此可知我們也可以自己寫 try/final 也能達到跟使用 using 同樣的效果。</p>
+<pre><code class="language-text">SqlConnection myConnection = null;
+using (myConnection = new SqlConnection(connString))
+{
+   myConnection.Open();
+}
+
+try
+{
+   myConnection = new SqlConnection(connString);
+   myConnection.Open();
+}
+finally
+{
+   myConnection.Dispose();
+}
+</code></pre>
+<p>另外如果不確認物件是否有時做 IDisposable 可以先透過 as 進行檢查，using 內部會自行判斷是否要生成 try/final 的程式碼，
+假設結果是 <code>using(null)</code> 則不會產生任何效果，程式碼也會繼續運行。</p>
+<pre><code class="language-text">object obj = Factory.CreateResource();
+using (obj as IDisposable)
+   Console.WriteLine(obj.ToString());
+</code></pre>
+<hr />
+<p>上面提到的都是簡單的例子，假設今天有兩個物件用 using 關鍵字那麼就會產生出下面這種嵌套式的 try/final 程式碼。</p>
+<pre><code class="language-text">public void ExecuteCommand(string connString, string commandString)
+{
+   SqlConnection myConnection = null;
+   SqlCommand mySqlCommand = null;
+   try
+   {
+       myConnection = new SqlConnection(connString);
+       try
+       {
+           mySqlCommand = new SqlCommand(commandString, myConnection);
+           myConnection.Open();
+           mySqlCommand.ExecuteNonQuery();
+       }
+       finally
+       {
+           if (mySqlCommand != null)
+               mySqlCommand.Dispose();
+       }
+   }
+   finally
+   {
+       if (myConnection != null)
+           myConnection.Dispose();
+   }
+}
+</code></pre>
+<p>這種時候就能自己寫 try/final 處理釋放問題，這樣寫可讀性也比較高。</p>
+<pre><code class="language-text">public void ExecuteCommand(string connString, string commandString)
+{
+   SqlConnection myConnection = null;
+   SqlCommand mySqlCommand = null;
+   try
+   {
+       myConnection = new SqlConnection(connString);
+       mySqlCommand = new SqlCommand(commandString, myConnection);
+       myConnection.Open();
+       mySqlCommand.ExecuteNonQuery();
+   }
+   finally
+   {
+       if (mySqlCommand != null)
+           mySqlCommand.Dispose();
+       if (myConnection != null)
+           myConnection.Dispose();
+   }
+}
+</code></pre>
+<p>但要且記不要寫出這樣的程式碼，假如 SqlCommand 在建構函式執行的過程中發生異常那麼 SqlConnection 物件就不會被釋放了，
+所以關鍵是要把建構物件的流程也包含在 try 裡面才能避免這種問題。</p>
+<pre><code class="language-text">public void ExecuteCommand(string connString, string commandString)
+{
+   SqlConnection myConnection = new SqlConnection(connString);
+   SqlCommand mySqlCommand = new SqlCommand(commandString, myConnection);
+   using (myConnection as IDisposable)
+   using (mySqlCommand as IDisposable)
+   {
+       myConnection.Open();
+       mySqlCommand.ExecuteNonQuery();
+   }
+}
+</code></pre>
+<p>最後要注意 Dispose Patter 有建議除了實做 Dispose 方法外，最好也同時實做一個擁有相同功能的 Close 方法，因為在某些場合用 Close
+來代表釋放語意會比較通順，例如在 SqlConnection 這種連線開啟就是用 Open 關閉的時候搭配 Close 語意就比使用 Dispose 還通順，
+所有有些 library 會同時提供這兩種釋放的方法，不過由於一定會提供 Dispose 方法而 Close 方法是看個人，
+所以要額外注意呼叫 Close 前一定要確保兩邊的邏輯是相同的，以免有些資源在 Close 方法不會被釋放。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法再次提出 using 的重要性，以及可以直接使用 try/final 實現自己的釋放流程，就能跳過 using 關鍵字幫忙產生的程式碼。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-46'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 44.&#x907F;&#x514D;&#x4FEE;&#x6539;&#x9650;&#x754C;&#x8B8A;&#x6578; (Avoid Modifying Bound Variables)">
+
+  <title>Effective C# 44.&#x907F;&#x514D;&#x4FEE;&#x6539;&#x9650;&#x754C;&#x8B8A;&#x6578;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-44'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 44.&#x907F;&#x514D;&#x4FEE;&#x6539;&#x9650;&#x754C;&#x8B8A;&#x6578;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-44' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-44'>Effective C# 44.&#x907F;&#x514D;&#x4FEE;&#x6539;&#x9650;&#x754C;&#x8B8A;&#x6578;</a>
+              <span class="subheading">Effective C# 44.&#x907F;&#x514D;&#x4FEE;&#x6539;&#x9650;&#x754C;&#x8B8A;&#x6578; (Avoid Modifying Bound Variables)</span>
+          </h1>
+            <div class="meta">Published on Monday, October 28, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在解說 closure 把區域變數提升為成內部成員時，又被其他程式碼修改所導致的問題。</p>
+<p>首先看看這個範例，你可能會覺得結果會輸出兩次 0 ~ 30，但實際上輸出的是 20 ~ 50 和 100 ~ 130。</p>
+<pre><code class="language-text">void Main()
+{
+	var index = 0;
+	Func&lt;IEnumerable&lt;int&gt;&gt; sequence = () =&gt; Utilities.Generate(30, () =&gt; index++);
+	
+	index = 20;
+	foreach (int n in sequence())
+		Console.WriteLine(n);
+		
+	Console.WriteLine(&quot;Done&quot;);
+	index = 100;
+	foreach (var n in sequence())
+		Console.WriteLine(n);
+}
+
+public static class Utilities
+{
+	public static IEnumerable&lt;int&gt; Generate(int max, Func&lt;int&gt; func)
+	{
+		for (int i = 0; i &lt;= max; i++)
+		{
+			yield return func();
+		}
+	}
+}
+</code></pre>
+<p>會有這樣的結果是編譯器在背後做了不少的工作，要了解背後的原理可以先從下面這個簡單的例子進行學習。</p>
+<pre><code class="language-text">int[] someNumbers = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+var answers = from n in someNumbers
+                select n * n;
+</code></pre>
+<p>編譯器會生成出類似這樣的程式碼，關鍵就是之前提到的 LINQ to Objects 背後所產生的 Static Delegate。</p>
+<pre><code class="language-text">internal int HiddenFunc(int n) =&gt; (n * n);
+private static Func&lt;int, int&gt; HiddenDelegateDefinition;
+
+int[] someNumbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+if (HiddenDelegateDefinition == null)
+{
+    HiddenDelegateDefinition  = new Func&lt;int, int&gt;(HiddenFunc);
+}
+
+var answers = someNumbers.Select&lt;int, int&gt;(HiddenDelegateDefinition);
+</code></pre>
+<hr />
+<p>接下來看一下另一個例子，此例中寫的 lambda 語句需要讀取 instance variables 也就是 <code>modulus</code> 的值才能計算出結果。</p>
+<pre><code class="language-text">public class ModFilter
+{
+	private readonly int modulus;
+	public ModFilter(int mod)
+	{
+		modulus = mod;
+	}
+	public IEnumerable&lt;int&gt; FindValues(IEnumerable&lt;int&gt; sequence)
+	{
+		return from n in sequence
+			   where n % modulus == 0 // New expression
+			   select n * n; // previous example
+	}
+}
+</code></pre>
+<p>編譯轉換之後會長的像下面這樣，也是產生 Static Delegate 不過這次多產生了 WhereClause 私有方法，最後也還是透過 Delegate 串接的特性
+將兩個 Delegate 串接起來產生結果。</p>
+<pre><code class="language-text">public class ModFilter
+{
+	private readonly int modulus;
+	private bool WhereClause(int n) =&gt; ((n % this.modulus) == 0);
+	internal int SelectClause(int n) =&gt; (n * n);
+	private static Func&lt;int, int&gt; SelectDelegate;
+	
+	public ModFilter(int mod)
+	{
+		modulus = mod;
+	}
+	
+	public IEnumerable&lt;int&gt; FindValues(IEnumerable&lt;int&gt; sequence)
+	{
+		if (SelectDelegate == null)
+		{
+			SelectDelegate = new Func&lt;int, int&gt;(SelectClause);
+		}
+		
+		return sequence.Where&lt;int&gt;(
+			new Func&lt;int, bool&gt;(this.WhereClause)).
+			Select&lt;int, int&gt;(SelectDelegate);
+	}
+}
+</code></pre>
+<p>最後看一下複雜一點的例子，<code>FindValues</code> 方法還額外使用了一個區域變數 <code>numValues</code>，這樣會做會產生一個 closure。</p>
+<pre><code class="language-text">public class ModFilter
+{
+	private readonly int modulus;
+	public ModFilter(int mod)
+	{
+		modulus = mod;
+	}
+	public IEnumerable&lt;int&gt; FindValues(IEnumerable&lt;int&gt; sequence)
+	{
+		int numValues = 0;
+		return from n in sequence
+			   where n % modulus == 0
+			   select n * n / ++numValues;
+	}
+}
+</code></pre>
+<p>所以這個時候內部就會產生嵌套的類別 <code>Closure</code>，它的用意是把 lambda 會訪問或修改的所有變數都加進來並轉換成 field。</p>
+<pre><code class="language-text">public class ModFilter
+{
+	private sealed class Closure
+	{
+		public ModFilter outer;
+		public int numValues;
+		public int SelectClause(int n) =&gt; ((n * n) / ++this.numValues);
+	}
+	private readonly int modulus;
+	public ModFilter(int mod)
+	{
+		this.modulus = mod;
+	}
+	private bool WhereClause(int n) =&gt; ((n % this.modulus) == 0);
+	
+	public IEnumerable&lt;int&gt; FindValues(IEnumerable&lt;int&gt; sequence)
+	{
+		var c = new Closure();
+		c.outer = this;
+		c.numValues = 0;
+		return sequence.Where&lt;int&gt;
+			(new Func&lt;int, bool&gt;(this.WhereClause))
+			.Select&lt;int, int&gt;(new Func&lt;int, int&gt;(c.SelectClause));
+	}
+}
+</code></pre>
+<p>看過這三個案例後就可以知道為什麼開頭問題會是這樣的結果，是因為 <code>index</code> 區域變數被加入到了內部隱藏的 <code>Closure</code> 類別裡面，
+實際上會長的如下面這樣，不難看出其實我們都是在操作同一個 instance 底下的 field 而已。</p>
+<pre><code class="language-text">void Main()
+{
+	Closure c = new Closure();
+	c.index = 0;
+	Func&lt;IEnumerable&lt;int&gt;&gt; func = new Func&lt;IEnumerable&lt;int&gt;&gt;(GenerateClause);
+	c.index = 20;
+	IEnumerator&lt;int&gt; enumerator = func().GetEnumerator();
+	Console.WriteLine(&quot;Done&quot;);
+	c.index = 100;
+	IEnumerator&lt;int&gt; enumerator2 = func().GetEnumerator();
+}
+
+private sealed class Closure
+{
+	public int index;
+	public Func&lt;int&gt; GenerateDelegate;
+	internal IEnumerable&lt;int&gt; indexPlus =&gt; ++this.index;
+	internal IEnumerable&lt;int&gt; GenerateClause =&gt; return Utilities.Generate(30, indexPlus);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在介紹 closure 是如何處理捕獲的變數的，一種是轉換成欄位成員另一種則是再透過一個新的嵌套類別把欄位成員放在裡面，
+由於這種操作導致程式運作的時候發生奇怪的錯誤，所以建議是不要去修改捕獲的變數是比較好的做法。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-44'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

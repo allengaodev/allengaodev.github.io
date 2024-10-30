@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 45.&#x4EE5;&#x4F8B;&#x5916;&#x56DE;&#x5831;&#x65B9;&#x5F0F;&#x7D04;&#x5B9A;&#x5931;&#x6557; (Use Exceptions to Report Method Contract Failures)">
+
+  <title>Effective C# 45.&#x4EE5;&#x4F8B;&#x5916;&#x56DE;&#x5831;&#x65B9;&#x5F0F;&#x7D04;&#x5B9A;&#x5931;&#x6557;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-45'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 45.&#x4EE5;&#x4F8B;&#x5916;&#x56DE;&#x5831;&#x65B9;&#x5F0F;&#x7D04;&#x5B9A;&#x5931;&#x6557;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-45' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-45'>Effective C# 45.&#x4EE5;&#x4F8B;&#x5916;&#x56DE;&#x5831;&#x65B9;&#x5F0F;&#x7D04;&#x5B9A;&#x5931;&#x6557;</a>
+              <span class="subheading">Effective C# 45.&#x4EE5;&#x4F8B;&#x5916;&#x56DE;&#x5831;&#x65B9;&#x5F0F;&#x7D04;&#x5B9A;&#x5931;&#x6557; (Use Exceptions to Report Method Contract Failures)</span>
+          </h1>
+            <div class="meta">Published on Monday, October 28, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法提到什麼情況適合使用 Exceptions 以及相較之下使用 Error Code 所會帶來的問題點。</p>
+<p>處理錯誤的時候常常會使用 Error Code 來取代 Exceptions，但是使用 Error Code 並非強制性的所以出錯時並不會影響到程序運作，
+所以當我們把 Error Code 回傳給呼叫方時他們經常不會太注重，更何況做出相對應的處理，或者會用大量的程式碼來檢查這些 Error Code，
+也會導致核心的邏輯塞滿了需多檢查邏輯。</p>
+<p>反之，如果今天都是使用拋出 Exceptions 那麼會使程序附加額外的開銷，所以我們再寫 library 的時候要在我們的 public 方法進行事先處理，
+而不要讓使用者去處理這些錯誤處理，這樣使用者也不用在自己的程式碼寫一堆 try/catch 進行檢查。</p>
+<p>與 Error Code 相比通常 Exceptions 的表達的意圖更加明確，因為它是專門來描述某一種具體錯誤的類別，也可以透過繼承建立出更加詳細的 Exceptions。</p>
+<p>另外 Exceptions 可以在 Stack 中的呼叫一層一層的像上傳遞，直到碰到了適合 catch 邏輯才停下，使用 Error Code 就必須要呼叫方自行記錄與處理
+，這就很容易造成錯誤訊息丟失。</p>
+<p>最後一個好處是使用 Exceptions 如果上層沒有適合的 catch 邏輯，那麼整個程序就會停止運行避免數據受損。</p>
+<p>以 <code>File.Exists()</code> 方法為例如果檔案存在則回傳 <code>true</code> 否則回傳 <code>false</code>，在 <code>File.Open()</code> 方法則是檔案不存在就接拋出 Exceptions，
+會有這樣的區別是因為 <code>File.Exists()</code> 不管檔案存不存在都不會影響我們跟調用者之間的 contract，也就是說不管如何這個方法都能成功執行，
+反之 <code>File.Open()</code> 對於成功的定義是檔案要存在、使用者有權限讀取、執行序能夠正常開啟檔案，這些條件要吻合才能說是成功，
+因此這些條件一旦不滿足，這個方法就沒有繼續執行的必要了。</p>
+<p>也代表我們在命名的時候應該要更明確，讓使用者可以透過名字知道這個方法是用來測試檢查的，使用者也可以透過檢查方法來控制程式的流程，
+也能增加一種保護措施，而不是馬上就拋出 Exceptions。</p>
+<p>建議如果方法中的某個操作有可能拋出 Exceptions，那麼可以另外提供檢查方法給使用者判斷，我們可以在檢查方法中先判斷必要的條件
+如果不滿足條件直接拋出 Exceptions。</p>
+<p>例如下面這種不建議的寫法，就是透過捕捉 Exceptions 的方式來處理錯誤。</p>
+<pre><code class="language-text">void Main()
+{
+	DoesWorkThatMightFail worker = new DoesWorkThatMightFail();
+	try
+	{
+		worker.DoWork();
+	}
+	catch (WorkerException e)
+	{
+		ReportErrorToUser(&quot;Test Conditions Failed. Please check widgets&quot;);
+	}
+}
+
+public class DoesWorkThatMightFail
+{
+	public bool TryDoWork()
+	{
+		if (!TestConditions())
+			return false;
+		Work(); // may throw on failures, but unlikely
+		return true;
+	}
+	public void DoWork()
+	{
+		Work(); // will throw on failures.
+	}
+	private bool TestConditions()
+	{
+		// Test conditions here
+		return true;
+	}
+	private void Work()
+	{
+		// Do the work here
+	}
+}
+</code></pre>
+<p>可以改成呼叫 TryDoWork 方法這樣呼叫方就能事先檢查是否會報錯，一但錯誤就直接回報這樣就不需要 try/catch 進行額外檢查了。</p>
+<pre><code class="language-text">if (!worker.TryDoWork())
+{
+	ReportErrorToUser(&quot;Test Conditions Failed. Please check widgets&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>回到做法建議的內容，只要我們跟使用者對於有共識的合約部分就不用特別在意是否要拋出 Exceptions，共識的部分可以透過檢查方法直接採取措施就好，
+應該要注重的是那些共識外的錯誤才有必要拋出 Exceptions。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-45'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

@@ -99,26 +99,30 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/bitwarden-design-user-register-encryption">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;</a></h2>
-  <p class="post-meta">Published on Monday, May 15, 2023</p>
-<p>在上一篇文章中我們了解 Bitwarden 的註冊流程，今天來討論它背後是如何進行加密的。</p>    <p class="small"><a href="/posts/bitwarden-design-user-register-encryption">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-usersecrets-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; UserSecrets &#x8B80;&#x53D6;&#x4FDD;&#x8B77;&#x7684;&#x8A2D;&#x5B9A;&#x503C;</a></h2>
+  <p class="post-meta">Published on Friday, June 9, 2023</p>
+<p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
+可能被外漏出去會造成很大的問題，因此 Dotnet 提供了 <code>Microsoft.Extensions.Configuration.UserSecrets</code>
+這個 Package 給我們使用。</p>    <p class="small"><a href="/posts/dotnet-usersecrets-with-configuration">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/bitwarden-design-user-register">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x8A3B;&#x518A;&#x6D41;&#x7A0B;</a></h2>
-  <p class="post-meta">Published on Friday, May 12, 2023</p>
-<p>在上一篇的文章中成功建立起 Bitwarden 的本地開發環境並且成功的註冊了一個新會員，本篇文章會來討論 Bitwarden
-是如何處理會員註冊邏輯，並且跟一般的註冊邏輯進行比較看看有什麼不同</p>    <p class="small"><a href="/posts/bitwarden-design-user-register">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-ioptions">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on Thursday, June 8, 2023</p>
+<p>在上一篇文章中我們學到了該怎麼使用 Configuration 相關的 Package，程式將透過 DI 容器取得 <code>ConfigurationRoot</code> 可以方便
+讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
+因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
+但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/bitwarden-design-startup">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x5EFA;&#x7ACB;&#x672C;&#x5730;&#x958B;&#x767C;&#x74B0;&#x5883;</a></h2>
-  <p class="post-meta">Published on Thursday, May 11, 2023</p>
-<p>Bitwarden 作為一套知名的密碼管理系統想當然關於安全性方面的設計肯定需要比一般的系統更加謹慎。
-密碼管理系統一旦有漏洞數以萬計的密碼就會外流到網路上，並且如果使用者安全習慣並不好所有網站都使用
-同一個密碼或者密碼過於簡單就會造成災耐。</p>    <p class="small"><a href="/posts/bitwarden-design-startup">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on Wednesday, June 7, 2023</p>
+<p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
+資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
+設定檔這方面的問題。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-configuration">Read more...</a></p>
 </div>
 
   <div>
@@ -135,7 +139,7 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (56)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (66)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

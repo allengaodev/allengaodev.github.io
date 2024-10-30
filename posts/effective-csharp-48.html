@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 48.&#x504F;&#x597D;&#x5F37;&#x4F8B;&#x5916;&#x4FDD;&#x8B49; (Prefer the Strong Exception Guarantee)">
+
+  <title>Effective C# 48.&#x504F;&#x597D;&#x5F37;&#x4F8B;&#x5916;&#x4FDD;&#x8B49;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-48'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 48.&#x504F;&#x597D;&#x5F37;&#x4F8B;&#x5916;&#x4FDD;&#x8B49;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-48' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-48'>Effective C# 48.&#x504F;&#x597D;&#x5F37;&#x4F8B;&#x5916;&#x4FDD;&#x8B49;</a>
+              <span class="subheading">Effective C# 48.&#x504F;&#x597D;&#x5F37;&#x4F8B;&#x5916;&#x4FDD;&#x8B49; (Prefer the Strong Exception Guarantee)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, October 29, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在做法 39 有提到 <code>Strong exception guarantee</code> 這個概念，這個做法會對三種保證進行詳細說明。</p>
+<p>以下是三種保證與它們各自的定義。</p>
+<ol>
+<li>No-throw guarantee: 保證你寫的方法不會拋出例外錯誤，也是約束最強的一種設計，一但方法內部有錯誤產生需要馬上進行內部處理，不能讓外部的使用者發覺。</li>
+<li>Strong exception guarantee: 可以拋出錯誤但需要保證發生錯誤時數據要返回原始狀態，要保證錯誤產生時不能有副作用。</li>
+<li>Basic exception guarantee: 最寬鬆的一種設計，錯誤產生時數據可能是錯亂的狀態但還是可以操作數據。</li>
+</ol>
+<p>從定義中可以知道 <code>Strong exception guarantee</code> 是比較折中的處理方式，使用者開發起來也比較簡單並且又能保證程序能夠從錯誤中恢復也不會有副作用。</p>
+<p>做法 39 提到使用 <code>ToList()</code> 方法先備份數據，成功之後才會賦值給 allEmployees，如果運作途中拋出錯誤也不會運行到賦值的那段程式碼
+避免副作用的產生。</p>
+<pre><code class="language-text">var updates = (from e in allEmployees
+               select new Employee
+               {
+                   EmployeeID = e.EmployeeID,
+                   Classification = e.Classification,
+                   YearsOfService = e.YearsOfService,
+                   MonthlySalary = e.MonthlySalary *= 1.05M
+               }).ToList();
+allEmployees = updates;
+</code></pre>
+<p><code>Strong exception guarantee</code> 也可以理解成當錯誤產生時，程序的狀態必須跟執行前的狀態相同，代表要麼完全成功要麼完全失敗，
+如果失敗就必須保證狀態要回到跟一開始一模一樣，絕對不能產生部分成功部分失敗的結果，也就是說這個操作沒有生效或者從來不存在過。</p>
+<p>採用上面提到的備份方法會稍微降低程式碼的運行效率，原因也很容易理解，建立備份就代表需要在 heap 上分配記憶體，不過由於有 GC 背後會進行管控
+所以開銷並沒有想像的那麼大，犧牲了一點運行效率可以換來更加安全的強異常保證是更加划算的。</p>
+<p>但要注意參考型別的複製問題，下面這段程式碼看起來是使用了正確的備份機制，保證 UnreliableOperation 執行成功後才會覆蓋原本資料，
+但因為 <code>MyCollection</code> 所讀取的是 <code>data</code> 的參考，所以如果有人在你修改 <code>data</code> 同時在讀取 <code>MyCollection</code> 那他就可能會看到舊的數據，
+也就是說值型別才適合直接用備份的這個技巧。</p>
+<pre><code class="language-text">private List&lt;PayrollData&gt; data;
+public IList&lt;PayrollData&gt; MyCollection
+{
+   get { return data; }
+}
+public void UpdateData()
+{
+   var temp = UnreliableOperation();
+
+   data = temp;
+}
+</code></pre>
+<p>在參考型別還要額外進行處理，從上一段的結論知道我們不能直接替換因為可能會獲取到舊的數據，因此關鍵是要把參考指向的數據替換掉並且
+必須保證替換的過程中不能有任何錯誤產生，而不是替換參考本身。</p>
+<p>最容易想到的做法就是把 List 裡面的資料都刪光，之後把新的數據添加到 List 裡面，例如下面這段程式碼可以應付一般遇到的情況。</p>
+<pre><code class="language-text">private List&lt;PayrollData&gt; data;
+public IList&lt;PayrollData&gt; MyCollection
+{
+	get
+	{
+		return data;
+	}
+}
+public void UpdateData()
+{
+	var temp = UnreliableOperation();
+	
+	data.Clear();
+	foreach (var item in temp)
+		data.Add(item);
+}
+</code></pre>
+<p>如果要更嚴謹一點的寫法可以採用 <code>envelope-letter pattern</code> 這個設計模式，這模式也很好理解就是建立一個新的類別(envelope) 來包裹
+資料(letter) 也就是說我們需要把上面的 <code>data</code> 欄位從原本的 <code>List&lt;PayrollData&gt;</code> 類型改成一個新的信封類型 <code>Envelope</code>，
+並且透過公開的方法 SafeUpdate 給使用者呼叫以更新資料，這種寫法就能保持線程安全避免替換資料的時候被打斷。</p>
+<pre><code class="language-text">private Envelope data;
+public IList&lt;PayrollData&gt; MyCollection
+{
+	get
+	{
+		return data;
+	}
+}
+public void UpdateData()
+{
+	data.SafeUpdate(UnreliableOperation());
+}
+
+public class Envelope : IList&lt;PayrollData&gt;
+{
+	private List&lt;PayrollData&gt; data = new List&lt;PayrollData&gt;();
+	public void SafeUpdate(IEnumerable&lt;PayrollData&gt; sourceList)
+	{
+		List&lt;PayrollData&gt; updates = new List&lt;PayrollData&gt;(sourceList.ToList());
+		data = updates;
+	}
+	public PayrollData this[int index]
+	{
+		get { return data[index]; }
+		set { data[index] = value; }
+	}
+	public int Count =&gt; data.Count;
+	public bool IsReadOnly =&gt; ((IList&lt;PayrollData&gt;)data).IsReadOnly;
+	public void Add(PayrollData item) =&gt; data.Add(item);
+	public void Clear() =&gt; data.Clear();
+	public bool Contains(PayrollData item) =&gt; data.Contains(item);
+	public void CopyTo(PayrollData[] array, int arrayIndex) =&gt; data.CopyTo(array, arrayIndex);
+	public IEnumerator&lt;PayrollData&gt; GetEnumerator() =&gt; data.GetEnumerator();
+	public int IndexOf(PayrollData item) =&gt; data.IndexOf(item);
+	public void Insert(int index, PayrollData item) =&gt; data.Insert(index, item);
+	public bool Remove(PayrollData item)
+	{
+		return ((IList&lt;PayrollData&gt;)data).Remove(item);
+	}
+	public void RemoveAt(int index)
+	{
+		((IList&lt;PayrollData&gt;)data).RemoveAt(index);
+	}
+
+	IEnumerator IEnumerable.GetEnumerator() =&gt; data.GetEnumerator();
+}
+</code></pre>
+<hr />
+<p>另外要提到最嚴格的 <code>No-throw guarantee</code>，畢竟真的有些地方需要保證不能拋出錯誤，例如 Finalizer 與 Dispose 就是如此，如果在這兩個方法
+拋出錯誤反而會造成更大的問題，可以把較複雜的方法包在 try/catch 裡面把錯誤吞掉保證不會發生異常。</p>
+<p>還有 <code>exception filter</code> 的 when 子句也絕對不能拋出錯誤，如果拋出的話反而會導致舊的異常無法被訪問。</p>
+<p>還有一個是 <code>delegate</code> 還有 <code>event</code> 對於 multicast delegate 來說如果其中一個委派發生錯誤，其他的委派就不會在執行所以要極力避免委派拋出錯誤。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Exception 可能會導致程式產生意料之外的結果，所以要避免這個問題最好是讓你的程式碼有 <code>Strong exception guarantee</code>，也就是只允許成功
+不然就是維持原樣。</p>
+<p>Finalizer、Dispose、Exception Filter、Delegate 這幾個是特例要避免拋出錯誤。</p>
+<p>最後就是使用備份來替換原始數據的方式要注意參考型別所會導致的問題。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-48'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

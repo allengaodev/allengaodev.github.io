@@ -99,27 +99,26 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Direct &amp; Topic &amp; Header</a></h2>
-  <p class="post-meta">Published on Thursday, June 1, 2023</p>
-<p>今天要來學習發布訂閱模式中的 <code>Direct</code> 和 <code>Topic</code> 模式這兩個模式使用起來非常相似。上一篇文章中我們學習到的 <code>Fanout</code> 模式有一個不太方便的點，那就是
-它會一次發送給有綁定到 <code>Exchange</code> 上的所有 <code>Queue</code>，如果只想要發送給某個特定族群的 <code>Queue</code> 就可以選擇使用 <code>Direct</code>, <code>Topic</code> 或者 <code>Header</code> 模式。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/nginx-prepare-environment-01">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C;-&#x6E96;&#x5099;&#x958B;&#x767C;&#x74B0;&#x5883;</a></h2>
+  <p class="post-meta">Published on Thursday, July 18, 2024</p>
+<p>最近在重新學習 Nginx 的相關基礎設定，首先需要一個方便測試反向代理還有附載均衡的功能，所以利用以前常用的 <a href="https://labs.play-with-docker.com/" target="_blank">Play with Docker</a>
+網站提供的快速建構 node 功能，來學習我們想要了解的相關功能，也不會影響到自己的本地環境。</p>    <p class="small"><a href="/posts/nginx-prepare-environment-01">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-fanout">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Fanout</a></h2>
-  <p class="post-meta">Published on Saturday, May 27, 2023</p>
-<p>到目前為止我們已經學會了 RabbitMQ 中最基礎的應用，在上一篇文章中這種一個 <code>Queue</code> 搭配多個 <code>Consumer</code> 的模式叫做 <code>Competing Consumers Pattern</code>
-，不過就如同它名稱所示 <code>消費者競爭模式</code> 每一個 <code>Consumer</code> 都是競爭關係代表信息被某一個 <code>Consumer</code> 取得之後其它的 <code>Consumer</code>
-就再也沒有機會知道這條信息裡面有什麼內容。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-fanout">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/orleans-grain-silo">Microsoft Orleans &#x5B78;&#x7FD2;&#x6307;&#x5357; - Grain And Silo</a></h2>
+  <p class="post-meta">Published on Wednesday, July 19, 2023</p>
+<p>在現代分散式雲端計算的環境中，傳統的三層架構（Client、Server、Storage）會顯得力不從心，
+這是因為三層架構在處理高並發和大量數據時存在一些先天的限制。</p>    <p class="small"><a href="/posts/orleans-grain-silo">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-multiple-workers">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</a></h2>
-  <p class="post-meta">Published on Thursday, May 25, 2023</p>
-<p>到目前為止我們專案同時只會運行一個 <code>producer</code> 和 一個 <code>consumer</code>，不過當 <code>producer</code> 產生過多的任務或者 <code>consumer</code> 執行每一個任務都需要許多時間，
-這時候我們可以選則執行多個 <code>consumer</code> 來分擔執行任務的壓力，例如說上一篇文章中的例子我們產生了五個任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-multiple-workers">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/abp-io-tutorials-from-scratch-part-3-host-layer">ABP IO &#x8EDF;&#x9AD4;&#x6846;&#x67B6;&#x6559;&#x5B78; Part 3 - &#x5F9E;&#x982D;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x65B0;&#x6A21;&#x7D44; - abp &#x751F;&#x547D;&#x9031;&#x671F;&#x8207; Host &#x5C64;</a></h2>
+  <p class="post-meta">Published on Thursday, July 6, 2023</p>
+<p>目前已經完成了模組的基本架構，接下來可以準備將我們建立的模組運行起來，與一般的流程不同 abp 有自訂一套生命週期，
+我們需要先學習一下 abp 生命週期才能繼續進行我們的專案。</p>    <p class="small"><a href="/posts/abp-io-tutorials-from-scratch-part-3-host-layer">Read more...</a></p>
 </div>
 
   <div>
@@ -136,7 +135,7 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (56)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (66)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

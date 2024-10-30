@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# 42.&#x5340;&#x5206; IEnumerable &#x8207; IQueryable &#x8CC7;&#x6599;&#x4F86;&#x6E90; (Distinguish between IEnumerable and IQueryable Data Sources)">
+
+  <title>Effective C# 42.&#x5340;&#x5206; IEnumerable &#x8207; IQueryable &#x8CC7;&#x6599;&#x4F86;&#x6E90;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-42'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# 42.&#x5340;&#x5206; IEnumerable &#x8207; IQueryable &#x8CC7;&#x6599;&#x4F86;&#x6E90;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-42' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-42'>Effective C# 42.&#x5340;&#x5206; IEnumerable &#x8207; IQueryable &#x8CC7;&#x6599;&#x4F86;&#x6E90;</a>
+              <span class="subheading">Effective C# 42.&#x5340;&#x5206; IEnumerable &#x8207; IQueryable &#x8CC7;&#x6599;&#x4F86;&#x6E90; (Distinguish between IEnumerable and IQueryable Data Sources)</span>
+          </h1>
+            <div class="meta">Published on Sunday, October 27, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在介紹 IEnumerable 與 IQueryable 兩者背後的運作機制，這兩個類型在前幾個做法經常提到，它們專注的方面與運作的效率也差很多。</p>
+<p>首先下面這種是用 IQueryable<T> 的寫法，它背後的是使用 LINQ to SQL 機制，它會把這兩個語句整理在同一個 <code>expression tree</code>，
+最後會翻譯成 SQL 語法傳遞給資料庫運行，所以在進行排序工作的時候是在遠端排序的。</p>
+<pre><code class="language-text">var q = from c in dbContext.Customers
+        where c.City == &quot;London&quot;
+        select c;
+        
+ var finalAnswer = from c in q
+                  orderby c.Name
+                  select c;
+</code></pre>
+<p>另外下面這種是用將上面的程式碼轉成 IEnumerable<T> 的寫法，它背後的是使用 LINQ to Objects 機制，它會把數據保留在本地記憶體內，
+所以在進行排序工作的時候其實是在本地進行排序的。</p>
+<pre><code class="language-text">var q = (from c in dbContext.Customers
+         where c.City == &quot;London&quot;
+         select c).AsEnumerable();
+         
+ var finalAnswer = from c in q
+                  orderby c.Name
+                  select c;
+</code></pre>
+<p>另外之前也有提到 LINQ to SQL 背後是各種不同的 provider 來進行轉換工作，所以有些時候沒辦法把 C# 的 LINQ 語法轉換成 SQL 的版本，
+所以這種時候就只能轉換成 Enumerable 來處理即可。</p>
+<pre><code class="language-text">void Main()
+{
+	private bool isValidProduct(Product p) =&gt; p.ProductName.LastIndexOf('C') == 0;
+	
+	// This works:
+	var q1 = from p in dbContext.Products.AsEnumerable()
+			   where isValidProduct(p)
+			   select p;
+			   
+	// This throws an exception when you enumerate the collection.
+	var q2 = from p in dbContext.Products
+			where isValidProduct(p)
+			select p;
+}
+</code></pre>
+<p>所以關鍵的差異也很好懂，IQueryable<T> 會把所有查詢語句整理成一個語句之後再丟給資料庫查詢，
+IEnumerable<T> 則是操作記憶體內的物件跟資料庫其實沒有關係，所以如果在不對的場合使用錯誤的寫法那會大大影響執行效率。</p>
+<p>例如在這個例子中把 where 子句移出 IQueryable<T> 之外，這樣會導致所有資料都讀出來並轉換成 Enumerable 最後才在記憶體進行過濾與排序工作，
+這樣既不能利用更快的資料庫搜尋機制，也浪費許多記憶體和傳輸流量。</p>
+<pre><code class="language-text">var q = (from c in dbContext.Customers
+		 select c).AsEnumerable();
+
+var finalAnswer = from c in q
+				  where c.City == &quot;London&quot;
+				  orderby c.Name
+				  select c;
+</code></pre>
+<p>另外我們可以使用 AsQueryable 方法將一般的 Enumerable 轉換成 Queryable，這樣不管傳入的集合本身是否為 IQueryable<T> 還是 IEnumerable<T>
+都可以當作下面這個方法的數據源。</p>
+<pre><code class="language-text">public static IEnumerable&lt;Product&gt; ValidProducts(this IEnumerable&lt;Product&gt; products) =&gt;
+	from p in products.AsQueryable()
+	where p.ProductName.LastIndexOf('C') == 0
+	select p;
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>IEnumerable 與 IQueryable 寫起來與看起來基本都相同，但背後運作的機制卻差很多只要記得 IQueryable 背後是透過 provider 進行各種
+不同格式的輸出，IEnumerable 則是本地記憶體操作，特別是在使用 EFCore 的時候很有可能沒有注意到目前是 IEnumerable 還是 IQueryable，
+一不小心就有可能影響效能。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-42'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
