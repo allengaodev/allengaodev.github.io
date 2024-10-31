@@ -95,7 +95,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <p>在前幾個作法都有提到 IDisposable 的相關概念，這個作法就是在討論如何寫出標準的 Dispose 模式。</p>
+        <p>在前幾個做法都有提到 IDisposable 的相關概念，這個做法就是在討論如何寫出標準的 Dispose 模式。</p>
 <p>之前也有提到實做 <code>IDisposable</code> 介面時使用者需要自行注意釋放的時機，因此最方便的做法就是搭配 <code>using</code> 這樣內部程式碼結束後會自動呼叫
 <code>Dispose</code> 方法，為了避免使用者忘記釋放掉記憶體或不知道要使用 <code>using</code> 來釋放，我們在實做的時候可以選擇將 <code>finalizer</code> 與 <code>IDisposable</code> 結合起來的寫法
 ，這樣即可以手動釋放也可以避免使用者忘記的情況發生。</p>
@@ -136,7 +136,7 @@
 <li>當你寫的類型包含有實做 <code>IDisposable</code> 的成員時，請實做 Dispose Pattern。</li>
 <li>當你寫的類型沒有包含實做 <code>IDisposable</code> 的成員和 unmanaged 資源，但衍生的類別會有包含，考慮實做 Dispose Pattern。</li>
 </ol>
-<p>第一點在作法 15 有提到，這種寫法主要在避免重複創建過多的物件。</p>
+<p>第一點在做法 15 有提到，這種寫法主要在避免重複創建過多的物件。</p>
 <pre><code class="language-text">public class MyResource : IDisposable
 {
 	FileStream fileStream = new FileStream(&#64;&quot;c:\test1.txt&quot;, FileMode.Open);

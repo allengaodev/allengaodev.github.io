@@ -95,7 +95,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <p>這個做法提到在某幾種狀況下除了實做泛型介面最好也同時實做傳統介面，例如作法 20 裡面提到的 <code>Car</code> 類別就有同時實做
+        <p>這個做法提到在某幾種狀況下除了實做泛型介面最好也同時實做傳統介面，例如做法 20 裡面提到的 <code>Car</code> 類別就有同時實做
 <code>IComparable&lt;T&gt;</code> 與 <code>IComparable</code> 兩種介面。</p>
 <p>首先先看以下 <code>Name</code> 類別，它只有實做 <code>IComparable&lt;T&gt;</code> 與 <code>IEquatable&lt;T&gt;</code> 這兩個泛型介面。</p>
 <pre><code class="language-text">public class Name : IComparable&lt;Name&gt;, IEquatable&lt;Name&gt;
