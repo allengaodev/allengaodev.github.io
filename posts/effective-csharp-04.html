@@ -165,7 +165,8 @@ IL_0036	ret
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>如果很在意效能建議是直接手動呼叫 ToString() 將值型別轉成參考型別，但是新版的寫法已經避免了 boxing 所以兩種寫法相差不多。
+<p>使用 <code>String Interpolation</code> 或 <code>StringBuilder</code> 取代 <code>string.Format</code> 可以獲得更好的效能。
+如果很在意效能建議是直接手動呼叫 ToString() 將值型別轉成參考型別，但是新版的寫法已經避免了 boxing 所以兩種寫法相差不多。
 另外要注意不要直接用字串內插來寫 SQL 語法，因為會導致 SQL Injection 的問題。</p>
 
 

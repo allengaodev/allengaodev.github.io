@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;">
+
+  <title>Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-csharp-summary'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-csharp-summary' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-csharp-summary'>Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</a>
+              <span class="subheading">Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</span>
+          </h1>
+            <div class="meta">Published on Wednesday, October 30, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>本文章對書中 50 個做法進行總整理，以及對每個做法做出簡短總結，方便日後查看。</p>
+<hr />
+<h2 id="chapter-1.c-language-idioms">Chapter 1. C# Language Idioms</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-01" target="_blank"><u>01.Prefer Implicitly Typed Local Variables</u> :</a></strong>
+使用 var 自動判斷型別，數值類型才需要明確宣告型別。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-02" target="_blank"><u>02.Prefer readonly to const</u> :</a></strong>
+確定要在編譯期間就將變數轉換成實際值才使用 <code>const</code>，否則盡量使用 <code>readonly</code> 宣告常數。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-03" target="_blank"><u>03.Prefer the is or as Operators to Casts</u> :</a></strong>
+優先使用 <code>as</code> 與 <code>is</code> 進行轉型操作，特殊情況才用 <code>Cast expression</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-04" target="_blank"><u>04.Replace string.Format with Interpolated Strings</u> :</a></strong>
+使用 <code>String Interpolation</code> 或 <code>StringBuilder</code> 取代 <code>string.Format</code> 可以獲得更好的效能，但不要用字串內插來寫 SQL 語法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-05" target="_blank"><u>05.Prefer FormattableString for Culture-Specific Strings</u> :</a></strong>
+<code>FormattableString</code> 與一般的 <code>String</code> 相比下更加彈性，可以用來處理多語系的功能。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-06" target="_blank"><u>06.Avoid String-ly Typed APIs</u> :</a></strong>
+弱型別的參數會帶來需多問題，建議改用 <code>nameof()</code> 在重構的時候會很有幫助。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-07" target="_blank"><u>07.Express Callbacks with Delegates</u> :</a></strong>
+講解 Delegate 的使用方法與建議使用內建的 <code>Predicate&lt;T&gt;</code>、<code>Action&lt;T&gt;</code>、<code>Func&lt;&gt;</code> 委派類型。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-08" target="_blank"><u>08.Use the Null Conditional Operator for Event Invocations</u> :</a></strong>
+使用 <code>?</code> 運算子檢查變數是否為 Null，事件處理 <code>EventHandler?.Invoke(this, e)</code> 可讀性高也更加安全。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-09" target="_blank"><u>09.Minimize Boxing and Unboxing</u> :</a></strong>
+講解 <code>Value Type</code> 和 <code>Reference Type</code> 的區別還有 <code>boxing</code> 與 <code>unboxing</code> 處理的流程。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-10" target="_blank"><u>10.Use the new Modifier Only to React to Base Class Updates</u> :</a></strong>
+在類別內使用 <code>new</code> 修飾詞需要小心，會導致基底類型與衍生類型的方法產生不一致的行為。</li>
+</ul>
+<hr />
+<h2 id="chapter-2.net-resource-management">Chapter 2. .NET Resource Management</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-11" target="_blank"><u>11.Understand .NET Resource Management</u> :</a></strong>
+講解 <code>Managed Resource</code>、<code>Unmanaged Resource</code>、<code>Finalizer</code> 相關知識。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-12" target="_blank"><u>12.Prefer Member Initializers to Assignment Statements</u> :</a></strong>
+建議在聲明變數的時候就直接初始化，使用 <code>Initializers</code>，不僅寫起來比較直觀，在有多個建構函式的情況底下也很方便閱讀跟維護。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-13" target="_blank"><u>13.Use Proper Initialization for Static Class Members</u> :</a></strong>
+講解 <code>static</code> 基礎概念與靜態建構函式的用法，單例模式經常使用。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-14" target="_blank"><u>14.Minimize Duplicate Initialization Logic</u> :</a></strong>
+如果類別內有很多建構函式建議在建構函式後方接上 this 來減少建構函式的數量。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-15" target="_blank"><u>15.Avoid Creating Unnecessary Objects</u> :</a></strong>
+實例化參考型別背後會進行 <code>Heap Allocation</code>，減少這個行為會改善軟體效能。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-16" target="_blank"><u>16.Never Call Virtual Functions in Constructors</u> :</a></strong>
+不要在底層類別的建構函式呼叫虛擬方法，會導致耦合並且執行的順序可能會與預測的不同。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-17" target="_blank"><u>17.Implement the Standard Dispose Pattern</u> :</a></strong>
+講解 <code>IDisposable</code> 概念與 Dispose Pattern 最佳實踐。</li>
+</ul>
+<hr />
+<h2 id="chapter-3.working-with-generics">Chapter 3. Working with Generics</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-18" target="_blank"><u>18.Always Define Constraints That Are Minimal and Sufficient</u> :</a></strong>
+講解泛型基本知識，與泛型約束的寫法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-19" target="_blank"><u>19.Specialize Generic Algorithms Using Runtime Type Checking</u> :</a></strong>
+透過 <code>as</code> 與 <code>if</code> 進行檢查與轉換，可以避免添加過多不必要的約束。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-20" target="_blank"><u>20.Implement Ordering Relations with IComparable<T> and IComparer<T></u> :</a></strong>
+講解如何實做 <code>IComparable&lt;T&gt;</code> 與 <code>IComparer&lt;T&gt;</code> 介面來達成排序的功能。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-21" target="_blank"><u>21.Always Create Generic Classes That Support Disposable Type Parameters</u> :</a></strong>
+在處理泛型類別時要時刻考慮傳入的參數的類型是否可能有 <code>IDisposable</code> 介面，有可能的話就需要在這個泛型類別中進行額外設計來避免記憶體流失。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-22" target="_blank"><u>22.Support Generic Covariance and Contravariance</u> :</a></strong>
+講解 <code>Covariance</code>、<code>Contravariance</code>、<code>Invariant</code> 的概念與使用 <code>in</code>、<code>out</code> 來達成這些能力。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-23" target="_blank"><u>23.Use Delegates to Define Method Constraints on Type Parameters</u> :</a></strong>
+建議用委派的方式來直接傳入方法，複雜的情況才用約束搭配建立新介面。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-24" target="_blank"><u>24.Do Not Create Generic Specialization on Base Classes or Interfaces</u> :</a></strong>
+如果類別內有泛型方法時最好不要再創建針對基底類別或介面的多載方法，因為可能會優先執行泛型的方法而不是需要再多一層轉換的多載方法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-25" target="_blank"><u>25.Prefer Generic Methods Unless Type Parameters Are Instance Fields</u> :</a></strong>
+建議使用泛型方法除非需要將傳入的參數 <code>T</code> 建立為成員才使用泛型類別。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-26" target="_blank"><u>26.Implement Classic Interfaces in Addition to Generic Interfaces</u> :</a></strong>
+建議需要兼容舊版本的程式要同時實做泛型介面與一般介面，例如 <code>IComparable&lt;T&gt;</code> 與 <code>IComparable</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-27" target="_blank"><u>27.Augment Minimal Interface Contracts with Extension Methods</u> :</a></strong>
+只在介面定義必要的方法，其它功能用擴充方法增強即可。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-28" target="_blank"><u>28.Consider Enhancing Constructed Types with Extension Methods</u> :</a></strong>
+可以幫 <code>Close Generic Type</code> 例如 <code>IEnumerable&lt;int&gt;</code>，建立擴充方法讓這些特殊型別跑專用的演算法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-29" target="_blank"><u>29.Prefer Iterator Methods to Returning Collections</u> :</a></strong>
+講解 <code>Iterator Methods</code> 與 <code>yield return</code> 能夠對效能帶來巨大的好處。</li>
+</ul>
+<hr />
+<h2 id="chapter-4.working-with-linq">Chapter 4. Working with LINQ</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-30" target="_blank"><u>30.Prefer Query Syntax to Loops</u> :</a></strong>
+建議使用 LINQ 的 <code>Query Expression</code> 取代基礎的迴圈操作。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-31" target="_blank"><u>31.Create Composable APIs for Sequences</u> :</a></strong>
+講解能夠將多個 <code>Iterator Methods</code> 進行串聯的特性能夠提升閱讀性。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-32" target="_blank"><u>32.Decouple Iterations from Actions, Predicates, and Functions</u> :</a></strong>
+使用內建的 <code>Predicate&lt;T&gt;</code>、<code>Action&lt;T&gt;</code>、<code>Func&lt;&gt;</code> 搭配 <code>Iterator Methods</code> 將不屬於方法的職責移出去來達到解耦的效果。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-33" target="_blank"><u>33.Generate Sequence Items as Requested</u> :</a></strong>
+講解 <code>Iterator Methods</code> 的 <code>Lazy Evaluation</code> 特性，等待真正需要用到值的時候才會執行該方法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-34" target="_blank"><u>34.Loosen Coupling by Using Function Parameters</u> :</a></strong>
+講解在 <code>Iterator Methods</code> 使用委派當作參數來解耦，以及與抽象及介面的解耦進行相比。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-35" target="_blank"><u>35.Never Overload Extension Methods</u> :</a></strong>
+講解切換 <code>using namespace</code> 來多載擴充方法是非常不好的做法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-36" target="_blank"><u>36.Understand How Query Expressions Map to Method Calls</u> :</a></strong>
+講解 <code>query expression pattern</code> 定義的 11 個方法，以及它們背後轉換成 <code>Method Call</code> 的邏輯。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-37" target="_blank"><u>37.Prefer Lazy Evaluation to Eager Evaluation in Queries</u> :</a></strong>
+講解特殊場合可以使用 <code>ToList()</code> 或 <code>ToArray()</code> 從 <code>Lazy Evaluation</code> 換成 <code>Eager Evaluation</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-38" target="_blank"><u>38.Prefer Lambda Expressions to Methods</u> :</a></strong>
+建議建立包含多個小的查詢語句靜態擴充方法來共用重複邏輯，而不是寫一個本地方法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-39" target="_blank"><u>39.Avoid Throwing Exceptions in Functions and Actions</u> :</a></strong>
+不要在 <code>Action</code> 與 <code>Func</code> 拋出錯誤否則會導致數據錯亂，並建議可以用 <code>ToList()</code> 建立臨時備份等到完全成功在覆蓋回原變數。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-40" target="_blank"><u>40.Distinguish Early from Deferred Execution</u> :</a></strong>
+講解提前執行與延遲執行該如何挑選，關鍵要確保兩種執行方式都能有同樣的結果。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-41" target="_blank"><u>41.Avoid Capturing Expensive Resources</u> :</a></strong>
+講解 <code>Closure</code> 在 C# 中是如何產生出來的，以及要避免 <code>Closure</code> 把昂貴的資源捕捉進去來避免記憶體流失。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-42" target="_blank"><u>42.Distinguish between IEnumerable and IQueryable Data Sources</u> :</a></strong>
+講解 IEnumerable 與 IQueryable 背後執行的原理和它們使用的場合。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-43" target="_blank"><u>43.Use Single and First to Enforce Semantic Expectations on Queries</u> :</a></strong>
+講解 LINQ 常用的讀取元素的擴充方法 <code>Single</code>、<code>First</code>、<code>Last</code>、<code>SingleOrDefault</code>、<code>FirstOrDefault</code>、<code>LastOrDefault</code></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-44" target="_blank"><u>44.Avoid Modifying Bound Variables</u> :</a></strong>
+講解 <code>Closure</code> 是如何達成變數捕捉的效果，以及避免修改被捕捉的變數。</li>
+</ul>
+<hr />
+<h2 id="chapter-5.exception-practices">Chapter 5. Exception Practices</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-45" target="_blank"><u>45.Use Exceptions to Report Method Contract Failures</u> :</a></strong>
+建議雙方都有共識的程式碼不用拋出錯誤應該要注重的是事後的處理過程，而非共識的地方才考慮拋出 <code>Exception</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-46" target="_blank"><u>46.Utilize using and try/finally for Resource Cleanup</u> :</a></strong>
+講解使用 <code>using</code> 來釋放記憶體的重要性，以及可以直接使用 <code>try/final</code> 實現自己的釋放流程。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-47" target="_blank"><u>47.Create Complete Application-Specific Exception Classes</u> :</a></strong>
+只有事後需要特殊處理的錯誤才考慮建立客製化的 <code>Exception</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-48" target="_blank"><u>48.Prefer the Strong Exception Guarantee</u> :</a></strong>
+詳細說明三種 <code>Exception Guarantee</code> 各自的定義以及使用場合。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-49" target="_blank"><u>49.Prefer Exception Filters to catch and re-throw</u> :</a></strong>
+說明 <code>Exception Filters</code> 與 <code>when</code> 子句的使用方式，建議可以用來取代舊有寫在 <code>Exception</code> 內部的邏輯判斷之後拋出的流程。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/effective-csharp-50" target="_blank"><u>50.Leverage Side Effects in Exception Filters</u> :</a></strong>
+講解 <code>Exception Filters</code> 會優先執行判斷邏輯的特性，並利用它來做到安插監控程式碼的效果。</li>
+</ul>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-summary'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
