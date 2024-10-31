@@ -95,7 +95,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <p>本作法提到了 <code>Iterator Methods</code> 與 <code>yield return</code> 這兩個新的名詞以及使用它的好處。
+        <p>本做法提到了 <code>Iterator Methods</code> 與 <code>yield return</code> 這兩個新的名詞以及使用它的好處。
 根據定義只要使用 <code>yield return</code> 並且回傳值是 <code>IEnumerable</code> 或 <code>IEnumerable&lt;T&gt;</code> 就可以稱為這是一個 <code>Iterator Methods</code>。</p>
 <p>首先我們先看一下不使用 <code>yield return</code> 的產生英文26個字母的方法，這裡建立了一個 <code>List&lt;char&gt;</code> 來保存結果並輸出。</p>
 <pre><code class="language-text">public static List&lt;char&gt; GenerateAlphabet()
@@ -177,7 +177,7 @@ private static IEnumerable&lt;char&gt; GenerateAlphabetSubsetImpl(char first, ch
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>這個作法主要在討論 <code>Iterator Methods</code> 與 <code>yield return</code> 使用上的好處，最大的好處就是節省記憶體也能同時讓產生集合的這個步驟快上不少，
+<p>這個做法主要在討論 <code>Iterator Methods</code> 與 <code>yield return</code> 使用上的好處，最大的好處就是節省記憶體也能同時讓產生集合的這個步驟快上不少，
 但是要注意參數檢查這種需要事先執行的邏輯最好要隔離開來。</p>
 
 
