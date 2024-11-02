@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 01.&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x53D6;&#x4EE3;&#x53EF;&#x5B58;&#x53D6;&#x7684;&#x8CC7;&#x6599;&#x6210;&#x54E1;(Use Properties Instead of Accessible Data Members)">
+
+  <title>More Effective C# 01.&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x53D6;&#x4EE3;&#x53EF;&#x5B58;&#x53D6;&#x7684;&#x8CC7;&#x6599;&#x6210;&#x54E1;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-01'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 01.&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x53D6;&#x4EE3;&#x53EF;&#x5B58;&#x53D6;&#x7684;&#x8CC7;&#x6599;&#x6210;&#x54E1;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-01' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-01'>More Effective C# 01.&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x53D6;&#x4EE3;&#x53EF;&#x5B58;&#x53D6;&#x7684;&#x8CC7;&#x6599;&#x6210;&#x54E1;</a>
+              <span class="subheading">More Effective C# 01.&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x53D6;&#x4EE3;&#x53EF;&#x5B58;&#x53D6;&#x7684;&#x8CC7;&#x6599;&#x6210;&#x54E1;(Use Properties Instead of Accessible Data Members)</span>
+          </h1>
+            <div class="meta">Published on Thursday, October 31, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法建議不要使用 <code>public field</code> 的寫法而是改用 <code>automatically implemented properties</code>，
+或者自己在屬性撰寫 <code>get</code>、<code>set</code> 存取子來存取 <code>private field</code>。</p>
+<p>你可能有看過下面這種寫法，這個類別建立了兩個公開的 field 用來記錄資料。</p>
+<pre><code class="language-text">public class User
+{
+	public string Name;
+	public string Age;
+}
+</code></pre>
+<p>使用上可以實例化並且對公開 field 進行存取資料的操作。</p>
+<pre><code class="language-text">void Main()
+{
+	var u = new User();
+	u.Name = &quot;Allen&quot;;
+	u.Age = 30;
+	
+	Console.WriteLine(u.Name);
+}
+</code></pre>
+<p>但實際上這種寫法是非常不好的，因為它違反了資料封裝(Data encapsulation)的原則，我們必須把 field 隱藏起來避免使用者進行意料外的操作，
+導致資料被破壞，例如下面使用者就直接把年齡設定為 -1 這個值明顯不符合要求。</p>
+<pre><code class="language-text">u.Age = -1;
+</code></pre>
+<p>所以就衍生出了 <code>private field</code> 搭配 <code>accessor methods</code> 這種比較好的寫法，原理就是寫一個對使用者公開的方法，
+裡面可以建立一些基礎的判斷邏輯，並且對私有欄位進行讀取。</p>
+<pre><code class="language-text">void Main()
+{
+	var u = new User();
+	u.SetName(&quot;Allen&quot;);
+	u.SetAge(-1);
+	
+	Console.WriteLine(u.GetName());
+}
+
+public class User
+{
+	private string _name;
+	private int _age;
+	
+	public string GetName()
+	{
+		return _name;
+	}
+	
+	public void SetName(string name)
+	{
+		_name = name;
+	}
+	
+	public int GetAge()
+	{
+		return _age;
+	}
+	
+	public void SetAge(int age)
+	{
+		if (age &lt; 0)
+			throw new ArgumentException(&quot;The value must be greater than or equal to 0&quot;, nameof(age));
+		_age = age;
+	}
+}
+</code></pre>
+<p>不過這個寫法需要使用者改變使用習慣，像是設定名稱的時候要把程式碼改呼叫 SetName 方法，而不是像以前那樣直接使用 field 名稱就能進行存取。
+也就是說我們在撰寫程式碼的時候需要額外寫這些專門存取用的方法，另外使用者也必須了解這些方法的名稱與使用方式。</p>
+<p>所以就出現屬性這個折中的處理方式，使用屬性可以讓我們省略掉寫存取方法的步驟，又能讓存取的寫法跟之前使用 field 名稱的方式一樣。</p>
+<pre><code class="language-text">void Main()
+{
+	var u = new User();
+	u.Name = &quot;Allen&quot;;
+	u.Age = -1;
+
+	Console.WriteLine(u.Name);
+}
+
+public class User
+{
+	private string _name;
+	private int _age;
+
+	public string Name
+	{
+		get { return _name; }
+		set { _name = value; }
+	}
+
+	public int Age
+	{
+		get { return _age; }
+		set
+		{
+			if (value &lt; 0)
+				throw new ArgumentException(&quot;The value must be greater than or equal to 0&quot;, nameof(Age));
+
+			_age = value;
+		}
+	}
+}
+</code></pre>
+<p>不過大部分的屬性在存取時不需要額外的檢查邏輯，所以可以利用 <code>automatically implemented properties</code> 自動實現 field 的方式少寫許多程式碼，
+例如下面這樣直接把 <code>Name</code> 變成自動實現的屬性，這樣這個屬性就會自動產生 <code>backing field</code> 來保存我們的資料，並且屬性可以是 <code>virtual</code>，
+這樣衍生類別不想要自動實現，也可以改回上面那樣自行實現的寫法，一般的 field 不可以是 <code>virtual</code>。</p>
+<pre><code class="language-text">public class User
+{
+	private int _age;
+
+	public virtual string Name { get; set; }
+
+	public int Age
+	{
+		get { return _age; }
+		set
+		{
+			if (value &lt; 0)
+				throw new ArgumentException(&quot;The value must be greater than or equal to 0&quot;, nameof(Age));
+
+			_age = value;
+		}
+	}
+}
+</code></pre>
+<p>也可以在介面中定義屬性，同樣這一點 field 也做不到。</p>
+<pre><code class="language-text">public interface INameValuePair&lt;T&gt;
+{
+	string Name { get; }
+	T Value {get; set;}
+}
+</code></pre>
+<p>剛剛提到的屬性被稱為 <code>parameterless properties</code> 代表它們讀取時並不需要輸入參數，這種無參數的屬性經常被使用到，不過還有另一種屬性叫做
+<code>parameterful properties</code> 也叫做 <code>indexers</code>，使用起來跟陣列輸入 index 差不多，要注意只能用 this 宣告 <code>indexers</code>。</p>
+<pre><code class="language-text">void Main()
+{
+	var myList = new UserList();
+	myList[0] = 1;
+	Console.WriteLine(myList[0]);
+}
+
+public class UserList
+{
+	private int[] theValues = new int[10];
+	public int this[int index]
+	{
+		get =&gt; theValues[index];
+		set =&gt; theValues[index] = value;
+	}
+}
+</code></pre>
+<p>但不限於數值型別，像是這裡就使用 <code>Dictionary</code> 當成 field，這樣就可以在 <code>indexers</code> 裡面的 <code>get</code>、<code>set</code> 對傳入的資料進行判斷。</p>
+<pre><code class="language-text">void Main()
+{
+	var myList = new UserList();
+	myList[&quot;Allen&quot;] = 30;
+	Console.WriteLine(myList[&quot;Allen&quot;]);
+}
+
+public class UserList
+{
+	private Dictionary&lt;string, int&gt; _names = new Dictionary&lt;string, int&gt;();
+	public int this[string name]
+	{
+		get =&gt; _names[name];
+		set =&gt; _names[name] = value;
+	}
+}
+</code></pre>
+<p>雖然屬性與欄位表面上看起來功能是一模一樣的，但是要注意屬性當初設計的目的是存取時要跟 field 的操作相同，這只代表它們語法的目的是相同的，
+並不代表屬性是用來保存資料用的，實際上欄位才是用來保存資料的。</p>
+<p>也就是說假如你一開始用的是 <code>public field</code> 之後想要改成 <code>auto property</code>，雖然不用修改任何程式碼，但實際上編譯的結果是完全不同的。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法建議只使用 <code>private field</code> 並警告永遠不要寫 <code>public field</code>，如果想要公開存取 <code>private field</code> 那麼就使用
+<code>public</code> 或者 <code>protected</code> 屬性來對外揭露私有資料欄位，還說明了 <code>indexers</code> 的使用方式。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-01'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
