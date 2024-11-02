@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 02.&#x53EF;&#x8B8A;&#x52D5;&#x7684;&#x8CC7;&#x6599;&#x512A;&#x5148;&#x4F7F;&#x7528;&#x96B1;&#x85CF;&#x5C6C;&#x6027;(Prefer Implicit Properties for Mutable Data)">
+
+  <title>More Effective C# 02.&#x53EF;&#x8B8A;&#x52D5;&#x7684;&#x8CC7;&#x6599;&#x512A;&#x5148;&#x4F7F;&#x7528;&#x96B1;&#x85CF;&#x5C6C;&#x6027;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-02'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 02.&#x53EF;&#x8B8A;&#x52D5;&#x7684;&#x8CC7;&#x6599;&#x512A;&#x5148;&#x4F7F;&#x7528;&#x96B1;&#x85CF;&#x5C6C;&#x6027;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-02' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-02'>More Effective C# 02.&#x53EF;&#x8B8A;&#x52D5;&#x7684;&#x8CC7;&#x6599;&#x512A;&#x5148;&#x4F7F;&#x7528;&#x96B1;&#x85CF;&#x5C6C;&#x6027;</a>
+              <span class="subheading">More Effective C# 02.&#x53EF;&#x8B8A;&#x52D5;&#x7684;&#x8CC7;&#x6599;&#x512A;&#x5148;&#x4F7F;&#x7528;&#x96B1;&#x85CF;&#x5C6C;&#x6027;(Prefer Implicit Properties for Mutable Data)</span>
+          </h1>
+            <div class="meta">Published on Friday, November 1, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法提到了 <code>Implicit Properties</code> 但實際上就是上一個做法提到的 <code>automatically implemented properties</code>，
+並且對 <code>Implicit Properties</code> 進行詳細描述。</p>
+<p>在上一個做法有提到並不是每個屬性都需要額外的存取檢查，其實大部分的都是單純的存取操作而已，所以可以改用 <code>Implicit Properties</code>
+增加程式碼可讀性。</p>
+<pre><code class="language-text">public class User
+{
+	public string Name { get; set; }
+}
+</code></pre>
+<p>使用反編譯軟體可以看出它實際上就是自動建立一個私有欄位(backing field)然後對它做存取操作而已，注意到這個欄位的名稱是編譯器幫忙產生的，
+所以在我們寫程式當下這個欄位是不存在的，所以沒辦法直接操作這個欄位，同樣只能透過屬性進行存取。</p>
+<pre><code class="language-text">public class User
+{
+    [CompilerGenerated]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string &lt;Name&gt;k__BackingField;
+
+    public string Name
+    {
+        [CompilerGenerated]
+        get
+        {
+            return &lt;Name&gt;k__BackingField;
+        }
+        [CompilerGenerated]
+        set
+        {
+            &lt;Name&gt;k__BackingField = value;
+        }
+    }
+}
+</code></pre>
+<p>跟一般的屬性一樣 <code>Implicit Properties</code> 能夠對存取子進行額外的存取範圍的修飾。</p>
+<pre><code class="language-text">public string Name
+{
+	get;
+	protected set;
+}
+public string Name
+{
+	get;
+	internal set;
+}
+public string Name
+{
+	get;
+	protected internal set;
+}
+public string Name
+{
+	get;
+	private set;
+}
+
+public string Name { get; }
+</code></pre>
+<p>另外在繼承的場合，新的衍生類別可以使用 <code>base</code> 存取基底類別的欄位，要注意這裡雖然使用了 <code>override</code> 但是 <code>backing field</code>
+還是會生成在 <code>BaseType</code> 類別內部，而不是在 <code>DerivedType</code>，也就是說我們不用在 <code>DerivedType</code> 建立一個私有的欄位來存放資料，
+可以直接用基底類別的 <code>backing field</code> 就好。</p>
+<pre><code class="language-text">public class BaseType
+{
+	public virtual string Name
+	{
+		get;
+		protected set;
+	}
+}
+public class DerivedType : BaseType
+{
+	public override string Name
+	{
+		get =&gt; base.Name;
+		protected set
+		{
+			if (!string.IsNullOrEmpty(value))
+				base.Name = value;
+		}
+	}
+}
+</code></pre>
+<p>使用 <code>Implicit Properties</code> 可以讓你在增加驗證或者其它功能的時候能夠保持 <code>binary-compatible</code> 也就是不用重新編譯使用到這個屬性的外部類別，
+並且可以集中把邏輯都放在同一個地方。</p>
+<p>例如我在一開始開發的時候只追求方便快速那麼就只採用最簡單的寫法。</p>
+<pre><code class="language-text">public class Person
+{
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+	public override string ToString() =&gt; $&quot;{FirstName} {LastName}&quot;;
+}
+</code></pre>
+<p>但是之後可以直接對屬性追加額外的判斷邏輯，這樣並不會把使用到這個類別的外部類別重新編譯，而且又能把邏輯都集中到這個屬性裡面。</p>
+<pre><code class="language-text">public class Person
+{
+	public Person(string firstName, string lastName)
+	{
+		this.FirstName = firstName;
+		this.LastName = lastName;
+	}
+	
+	private string firstName;
+	public string FirstName
+	{
+		get =&gt; firstName;
+		set
+		{
+			if (string.IsNullOrEmpty(value))
+				throw new ArgumentException(&quot;First name cannot be null or empty&quot;);
+			firstName = value;
+		}
+	}
+	private string lastName;
+	public string LastName
+	{
+		get =&gt; lastName;
+		private set
+		{
+			if (string.IsNullOrEmpty(value))
+				throw new ArgumentException(&quot;Last name cannot be null or empty&quot;);
+			lastName = value;
+		}
+	}
+	public override string ToString() =&gt; $&quot;{FirstName} {LastName}&quot;;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法講解了 <code>Implicit Properties</code> 的使用方式，使用它可以節省開發時間並且可讀性會增加，又可以把驗證邏輯都集中在一個地方。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-02'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

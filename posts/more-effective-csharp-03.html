@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 03.&#x5BE6;&#x503C;&#x985E;&#x578B;&#x512A;&#x5148;&#x4F7F;&#x5176;&#x5177;&#x4E0D;&#x53EF;&#x8B8A;&#x6027;(Prefer Immutability for Value Types)">
+
+  <title>More Effective C# 03.&#x5BE6;&#x503C;&#x985E;&#x578B;&#x512A;&#x5148;&#x4F7F;&#x5176;&#x5177;&#x4E0D;&#x53EF;&#x8B8A;&#x6027;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-03'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 03.&#x5BE6;&#x503C;&#x985E;&#x578B;&#x512A;&#x5148;&#x4F7F;&#x5176;&#x5177;&#x4E0D;&#x53EF;&#x8B8A;&#x6027;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-03' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-03'>More Effective C# 03.&#x5BE6;&#x503C;&#x985E;&#x578B;&#x512A;&#x5148;&#x4F7F;&#x5176;&#x5177;&#x4E0D;&#x53EF;&#x8B8A;&#x6027;</a>
+              <span class="subheading">More Effective C# 03.&#x5BE6;&#x503C;&#x985E;&#x578B;&#x512A;&#x5148;&#x4F7F;&#x5176;&#x5177;&#x4E0D;&#x53EF;&#x8B8A;&#x6027;(Prefer Immutability for Value Types)</span>
+          </h1>
+            <div class="meta">Published on Friday, November 1, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法說明了 <code>immutable types</code> 與讓類別或結構擁有 <code>immutability</code> 特性的好處與案例。</p>
+<p>首先 <code>immutable types</code> 的定義很容易了解: 在型別建立之後內部的狀態就不允許被改變，也就是變成一個常數(constant)。
+當你用建構函式進行實例化後的物件目前狀態就是它生命週期唯一合法的狀態(valid state)，任何在它生命週期進行的修改都會讓這個物件變成非法的狀態(invalid state)。</p>
+<p>如果你按照這個定義去處理，那麼你的類別或結構就可以說是擁有 <code>immutability</code> 特性，由於不允許事後改變那麼也就代表只會有讀取的操作，
+不會有修改的操作產生那麼就可以節省很多修改的邏輯與錯誤檢查的邏輯，並且不會有兩個執行緒一方在讀取一方在修改的情況發生，
+代表不會有執行緒會讀取到不同狀態的物件資料，因為物件從一開始的狀態就是固定的，所以又能有 <code>thread safe</code> 保證。</p>
+<p>並且能夠安全的將物件匯出，因為使用者沒辦反修改你物件內部的狀態，同時又很適合當作 <code>hash-based collections</code> 內部的元素進行運算，
+因為物件不能被修改的特性 <code>Object.GetHashCode()</code> 回傳的值永遠都是不變的，也就是說在 <code>Hashtable</code> 這種類別使用 <code>GetHashCode</code> 回傳的的 <code>key</code> 不會被改變。</p>
+<p>但實務上很難讓每個類別變成 <code>immutable types</code>，所以這個做法推薦在 <code>value types</code> 上優先實做。</p>
+<p>下面這個範例建立了一個結構 <code>Address</code> 並且它是一個 <code>mutable types</code>，也就是代表初始化後還能再次進行修改，這個在多執行序環境底下就會造成問題，
+例如我在最後修改了 <code>City</code> 這個操作雖然可以成功，但是實際上會讓 <code>ZipCode</code> 與 <code>State</code> 變成無意義的狀態，因為這個地址需要是三個欄位都資料正確
+才符合設計，所以有另一個執行序在我修改 <code>City</code> 之後同時進行讀取物件就可能會讀取到舊的資料。</p>
+<p>同時也有可能在設定 <code>State</code> 與 <code>ZipCode</code> 時內部拋出錯誤，這樣就只有 <code>City</code> 被修改成功導致資料錯亂。</p>
+<pre><code class="language-text">void Main()
+{
+	Address a1 = new Address();
+	a1.Line1 = &quot;111 S. Main&quot;;
+	a1.City = &quot;Anytown&quot;;
+	a1.State = &quot;IL&quot;;
+	a1.ZipCode = 61111;
+	// Modify:
+	a1.City = &quot;Ann Arbor&quot;; // Zip, State invalid now.
+	a1.ZipCode = 48103; // State still invalid now.
+	a1.State = &quot;MI&quot;; // Now fine.
+}
+
+public struct Address
+{
+	private string state;
+	private int zipCode;
+
+	public string Line1 { get; set; }
+	public string Line2 { get; set; }
+	public string City { get; set; }
+	public string State
+	{
+		get =&gt; state;
+		set
+		{
+			ValidateState(value);
+			state = value;
+		}
+	}
+	public int ZipCode
+	{
+		get =&gt; zipCode;
+		set
+		{
+			ValidateZip(value);
+			zipCode = value;
+		}
+	}
+}
+</code></pre>
+<p>所以可以試著把 <code>Address</code> 類別修改成 <code>immutable types</code>，下面屬性把 <code>set</code> 存取子移除可以達到唯讀的效果，並且只保留建構函式能進行初始化，
+使用上要進行修改操作，並不是像之前那樣透過屬性修改欄位，而是直接建立新的物件並覆蓋舊的物件，這樣就能保證兩個狀態都是合法的狀態不會有改到一半的事情發生。</p>
+<pre><code class="language-text">void Main()
+{
+ // Create an address:
+ Address a2 = new Address(&quot;111 S. Main&quot;, &quot;&quot;, &quot;Anytown&quot;, &quot;IL&quot;, 61111);
+ // To change, re-initialize:
+ a2 = new Address(a1.Line1, a1.Line, &quot;Ann Arbor&quot;, &quot;MI&quot;, 48103);
+}
+
+public struct Address
+{
+	public string Line1 { get; }
+	public string Line2 { get; }
+	public string City { get; }
+	public string State { get; }
+	public int ZipCode { get; }
+	public Address(string line1,
+		string line2,
+		string city,
+		string state,
+		int zipCode) :
+		this()
+	{
+		Line1 = line1;
+		Line2 = line2;
+		City = city;
+		ValidateState(state);
+		State = state;
+		ValidateZip(zipCode);
+		ZipCode = zipCode;
+	}
+}
+</code></pre>
+<p>在設計 <code>immutable types</code> 的時候要注意程式碼不能產生允許讓使用者修改內部狀態的漏洞，例如這個結構就可能會讓使用者間接修改到 <code>PhoneList</code> 內部的狀態，
+可以發現問題在於建構函式複製的 Array 是參考型別，導致修改的時候 <code>PhoneList</code> 同時被修改。</p>
+<pre><code class="language-text">void Main()
+{
+	Phone[] phones = new Phone[10];
+	PhoneList pl = new PhoneList(phones);
+	phones[5] = Phone.GeneratePhoneNumber();
+}
+
+public struct PhoneList
+{
+	private readonly Phone[] phones;
+	public PhoneList(Phone[] ph)
+	{
+		phones = ph;
+	}
+	public IEnumerable&lt;Phone&gt; Phones
+	{
+		get { return phones; }
+	}
+}
+
+public class Phone
+{
+	public int PhoneNumber { get; }
+	public Phone(int phoneNumber)
+	{
+		PhoneNumber = phoneNumber;
+	}
+	public static Phone GeneratePhoneNumber()
+	{
+		return new Phone(0911111111);
+	}
+}
+</code></pre>
+<p>要修正這個問題可以改用 <code>System.Collections.Immutable</code> 命名空間中的類別，像是把 Array 改成用 ImmutableList 將集合轉換成不可變的集合。</p>
+<pre><code class="language-text">public struct PhoneList
+{
+	private readonly ImmutableList&lt;Phone&gt; phones;
+	public PhoneList(Phone[] ph)
+	{
+		phones = ph.ToImmutableList();
+	}
+	public IEnumerable&lt;Phone&gt; Phones =&gt; phones;
+}
+</code></pre>
+<p>最後提供三種策略用來初始化 <code>immutable types</code> 你可以要建立的型別的複雜度來挑選。</p>
+<ol>
+<li>使用建構函式，也就是像上面的 <code>Address</code> 結構那樣把 <code>set</code> 存取子移除，並建立一個建構函式來初始化。</li>
+<li>使用工廠方法，像是 <code>Color</code> 型別就是採用這樣的方式，使用 <code>FromKnownColor()</code> 與 <code>FromName</code> 靜態方法可以直接建立出新的顏色。</li>
+<li>建立 <code>mutable companion class</code> 透過多步驟來產生最終的 <code>immutable</code> 物件，像是 <code>StringBuilder</code> 就是用這個策略，中間的過程都是 <code>mutable</code>
+到最後才產生一個 <code>immutable string</code>。</li>
+</ol>
+<hr />
+<h2 id="summary">Summary</h2>
+<p><code>immutable types</code> 可以讓程式更容易維護也更容易撰寫，並不要盲目的把型別中的屬性全部都加上 <code>get</code> 與 <code>set</code> 存取子，
+像是保存資料的場合你應該優先選擇 <code>immutable, atomic value types</code>。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-03'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
