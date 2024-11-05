@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 07.&#x4F7F;&#x7528; Tuples &#x9650;&#x5236;&#x578B;&#x5225;&#x7684;&#x7BC4;&#x570D;(Limit Type Scope by Using Anonymous Types)">
+
+  <title>More Effective C# 07.&#x4F7F;&#x7528; Tuples &#x9650;&#x5236;&#x578B;&#x5225;&#x7684;&#x7BC4;&#x570D;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-07'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 07.&#x4F7F;&#x7528; Tuples &#x9650;&#x5236;&#x578B;&#x5225;&#x7684;&#x7BC4;&#x570D;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-07' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-07'>More Effective C# 07.&#x4F7F;&#x7528; Tuples &#x9650;&#x5236;&#x578B;&#x5225;&#x7684;&#x7BC4;&#x570D;</a>
+              <span class="subheading">More Effective C# 07.&#x4F7F;&#x7528; Tuples &#x9650;&#x5236;&#x578B;&#x5225;&#x7684;&#x7BC4;&#x570D;(Limit Type Scope by Using Anonymous Types)</span>
+          </h1>
+            <div class="meta">Published on Monday, November 4, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法說明了匿名型別的使用方式，以及怎麼使用 <code>Tuples</code> 來建立匿名型別和背後的原理。</p>
+<p>在 C# 中我們建立型別有許多選擇例如 <code>class</code>、<code>struct</code>、<code>tuple</code>、<code>anonymous types</code>，並不是一定要從 <code>class</code> 與 <code>struct</code> 二選一。
+如果今天要處理的問題更加簡單，那麼就可以改用 <code>tuple</code> 或 <code>anonymous types</code> 節省開發時間。</p>
+<p>首先要建立一個匿名型別非常簡單，只需要在大括號之間定義欄位即可。</p>
+<pre><code class="language-text">void Main()
+{
+	var aPoint = new { X = 5, Y = 67 };
+}
+</code></pre>
+<p>編譯器會自動產生一個 <code>internal sealed class</code> 並且可以看出這是一個泛型的類型而且名稱是自動產生的。</p>
+<pre><code class="language-text">internal sealed class &lt;&gt;f__AnonymousType0&lt;&lt;X&gt;j__TPar, &lt;Y&gt;j__TPar&gt;
+{
+    private readonly &lt;X&gt;j__TPar &lt;X&gt;i__Field;
+
+    private readonly &lt;Y&gt;j__TPar &lt;Y&gt;i__Field;
+
+    public &lt;X&gt;j__TPar X
+    {
+        get
+        {
+            return &lt;X&gt;i__Field;
+        }
+    }
+
+    public &lt;Y&gt;j__TPar Y
+    {
+        get
+        {
+            return &lt;Y&gt;i__Field;
+        }
+    }
+
+    public &lt;&gt;f__AnonymousType0(&lt;X&gt;j__TPar X, &lt;Y&gt;j__TPar Y)
+    {
+        &lt;X&gt;i__Field = X;
+        &lt;Y&gt;i__Field = Y;
+    }
+    
+    ...
+}
+</code></pre>
+<p>也就是說實際上的呼叫的程式碼會轉換成下面這樣子。</p>
+<pre><code class="language-text">void Main()
+{
+    &lt;&gt;f__AnonymousType0&lt;int, int&gt; anon = new &lt;&gt;f__AnonymousType0&lt;int, int&gt;(5, 67);
+}
+</code></pre>
+<p>所以實際上我們也可以自己寫出這匿名類型的程式碼，但是不如讓編譯器自行處理可以節省很多工作，也可以省下讓其他開發者閱讀與理解的時間。</p>
+<p>但缺點就是不知匿名型別的實際名稱，所以就不可能把它當成參數或是方法回傳來使用，不過可以透過 lambda 搭配 <code>function parameters</code>
+來達成把匿名型別當成參數的需求。</p>
+<pre><code class="language-text">void Main()
+{
+	var aPoint = new { X = 5, Y = 67 };
+	var anotherPoint = Transform(aPoint, (p) =&gt; new { X = p.X * 2, Y = p.Y * 2 });
+}
+
+static T Transform&lt;T&gt;(T element, Func&lt;T, T&gt; transformFunc)
+{
+	return transformFunc(element);
+}
+</code></pre>
+<p>使用匿名型別最大的好處就是擴充性，可以隨意地增加欄位非常方便，這樣的特性就很適合拿來做中繼結果保存的功能，例如先從資料庫讀取資料後經過演算法處理後
+保存成中繼結果，最後再把這個中繼結果傳給第二階段的處理工作，這樣就不用在建立多個型別來保存也可以避免命名空間有許多用來輔助用的類別。</p>
+<pre><code class="language-text">void Main()
+{
+	var aPoint = new { X = 5, Y = 67, Z = 3 };
+	var anotherPoint = Transform(aPoint, (p) =&gt; new { X = p.X * 2, Y = p.Y * 2, Z = p.Z * 2 });
+}
+
+static T Transform&lt;T&gt;(T element, Func&lt;T, T&gt; transformFunc)
+{
+	return transformFunc(element);
+}
+</code></pre>
+<p>還有一個特性是編譯器產生出來的匿名型別是 <code>immutable types</code> 因為它並屬性並沒有 <code>set</code> 存取子，而且只能在建構函式中初始化，
+但如果你自己寫一個 <code>immutable types</code> 你會發現沒辦法使用 object initializer syntax 來建立物件，下面這種寫法就會報錯只能透過建構函式。</p>
+<pre><code class="language-text">void Main()
+{
+	var xx = new MyClass{ X = 1, Y = 2 };
+}
+
+public class MyClass
+{
+	public int X { get; }
+
+	public int Y { get; }
+	
+	public MyClass(int x, int y)
+	{
+		X = x;
+		Y = y;
+	}
+}
+</code></pre>
+<p>不過匿名型別同樣沒有 <code>set</code> 存取子但可以使用 object initializer syntax 來建立物件，是因為編譯器會幫你轉換成使用建構函式呼叫的版本。</p>
+<pre><code class="language-text">var aPoint = new { X = 5, Y = 67 };
+// 轉換成下面
+AnonymousMumbleMumble aPoint = new AnonymousMumbleMumble(5, 67);
+</code></pre>
+<hr />
+<p>最後匿名型別其實比想像的還要花費更少的資源，像上面用到的例子看起來就是建立了兩個匿名型別，但實際上只要結構是相同的編譯器就會重複利用
+編譯出來的新型別，所以其實下面只會產生一次新型別之後就可以重複使用。</p>
+<pre><code class="language-text">void Main()
+{
+	var aPoint = new { X = 5, Y = 67 };
+	var anotherPoint = Transform(aPoint, (p) =&gt; new { X = p.X * 2, Y = p.Y * 2 });
+}
+
+static T Transform&lt;T&gt;(T element, Func&lt;T, T&gt; transformFunc)
+{
+	return transformFunc(element);
+}
+</code></pre>
+<p>編譯器要判斷兩個匿名型別是否相同有兩個階段，第一是兩個宣告的同樣匿名型別是否在同一個 assembly 中，第二是兩個結構是否真的完全一致這其中包含
+欄位必須要以相同的順序出現，所以你把先後順序調轉過來就會產生新的匿名型別。</p>
+<pre><code class="language-text">void Main()
+{
+	var aPoint = new { Y = 67, X = 5 };
+}
+</code></pre>
+<p>最後匿名型別可以做到複合鍵的效果，下面這段語法就會建立出一個字典 <code>key</code> 是 <code>{ c.SalesRep, c.ZipCode }</code> 的複合鍵，然後 <code>value</code> 是 <code>customers</code> 清單。</p>
+<pre><code class="language-text">var query = from c in customers
+ group c by new { c.SalesRep, c.ZipCode };
+</code></pre>
+<hr />
+<p>接下來討論一下 <code>tuple</code> 與 <code>anonymous types</code> 之間的差異，他們最大的差異就是 <code>tuple</code> 不會建立新的類型而是使用名叫 <code>ValueTuple</code> 的結構，
+由此可以知這是一個 <code>value type</code> 並且是 <code>mutable types</code> 所以我們可以通過屬性再次修改內部欄位的值，不像 <code>anonymous types</code> 無法再次修改。</p>
+<pre><code class="language-text">void Main()
+{
+	var aPoint = (X: 5, Y: 67);
+	aPoint.X = 1;
+	aPoint.Y = 2;
+	Console.WriteLine(aPoint);
+}
+</code></pre>
+<p><code>tuple</code> 是依賴 <code>shape</code> 而不是 <code>name</code> 來判斷是否兩個型相同的，例如包含兩個 <code>int</code> 的 <code>tuple</code> 就會和上面例子中的 <code>aPoint</code> 是相同的型別，
+因為它們都是 <code>System.ValueTuple&lt;int, int&gt;</code> 的實例化。</p>
+<p><code>tuple</code> 可以是在宣告變數的時候明確指定或者是在左側宣告欄位名稱。</p>
+<pre><code class="language-text">void Main()
+{
+	var aPoint = (X: 5, Y: 67);
+	var anotherPoint = aPoint;
+	(int Rise, int Run) pointThree = aPoint;
+	
+	Console.WriteLine(aPoint.X);
+	Console.WriteLine(pointThree.Rise);
+}
+</code></pre>
+<p><code>tuple</code> 比較適合做為回傳型別或者方法參數，並且擁有 <code>mutable types</code> 與 <code>value type</code> 的好處。
+<code>anonymous types</code> 則適合用來作為集合中的 <code>composite keys</code> 也擁有 <code>immutable types</code> 與 <code>reference type</code> 的好處。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p><code>anonymous types</code> 與 <code>tuple</code> 並沒有想像的那麼花費資源，適當的使用可以加快開發的速度並且增加可讀性，
+如果想要當成中繼結果使用建議使用 <code>anonymous types</code>，如果需要可改變值的型別則使用 <code>tuple</code>。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-07'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
