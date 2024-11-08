@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 09.&#x4E86;&#x89E3;&#x591A;&#x7A2E;&#x76F8;&#x7B49;&#x6982;&#x5FF5;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;(Understand the Relationships Among the Many Different Concepts of Equality)">
+
+  <title>More Effective C# 09.&#x4E86;&#x89E3;&#x591A;&#x7A2E;&#x76F8;&#x7B49;&#x6982;&#x5FF5;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-09'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 09.&#x4E86;&#x89E3;&#x591A;&#x7A2E;&#x76F8;&#x7B49;&#x6982;&#x5FF5;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-09' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-09'>More Effective C# 09.&#x4E86;&#x89E3;&#x591A;&#x7A2E;&#x76F8;&#x7B49;&#x6982;&#x5FF5;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;</a>
+              <span class="subheading">More Effective C# 09.&#x4E86;&#x89E3;&#x591A;&#x7A2E;&#x76F8;&#x7B49;&#x6982;&#x5FF5;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;(Understand the Relationships Among the Many Different Concepts of Equality)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, November 6, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法討論了 C# 中物件相等性的問題，以及兩個物件是怎麼判定為相等背後的原理。</p>
+<p>當你建立了一個新的型別同時也要想清楚對於這個型別來說什麼是相等的，C# 提供了四個方法能夠決定兩個不同的物件是否相同。</p>
+<pre><code class="language-text">public static bool ReferenceEquals (object left, object right);
+public static bool Equals (object left, object right);
+public virtual bool Equals(object right);
+public static bool operator ==(MyClass left, MyClass right);
+</code></pre>
+<p>上面三種是定義在 <code>System.Object</code> 內部的，第一與第二種方法不建議重新實作，第三種你應該常常在新的型別 override Equals 方法
+以符合型別的需求，第四種則是常常在 <code>value type</code> 中常常見到，因為效能的問題如果不改寫則會導致 boxing 產生把物件轉換成參考型別來比較。</p>
+<p>當然第三種 Equals 方法常常會跟 IEquatable<T> 同時實作這樣既可以保持兼容性也能使用泛型版本維持效能，其實還有 <code>IStructuralEquatable</code>
+介面可以用來確認兩者結構是否相同，這個能在 <code>Tuple</code> 類別中看到，所以實際上有六種方法可以用來表達相等。</p>
+<p>會這麼複雜的原因是 C# 允許建立 <code>value type</code> 與 <code>reference type</code>，
+如果說兩個 <code>reference type</code> 物件是相同的，那它背後應該要指向同一個物件參考並且擁有相同的值，也能稱為它們共同擁有相同 <code>object identity</code>，
+然而要決定兩個 <code>value type</code> 是否相等則要根據它們類型是否相等與是否擁有相同的內容才能決定。</p>
+<hr />
+<p>接下來討論為什們不應該重新實作第一與第二種方法，<code>ReferenceEquals</code> 從名字可以看出它是用來比較兩個物件的 reference 是否相等，
+如果相等的話就會回傳 true，同時也代表這兩個物件擁有相同的 <code>object identity</code>，所以說這個方法不管是 <code>value type</code> 或 <code>reference type</code>，
+都應該是用來檢測是否有相同的 <code>object identity</code>，而不是用來檢測是否有相同的 <code>object contents</code>。</p>
+<p>所以就會產生一個有趣的現象，兩個相同的 <code>value type</code> 不會是相等的，並且 <code>value type</code> 自己跟自己比較也不會是相等的，
+這是因為 <code>ReferenceEquals</code> 需要傳入的是 object 類型，所以要比較之前需要先進行 boxing 把 <code>value type</code> 轉換成 <code>reference type</code>，
+也就是說 <code>ReferenceEquals(i, i)</code> 第一與第二個參數分別進行了兩次 boxing 代表產生了兩個不同的參考物件，由此可知它們不可能會回傳 true。</p>
+<pre><code class="language-text">void Main()
+{
+	int i = 5;
+	int j = 5;
+
+	Console.WriteLine(object.ReferenceEquals(i, i)); //false
+	Console.WriteLine(object.ReferenceEquals(i, j)); //false
+}
+</code></pre>
+<p>實際轉換的程式碼大概會像這樣產生了兩個不同的參考物件。</p>
+<pre><code class="language-text">int i = 5;
+int j = 5;
+Console.WriteLine ((object)i == (object)i);
+Console.WriteLine ((object)i == (object)j);
+</code></pre>
+<p>所以這個 <code>ReferenceEquals</code> 方法目的性非常明確也符合它當初設計的意義，關鍵就是在檢查是否有相同的 <code>object identity</code>，所以沒有必要對它重新改寫。</p>
+<hr />
+<p>第二種方法，<code>static Object.Equals()</code> 當你傳入兩個不知道執行階段型別的參數時，這個方法能檢查這兩個參數的參考是否相等，
+並且在 object 類型中 <code>==</code> 與 <code>ReferenceEquals</code> 的行為是一致的。</p>
+<pre><code class="language-text">public static bool Equals(object? objA, object? objB)
+{
+    if (objA == objB)
+    {
+        return true;
+    }
+    if (objA == null || objB == null)
+    {
+        return false;
+    }
+    return objA.Equals(objB);
+}
+</code></pre>
+<p>所以效果等同於下面這樣的寫法。</p>
+<pre><code class="language-text">public static bool Equals(object? objA, object? objB)
+{
+    if (object.ReferenceEquals(objA, objB))
+    {
+        return true;
+    }
+    if (object.ReferenceEquals(objA, null) ||
+        object.ReferenceEquals(objB, null))
+    {
+        return false;
+    }
+    return objA.Equals(objB);
+}
+</code></pre>
+<p>由於在 C# 中不管 <code>value type</code> 或 <code>reference type</code>，它們實際最基底的類別都是 <code>System.Object</code>，但我們也知道對於這兩種型別來說
+相等的定義是不一樣的，因此 <code>static Object.Equals()</code> 方法首先是檢查兩個物件的 reference 是否相同，接下來檢查是否為 null，
+基本上 <code>reference type</code> 在第一個 if 檢查就能確認物件是否相同，但是 <code>value type</code> 則需要使用實例化中的自定義檢查也就是最一開始提到的第三種方法 <code>virtual bool Equals</code>
+，以 Decimal 為例，它會 override <code>virtual bool Equals</code>，所以當使用 <code>static Object.Equals()</code> 方法運行到最後一行 <code>objA.Equals(objB)</code>
+會轉跳到 Decimal 自定義 <code>override bool Equals</code>。</p>
+<pre><code class="language-text">//Object.cs
+public virtual bool Equals(object? obj)
+{
+    return this == obj;
+}
+
+//Decimal.cs
+ public override bool Equals([NotNullWhen(true)] object? value) =&gt;
+     value is decimal other &amp;&amp;
+     DecCalc.VarDecCmp(in this, in other) == 0;
+</code></pre>
+<p><code>static Object.Equals()</code> 方法做的事情也很明確符合它當初設計的意義，所以跟 <code>ReferenceEquals</code> 方法一樣沒有必要重新定義它。</p>
+<hr />
+<p>討論完兩個你不應該重新定義的方法，接下來討論你應該 override 的方法。
+首先需要了解數值相等性的定義，一個相等的數值應該有 reflexive、 symmetric、 transitive 這三種特性。</p>
+<ol>
+<li>reflexive: 物件要和自身相等，a == a 應該永遠為 true。</li>
+<li>symmetric: 次序不應該影響物件相等性， a == b 為 true 則 b == a 也要為 true。</li>
+<li>transitive: a == b 並且 b == c 均為 true，則 a == c 也要為 true。</li>
+</ol>
+<p>當我們建立一個型別的時候，預設都會有從 Object 類型繼承過來的幾個 Equal 方法可以用，由上一段的內容可以得知如果接下來要建立的型別
+對於相等性的定義與 <code>reference type</code> 的定義不一樣，則我們就有義務重新定義 <code>virtual bool Equals</code> 方法，因為裡面預設的內容就是背後
+的行為就跟 <code>ReferenceEquals</code> 一樣。</p>
+<p>這也是為什麼 <code>System.ValueType</code> 需要 <code>override bool Equals</code> 方法的原因，但是 <code>System.ValueType</code> 內部實做的檢查方式很沒有效率，
+因為它需要在不知道實際型別的情況下對兩個物件的所有欄位的值進行比較，這就要用到 C# 中的反射，因此這也是為什麼幾乎每個使用 struct 定義的型別
+都會<code>override bool Equals</code> 方法的原因，沒必要比較兩個 Int32 就用到反射功能吧。</p>
+<p>當然還是要按照實際需求來定義，也有可能 <code>reference type</code> 需要 <code>override bool Equals</code> 方法，例如你需要將兩個擁有同樣內容 string 判斷為相等
+就可以 <code>override bool Equals</code> 方法， 因為你需要把檢查 <code>object identity</code> 改成檢查 <code>object contents</code>。</p>
+<p>在一開始有提到 <code>override bool Equals</code> 方法也同時會順便處理 IEquatable<T>，因為這個泛型版本能夠有更快的運行速度，
+例如下面這個類型就是常見的處理模式。</p>
+<pre><code class="language-text">public class Foo : IEquatable&lt;Foo&gt;
+ {
+    public override bool Equals(object right)
+    {
+        if (object.ReferenceEquals(right, null))
+            return false;
+        if (object.ReferenceEquals(this, right))
+            return true;
+        if (this.GetType() != right.GetType())
+            return false;
+        return this.Equals(right as Foo);
+    }
+
+    public bool Equals(Foo other)
+    {
+        // elided.
+        return true;
+    }
+ }
+</code></pre>
+<p>第一個檢查邏輯判斷 <code>right</code> 是否為 null，為什麼不需要檢查 <code>ReferenceEquals(this, null)</code> 是因為在 C# <code>this</code> 關鍵字是永遠不可能為 null 的，
+所以這個判斷可以跳過，會需要檢查 <code>right</code> 則是因為沒有這行執行到 <code>right.GetType()</code> 這行就會拋出 NullReferenceException。</p>
+<p>第二個檢查是用來判斷兩個物件是否有相同的參考，這個在之前的段落有提到過。</p>
+<p>第三個檢查傳入的 object 實際的型別，並且還需要跟第二個物件型別進行比較，會需要這個精確檢查是因為最後一行的轉型可能會產生 Bug。</p>
+<p>以下面這個繼承的例子來說，<code>baseObject</code> 與它衍生的 <code>derivedObject</code> 類別進行比較，照這個例子來看 <code>derivedObject</code> 是可以轉型成 <code>baseObject</code>，
+但 <code>derivedObject</code> 是不可能轉型成 <code>baseObject</code> 的，但實際運行的結果為 Equals 與 Not Equal，這就是沒有精確檢查可能會帶來的問題。</p>
+<pre><code class="language-text">void Main()
+{
+	object baseObject = new B();
+	object derivedObject = new D();
+	if (baseObject.Equals(derivedObject))
+		Console.WriteLine(&quot;Equals&quot;);
+	else
+		Console.WriteLine(&quot;Not Equal&quot;);
+
+	if (derivedObject.Equals(baseObject))
+		Console.WriteLine(&quot;Equals&quot;);
+	else
+		Console.WriteLine(&quot;Not Equal&quot;);
+}
+
+public class B : IEquatable&lt;B&gt;
+{
+	public override bool Equals(object right)
+	{
+		if (object.ReferenceEquals(right, null))
+			return false;
+		if (object.ReferenceEquals(this, right))
+			return true;
+		B rightAsB = right as B;
+		if (rightAsB == null)
+			return false;
+		return this.Equals(rightAsB);
+	}
+	public bool Equals(B other)
+	{
+		return true;
+	}
+}
+public class D : B, IEquatable&lt;D&gt;
+{
+	public override bool Equals(object right)
+	{
+		if (object.ReferenceEquals(right, null))
+			return false;
+		if (object.ReferenceEquals(this, right))
+			return true;
+		D rightAsD = right as D;
+		if (rightAsD == null)
+			return false;
+		if (base.Equals(rightAsD) == false)
+			return false;
+		return this.Equals(rightAsD);
+	}
+	public bool Equals(D other)
+	{
+		return true;
+	}
+}
+</code></pre>
+<p>還有一點要注意就是上面的類別 D 呼叫了 base.Equals 方法，這個只建議在基底類別不為 <code>System.Object</code> 或 <code>System.ValueType</code> 才這樣處理，
+否你在類別 B 也呼叫 base.Equals 方法，那就會使用到 <code>System.Object</code> 的 Equals 方法。</p>
+<p>還有最後一個方法是 <code>==</code> 運算子，跟重新定義 Equals 的原因一樣，<code>==</code> 運算子預設是使用效率比較差的版本，所以 <code>value type</code> 通常都會
+重新定義 <code>==</code> 運算子，這個在 <code>reference type</code> 是不需要重新定義的。</p>
+<p>最後是 <code>IStructuralEquatable</code> 介面， <code>System.Array</code> 以及 <code>Tuple&lt;&gt;</code> 都有實做，可以用來檢查結構與值是否都相同，
+List 就沒有實做 <code>IStructuralEquatable</code> 介面所以會返回錯誤。</p>
+<pre><code class="language-text">var arr1 = new int[] { 1, 2, 3 };
+var arr2 = new int[] { 1, 2, 3 };
+Console.WriteLine(StructuralComparisons.StructuralEqualityComparer.Equals(arr1, arr2)); // true
+
+var list1 = new List&lt;int&gt; { 1, 2, 3 };
+var list2 = new List&lt;int&gt; { 1, 2, 3 };
+Console.WriteLine(StructuralComparisons.StructuralEqualityComparer.Equals(list1, list2)); // false
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>在這個做法中建議不要去重定義 <code>static bool ReferenceEquals()</code> 與 <code>static bool Equals</code> 兩個方法，只建議處理 <code>override Equals()</code> 方法
+，以及在 <code>value type</code> 中因為效能的問題建議要重定義  <code>override Equals()</code> 方法與 <code>==</code> 運算子，並且做好也同時實做 <code>IEquatable&lt;T&gt;</code> 介面。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-09'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

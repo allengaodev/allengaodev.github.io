@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 08.&#x5728;&#x533F;&#x540D;&#x578B;&#x5225;&#x4E0A;&#x5B9A;&#x7FA9;&#x5340;&#x57DF;&#x51FD;&#x5F0F;(Define Local Functions on Anonymous Types)">
+
+  <title>More Effective C# 08.&#x5728;&#x533F;&#x540D;&#x578B;&#x5225;&#x4E0A;&#x5B9A;&#x7FA9;&#x5340;&#x57DF;&#x51FD;&#x5F0F;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-08'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 08.&#x5728;&#x533F;&#x540D;&#x578B;&#x5225;&#x4E0A;&#x5B9A;&#x7FA9;&#x5340;&#x57DF;&#x51FD;&#x5F0F;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-08' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-08'>More Effective C# 08.&#x5728;&#x533F;&#x540D;&#x578B;&#x5225;&#x4E0A;&#x5B9A;&#x7FA9;&#x5340;&#x57DF;&#x51FD;&#x5F0F;</a>
+              <span class="subheading">More Effective C# 08.&#x5728;&#x533F;&#x540D;&#x578B;&#x5225;&#x4E0A;&#x5B9A;&#x7FA9;&#x5340;&#x57DF;&#x51FD;&#x5F0F;(Define Local Functions on Anonymous Types)</span>
+          </h1>
+            <div class="meta">Published on Tuesday, November 5, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>在上一個做法提到 <code>Tuple</code> 與 <code>anonymous types</code> 兩種定義輕量型別的方式，但是要把這些型別作為方法的參數、回傳、屬性則需要使用一些特別的技巧。</p>
+<p>以 <code>Tuple</code> 為例，我們只需要定義 <code>Tuple</code> 的 <code>shape</code> 就可以很輕鬆地把一個 <code>Tuples</code> 當成方法的回傳型別，可以直接把回傳的 <code>Tuple</code> 指派給擁有相同格式的變數，
+也可以使用 <code>deconstruction</code> 把值指派給不同格式的變數。</p>
+<pre><code class="language-text">void Main()
+{
+	var list = new List&lt;int&gt;() { 40, 42, 45, 56 };
+	(int sought, int index) result = FindFirstOccurence(list, 42);
+	Console.WriteLine($&quot;First {result.sought} is at {result.index}&quot;);
+
+	(int number, int index) = FindFirstOccurence(list, 42);
+	Console.WriteLine($&quot;First {number} is at {index}&quot;);
+}
+
+static (T sought, int index) FindFirstOccurence&lt;T&gt;(IEnumerable&lt;T&gt; enumerable, T value)
+{
+   int index = 0;
+   foreach (T element in enumerable)
+   {
+       if (element.Equals(value))
+       {
+           return (value, index);
+       }
+       index++;
+   }
+   return (default(T), -1);
+}
+</code></pre>
+<p><code>anonymous types</code> 就很難如此使用，因為它的名稱是編譯器自動產生的，所以你沒辦法在撰寫程式碼時獲得它的名稱並把它當成型別，解決辦法是透過
+泛型方法並指定匿名型別作為 type parameter (T)。</p>
+<p>下面這個例子建立了一個匿名型別 <code>Number, Description</code> 並把這個型別作為 <code>FindValue&lt;T&gt;</code> 的 type parameter，這種技巧就可以在寫程式
+的期間使用匿名型別當成參數或回傳使用。</p>
+<pre><code class="language-text">void Main()
+{
+	IDictionary&lt;int, string&gt; numberDescriptionDictionary = new Dictionary&lt;int, string&gt;()
+	 {
+		{1,&quot;one&quot;},
+		{2, &quot;two&quot;},
+		{3, &quot;three&quot;},
+		{4, &quot;four&quot;},
+		{5, &quot;five&quot;},
+		{6, &quot;six&quot;},
+		{7, &quot;seven&quot;},
+		{8, &quot;eight&quot;},
+		{9, &quot;nine&quot;},
+		{10, &quot;ten&quot;},
+	 };
+	 
+	List&lt;int&gt; numbers = new List&lt;int&gt;() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	
+	var r = from n in numbers
+			where n % 2 == 0
+			select new
+			{
+				Number = n,
+				Description = numberDescriptionDictionary[n]
+			};
+			
+	r = from n in FindValue(r, new { Number = 2, Description = &quot;two&quot; })
+		select n;
+		
+	r.Dump();
+}
+
+static IEnumerable&lt;T&gt; FindValue&lt;T&gt;(IEnumerable&lt;T&gt; enumerable, T value)
+{
+	foreach (T element in enumerable)
+	{
+		if (element.Equals(value))
+		{
+			yield return element;
+		}
+	}
+}
+</code></pre>
+<p>不過這個方法只能處理一些簡單的問題，像是我想要單獨使用匿名型別中的特定屬性 <code>Number</code> 上面的方式就沒辦法做到，
+這裡你需要的是建立一個 <code>higher-order function</code>，高階函式是一個以函式作為參數或者回傳一個函式的一種函式寫法。</p>
+<p>像是下面的 TakeWhile 方法就是一個高階函式。</p>
+<pre><code class="language-text">Random randomNumbers = new Random();
+var sequence = (from x in Utilities.Generator(100,
+				   () =&gt; randomNumbers.NextDouble() * 100)
+				let y = randomNumbers.NextDouble() * 100
+				select new { x, y }).TakeWhile(
+			   point =&gt; point.x &lt; 75);
+</code></pre>
+<p>它的內部其實跟我們上面提到的 <code>FindValue</code> 很像，只不過把 value 換成一個委派 predicate，也就是說這裡的 TSource 就代表一個
+<code>x, y</code> 的匿名型別，這樣的方式就能透過委派把特定的屬性丟給方法。</p>
+<pre><code class="language-text">public static IEnumerable&lt;TSource&gt; TakeWhile&lt;TSource&gt;
+    (this IEnumerable&lt;TSource&gt; source,
+    Func&lt;TSource, bool&gt; predicate);
+</code></pre>
+<p>可以參考 TakeWhile 的寫法建立出一個 Map 擴充方法。可以把重複的邏輯搬過去。</p>
+<pre><code class="language-text">void Main()
+{
+	var sequence = (from x in Utilities.Generator(100,
+					   () =&gt; randomNumbers.NextDouble() * 100)
+					let y = randomNumbers.NextDouble() * 100
+					select new { x, y }).TakeWhile(
+				   point =&gt; point.x &lt; 75);
+	var scaled = sequence.Map(p =&gt;
+		new
+		{
+			x = p.x * 5,
+			y = p.y * 5
+		}
+	);
+	var translated = scaled.Map(p =&gt;
+		new
+		{
+			x = p.x - 20,
+			y = p.y - 20
+		}
+	);
+	var distances = translated.Map(p =&gt; new
+		{
+			p.x,
+			p.y,
+			distance = Math.Sqrt(p.x * p.x + p.y * p.y)
+		}
+	);
+	var filtered = from location in distances
+				   where location.distance &lt; 500.0
+				   select location;
+}
+
+public static IEnumerable&lt;TResult&gt; Map&lt;TSource, TResult&gt;(
+	this IEnumerable&lt;TSource&gt; source,
+   Func&lt;TSource, TResult&gt; mapFunc)
+{
+	foreach (TSource s in source)
+		yield return mapFunc(s);
+}
+</code></pre>
+<p>雖然這個技巧很有用，但是匿名型別不應該作為演算法中的必要型別，如果真的很常用這個匿名型別的話，應該把它轉換成一個具體的型別，
+作者建議如果超過三個地方採用相同的匿名型別，那就應該把它改成具體型別。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法提供了幾個技巧讓我們能夠將匿名函式當成是參數一樣來傳遞，我們可以使用 lambda 搭配泛型方法也可以使用泛型與高階函式做到更複雜的功能。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-08'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
