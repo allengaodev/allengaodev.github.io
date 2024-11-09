@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 10.&#x4E86;&#x89E3; GetHashCode() &#x7684;&#x9677;&#x9631;(Understand the Pitfalls of GetHashCode())">
+
+  <title>More Effective C# 10.&#x4E86;&#x89E3; GetHashCode() &#x7684;&#x9677;&#x9631;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-10'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 10.&#x4E86;&#x89E3; GetHashCode() &#x7684;&#x9677;&#x9631;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-10' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-10'>More Effective C# 10.&#x4E86;&#x89E3; GetHashCode() &#x7684;&#x9677;&#x9631;</a>
+              <span class="subheading">More Effective C# 10.&#x4E86;&#x89E3; GetHashCode() &#x7684;&#x9677;&#x9631;(Understand the Pitfalls of GetHashCode())</span>
+          </h1>
+            <div class="meta">Published on Thursday, November 7, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在解釋為什麼覆寫 Equal 方法的時候同時要覆寫 GetHashCode 方法。</p>
+<p>GetHashCode 方法是少數幾個內建在 <code>System.Object</code> 的方法，它要完成的任務是透過一個 <code>hash function</code> 計算並回傳一個專屬於這個物件的雜湊值，
+以下是它的原始碼，預設的 <code>hash function</code> 會回傳物件的 sync block index 當成這個物件的 HashCode。</p>
+<pre><code class="language-text">/// &lt;summary&gt;Serves as the default hash function.&lt;/summary&gt;
+/// &lt;returns&gt;A hash code for the current object.&lt;/returns&gt;
+public virtual int GetHashCode()
+{
+    // GetHashCode is intended to serve as a hash function for this object.
+    // Based on the contents of the object, the hash function will return a suitable
+    // value with a relatively random distribution over the various inputs.
+    //
+    // The default implementation returns the sync block index for this instance.
+    // Calling it on the same object multiple times will return the same value, so
+    // it will technically meet the needs of a hash function, but it's less than ideal.
+    // Objects (&amp; especially value classes) should override this method.
+
+    return RuntimeHelpers.GetHashCode(this);
+}
+</code></pre>
+<p>為什麼 GetHashCode 方法很重要? 是因為在例如 <code>HashSet&lt;T&gt;</code> 與 <code>Dictionary&lt;K,V&gt;</code> 這種類別內部就是根據這個方法來決定 key 值，
+像是 Dictionary 的 FindValue 方法就會使用到 GetHashCode 方法。</p>
+<pre><code class="language-text">internal ref TValue FindValue(TKey key)
+ {
+     if (key == null)
+     {
+         ThrowHelper.ThrowArgumentNullException(ExceptionArgument.key);
+     }
+
+     ref Entry entry = ref Unsafe.NullRef&lt;Entry&gt;();
+     if (_buckets != null)
+     {
+         Debug.Assert(_entries != null, &quot;expected entries to be != null&quot;);
+         IEqualityComparer&lt;TKey&gt;? comparer = _comparer;
+         if (typeof(TKey).IsValueType &amp;&amp; // comparer can only be null for value types; enable JIT to eliminate entire if block for ref types
+             comparer == null)
+         {
+             uint hashCode = (uint)key.GetHashCode();
+             int i = GetBucket(hashCode);
+             ...
+</code></pre>
+<p>首先 GetHashCode 方法會回傳一個 HashCode，接下來會使用 HashCode 來快速找出物件是存在哪一個 Bucket 裡面，找到正確的 Bucket 後就能
+從它裡面取得正確的值，也就是說每個 Bucket 裡面存放的物件越少就能越快找到我們想要的內容。</p>
+<p>一個可用的 GetHashCode 方法必須遵守幾個原則:</p>
+<ol>
+<li>兩個相等(使用 equals 方法)的物件必須回傳相同的 HashCode。</li>
+<li>物件狀態的改變不能影響 HashCode 的結果，這是為了要確保物件被放進 Bucket 以後能回來找到同樣的 Bucket。</li>
+<li><code>hash function</code> 產出的 HashCode 必須要平均分佈，不能有過多的物件集中在某個 Bucket 這種情況發生。</li>
+</ol>
+<p>從第一個原則可以看出兩個物件要使用 equals 方法決定是否相同，所以如果你有覆寫過 equals 方法可能就會導致 GetHashCode 判斷的規則跟你的 equals 方法不太一樣，
+所以為了要遵循第一個相等性的原則，有覆寫過 equals 通常都要覆寫 GetHashCode 方法。</p>
+<p>接下來看看這段程式碼，此處定義了一個字典並要求傳入 <code>Customer</code> 做為 key 值，並且又覆寫了 GetHashCode 的邏輯改成回傳 Name 值的 HashCode，
+這就會導致字典選擇用 Name 值的 HashCode 做為 key，這樣做就違反了第二個原則，因為在下方我只要一把 Name 的值更換掉，就沒辦法找回字典中的資料了。</p>
+<pre><code class="language-text">void Main()
+{
+	Customer c1 = new Customer(&quot;Acme Products&quot;);
+	var dict = new Dictionary&lt;Customer, int&gt;();
+	dict.Add(c1, 1);
+	Console.WriteLine(c1.GetHashCode());
+	c1.Name = &quot;Acme Software&quot;;
+	Console.WriteLine(c1.GetHashCode());
+	Console.WriteLine(dict[c1]);
+}
+
+public class Customer
+{
+	private decimal revenue;
+	public Customer(string name) =&gt;
+	this.Name = name;
+	public string Name { get; set; }
+	public override int GetHashCode() =&gt; Name.GetHashCode();
+}
+</code></pre>
+<p>為了要符合第二個原則的要求，建議是將要使用 GetHashCode 計算的欄位變成 immutable，確保他在第一次初始化的時候就不要變動了，
+如果真的要變動則是要透過建立新物件並把就物件移除掉的流程來處理。</p>
+<pre><code class="language-text">void Main()
+{
+	Customer c1 = new Customer(&quot;Acme Products&quot;);
+	var dict = new Dictionary&lt;Customer, int&gt;();
+	dict.Add(c1, 1);
+	Console.WriteLine(c1.GetHashCode());
+	dict.First().GetHashCode().Dump();
+	Customer c2 = c1.ChangeName(&quot;Acme Software&quot;);
+	int o = dict[c1];
+	dict.Remove(c1);
+	dict.Add(c2, o);
+}
+
+public class Customer
+{
+	private decimal revenue;
+	public Customer(string name) =&gt; this.Name = name;
+	public string Name { get; }
+	public decimal Revenue { get; set; }
+	public override int GetHashCode() =&gt; Name.GetHashCode();
+	public Customer ChangeName(string newName) =&gt; new Customer(newName) { Revenue = revenue };
+}
+</code></pre>
+<p>要符合第三個原則的需求比較困難，一個常用的演算法是把型別中所有的欄位的 GetHashCode 回傳值做 XOR 運算，
+但是要把 mutable 的欄位排除在外，否則會讓結果不隨機導致資料都集中在幾個 Bucket 中。</p>
+<p>像是 Int32 覆寫的 GetHashCode 方法就沒有隨機性。</p>
+<pre><code class="language-text">public override int GetHashCode()
+{
+    return m_value;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>GetHashCode 要求相同的物件必須產生相同的 HashCode，而且不會根據狀態改變而變動，並且要求分佈均勻。
+只有 immutable 的類型可以滿足這三個需求，其他類型雖然也可以使用但要了解對應的缺陷。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-10'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

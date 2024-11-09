@@ -99,27 +99,30 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Direct &amp; Topic &amp; Header</a></h2>
-  <p class="post-meta">Published on Thursday, June 1, 2023</p>
-<p>今天要來學習發布訂閱模式中的 <code>Direct</code> 和 <code>Topic</code> 模式這兩個模式使用起來非常相似。上一篇文章中我們學習到的 <code>Fanout</code> 模式有一個不太方便的點，那就是
-它會一次發送給有綁定到 <code>Exchange</code> 上的所有 <code>Queue</code>，如果只想要發送給某個特定族群的 <code>Queue</code> 就可以選擇使用 <code>Direct</code>, <code>Topic</code> 或者 <code>Header</code> 模式。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-usersecrets-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; UserSecrets &#x8B80;&#x53D6;&#x4FDD;&#x8B77;&#x7684;&#x8A2D;&#x5B9A;&#x503C;</a></h2>
+  <p class="post-meta">Published on Friday, June 9, 2023</p>
+<p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
+可能被外漏出去會造成很大的問題，因此 Dotnet 提供了 <code>Microsoft.Extensions.Configuration.UserSecrets</code>
+這個 Package 給我們使用。</p>    <p class="small"><a href="/posts/dotnet-usersecrets-with-configuration">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-fanout">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Fanout</a></h2>
-  <p class="post-meta">Published on Saturday, May 27, 2023</p>
-<p>到目前為止我們已經學會了 RabbitMQ 中最基礎的應用，在上一篇文章中這種一個 <code>Queue</code> 搭配多個 <code>Consumer</code> 的模式叫做 <code>Competing Consumers Pattern</code>
-，不過就如同它名稱所示 <code>消費者競爭模式</code> 每一個 <code>Consumer</code> 都是競爭關係代表信息被某一個 <code>Consumer</code> 取得之後其它的 <code>Consumer</code>
-就再也沒有機會知道這條信息裡面有什麼內容。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-fanout">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-ioptions">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on Thursday, June 8, 2023</p>
+<p>在上一篇文章中我們學到了該怎麼使用 Configuration 相關的 Package，程式將透過 DI 容器取得 <code>ConfigurationRoot</code> 可以方便
+讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
+因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
+但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-multiple-workers">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</a></h2>
-  <p class="post-meta">Published on Thursday, May 25, 2023</p>
-<p>到目前為止我們專案同時只會運行一個 <code>producer</code> 和 一個 <code>consumer</code>，不過當 <code>producer</code> 產生過多的任務或者 <code>consumer</code> 執行每一個任務都需要許多時間，
-這時候我們可以選則執行多個 <code>consumer</code> 來分擔執行任務的壓力，例如說上一篇文章中的例子我們產生了五個任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-multiple-workers">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on Wednesday, June 7, 2023</p>
+<p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
+資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
+設定檔這方面的問題。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-configuration">Read more...</a></p>
 </div>
 
   <div>
@@ -136,15 +139,15 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (74)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (78)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
               <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (11)</a>
               <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
               <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (7)</a>
               <a href="/tags/rabbitmq" class="badge text-bg-secondary"> RabbitMQ (6)</a>
             <div class="mt-3">
               <div class="float-sm-end">
