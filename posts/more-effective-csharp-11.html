@@ -80,7 +80,7 @@
             <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-11'>More Effective C# 11.&#x5728;&#x4F60;&#x7684; API &#x4E2D;&#x907F;&#x514D;&#x8F49;&#x63DB;&#x904B;&#x7B97;&#x5B50;</a>
               <span class="subheading">More Effective C# 11.&#x5728;&#x4F60;&#x7684; API &#x4E2D;&#x907F;&#x514D;&#x8F49;&#x63DB;&#x904B;&#x7B97;&#x5B50;(Avoid Conversion Operators in Your APIs)</span>
           </h1>
-            <div class="meta">Published on Thursday, November 7, 2024</div>
+            <div class="meta">Published on Friday, November 8, 2024</div>
               <div class="mt-3">
                   <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
                   <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
@@ -96,7 +96,103 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        
+        <p>這個做法在說明 <code>implicit</code> 與 <code>explicit</code> operator 的應用場景與可能會導致錯誤發生時很難找到問題。</p>
+<p>我們知道所有類型的基底類型都是 <code>System.Object</code>，也就代表能夠將衍生的類型轉型回 <code>System.Object</code>，這樣就能在某些需要傳入 Object 類型的方法
+改用其他類型來替換 Object，這個就是使用 polymorphism 的特性來達到替換的功能。</p>
+<p>例如下面的 <code>Object.Equals</code> 方法，就能夠直接傳入 int 類型進行替換。</p>
+<pre><code class="language-text">void Main()
+{
+	int i = 1;
+	int j = 1;
+	Console.WriteLine(Object.Equals(i, j));
+}
+</code></pre>
+<p>下面這段程式碼建立了兩個衍生類型 <code>Car</code> 與 <code>Bus</code>，這兩個類型有相關性可以說 <code>Bus</code> 是 <code>Car</code> 的一種特例，也就是說我們可以寫一個傳入 <code>Car</code> 類型方法 <code>MoveForward</code>
+就可以與 <code>Bus</code> 一起共用這個方法，但是這兩個類別並沒有直接的繼承關係所以要透過 <code>implicit</code> 或 <code>explicit</code> operator 來達到這個需求。</p>
+<pre><code class="language-text">void Main()
+{
+	Bus bus1 = new Bus(3);
+	MoveForward(bus1);
+	Console.WriteLine(bus1);
+}
+
+public static void MoveForward(Car car)
+{
+	car.Distance = 100;
+}
+
+public class Car : Vehicle
+{
+	private int _passenger;
+	public int Distance { get; set; }
+	public int Passenger
+	{
+		get { return _passenger; }
+		set
+		{
+			if (value &gt; 3)
+				throw new ArgumentException(&quot;Too Many People&quot;);
+			_passenger = value;
+		}
+	}
+
+	public Car(int passenger)
+	{
+		Passenger = passenger;
+	}
+
+	//public Car(Bus bus)
+	//{
+	//	Passenger = bus.Passenger;
+	//}
+
+	public static implicit operator Bus(Car car)
+	{
+		return new Bus(car.Passenger);
+	}
+}
+
+public class Bus : Vehicle
+{
+	private int _passenger;
+	public int Distance { get; set; }
+	public int Passenger
+	{
+		get { return _passenger; }
+		set { _passenger = value; }
+	}
+
+	public Bus(int passenger)
+	{
+		Passenger = passenger;
+	}
+	
+	public static implicit operator Car(Bus bus)
+	{
+		return new Car(bus.Passenger);
+	}
+}
+
+public class Vehicle {}
+</code></pre>
+<p>但這段程式碼有一個問題就是在執行 <code>implicit operator Car</code> 這段邏輯的時候會建立一個新的 <code>Car</code> 物件，這裡把它稱之為中間物件，
+這會導致 MoveForward 方法修改的是這個中間物件的屬性而不是 <code>bus1</code>，這就會導致中間物件產生之後被修改然後就直接被回收了，
+並且這段程式碼可讀性也不是非常好，也很難排查問題。</p>
+<p>並且可以看出它的關鍵邏輯就是幫你呼叫建構函式而已，那其實跟我們自己多載一個新的建構函式一模一樣，修改後的程式碼如下。</p>
+<pre><code class="language-text">void Main()
+{
+	Bus bus1 = new Bus(3);
+	Car car1 = new Car(bus1);
+	MoveForward(car1);
+	Console.WriteLine(car1);
+}
+</code></pre>
+<p>這種方式也會產生中間物件，但並不會丟失修改的狀態也不會被直接回收，而且表達的語意也比較明確好懂，就是透過多載建構函式就能達到一樣的效果。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在說明 <code>implicit</code> 與 <code>explicit</code> operator 雖然可以讓你的程式碼更加簡潔，但也更難排除問題，
+並且方法可能修改的只是中間物件導致狀態遺失，這種問題在大型的應用程式中不好排查，而且透過多載建構函是也能達到同樣的效果，所以不建議用這兩個 operator。</p>
+
 
         
 
