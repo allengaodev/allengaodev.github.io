@@ -97,6 +97,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-15">Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6;</a></h2>
+  <p class="post-meta">Published on Friday, October 11, 2024</p>
+<p>這個做法提出了建立過多物件會影響效率的概念，雖然我們的系統有 GC 能夠高效的管理記憶體中的物件，
+但清除的效率在快還不如不創建無意義的物件，從根本上解決過度使用 GC 的導致的效率問題。</p>    <p class="small"><a href="/posts/effective-csharp-15">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-14">Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;</a></h2>
   <p class="post-meta">Published on Thursday, October 10, 2024</p>
 <p>在做法 12 提到多個建構函式很容易造成每個建構函式有細微的區別，因此使用 <code>Member Initializers</code> 在宣告時直接賦值以解決這個問題。</p>    <p class="small"><a href="/posts/effective-csharp-14">Read more...</a></p>
@@ -164,13 +172,6 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 通常在使用外部涵式庫或者使用反射功能時會碰到需要使用弱型別字串來當作參數。</p>    <p class="small"><a href="/posts/effective-csharp-06">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-05">Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString</a></h2>
-  <p class="post-meta">Published on Thursday, September 26, 2024</p>
-<p>在做法 4 中，介紹了字串插值的寫法，但是某些功能需要根據不同的文化產生不同的結果，例如時間輸出的格式就會根據目前電腦的文化設定來輸出時間。</p>    <p class="small"><a href="/posts/effective-csharp-05">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/tags/csharp/5" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -183,12 +184,12 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (80)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (81)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (13)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (14)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
           <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
           <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
