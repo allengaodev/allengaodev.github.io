@@ -108,11 +108,12 @@ public class SampleEventArgs
 	public string Text { get; } // readonly
 }
 </code></pre>
-<p>同樣.NET 也有提供內建的事件委派給叫做 <code>EventHandler</code> 給我們使用，通常使用內建的就夠了，基本上不需要自己宣告事件委派，</p>
+<p>同樣.NET 也有提供內建的事件委派叫做 <code>EventHandler</code> 給我們使用，通常使用內建的就夠了，基本上不需要自己宣告事件委派，</p>
 <pre><code class="language-text">public delegate void EventHandler(object? sender, EventArgs e);
 </code></pre>
-<p>與一般委派不同，我們需要使用 event 關鍵字宣告事件 ThresholdReached，並且根據官方文檔建議建立一個 <code>On</code> 開頭的事件名稱，
-這裡叫做 OnThresholdReached，最後使用 Invoke 方法呼叫他的訂閱者。</p>
+<p>與一般委派不同，我們需要使用 event 關鍵字宣告事件 <code>ThresholdReached</code>，並且根據官方文檔建議建立一個 <code>On</code> 開頭的
+<code>protected</code> 與 <code>virtual</code> 的方法用來喚起(raise)事件，也就是下方的 OnThresholdReached 方法。</p>
+<p>這樣我們就能在未來建立衍生型別，透過覆寫的方式來修改 <code>OnThresholdReached</code> 執行流程。</p>
 <pre><code class="language-text">public class Counter
 {
 	public event EventHandler ThresholdReached;
@@ -123,13 +124,14 @@ public class SampleEventArgs
 	}
 }
 </code></pre>
-<p>接下來建立一個事件處理方法 <code>c_ThresholdReached</code> 並把它加入到 <code>ThresholdReached</code> 事件裡面，讓我們寫得這個方法變成一個訂閱者。
+<p>接下來建立一個事件處理方法 <code>c_ThresholdReached</code> 並把它加入到 <code>ThresholdReached</code> 事件裡面，可以這樣加是因為 EventHandler 本質上就是
+<code>Delegate</code> 並且 .NET 中的 <code>Delegate</code> 都是 <code>MulticastDelegate</code>，所以使用加號就是新增委派到 _invocationList 裡面而已。</p>
+<p>所以能讓 <code>c_ThresholdReached</code> 方法變成一個等待被呼喚的方法，也可以說它是訂閱者。
 最後呼叫 <code>OnThresholdReached</code> 方法，模擬事件觸發可以看到視窗輸出提示訊息。</p>
 <pre><code class="language-text">void Main()
 {
 	var c = new MyCounter();
 	c.ThresholdReached += c_ThresholdReached;
-	
 	c.OnThresholdReached(new ThresholdReachedEventArgs());
 }
 
@@ -144,6 +146,12 @@ public class MyCounter : Counter
 	{
 		base.OnThresholdReached(e);
 	}
+}
+
+public class ThresholdReachedEventArgs : EventArgs
+{
+    public int Threshold { get; set; }
+    public DateTime TimeReached { get; set; }
 }
 </code></pre>
 <p>接下來要了解 <code>?</code> 運算子的用法，從這個結構可以得知我們有可能沒有加入任何訂閱者，那就有可能造成 <code>NullReferenceException</code>，因此需要
