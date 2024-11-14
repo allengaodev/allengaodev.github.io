@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 16.&#x70BA;&#x901A;&#x77E5;&#x5BE6;&#x4F5C;&#x4E8B;&#x4EF6;&#x6A21;&#x5F0F;(Implement the Event Pattern for Notifications)">
+
+  <title>More Effective C# 16.&#x70BA;&#x901A;&#x77E5;&#x5BE6;&#x4F5C;&#x4E8B;&#x4EF6;&#x6A21;&#x5F0F;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-16'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 16.&#x70BA;&#x901A;&#x77E5;&#x5BE6;&#x4F5C;&#x4E8B;&#x4EF6;&#x6A21;&#x5F0F;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-16' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-16'>More Effective C# 16.&#x70BA;&#x901A;&#x77E5;&#x5BE6;&#x4F5C;&#x4E8B;&#x4EF6;&#x6A21;&#x5F0F;</a>
+              <span class="subheading">More Effective C# 16.&#x70BA;&#x901A;&#x77E5;&#x5BE6;&#x4F5C;&#x4E8B;&#x4EF6;&#x6A21;&#x5F0F;(Implement the Event Pattern for Notifications)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, November 13, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法是以前 Effective C# <a href="https://blog.allengaodev.com/posts/effective-csharp-07" target="_blank">做法 7</a>、<a href="https://blog.allengaodev.com/posts/effective-csharp-08" target="_blank">做法 8</a>
+的延伸討論，主要是解說 .NET 事件模式的設計與使用它的好處。</p>
+<p>假設我有一個紀錄日誌的類別叫做 <code>Logger</code>，他的工作是負責把訊息發送給事件的訂閱者，我們可以使用 <code>AddMsg</code> 方法添加日誌並使用
+<code>Invoke</code> 方法把自訂的事件參數 <code>LoggerEventArgs</code> 發送給事件的訂閱者，注意 <code>?.Invoke</code> 這個寫法是新的線程安全的寫法。</p>
+<pre><code class="language-text">public class Logger
+{
+	static Logger()
+	{
+		Singleton = new Logger();
+	}
+	private Logger()
+	{
+	}
+	public static Logger Singleton { get; }
+	public event EventHandler&lt;LoggerEventArgs&gt; Log;
+	public void AddMsg(int priority, string msg) =&gt; Log?.Invoke(this, new LoggerEventArgs(priority, msg));
+}
+
+public class LoggerEventArgs : EventArgs
+{
+	public int Priority { get; set; }
+	public string Message { get; set; }
+	public LoggerEventArgs(int priority, string msg)
+	{
+		Priority = priority;
+		Message = msg;
+	}
+}
+</code></pre>
+<p>使用時只要添加訂閱者並呼叫 <code>AddMsg</code> 方法，之後就會 <code>Invoke</code> 並執行訂閱者的方法。</p>
+<pre><code class="language-text">void Main()
+{
+	Logger.Singleton.Log += (sender, msg) =&gt; 
+			Console.Error.WriteLine(&quot;{0}:\t{1}&quot;,
+				msg.Priority.ToString(),
+				msg.Message);
+				
+	Logger.Singleton.AddMsg(1, &quot;Hi&quot;);
+}
+</code></pre>
+<p>在之前的做法也有提到過 <code>EventHandler</code> 就是一種自訂的委派，跟 <code>Func</code> 差不多意思，所以這裡的訂閱者其實就是一個符合 EventHandler 簽章的方法。</p>
+<pre><code class="language-text">void Main()
+{
+	Logger.Singleton.Log += SendConsoleLogger;
+	Logger.Singleton.AddMsg(1, &quot;Hi&quot;);
+}
+
+public void SendConsoleLogger(object sender, LoggerEventArgs args)
+{
+	Console.Error.WriteLine(&quot;{0}:\t{1}&quot;,
+				args.Priority.ToString(),
+				args.Message);
+}
+</code></pre>
+<p>還有新增與刪除訂閱者使用的是符號 <code>+=</code> 和 <code>-=</code>，可以發現刪除之後第二條的事件就不會輸出在 Console 上了。</p>
+<pre><code class="language-text">void Main()
+{
+	Logger.Singleton.Log += SendConsoleLogger;
+	Logger.Singleton.AddMsg(1, &quot;Hi&quot;);
+	Logger.Singleton.Log -= SendConsoleLogger;
+	Logger.Singleton.AddMsg(2, &quot;Hi&quot;);
+}
+</code></pre>
+<p>比較特別的是這段程式碼 <code>public event EventHandler&lt;LoggerEventArgs&gt; Log;</code> 第一個 event 是關鍵字用來宣告這個成員可以用來觸發通知，
+<code>EventHandler&lt;T&gt;</code> 才是它的型別，編譯器看到 event 關鍵字的時候會產生類似下面這段程式碼。</p>
+<p>首先會產生<code>add</code> 與 <code>remove</code> 存取子用來新增與移除新事件，並且可以看出 EventHandler 是 Immutable Type，還有從 Delegate.Combine
+可以看出 EventHandler 是 <code>MulticastDelegate</code>，最後使用 Interlocked 確保更新與刪除時的線程安全，這也代表你在處理事件的時候可以自己
+<code>add</code> 與 <code>remove</code> 存取子，不過要注意線程安全的細節，通常是請編譯器自動產生就好。</p>
+<pre><code class="language-text">public event EventHandler&lt;LoggerEventArgs&gt; Log
+{
+    [CompilerGenerated]
+    add
+    {
+        EventHandler&lt;LoggerEventArgs&gt; eventHandler = this.Log;
+        while (true)
+        {
+            EventHandler&lt;LoggerEventArgs&gt; eventHandler2 = eventHandler;
+            EventHandler&lt;LoggerEventArgs&gt; value2 = (EventHandler&lt;LoggerEventArgs&gt;)Delegate.Combine(eventHandler2, value);
+            eventHandler = Interlocked.CompareExchange(ref this.Log, value2, eventHandler2);
+            if ((object)eventHandler == eventHandler2)
+            {
+                break;
+            }
+        }
+    }
+    [CompilerGenerated]
+    remove
+    {
+        EventHandler&lt;LoggerEventArgs&gt; eventHandler = this.Log;
+        while (true)
+        {
+            EventHandler&lt;LoggerEventArgs&gt; eventHandler2 = eventHandler;
+            EventHandler&lt;LoggerEventArgs&gt; value2 = (EventHandler&lt;LoggerEventArgs&gt;)Delegate.Remove(eventHandler2, value);
+            eventHandler = Interlocked.CompareExchange(ref this.Log, value2, eventHandler2);
+            if ((object)eventHandler == eventHandler2)
+            {
+                break;
+            }
+        }
+    }
+}
+</code></pre>
+<p>我們的 <code>Logger</code> 類別目前只有一個事件，在某些情況可能一個類別能包含多個事件，如果每個事件都要宣告一次那會非常麻煩，
+所以可以改用 EventHandlerList 這個類別來保存多個 EventHandler。</p>
+<pre><code class="language-text">public sealed class Logger
+{
+	private static EventHandlerList Handlers = new EventHandlerList();
+	static public void AddLogger(string system, EventHandler&lt;LoggerEventArgs&gt; ev) =&gt;
+		Handlers.AddHandler(system, ev);
+	static public void RemoveLogger(string system, EventHandler&lt;LoggerEventArgs&gt; ev) =&gt;
+		Handlers.RemoveHandler(system, ev);
+	static public void AddMsg(string system, int priority, string msg)
+	{
+		if (!string.IsNullOrEmpty(system))
+		{
+			EventHandler&lt;LoggerEventArgs&gt; handler = Handlers[system] as EventHandler&lt;LoggerEventArgs&gt;;
+			LoggerEventArgs args = new LoggerEventArgs(priority, msg);
+			handler?.Invoke(null, args);
+			// The empty string means receive all messages:
+			handler = Handlers[&quot;&quot;] as EventHandler&lt;LoggerEventArgs&gt;;
+			handler?.Invoke(null, args);
+		}
+	}
+}
+
+public class LoggerEventArgs
+{
+	public int Priority { get; set; }
+	public string Message { get; set; }
+	public LoggerEventArgs(int priority, string msg)
+	{
+		Priority = priority;
+		Message = msg;
+	}
+}
+</code></pre>
+<p>它的運作原理也很簡單，就是建立額外的 <code>ListEntry</code> 物件透過 <code>key</code> 來將多個委派進行分組，跟字典的原理差不多，
+不過 EventHandlerList 沒有泛型的版本，並且在搜尋事件的時候使用效率很差的線性搜索。</p>
+<pre><code class="language-text">// EventHandlerList.cs
+public void AddHandler(object key, Delegate? value)
+{
+	ListEntry? e = Find(key);
+	if (e != null)
+	{
+		e._handler = Delegate.Combine(e._handler, value);
+	}
+	else
+	{
+		_head = new ListEntry(key, value, _head);
+	}
+}
+
+public void RemoveHandler(object key, Delegate? value)
+{
+	ListEntry? e = Find(key);
+	if (e != null)
+	{
+		e._handler = Delegate.Remove(e._handler, value);
+	}
+}
+
+private ListEntry? Find(object key)
+{
+    ListEntry? found = _head;
+    while (found != null)
+    {
+        if (found._key == key)
+        {
+            break;
+        }
+        found = found._next;
+    }
+    return found;
+}
+        
+private sealed class ListEntry
+{
+	internal readonly ListEntry? _next;
+	internal readonly object _key;
+	internal Delegate? _handler;
+
+	public ListEntry(object key, Delegate? handler, ListEntry? next)
+	{
+		_next = next;
+		_key = key;
+		_handler = handler;
+	}
+}
+</code></pre>
+<p>所以了解原理之後自己使用字典的方式改寫也不會太困難。</p>
+<pre><code class="language-text">public sealed class Logger
+{
+	private static Dictionary&lt;string, EventHandler&lt;LoggerEventArgs&gt;&gt;
+		Handlers = new Dictionary&lt;string, EventHandler&lt;LoggerEventArgs&gt;&gt;();
+		
+	static public void AddLogger(string system, EventHandler&lt;LoggerEventArgs&gt; ev)
+	{
+		if (Handlers.ContainsKey(system))
+			Handlers[system] += ev;
+		else
+			Handlers.Add(system, ev);
+	}
+
+	static public void RemoveLogger(string system, EventHandler&lt;LoggerEventArgs&gt; ev) =&gt;
+		Handlers[system] -= ev;
+		
+	static public void AddMsg(string system, int priority, string msg)
+	{
+		if (string.IsNullOrEmpty(system))
+		{
+			EventHandler&lt;LoggerEventArgs&gt; handler = null;
+			Handlers.TryGetValue(system, out handler);
+			LoggerEventArgs args = new LoggerEventArgs(priority, msg);
+			handler?.Invoke(null, args);
+			// The empty string means receive all messages:
+			handler = Handlers[&quot;&quot;] as EventHandler&lt;LoggerEventArgs&gt;;
+			handler?.Invoke(null, args);
+		}
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法又再次複習了 EventHandler 的使用方式，以及它編譯後會產生<code>add</code> 與 <code>remove</code> 存取子，並且本身就是一個 <code>MulticastDelegate</code>，
+由於發起事件的時候不管有沒有訂閱者都能正常運行，使用這個模式可以很方便的把發佈者跟訂閱者解耦合。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-16'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
