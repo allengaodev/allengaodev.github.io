@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 14.&#x512A;&#x5148;&#x5B9A;&#x7FA9;&#x4E26;&#x5BE6;&#x4F5C;&#x4ECB;&#x9762;&#x9032;&#x884C;&#x7E7C;&#x627F;(Prefer Defining and Implementing Interfaces to Inheritance)">
+
+  <title>More Effective C# 14.&#x512A;&#x5148;&#x5B9A;&#x7FA9;&#x4E26;&#x5BE6;&#x4F5C;&#x4ECB;&#x9762;&#x9032;&#x884C;&#x7E7C;&#x627F;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-14'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 14.&#x512A;&#x5148;&#x5B9A;&#x7FA9;&#x4E26;&#x5BE6;&#x4F5C;&#x4ECB;&#x9762;&#x9032;&#x884C;&#x7E7C;&#x627F;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-14' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-14'>More Effective C# 14.&#x512A;&#x5148;&#x5B9A;&#x7FA9;&#x4E26;&#x5BE6;&#x4F5C;&#x4ECB;&#x9762;&#x9032;&#x884C;&#x7E7C;&#x627F;</a>
+              <span class="subheading">More Effective C# 14.&#x512A;&#x5148;&#x5B9A;&#x7FA9;&#x4E26;&#x5BE6;&#x4F5C;&#x4ECB;&#x9762;&#x9032;&#x884C;&#x7E7C;&#x627F;(Prefer Defining and Implementing Interfaces to Inheritance)</span>
+          </h1>
+            <div class="meta">Published on Sunday, November 10, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法建議多使用 Interface 來設計一個類別而不是使用 Abstract 搭配繼承。</p>
+<p>在設計新類別時討論該使用介面還是抽象是一個常常提到的問題。</p>
+<p>抽象基底類別(Abstract base classes) 是把多個有相同概念的類別整理出來，
+並透過抽象把這些概念廣義化最後集中在一個類別內變成一個父類別，之後其它子類別只要繼承這個父類別就能使用共用的功能，
+一個經典的記憶方法是衍生類別與基底類別必須是 <code>is a</code> 關係。</p>
+<p>介面擁有類似的概念，也是透過抽象把相同的概念提取出來，不過介面同常的是描述共通的行為或能力，用英文 <code>behaves like</code> 或 <code>can do</code> 比較容易理解，
+也可以說介面是一種定義行為合約，你可以在這份合約中定義方法、屬性用來假設未來實做介面的類別必須擁有相同的行為能力。</p>
+<p>介面與抽象類別最大的不同是介面不能含有實做的內容，因為假如你在某一個介面加上了新的成員，那麼有時作這個介面的類別會顯示報錯並要求你必須實做內容，
+但是在 C# 8 中提供了<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-8.0/default-interface-methods" target="_blank">Default Interface Methods</a>，
+就是能在介面中實做預設的方法避免更新介面導致程式碼需要重新實做與編譯。</p>
+<p>也就是說 C# 介面基本上可以做到與 abstract 相同的事情，只有介面不能建立 field 的區別，不過可以透過自動屬性達到相同的能力，
+例如下面的範例 C# 8 以前會報錯，因為它在介面中實做了具體內容，但是現在 C# 能夠允許這樣的寫法。</p>
+<pre><code class="language-text">void Main()
+{
+	MyInterface m = new MyClass1();
+	Console.WriteLine(m.Add());
+}
+
+public interface MyInterface
+{
+	public int Add() =&gt; 1;
+}
+
+public class MyClass1 : MyInterface {}
+</code></pre>
+<p>這本書的內容只有包含到 C# 7 的功能，所以這個做法之後的內容是以 C# 7 為前提。</p>
+<p>在以前可以透過針對介面撰寫擴充方法，來達到好像是在介面實做具體內容的能力，例如 LINQ 中常用到的幾個擴充方法就是透過這個方式來進行，
+例如下面這段程式碼定義了一個 MyInterface 與實做它的 MyClass 類別。</p>
+<pre><code class="language-text">void Main()
+{
+	MyClass m = new MyClass();
+	m.Write();
+}
+
+public interface MyInterface
+{
+	public void Write();
+}
+
+public class MyClass : MyInterface
+{
+	public void Write()
+	{
+		Console.WriteLine(&quot;Extensions&quot;);
+	}
+}
+</code></pre>
+<p>透過擴充方法的特性可以做到好像實做了一個方法的假象，讓這個方法好像就是在介面裡面實做的。</p>
+<pre><code class="language-text">void Main()
+{
+	MyClass1 m = new MyClass1();
+	m.Write();
+}
+
+public interface MyInterface
+{
+}
+
+public class MyClass1 : MyInterface
+{
+}
+
+public static class Extensions
+{
+	public static void Write(this MyInterface m)
+	{
+		Console.WriteLine(&quot;Extensions&quot;);
+	}
+}
+</code></pre>
+<p>Abstract 則是透過基底類別來提供方法，讓常用的功能都寫在基底的方法裡面來達到共用的效果，這樣就能在衍生的類別重複利用這些方法，
+並且在未來只要在基底類別新增功能，其它衍生類別都能透過繼承使用這些功能，這個在傳統的介面是做不到的。</p>
+<p>不過由於 C# 只允許單一繼承也就代表一個類別只能擁有一個父類別，這個就會給設計帶來限制，但是介面則不同，一個類別可以同時實做多個介面，
+這一點很重要並且可以給開發者帶來更大的彈性。</p>
+<p>例如下面三種方法，第一種寫法是使用 IEnumerable<T> 做為傳入參數的型別，代表只要實做這個介面的型別都能傳入，
+相比之下第二種與第三種的彈性就沒有這麼高，特別是第三種代表只允許這個型別傳入，所以建議使用介面做為方法參數型別。</p>
+<pre><code class="language-text">public static void PrintCollection&lt;T&gt;(IEnumerable&lt;T&gt; collection)
+{
+	foreach (T o in collection)
+		Console.WriteLine($&quot;Collection contains {o}&quot;);
+}
+public static void PrintCollection(IEnumerable collection)
+{
+	foreach (object o in collection)
+		Console.WriteLine($&quot;Collection contains {o}&quot;);
+}
+public static void PrintCollection(WeatherDataStream collection)
+{
+	foreach (object o in collection)
+		Console.WriteLine($&quot;Collection contains {o}&quot;);
+}
+</code></pre>
+<p>另外使用介面做為 API 的回傳型別也是相同的道理，如果使用 List<T> 做回方法回傳的型別，那麼在未來想要改用其它型別例如 SortedList<T> 就會帶來麻煩，
+所以選擇更廣泛的介面 IEnumerable<T> 或是 IList<T> 是比較好的設計。</p>
+<p>介面也可以用來管理共同的屬性，例如在 <code>Employee</code>, <code>Customer</code>, <code>Vendor</code> 這三個類別中就有共同的屬性，雖然可以使用抽象類別與繼承來設計，
+但是在這個例子中關聯的強度沒有這麼大，所以依靠介面定義共同屬性是比較合理的設計。</p>
+<pre><code class="language-text">public class Employee
+{
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+	public string Name =&gt; $&quot;{LastName}, {FirstName}&quot;;
+}
+public class Customer
+{
+	public string Name =&gt; customerName;
+	private string customerName;
+}
+public class Vendor
+{
+	public string Name =&gt; vendorName;
+	private string vendorName;
+}
+</code></pre>
+<p>下面就定義了一個介面 <code>IContactInfo</code> 把共用的屬性整理裡面，之後</p>
+<pre><code class="language-text">public interface IContactInfo
+{
+	string Name { get; }
+}
+public class Employee : IContactInfo
+{
+	public string Name =&gt; &quot;Allen&quot;;
+}
+</code></pre>
+<p>這樣的設計就能為原本不相干的型別建立出共用的方法，例如下面只要求傳入的引數有實做 <code>IContactInfo</code> 就可以使用，
+代表 <code>Employee</code>, <code>Customer</code>, <code>Vendor</code> 這三個沒有太大關聯的類別都可以使用這個方法。</p>
+<pre><code class="language-text">public void PrintMailingLabel(IContactInfo ic)
+{
+    // implementation deleted.
+}
+</code></pre>
+<p>最後是介面在 Value Type 中的運用，由於 box 與 unbox 會造成的效能問題，所以在下面的寫法會有 box 的產生。</p>
+<pre><code class="language-text">void Main()
+{
+	var m = new MyStruct();
+	Add(m);
+}
+
+public int Add(MyInterface m)
+{
+	return 1;
+}
+
+public struct MyStruct : MyInterface {}
+public interface MyInterface {}
+</code></pre>
+<p>由於這個方法的需求是引數需要實做 MyInterface 介面，所以可以換個思路搭配泛型來避免 box 的產生。</p>
+<pre><code class="language-text">void Main()
+{
+	var m = new MyStruct();
+	Add&lt;MyStruct&gt;(m);
+}
+
+public int Add&lt;T&gt;(T value) where T : MyInterface&lt;int&gt;
+{
+	return 1;
+}
+
+public struct MyStruct : MyInterface&lt;int&gt; {}
+public interface MyInterface&lt;T&gt; {}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在說明在以前的 C# 版本中使用介面的彈性比抽象基底類別大得多，建議是有強關聯性的才使用抽象基底類別，
+如果有共同行為可以使用介面就好。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-14'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

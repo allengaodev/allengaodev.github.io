@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 15.&#x4E86;&#x89E3;&#x4ECB;&#x9762;&#x8207; Virtual Method &#x4E4B;&#x9593;&#x7684;&#x5DEE;&#x7570;(Understand How Interface Methods Differ from Virtual Methods)">
+
+  <title>More Effective C# 15.&#x4E86;&#x89E3;&#x4ECB;&#x9762;&#x8207; Virtual Method &#x4E4B;&#x9593;&#x7684;&#x5DEE;&#x7570;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-15'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 15.&#x4E86;&#x89E3;&#x4ECB;&#x9762;&#x8207; Virtual Method &#x4E4B;&#x9593;&#x7684;&#x5DEE;&#x7570;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-15' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-15'>More Effective C# 15.&#x4E86;&#x89E3;&#x4ECB;&#x9762;&#x8207; Virtual Method &#x4E4B;&#x9593;&#x7684;&#x5DEE;&#x7570;</a>
+              <span class="subheading">More Effective C# 15.&#x4E86;&#x89E3;&#x4ECB;&#x9762;&#x8207; Virtual Method &#x4E4B;&#x9593;&#x7684;&#x5DEE;&#x7570;(Understand How Interface Methods Differ from Virtual Methods)</span>
+          </h1>
+            <div class="meta">Published on Monday, November 11, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法延伸做法 14 的內容，主要在討論 Abstract Method、Virtual Method 與 Interface 之間的差異。</p>
+<p>下面是一個常見的抽象類別包含了一個 abstract 方法與 virtual 方法，它們的差異也很明顯，abstract 方法不需要提供實做但是強制要求
+衍生類別必須提供實做細節，virtual 方法則是提供實做細節但不強制衍生類別提供新的細節。</p>
+<p>如果你在 abstract 方法加上大括號那編譯器會馬上提示錯誤，同樣道理如果在 virtual 方法不加上大括號也會把上提示錯誤。</p>
+<pre><code class="language-text">void Main()
+{
+	var m = new MyClass();
+}
+
+public abstract class MyBaseClass
+{
+	public abstract int Add();
+	public virtual int Add1()
+	{
+		return 1;	
+	}	
+}
+
+public class MyClass : MyBaseClass
+{
+	public override int Add()
+	{
+		throw new NotImplementedException();
+	}
+}
+</code></pre>
+<p>這裡直接把 <code>abstract class</code> 改成 <code>interface</code> 會發現竟然也可以定義 abstract 方法與 virtual 方法。</p>
+<pre><code class="language-text">void Main()
+{
+	var m = new MyClass();
+}
+
+public interface MyInterface
+{
+	public abstract int Add();
+	public virtual int Add1()
+	{
+		return 1;	
+	}	
+}
+
+public class MyClass : MyInterface
+{
+	public int Add()
+	{
+		throw new NotImplementedException();
+	}
+}
+</code></pre>
+<p>不過這個寫法是沒有意義的，編譯器會幫你把 abstract 刪減掉，virtual 同樣也是刪減並直接變成 Default Interface Methods 的語法，
+大概如下所示。</p>
+<pre><code class="language-text">public class C
+{
+    public void M()
+    {
+        MyClass myClass = new MyClass();
+    }
+}
+
+public interface MyInterface
+{
+    int Add();
+    int Add1()
+    {
+        return 1;
+    }
+}
+
+public class MyClass : MyInterface
+{
+    public int Add()
+    {
+        throw new NotImplementedException();
+    }
+}
+</code></pre>
+<p>由上面這幾段程式碼可以看出 Abstract Method 與 Interface 確實有相似之處，都是在另一個型別提供定義然後在新的型別繼承或實做細節，</p>
+<p>接下來看看它們之間的差異，首先下面這段程式碼建立了一個 <code>IMessage</code> 介面與 <code>MyClass</code> 類別，由於 <code>MyClass</code> 有實做 <code>IMessage</code> 介面，
+所以我們可以透過 <code>IMessage</code> 介面來呼叫 <code>Message</code> 方法。</p>
+<pre><code class="language-text">void Main()
+{
+	MyClass b = new MyClass();
+	b.Message(); // prints &quot;MyClass&quot;.
+	IMessage m = b as IMessage;
+	m.Message(); // prints &quot;MyClass&quot;
+}
+interface IMessage
+{
+	void Message();
+}
+public class MyClass : IMessage
+{
+	public void Message() =&gt; Console.WriteLine(nameof(MyClass));
+}
+</code></pre>
+<p>接下來新增 <code>MyDerivedClass</code> 衍生類別，注意到 <code>MyClass.Message</code> 方法並不是 virtual 所以不能透過 override 覆寫 <code>Message</code> 方法，
+所以衍生類別使用 <code>new</code> 關鍵字建立新的方法並把舊的方法隱藏起來，這裡只是隱藏並沒有覆寫的操作發生，所以我們還是可以透過介面 <code>IMessage</code>
+呼叫 <code>Message</code> 方法。</p>
+<pre><code class="language-text">void Main()
+{
+	MyDerivedClass d = new MyDerivedClass();
+	d.Message(); // prints &quot;MyDerivedClass&quot;.
+	IMessage m = d as IMessage;
+	m.Message(); // prints &quot;MyClass&quot;
+}
+interface IMessage
+{
+	void Message();
+}
+public class MyClass : IMessage
+{
+	public void Message() =&gt; Console.WriteLine(nameof(MyClass));
+}
+public class MyDerivedClass : MyClass
+{
+	public new void Message() =&gt; Console.WriteLine(nameof(MyDerivedClass));
+}
+</code></pre>
+<p>你可能會覺得 <code>MyDerivedClass</code> 是 <code>MyClass</code> 的衍生類別，那 <code>MyDerivedClass</code> 應該也有實做 <code>IMessage</code> 介面才對，但為什麼
+呼叫 <code>m.Message()</code> 的時候是回傳 MyClass 而不是 MyDerivedClass?</p>
+<p>是因為介面有兩種實做方式分別是 <code>explicit implementation</code> 與 <code>implicit implementation</code>，其中 <code>explicit implementation</code> 是比較使用到的，
+下面可以把 <code>MyClass</code> 改成明確實做的方式，使用這種方式目的是為了要確保方法只能透過公開的介面來呼叫，所以在 <code>MyClass</code> 實做這個方法的時候
+必須宣告為 private，以免有人從 <code>MyClass</code> 呼叫方法。</p>
+<pre><code class="language-text">void Main()
+{
+	MyDerivedClass d = new MyDerivedClass();
+	d.Message(); // prints &quot;MyDerivedClass&quot;.
+	IMessage m = d as IMessage;
+	m.Message(); // prints &quot;MyClass&quot;
+}
+interface IMessage
+{
+	void Message();
+}
+public class MyClass : IMessage
+{
+	void IMessage.Message() =&gt; Console.WriteLine(nameof(MyClass));
+}
+public class MyDerivedClass : MyClass
+{
+	public void Message() =&gt; Console.WriteLine(nameof(MyDerivedClass));
+}
+</code></pre>
+<p>你會發現沒辦法把 <code>MyDerivedClass</code> 類別改成明確實做的方式，因為它並沒有在他的類別明確實做 <code>IMessage</code> 介面，所以在 <code>MyDerivedClass</code> 類別
+確實找不到實做 IMessage 的 Message 方法，最後只能到基底類別尋找並呼叫。</p>
+<p>所以只要在 <code>MyDerivedClass</code> 類別明確實做 <code>IMessage</code> 就能改變執行的結果，這樣就能做到在基底類別提供預設實做，
+等待未來有需要可以在衍生類別修改實做細節的效果。</p>
+<pre><code class="language-text">void Main()
+{
+	MyDerivedClass d = new MyDerivedClass();
+	d.Message(); // prints &quot;MyDerivedClass&quot;.
+	IMessage m = d as IMessage;
+	m.Message(); // prints &quot;MyDerivedClass&quot;
+}
+interface IMessage
+{
+	public void Message();
+}
+public class MyClass : IMessage
+{
+	void IMessage.Message() =&gt; Console.WriteLine(nameof(MyClass));
+}
+public class MyDerivedClass : MyClass, IMessage
+{
+	public void Message() =&gt; Console.WriteLine(nameof(MyDerivedClass));
+}
+</code></pre>
+<p>不過這裡還是使用 new 建立新方法，所以我們還是能透過 <code>MyClass</code> 呼叫隱藏的 <code>Message</code> 方法，
+這個現象在以前的文章 Effective-CSharp-10 有討論過。</p>
+<pre><code class="language-text">void Main()
+{
+	MyDerivedClass d = new MyDerivedClass();
+	d.Message(); // prints &quot;MyDerivedClass&quot;.
+	IMessage m = d as IMessage;
+	m.Message(); // prints &quot;MyDerivedClass&quot;
+	MyClass b = d;
+	b.Message(); // prints &quot;MyClass&quot;
+}
+
+interface IMessage
+{
+	void Message();
+}
+public class MyClass : IMessage
+{
+	public void Message() =&gt; Console.WriteLine(nameof(MyClass));
+}
+
+public class MyDerivedClass : MyClass, IMessage
+{
+	public new void Message() =&gt; Console.WriteLine(nameof(MyDerivedClass));
+}
+</code></pre>
+<p>要處理的話可以透過修改基底類別的方法並將它宣告為 virtual，之後衍生類別使用 override 進行覆寫。</p>
+<pre><code class="language-text">void Main()
+{
+	MyDerivedClass d = new MyDerivedClass();
+	d.Message(); // prints &quot;MyDerivedClass&quot;.
+	IMessage m = d as IMessage;
+	m.Message(); // prints &quot;MyDerivedClass&quot;
+	MyClass b = d;
+	b.Message(); // prints &quot;MyDerivedClass&quot;
+}
+
+interface IMessage
+{
+	void Message();
+}
+public class MyClass : IMessage
+{
+	public virtual void Message() =&gt; Console.WriteLine(nameof(MyClass));
+}
+
+public class MyDerivedClass : MyClass, IMessage
+{
+	public override void Message() =&gt; Console.WriteLine(nameof(MyDerivedClass));
+}
+</code></pre>
+<p>你也可以改用建立抽象類別與方法達到同樣的效果，在 MyClass 中雖然有實做介面但是沒有提供細節，反而是將實做細節的動作推遲到衍生類別，
+這段寫法展現出實做介面並不需要完整細節。</p>
+<pre><code class="language-text">void Main()
+{
+	MyDerivedClass d = new MyDerivedClass();
+	d.Message(); // prints &quot;MyDerivedClass&quot;.
+	IMessage m = d as IMessage;
+	m.Message(); // prints &quot;MyDerivedClass&quot;
+	MyClass b = d;
+	b.Message(); // prints &quot;MyDerivedClass&quot;
+}
+
+interface IMessage
+{
+	void Message();
+}
+public abstract class MyClass : IMessage
+{
+	public abstract void Message();
+}
+
+public class MyDerivedClass : MyClass, IMessage
+{
+	public override void Message() =&gt; Console.WriteLine(nameof(MyDerivedClass));
+}
+</code></pre>
+<p>也可以在基底類別實做介面細節，但是透過另一個內部的虛擬方法同樣能夠把運行細節往後推遲。</p>
+<pre><code class="language-text">void Main()
+{
+	MyDerivedClass d = new MyDerivedClass();
+	d.Message(); // prints &quot;MyDerivedClass&quot;.
+	IMessage m = d as IMessage;
+	m.Message(); // prints &quot;MyDerivedClass&quot;
+	MyClass b = d;
+	b.Message(); // prints &quot;MyDerivedClass&quot;
+}
+
+interface IMessage
+{
+	void Message();
+}
+public class MyClass : IMessage
+{
+	protected virtual void OnMessage() {}
+	public void Message()
+	{
+		OnMessage();
+	}
+}
+public class MyDerivedClass : MyClass, IMessage
+{
+	protected override void OnMessage() =&gt; Console.WriteLine(nameof(MyDerivedClass));
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>實做介面能與 abstract virtual 方法相比彈性更高，因為實做介面的時候可以為 virtual 或者是 abstract，
+或者是像最後一個寫法另外提供 virtual 方法給之後衍生類別實做細節。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-15'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
