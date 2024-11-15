@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 19.&#x907F;&#x514D;&#x5728;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x4E2D;&#x5B9A;&#x7FA9;&#x65B9;&#x6CD5;&#x591A;&#x8F09;(Avoid Overloading Methods Defined in Base Classes)">
+
+  <title>More Effective C# 19.&#x907F;&#x514D;&#x5728;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x4E2D;&#x5B9A;&#x7FA9;&#x65B9;&#x6CD5;&#x591A;&#x8F09;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-19'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 19.&#x907F;&#x514D;&#x5728;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x4E2D;&#x5B9A;&#x7FA9;&#x65B9;&#x6CD5;&#x591A;&#x8F09;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-19' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-19'>More Effective C# 19.&#x907F;&#x514D;&#x5728;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x4E2D;&#x5B9A;&#x7FA9;&#x65B9;&#x6CD5;&#x591A;&#x8F09;</a>
+              <span class="subheading">More Effective C# 19.&#x907F;&#x514D;&#x5728;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x4E2D;&#x5B9A;&#x7FA9;&#x65B9;&#x6CD5;&#x591A;&#x8F09;(Avoid Overloading Methods Defined in Base Classes)</span>
+          </h1>
+            <div class="meta">Published on Thursday, November 14, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法建議不要在衍生類別多載基底類別存在的方法，因為會造成誤會以及使用上的困擾。</p>
+<p>由於基底類別的開發者與衍生類別的開發者可能為不同人，可能會有某些熱門方法名稱大家都很愛用，導致在衍生類別寫出改變基底行為的多載方法，
+這個問題跟以前提到的使用 new 宣告新方法類似，因為它是透過隱藏基底方法而不是覆寫方法，所以結果就是使用時可能會與預期的不同。</p>
+<p>多載的解析規則是相當複雜的，它的目的是從多的候選方法中挑選出我們需要的那個方法，牽涉到的因素很多就有可能會挑選到錯誤的方法，可能的因素如以下:</p>
+<ol>
+<li>方法是否存在於目標類別上</li>
+<li>方法是否存在於目標類別的基底類別上</li>
+<li>方法是否存在於目標類別的介面上</li>
+<li>是否為類別擴充方法</li>
+<li>是否為泛型方法</li>
+<li>是否為泛型擴充方法</li>
+<li>是否有可選引數的多載方法</li>
+</ol>
+<p>由上面提到的因素來看，多載要解析出正確的方法已經很困難了，如果在加上一個本做法提到的因素只會讓結果更難預測也會混淆使用者，所以要解決
+本做法提到的問題也不難，只要使用不同的名稱也就是避免與基底類別重名就好了。</p>
+<p>假如我有以下類別，<code>Animal</code> 類別的 <code>Foo</code> 方法的參數為 <code>Apple</code>，但是衍生類別 <code>Tiger</code> 建立了多載方法並把它改成 <code>Fruit</code> 參數，</p>
+<pre><code class="language-text">public class Fruit { }
+public class Apple : Fruit { }
+
+public class Animal
+{
+    public void Foo(Apple parm) =&gt;
+        Console.WriteLine(&quot;In Animal.Foo&quot;);
+}
+public class Tiger : Animal
+{
+    public void Foo(Fruit parm) =&gt;
+        Console.WriteLine(&quot;In Tiger.Foo&quot;);
+}
+</code></pre>
+<p>當執行基底類別的方法時，結果很明顯是輸出 <code>In Animal.Foo</code>。</p>
+<pre><code class="language-text">var obj1 = new Animal();
+obj1.Foo(new Apple());
+</code></pre>
+<p>當執行衍生類別的方法時，結果竟然都是輸出 <code>In Tiger.Foo</code>，有些人可能會認為第一個呼叫應該要輸出 <code>In Animal.Foo</code> 才對，
+因為基底類別有提供 <code>Apple</code> 參數的版本，使用這個版本並不需要轉型才對，儘管基底類別有一個完全符合的方法，
+但正確的規則是編譯器會認為最後一層的衍生類別提供的方法才是最佳解。</p>
+<pre><code class="language-text">var obj2 = new Tiger();
+obj2.Foo(new Apple());
+obj2.Foo(new Fruit());
+</code></pre>
+<p>再來看看這個案例，雖然執行期型別為 <code>Tiger</code> 但是編譯時期型別為 <code>Animal</code>，所以會去調用基底類別的 <code>Foo</code> 方法，所以會輸出 <code>In Animal.Foo</code>。</p>
+<pre><code class="language-text">Animal obj3 = new Tiger();
+obj3.Foo(new Apple());
+</code></pre>
+<p>由於方法解析規則以衍生類別為優先，基底類別方法可能會被隱藏起來。所以需要通過 casting 才能顯式呼叫基類的方法</p>
+<pre><code class="language-text">var obj4 = new Tiger();
+((Animal)obj4).Foo(new Apple());
+obj4.Foo(new Fruit());
+</code></pre>
+<p>如果牽涉到泛型集合就又會有 Effective C# 22 提到的 <code>covariance</code> 與 <code>contravariance</code> 問題，新版的結果會輸出 <code>In Tiger.Baz2</code>。
+由於在 C# 4 以前的版本並沒有這個概念，所有引數都是 <code>Invariant</code>，結果就會輸出 <code>In Animal.Baz2</code>。</p>
+<pre><code class="language-text">void Main()
+{
+	var sequence = new List&lt;Apple&gt; { new Apple(), new Apple() };
+	var obj2 = new Tiger();
+	obj2.Baz(sequence);
+}
+
+public class Fruit { }
+public class Apple : Fruit { }
+
+public class Animal
+{
+	public void Foo(Apple parm) =&gt; Console.WriteLine(&quot;In Animal.Foo&quot;);
+	public void Bar(Fruit parm) =&gt; Console.WriteLine(&quot;In Animal.Bar&quot;);
+	public void Baz(IEnumerable&lt;Apple&gt; parm) =&gt; Console.WriteLine(&quot;In Animal.Baz2&quot;);
+}
+public class Tiger : Animal
+{
+	public void Foo(Fruit parm) =&gt; Console.WriteLine(&quot;In Tiger.Foo&quot;);
+	public void Bar(Fruit parm1, Fruit parm2 = null) =&gt; Console.WriteLine(&quot;In Tiger.Bar&quot;);
+	public void Baz(IEnumerable&lt;Fruit&gt; parm) =&gt; Console.WriteLine(&quot;In Tiger.Baz2&quot;);
+}
+</code></pre>
+<p>所以要避免誤會建議是直接避免在衍生類別使用相同的方法名稱，直接從根本解決這個問題。</p>
+<pre><code class="language-text">public class Animal
+{
+    public void Foo(Apple parm) =&gt; Console.WriteLine(&quot;In Animal.Foo&quot;);
+}
+public class Tiger : Animal
+{
+    public void FooForFruit(Fruit parm) =&gt; Console.WriteLine(&quot;In Tiger.FooForFruit&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法解釋了為何不要在衍生類別多載基底類別存在的方法，並且解釋多載解析的判斷因素，改用不一樣的名稱可以從根本杜絕這個問題。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-19'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
