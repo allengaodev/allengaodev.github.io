@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 17.&#x907F;&#x514D;&#x50B3;&#x56DE;&#x5167;&#x90E8;&#x985E;&#x5225;&#x7269;&#x4EF6;&#x7684;&#x53C3;&#x8003;(Avoid Returning References to Internal Class Objects)">
+
+  <title>More Effective C# 17.&#x907F;&#x514D;&#x50B3;&#x56DE;&#x5167;&#x90E8;&#x985E;&#x5225;&#x7269;&#x4EF6;&#x7684;&#x53C3;&#x8003;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-17'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 17.&#x907F;&#x514D;&#x50B3;&#x56DE;&#x5167;&#x90E8;&#x985E;&#x5225;&#x7269;&#x4EF6;&#x7684;&#x53C3;&#x8003;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-17' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-17'>More Effective C# 17.&#x907F;&#x514D;&#x50B3;&#x56DE;&#x5167;&#x90E8;&#x985E;&#x5225;&#x7269;&#x4EF6;&#x7684;&#x53C3;&#x8003;</a>
+              <span class="subheading">More Effective C# 17.&#x907F;&#x514D;&#x50B3;&#x56DE;&#x5167;&#x90E8;&#x985E;&#x5225;&#x7269;&#x4EF6;&#x7684;&#x53C3;&#x8003;(Avoid Returning References to Internal Class Objects)</span>
+          </h1>
+            <div class="meta">Published on Wednesday, November 13, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在做法 1 有稍微提到，就是資料封裝(Data encapsulation) 的概念，要避免把私有資料的 reference 回傳，否則就有被修改的風險。</p>
+<p>首先看看下面這段程式碼，<code>MyImportantClass</code> 會產生一筆重要的唯讀資料，但是它提供了一個 GetImportantData 方法能夠把這筆資料的參考
+傳出去，這樣就能透過 <code>MyClass</code> 光明正大地修改這比重要的資料了。</p>
+<pre><code class="language-text">void Main()
+{
+	var m = new MyClass();
+	Console.WriteLine(m.GetData());
+	m.Data.Clear();
+	Console.WriteLine(m.Data);
+}
+
+public class MyClass
+{
+	public List&lt;int&gt; Data { get; set; }
+	public MyClass()
+	{
+		Data = MyImportantClass.GetImportantData();
+	}
+
+	public List&lt;int&gt; GetData()
+	{
+		return MyImportantClass.GetImportantData();
+	}
+
+	private static class MyImportantClass
+	{
+		private static List&lt;int&gt; ImportantData { get; }
+
+		static MyImportantClass()
+		{
+			ImportantData = Enumerable.Range(1, 10).ToList();
+		}
+
+		internal static List&lt;int&gt; GetImportantData()
+		{
+			return ImportantData;
+		}
+	}
+}
+</code></pre>
+<p>這個操作破壞了封裝，因為呼叫者能略過你的物件去修改封裝在內部的參考，這會導致沒有經驗的工程師誤用你的 API，或者會有工程師在這個漏洞之上
+安插惡意的程式碼，現在有四種方式可以修正這個問題並保護你內部的資料安全。</p>
+<ol>
+<li>value types</li>
+<li>immutable types</li>
+<li>interfaces</li>
+<li>wrappers</li>
+</ol>
+<p>我們知道 value types 存取屬性時都是用複製的，所以可以透過這個特性確保回傳的值是一份新複製的版本，這樣呼叫者怎麼修改都不會影響到原始狀態。</p>
+<p>確保回傳 immutable types 也是安全的，因為呼叫者沒有權力修改內部狀態。</p>
+<p>第三個方式是透過自訂介面提供一組可操作內部狀態的方法，透過這種方式最小化內部狀態被修改的可能性，
+這樣呼叫者就只能依靠這組方法操作而不是把物件的完整修改權力都公開出去。</p>
+<p>最後一種方式是提供一個 wrappers 物件，也就是在原有物件上在包上一層 ReadOnly 的物件，直接達到避免被修改的目的。
+例如在 <code>List&lt;T&gt;</code> 外面套上一層 <code>ReadOnlyCollection&lt;T&gt;</code>，因為 <code>ReadOnlyCollection</code> 本身就沒有提供修改的方法所以可以達到避免被修改的需求。</p>
+<pre><code class="language-text">void Main()
+{
+	var m = new MyClass();
+	Console.WriteLine(m.GetData());
+	Console.WriteLine(m.GetData().GetHashCode());
+	//m.Data.Clear();
+}
+
+public struct MyClass
+{
+	public ReadOnlyCollection&lt;int&gt; Data { get; set; }
+	public MyClass()
+	{
+		Data = new ReadOnlyCollection&lt;int&gt;(MyImportantClass.GetImportantData());
+	}
+
+	public ReadOnlyCollection&lt;int&gt; GetData()
+	{
+		return new ReadOnlyCollection&lt;int&gt;(MyImportantClass.GetImportantData());
+	}
+
+	private struct MyImportantClass
+	{
+		private static List&lt;int&gt; ImportantData { get; }
+
+		static MyImportantClass()
+		{
+			ImportantData = Enumerable.Range(1, 10).ToList();
+		}
+
+		internal static List&lt;int&gt; GetImportantData()
+		{
+			return ImportantData;
+		}
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在討論那些可以略過你的設計直接修改內部狀態的問題，所以在設計方法時要額外注意回傳的是 reference 還是 value，
+另外提供了幾個設計方式避免這個問題，可以直接用 wrappers 套上一個唯讀層是最方便的。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-17'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

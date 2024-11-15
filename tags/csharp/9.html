@@ -97,6 +97,32 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
+  <p class="post-meta">Published on Sunday, April 16, 2023</p>
+<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
+在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
+閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-manager">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</a></h2>
+  <p class="post-meta">Published on Saturday, April 15, 2023</p>
+<p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
+但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 設計就是會將商業邏輯與存取邏輯分開<br>
+所以今天我們來看看 Identity 中常用的 Manager</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-customizing-basic">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5F9E;&#x96F6;&#x958B;&#x59CB;</a></h2>
+  <p class="post-meta">Published on Thursday, April 13, 2023</p>
+<p>在開發新專案時，身份驗證和授權通常為第一個實做的功能，在 dotnet 生態系中微軟官方會推薦你使用 ASP.NET Core Identity 來實踐
+大部分的文章只會要你使用 Visual Studio 直接勾選使用樣板，或是直接給你一段命令直接產生專案</p>    <p class="small"><a href="/posts/dotnet-identity-customizing-basic">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/csharp-priorityqueue">Dotnet C# PriorityQueue</a></h2>
   <p class="post-meta">Published on Tuesday, March 7, 2023</p>
 <p>今天來學習一下在 .Net6 才終於提供的 PriorityQueue，先到 <a href="https://github.com/dotnet/runtime/blob/main/src/libraries/System.Collections/src/System/Collections/Generic/PriorityQueue.cs" target="_blank">Github</a>上面查看一下原始碼</p>    <p class="small"><a href="/posts/csharp-priorityqueue">Read more...</a></p>
@@ -127,12 +153,12 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (83)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (86)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (16)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (19)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
           <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
           <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>

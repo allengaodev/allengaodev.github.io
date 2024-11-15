@@ -97,6 +97,30 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-10">Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;</a></h2>
+  <p class="post-meta">Published on Thursday, October 3, 2024</p>
+<p>這個做法在討論在衍生類別使用 new 和 override 對基底類別的影響，內容基本上與 LSP 原則重疊。</p>    <p class="small"><a href="/posts/effective-csharp-10">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-09">Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing</a></h2>
+  <p class="post-meta">Published on Wednesday, October 2, 2024</p>
+<p>這個做法在討論 boxing 與 unboxing 的運作方式與背後理論。
+首先要先複習 <code>Value Type</code> 和 <code>Reference Type</code> 兩者關鍵的區別，<code>Value Type</code> 的複製是 Copy-by-value，<code>Reference Type</code> 的複製是 Copy-by-reference。</p>    <p class="small"><a href="/posts/effective-csharp-09">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-08">Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</a></h2>
+  <p class="post-meta">Published on Sunday, September 29, 2024</p>
+<p>本做法介紹了 <code>?</code> 運算子的使用方式，與錯誤的使用 event 可能會造成 <code>NullReferenceException</code>。
+首先同樣也複習一下 event 的使用方式，典型的事件用法是在類別或物件發生變動時，告知其他類別或物件或者執行方法，
+通常會有一個發佈者(publisher)與接收者(subscriber)。</p>    <p class="small"><a href="/posts/effective-csharp-08">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-07">Effective C# 07.&#x4EE5; delegate &#x8868;&#x793A; callback</a></h2>
   <p class="post-meta">Published on Saturday, September 28, 2024</p>
 <p>本做法主要在介紹使用 delegate 的好處，可以先複習一下 lambda 還沒有出現前的寫法。</p>    <p class="small"><a href="/posts/effective-csharp-07">Read more...</a></p>
@@ -146,29 +170,6 @@
 當編譯器看到 <code>var</code> 關鍵字時會參考 <code>=</code> 右側的運算式，背後宣告這個區域變數的型別，可以省掉我們自行判斷宣告型別的流程。</p>    <p class="small"><a href="/posts/effective-csharp-01">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-server-identity">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server With ASP.NET Core Identity</a></h2>
-  <p class="post-meta">Published on Tuesday, May 9, 2023</p>
-<p>到目前為止 Identity Server 基礎部份都學習過了最後只剩下會員的添加與管理方式，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
-本系列一開始就有討論過了有需要的可以回去看看</p>    <p class="small"><a href="/posts/dotnet-identity-server-identity">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-server-efcore">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server EFCore</a></h2>
-  <p class="post-meta">Published on Monday, May 8, 2023</p>
-<p>到目前為止我們已經成功架設了 Identity Server 服務但是目前資料都是保存在記憶體內，今天來看看該怎麼把資料利用 EFCore 保存到任意資料庫內</p>    <p class="small"><a href="/posts/dotnet-identity-server-efcore">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-server-ui">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</a></h2>
-  <p class="post-meta">Published on Friday, May 5, 2023</p>
-<p>在上一篇的文章我們跟著 Identity Server 的官方教學照做了一遍，不過用起來跟 Google 好像不太一樣
-我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>    <p class="small"><a href="/posts/dotnet-identity-server-ui">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/tags/csharp/6" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -181,12 +182,12 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (83)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (86)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (16)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (19)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
           <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
           <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
