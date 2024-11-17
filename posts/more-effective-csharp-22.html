@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 22.&#x5EFA;&#x7ACB;&#x6E05;&#x695A;&#x7684;&#x3001;&#x6700;&#x5C11;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x5B8C;&#x6574;&#x7684;&#x65B9;&#x6CD5;&#x7FA4;(Create Method Groups That Are Clear, Minimal, and Complete)">
+
+  <title>More Effective C# 22.&#x5EFA;&#x7ACB;&#x6E05;&#x695A;&#x7684;&#x3001;&#x6700;&#x5C11;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x5B8C;&#x6574;&#x7684;&#x65B9;&#x6CD5;&#x7FA4;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-22'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 22.&#x5EFA;&#x7ACB;&#x6E05;&#x695A;&#x7684;&#x3001;&#x6700;&#x5C11;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x5B8C;&#x6574;&#x7684;&#x65B9;&#x6CD5;&#x7FA4;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-22' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-22'>More Effective C# 22.&#x5EFA;&#x7ACB;&#x6E05;&#x695A;&#x7684;&#x3001;&#x6700;&#x5C11;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x5B8C;&#x6574;&#x7684;&#x65B9;&#x6CD5;&#x7FA4;</a>
+              <span class="subheading">More Effective C# 22.&#x5EFA;&#x7ACB;&#x6E05;&#x695A;&#x7684;&#x3001;&#x6700;&#x5C11;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x5B8C;&#x6574;&#x7684;&#x65B9;&#x6CD5;&#x7FA4;(Create Method Groups That Are Clear, Minimal, and Complete)</span>
+          </h1>
+            <div class="meta">Published on Saturday, November 16, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法提供了幾條建議可以讓你寫的多載 API 能夠更加實用以及清楚。</p>
+<p>在之前的做法有提到編譯器在選擇最適當的方法有一連串的步驟，所以最好不要增加判斷的變數不然會造成編譯器判斷失誤。</p>
+<p>例如這個類別透過多載建立了兩個方法名稱為 Add 的方法，理論上它們要做的事情應該相同但實際上卻沒有，這就會導致誤會，
+這種時候就不應該使用多載，反而要提供更明確的名稱例如 <code>AddToList</code> 與 <code>AddToEachValue</code>。</p>
+<pre><code class="language-text">public class Vector
+{
+	private List&lt;double&gt; values = new List&lt;double&gt;();
+	
+	public void Add(double number) =&gt; values.Add(number);
+	public void Add(IEnumerable&lt;double&gt; sequence)
+	{
+		int index = 0;
+		foreach (double number in sequence)
+		{
+			if (index == values.Count)
+				return;
+			values[index++] += number;
+		}
+	}
+}
+</code></pre>
+<p>下面這段程式碼透過多載建立了針對特定型別的執行方法，並且內部執行的邏輯也一致，但有一個問題是如果今天傳入的是 <code>short</code>，那就會強迫編譯器
+幫你選擇更好的多載。</p>
+<pre><code class="language-text">public void Scale(float scaleFactor)
+{
+   for (int index = 0; index &lt; values.Count; index++)
+       values[index] *= scaleFactor;
+}
+public void Scale(double scaleFactor)
+{
+   for (int index = 0; index &lt; values.Count; index++)
+       values[index] *= scaleFactor;
+}
+</code></pre>
+<p>所以這種情況建議是提供完整的多載方法，例如下面這樣。</p>
+<pre><code class="language-text">public void Scale(short scaleFactor)
+ {
+    for (int index = 0; index &lt; values.Count; index++)
+        values[index] *= scaleFactor;
+ }
+ public void Scale(int scaleFactor)
+ {
+    for (int index = 0; index &lt; values.Count; index++)
+        values[index] *= scaleFactor;
+ }
+ public void Scale(float scaleFactor)
+ {
+    for (int index = 0; index &lt; values.Count; index++)
+        values[index] *= scaleFactor;
+ }
+ public void Scale(double scaleFactor)
+ {
+    for (int index = 0; index &lt; values.Count; index++)
+        values[index] *= scaleFactor;
+ }
+</code></pre>
+<p>接下來這段程式碼也是類似的問題，注意到提供的引數，一個是 int 一個是 long，最後會呼叫的是第二個都是 double 的多載版本，
+解決方法也一樣就是明確提供所有合理的組合。</p>
+<pre><code class="language-text">void Main()
+{
+	Point p = new Point { X = 5, Y = 7 };
+	p.Scale(5, 7L);
+}
+
+public class Point
+{
+	public double X { get; set; }
+	public double Y { get; set; }
+	public void Scale(int xScale, int yScale)
+	{
+		X *= xScale;
+		Y *= yScale;
+	}
+	public void Scale(double xScale, double yScale)
+	{
+		X *= xScale;
+		Y *= yScale;
+	}
+}
+</code></pre>
+<p>這裡的衍生類別擁有一個同名的方法 <code>Scale</code>，注意並沒有使用 new 或者 override，這樣就會造成混淆如果目的是要提供覆寫，
+那應該要在基底類別選告成 virtual 比較適當。</p>
+<pre><code class="language-text">void Main()
+{
+	Point3D p2 = new Point3D { X = 1, Y = 2, Z = 3 };
+	p2.Scale(3);
+}
+
+public class Point
+{
+	public double X { get; set; }
+	public double Y { get; set; }
+	public void Scale(int scale)
+	{
+		X *= scale;
+		Y *= scale;
+	}
+}
+public class Point3D : Point
+{
+	public double Z { get; set; }
+	public void Scale(double scale)
+	{
+		X *= scale;
+		Y *= scale;
+		Z *= scale;
+	}
+}
+</code></pre>
+<p>最後是泛型會導致的判斷問題，下面這段程式碼，第一個呼叫的是泛型 <code>Max&lt;int&gt;</code> 的方法，第二個是<code>Max(double,double)</code>，
+第三個則是 <code>Max&lt;float&gt;</code> 的方法，會造成這個結果是因為泛型只要有一個參數型別吻合就會優先使用，所以對第一個與第三個呼叫來說
+使用 <code>Max(double,double)</code> 需要經過轉換，使用泛型版本第一個參數一定是完全吻合，代表只有第二個參數才有需要轉換，所以用泛型版本比較快速。</p>
+<pre><code class="language-text">void Main()
+{
+	double a1 = Utilities.Max(1, 3);
+	double a2 = Utilities.Max(5.3, 12.7f);
+	double a3 = Utilities.Max(5, 12.7f);
+}
+
+public static class Utilities
+{
+	public static double Max(double left, double right) =&gt;
+		Math.Max(left, right);
+		
+	public static T Max&lt;T&gt;(T left, T right)
+		 where T : IComparable&lt;T&gt; =&gt;
+		(left.CompareTo(right) &gt; 0 ? left : right);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法提供了幾個案例讓我們了解語意模糊不清會帶來的困擾，所以建立多載並不是越多越好而是要提供符合最低需求的多載方法即可，
+過多的方法只會產生複雜度，並沒有增強可用性。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-22'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

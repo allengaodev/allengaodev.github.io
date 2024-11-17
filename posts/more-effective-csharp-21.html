@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 21.&#x53EA;&#x5BA3;&#x544A; Nonvirtual Event (Declare Only Nonvirtual Events)">
+
+  <title>More Effective C# 21.&#x53EA;&#x5BA3;&#x544A; Nonvirtual Event</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-21'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 21.&#x53EA;&#x5BA3;&#x544A; Nonvirtual Event' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-21' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-21'>More Effective C# 21.&#x53EA;&#x5BA3;&#x544A; Nonvirtual Event</a>
+              <span class="subheading">More Effective C# 21.&#x53EA;&#x5BA3;&#x544A; Nonvirtual Event (Declare Only Nonvirtual Events)</span>
+          </h1>
+            <div class="meta">Published on Saturday, November 16, 2024</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法警告不要宣告 <code>virtual event</code> 因為在衍生類別覆寫 event 可能會導致意料外的問題。</p>
+<p>在做法 16 有提到宣告事件時背後會產生 <code>add</code> 與 <code>remove</code> 存取子以及一個 private backing field 供事件使用，這就代表當衍生類別覆寫事件的時候
+因為 private 存取範圍導致 backing field 無法被存取，最後基底類別的事件無法正確觸發衍生類的事件。</p>
+<p>例如下面這段程式碼在衍生類別 <code>WorkerEngineDerived</code> 覆寫了 <code>OnProgress</code> 事件，這會產生兩個 private backing field 一個在基底類別一個在衍生類別，
+特別的是衍生類別的 backing field 會使用 new 來宣告，使用 new 來宣告的效果之前有提到過，就是透過隱藏的機制把基底類別的欄位隱藏起來，
+所以當我們註冊訂閱者的時候實際是註冊在衍生類別的 backing field 而不是在基底類別的 backing field 上，由於在衍生類別沒有 Invoke 相關的程式碼
+，結果就是 <code>SendConsoleLogger</code> 不會被執行。</p>
+<pre><code class="language-text">void Main()
+{
+	var w = new WorkerEngineDerived();
+	w.OnProgress += SendConsoleLogger;
+	((WorkerEngineBase)w).OnProgress += SendConsoleLogger;
+	w.DoLotsOfStuff();
+}
+
+public class WorkerEngineDerived : WorkerEngineBase
+{
+	protected override void SomeWork()
+	{
+		Thread.Sleep(50);
+	}
+
+	public override event EventHandler&lt;WorkerEventArgs&gt; OnProgress;
+}
+
+public abstract class WorkerEngineBase
+{
+	public virtual event EventHandler&lt;WorkerEventArgs&gt; OnProgress;
+	public void DoLotsOfStuff()
+	{
+		for (int i = 0; i &lt; 10; i++)
+		{
+			SomeWork();
+			WorkerEventArgs args = new WorkerEventArgs();
+			args.Percent = i;
+			OnProgress?.Invoke(this, args);
+			if (args.Cancel)
+				return;
+		}
+	}
+	protected abstract void SomeWork();
+}
+
+public class WorkerEventArgs : EventArgs
+{
+	public int Percent { get; set; }
+	public bool Cancel { get; set; }
+}
+
+public void SendConsoleLogger(object sender, WorkerEventArgs args)
+{
+	Console.Error.WriteLine(&quot;Work&quot;);
+}
+</code></pre>
+<p>從結果來說所有事件都是註冊在衍生類別的 backing field 上，所以基底類別的 <code>OnProgress?.Invoke</code> 其實一直都是在喚醒基底類別的
+backing field，才會導致沒有訂閱者執行的問題，有幾種解決辦法，一個是把基底類別的 <code>DoLotsOfStuff</code> 方法宣告成 virtual，並且在
+衍生類別覆寫這樣就能確保衍生類別的事件被順利喚醒。</p>
+<pre><code class="language-text">public class WorkerEngineDerived : WorkerEngineBase
+{
+	protected override void SomeWork()
+	{
+		Thread.Sleep(50);
+	}
+
+	public override event EventHandler&lt;WorkerEventArgs&gt; OnProgress;
+	
+	public override void DoLotsOfStuff()
+	{
+		for (int i = 0; i &lt; 10; i++)
+		{
+			SomeWork();
+			WorkerEventArgs args = new WorkerEventArgs();
+			args.Percent = i;
+			OnProgress?.Invoke(this, args);
+			if (args.Cancel)
+				return;
+		}
+	}
+}
+</code></pre>
+<p>第二個是調整衍生類別並改用 <code>add</code> 與 <code>remove</code> 存取子，這樣就不會在衍生類別生成 backing field，而是把所有存取事件都轉移到基底類別上。</p>
+<pre><code class="language-text">public class WorkerEngineDerived : WorkerEngineBase
+{
+	protected override void SomeWork()
+	{
+		Thread.Sleep(50);
+	}
+
+	public override event EventHandler&lt;WorkerEventArgs&gt; OnProgress
+	{
+		add { base.OnProgress += value; }
+		remove { base.OnProgress -= value; }
+	}
+}
+</code></pre>
+<p>還有一種是額外建立一個 virtual 方法 <code>RaiseEvent</code>，之後在衍生類別覆寫 RaiseEvent 就能喚醒正確的事件。</p>
+<pre><code class="language-text">void Main()
+{
+	var w = new WorkerEngineDerived();
+	w.OnProgress += SendConsoleLogger;
+	w.DoLotsOfStuff();
+}
+
+public class WorkerEngineDerived : WorkerEngineBase
+{
+	protected override void SomeWork()
+	{
+		Thread.Sleep(50);
+	}
+
+	public override event EventHandler&lt;WorkerEventArgs&gt; OnProgress;
+	protected override void RaiseEvent(WorkerEventArgs args)
+	{
+		OnProgress?.Invoke(this, args);
+	}
+}
+
+public abstract class WorkerEngineBase
+{
+	public virtual event EventHandler&lt;WorkerEventArgs&gt; OnProgress;
+	protected virtual void RaiseEvent(WorkerEventArgs args)
+	{
+		OnProgress?.Invoke(this, args);
+	}
+	public void DoLotsOfStuff()
+	{
+		for (int i = 0; i &lt; 10; i++)
+		{
+			SomeWork();
+			WorkerEventArgs args = new WorkerEventArgs();
+			args.Percent = i;
+			RaiseEvent(args);
+			if (args.Cancel)
+				return;
+		}
+	}
+	protected abstract void SomeWork();
+}
+
+public class WorkerEventArgs : EventArgs
+{
+	public int Percent { get; set; }
+	public bool Cancel { get; set; }
+}
+
+public void SendConsoleLogger(object sender, WorkerEventArgs args)
+{
+	Console.Error.WriteLine(&quot;Work&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法解說了宣告 <code>virtual event</code> 會造成理解上的誤會，並且要正確執行還需要額外的處理邏輯，雖然有對應的處理方式不過從結果上來看
+不要宣告成 <code>virtual</code> 其實才是最好的。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-21'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
