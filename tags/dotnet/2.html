@@ -57,6 +57,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -98,7 +106,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-user-logins">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</a></h2>
-  <p class="post-meta">Published on Wednesday, April 26, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;26&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
 所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
 </div>
@@ -106,7 +114,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-external-provider-google">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</a></h2>
-  <p class="post-meta">Published on Saturday, April 22, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;22&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>今天來學習如何在 .Net 中使用第三方登入, 我們之前在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面了解
 微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>    <p class="small"><a href="/posts/dotnet-identity-external-provider-google">Read more...</a></p>
 </div>
@@ -114,14 +122,14 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
-  <p class="post-meta">Published on Thursday, April 20, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;20&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
-  <p class="post-meta">Published on Monday, April 17, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;17&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
 現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
 </div>
@@ -129,7 +137,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
-  <p class="post-meta">Published on Sunday, April 16, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;16&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
 <p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
 在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
 閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
@@ -138,7 +146,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-manager">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</a></h2>
-  <p class="post-meta">Published on Saturday, April 15, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;15&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
 但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 設計就是會將商業邏輯與存取邏輯分開<br>
 所以今天我們來看看 Identity 中常用的 Manager</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
@@ -147,7 +155,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-customizing-basic">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5F9E;&#x96F6;&#x958B;&#x59CB;</a></h2>
-  <p class="post-meta">Published on Thursday, April 13, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;13&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>在開發新專案時，身份驗證和授權通常為第一個實做的功能，在 dotnet 生態系中微軟官方會推薦你使用 ASP.NET Core Identity 來實踐
 大部分的文章只會要你使用 Visual Studio 直接勾選使用樣板，或是直接給你一段命令直接產生專案</p>    <p class="small"><a href="/posts/dotnet-identity-customizing-basic">Read more...</a></p>
 </div>
@@ -155,21 +163,21 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/csharp-priorityqueue">Dotnet C# PriorityQueue</a></h2>
-  <p class="post-meta">Published on Tuesday, March 7, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;7&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
 <p>今天來學習一下在 .Net6 才終於提供的 PriorityQueue，先到 <a href="https://github.com/dotnet/runtime/blob/main/src/libraries/System.Collections/src/System/Collections/Generic/PriorityQueue.cs" target="_blank">Github</a>上面查看一下原始碼</p>    <p class="small"><a href="/posts/csharp-priorityqueue">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/csharp-array-compare">Dotnet C# Arrays &#x591A;&#x500B; Array &#x6BD4;&#x8F03;&#x65B9;&#x6CD5;</a></h2>
-  <p class="post-meta">Published on Tuesday, March 7, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;7&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
 <p>今天碰到了一個問題需要判斷兩個 int array 的值是否相同</p>    <p class="small"><a href="/posts/csharp-array-compare">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/csharp-list-sort">Dotnet C# List Sort &#x5404;&#x7A2E;&#x7528;&#x6CD5;</a></h2>
-  <p class="post-meta">Published on Monday, March 6, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;6&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>今天來複習一下 .Net 中排序的各種用法，首先是最簡單的由小到大排序</p>    <p class="small"><a href="/posts/csharp-list-sort">Read more...</a></p>
 </div>
 
@@ -184,10 +192,10 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (89)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (91)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (22)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (24)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>

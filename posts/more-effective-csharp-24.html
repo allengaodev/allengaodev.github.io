@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 24.&#x907F;&#x514D;&#x4F7F;&#x7528; ICloneable&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x9650;&#x5236;&#x4F60;&#x7684;&#x8A2D;&#x8A08;&#x9078;&#x64C7;(Avoid ICloneable because it limits your design choices)">
+
+  <title>More Effective C# 24.&#x907F;&#x514D;&#x4F7F;&#x7528; ICloneable&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x9650;&#x5236;&#x4F60;&#x7684;&#x8A2D;&#x8A08;&#x9078;&#x64C7;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-24'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 24.&#x907F;&#x514D;&#x4F7F;&#x7528; ICloneable&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x9650;&#x5236;&#x4F60;&#x7684;&#x8A2D;&#x8A08;&#x9078;&#x64C7;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-24' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-24'>More Effective C# 24.&#x907F;&#x514D;&#x4F7F;&#x7528; ICloneable&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x9650;&#x5236;&#x4F60;&#x7684;&#x8A2D;&#x8A08;&#x9078;&#x64C7;</a>
+              <span class="subheading">More Effective C# 24.&#x907F;&#x514D;&#x4F7F;&#x7528; ICloneable&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x9650;&#x5236;&#x4F60;&#x7684;&#x8A2D;&#x8A08;&#x9078;&#x64C7;(Avoid ICloneable because it limits your design choices)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;17&#x65E5; &#x661F;&#x671F;&#x65E5;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法建議不要實做 <code>ICloneable</code> 介面，還有 <code>Deep Copy</code> 和 <code>Shallow Copy</code> 的概念。</p>
+<p>下面這個介面是 <code>ICloneable</code> 的所有內容，他只需要實做一個 <code>Clone</code> 方法，但這有一個問題就是這個介面沒有明確說明
+該實做 <code>Deep Copy</code> 還是 <code>Shallow Copy</code>，所以每個人就會根據自己類別的需求來實做，這種不規範就會就成問題。</p>
+<pre><code class="language-text">public interface ICloneable
+{
+    object Clone();
+}
+</code></pre>
+<p><code>Shallow Copy</code>: 當成員為 <code>Value Type</code> 的時候複製新內容，但如果為 <code>Reference Type</code> 只會複製參考。
+<code>Deep Copy</code>: 不管 <code>Value Type</code> 或 <code>Reference Type</code> 都會複製一份新的內容。</p>
+<p>由於 <code>Shallow Copy</code> 在複製 <code>Reference Type</code> 的時候只會複製參考，因此複製後的物件會與舊物件共享同一份參考。
+<code>Deep Copy</code> 則會遞迴複製所有物件，確保新物件與原物件完全獨立。</p>
+<p>參考這段程式碼，輸出的結果為 null，這是因為 <code>Derived</code> 類別透過繼承使用 <code>Clone</code> 方法，但是新複製的型別為 <code>BaseType</code>
+所以不可能轉換成 <code>Derived</code> 類型，最後導致 <code>d2</code> 變數為 <code>null</code>，同時寫基底類別的 <code>Clone</code> 方法的時候不可能知道衍生類別會增加什麼成員，
+這也代表你只要在基底類別實做了 <code>ICloneable</code> 介面，就必須在衍生類別也實做它才能做到正確的複製。</p>
+<pre><code class="language-text">void Main()
+{
+	Derived d = new Derived();
+	Derived d2 = d.Clone() as Derived;
+	if (d2 == null)
+		Console.WriteLine(&quot;null&quot;);
+}
+
+class BaseType : ICloneable
+{
+	private string label = &quot;class name&quot;;
+	private int[] values = new int[10];
+	public object Clone()
+	{
+		BaseType rVal = new BaseType();
+		rVal.label = label;
+		for (int i = 0; i &lt; values.Length; i++)
+			rVal.values[i] = values[i];
+		return rVal;
+	}
+}
+class Derived : BaseType
+{
+	private double[] dValues = new double[10];
+}
+</code></pre>
+<p>要解決這個問題可以建立 <code>Copy Constructor</code>，它是一種能用來複製的建構函式，通常需要傳入一個物件並建造出一個相等的物件。
+這樣就能避免在基底類別實做 <code>ICloneable</code> 介面，之後在衍生類別只要呼叫這個 <code>Copy Constructor</code> 就能做到複製的效果。</p>
+<pre><code class="language-text">class BaseType
+{
+    private string label;
+    private int[] values;
+
+    protected BaseType() // 預設建構子
+    {
+        label = &quot;class name&quot;;
+        values = new int[10];
+    }
+
+    // Copy Constructor，供衍生類別使用
+    protected BaseType(BaseType other)
+    {
+        label = other.label;
+        values = (int[])other.values.Clone();
+    }
+}
+
+sealed class Derived : BaseType, ICloneable
+{
+    private double[] dValues;
+
+    public Derived()
+    {
+        dValues = new double[10];
+    }
+
+    private Derived(Derived other) : base(other)
+    {
+        dValues = (double[])other.dValues.Clone();
+    }
+
+    public object Clone()
+    {
+        return new Derived(this);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>實做 <code>ICloneable</code> 介面會影響到繼承，導致衍生類別都需要額外實做 <code>ICloneable</code> 介面保證功能能正常運作，由於不能確定使用者提供的
+是 <code>Deep Copy</code> 和 <code>Shallow Copy</code> 所以建議是完全不要實做 <code>ICloneable</code> 介面比較好，改成用 <code>Copy Constructor</code> 明確進行複製也能達到同樣的效果。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-24'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

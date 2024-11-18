@@ -57,6 +57,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -97,7 +105,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on Saturday, June 10, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;10&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
 但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
 </div>
@@ -105,10 +113,10 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (89)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (91)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (22)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (24)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>

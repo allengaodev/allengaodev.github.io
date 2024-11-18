@@ -57,6 +57,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -97,7 +105,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-server-identity">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server With ASP.NET Core Identity</a></h2>
-  <p class="post-meta">Published on Tuesday, May 9, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;9&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
 <p>到目前為止 Identity Server 基礎部份都學習過了最後只剩下會員的添加與管理方式，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
 本系列一開始就有討論過了有需要的可以回去看看</p>    <p class="small"><a href="/posts/dotnet-identity-server-identity">Read more...</a></p>
 </div>
@@ -105,14 +113,14 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-server-efcore">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server EFCore</a></h2>
-  <p class="post-meta">Published on Monday, May 8, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;8&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>到目前為止我們已經成功架設了 Identity Server 服務但是目前資料都是保存在記憶體內，今天來看看該怎麼把資料利用 EFCore 保存到任意資料庫內</p>    <p class="small"><a href="/posts/dotnet-identity-server-efcore">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-server-ui">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</a></h2>
-  <p class="post-meta">Published on Friday, May 5, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;5&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>在上一篇的文章我們跟著 Identity Server 的官方教學照做了一遍，不過用起來跟 Google 好像不太一樣
 我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>    <p class="small"><a href="/posts/dotnet-identity-server-ui">Read more...</a></p>
 </div>
@@ -120,7 +128,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-server">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server</a></h2>
-  <p class="post-meta">Published on Wednesday, May 3, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;3&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>在上一篇文章有提到要建立自己的 OIDC 伺服器，今天就來看看在 .NET 生態系中經常使用到的 <code>Identity Server</code>
 這篇文章使用的是 <code>Duende.IdentityServer</code> 可以在測試及與開發時免費使用</p>    <p class="small"><a href="/posts/dotnet-identity-server">Read more...</a></p>
 </div>
@@ -128,7 +136,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-oauth-oidc">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;OAuth &#x548C; Oidc</a></h2>
-  <p class="post-meta">Published on Sunday, April 30, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;30&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
 <p>在之前的文章中我們利用微軟提供的 Package <code>Microsoft.AspNetCore.Authentication.Google</code> 成功實踐了 Google 外部登入
 我們只要在 <code>Program.cs</code> 的 <code>IServiceCollection</code> 呼叫 <code>AddGoogle</code> 方法即可，接下來的流程就交給內建的 SignInManager 處理</p>    <p class="small"><a href="/posts/dotnet-identity-oauth-oidc">Read more...</a></p>
 </div>
@@ -136,7 +144,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-user-tokens">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens</a></h2>
-  <p class="post-meta">Published on Friday, April 28, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
 分別使用到 SignInManager 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>    <p class="small"><a href="/posts/dotnet-identity-user-tokens">Read more...</a></p>
 </div>
@@ -144,7 +152,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-user-logins">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</a></h2>
-  <p class="post-meta">Published on Wednesday, April 26, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;26&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
 所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
 </div>
@@ -152,7 +160,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-external-provider-google">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</a></h2>
-  <p class="post-meta">Published on Saturday, April 22, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;22&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>今天來學習如何在 .Net 中使用第三方登入, 我們之前在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面了解
 微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>    <p class="small"><a href="/posts/dotnet-identity-external-provider-google">Read more...</a></p>
 </div>
@@ -160,14 +168,14 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
-  <p class="post-meta">Published on Thursday, April 20, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;20&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
-  <p class="post-meta">Published on Monday, April 17, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;17&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
 現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
 </div>
@@ -183,10 +191,10 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (89)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (91)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (22)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (24)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>

@@ -57,6 +57,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -98,7 +106,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-01">Effective C# 01.&#x504F;&#x597D;&#x96B1;&#x542B;&#x578B;&#x5225;&#x7684;&#x5340;&#x57DF;&#x8B8A;&#x6578;</a></h2>
-  <p class="post-meta">Published on Saturday, September 21, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;21&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
 當編譯器看到 <code>var</code> 關鍵字時會參考 <code>=</code> 右側的運算式，背後宣告這個區域變數的型別，可以省掉我們自行判斷宣告型別的流程。</p>    <p class="small"><a href="/posts/effective-csharp-01">Read more...</a></p>
 </div>
@@ -114,10 +122,10 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (89)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (91)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (22)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (24)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>

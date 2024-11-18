@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 23.&#x90E8;&#x5206;&#x985E;&#x5225;&#x7684;&#x5EFA;&#x69CB;&#x51FD;&#x5F0F;&#x3001;&#x66F4;&#x52D5;&#x5B50;&#x8207; Event handler &#x4F7F;&#x7528;&#x90E8;&#x5206;&#x65B9;&#x6CD5;(Give Partial Classes Partial Methods for Constructors, Mutators, and Event Handlers)">
+
+  <title>More Effective C# 23.&#x90E8;&#x5206;&#x985E;&#x5225;&#x7684;&#x5EFA;&#x69CB;&#x51FD;&#x5F0F;&#x3001;&#x66F4;&#x52D5;&#x5B50;&#x8207; Event handler &#x4F7F;&#x7528;&#x90E8;&#x5206;&#x65B9;&#x6CD5;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-23'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 23.&#x90E8;&#x5206;&#x985E;&#x5225;&#x7684;&#x5EFA;&#x69CB;&#x51FD;&#x5F0F;&#x3001;&#x66F4;&#x52D5;&#x5B50;&#x8207; Event handler &#x4F7F;&#x7528;&#x90E8;&#x5206;&#x65B9;&#x6CD5;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-23' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-23'>More Effective C# 23.&#x90E8;&#x5206;&#x985E;&#x5225;&#x7684;&#x5EFA;&#x69CB;&#x51FD;&#x5F0F;&#x3001;&#x66F4;&#x52D5;&#x5B50;&#x8207; Event handler &#x4F7F;&#x7528;&#x90E8;&#x5206;&#x65B9;&#x6CD5;</a>
+              <span class="subheading">More Effective C# 23.&#x90E8;&#x5206;&#x985E;&#x5225;&#x7684;&#x5EFA;&#x69CB;&#x51FD;&#x5F0F;&#x3001;&#x66F4;&#x52D5;&#x5B50;&#x8207; Event handler &#x4F7F;&#x7528;&#x90E8;&#x5206;&#x65B9;&#x6CD5;(Give Partial Classes Partial Methods for Constructors, Mutators, and Event Handlers)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;17&#x65E5; &#x661F;&#x671F;&#x65E5;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法講解了 <code>Partial Classes</code> 與 <code>Partial Methods</code> 建議的使用場景與背後原理。</p>
+<p><code>Partial Classes</code> 提供了一個機制能讓程式設計師把一個 <code>Class</code> 分割成多份，例如下面這段程式碼把 <code>Employee</code> 類別分割成兩份，
+並且裡面包含著不同的方法，最後經過編譯器處理後會把它們重新集合起來，這種機制能讓我們把把一個大的類別分割成多個小類別，讓我們能更容易的讀懂內容。</p>
+<pre><code class="language-text">public partial class Employee
+{
+	public void DoWork() {}
+}
+
+public partial class Employee
+{
+	public void GoToLunch() {}
+}
+
+public class Program
+{
+	public static void Main()
+	{
+		Employee emp = new Employee();
+		emp.DoWork();
+		emp.GoToLunch();
+	}
+}
+</code></pre>
+<p>另一種使用場景是在程式碼產生器，由於產生出來的程式碼不建議修改，因為可能把你修改的內容覆蓋掉，所以就可以透過 <code>Partial Classes</code>
+把產生出來的程式碼分割成一份，然後把需要客製化的內容分割成另外一份就可以避免覆蓋的問題。</p>
+<p>可以想像成同時有兩個開發者在開發同一個功能，並且由於是分割的檔案所以以後也沒有合併衝突的問題，這個對版本管理有幫助。</p>
+<p>要想達到與程式碼產生器一起工作則需要添加一些額外的設計，這時候就可以用到 <code>Partial Methods</code>，首先程式碼產生器需要在建立出來的程式碼中
+穿插 hooks，這樣在未來才可以讓工程師把客製化的程式碼掛上流程，不過使用 <code>Partial Methods</code> 有一些限制例如:</p>
+<ol>
+<li>只能是 void 方法。</li>
+<li>不能是 abstract 或 virtual 方法。</li>
+<li>不能包含 out 引數。</li>
+</ol>
+<p>有三種成員型別建議可以加上 <code>Partial Methods</code> 這樣在未來能讓開發者增加監控程式碼或者調整類別的行為。</p>
+<ol>
+<li>Mutator Methods</li>
+<li>Event Handlers</li>
+<li>Constructors</li>
+</ol>
+<hr />
+<h2 id="mutator-methods">Mutator Methods</h2>
+<p><code>Mutator methods</code> 泛指那些會修改狀態的任何方法，我們可以在修改過程中穿插一些程式碼，這樣就能做到事前驗證或者
+狀態修改後進行記錄，這裡建議提供兩個擴展點，分別是變更前與變更後。</p>
+<p>例如我可以產生 <code>ReportValueChanging</code> 方法用來在狀態改變之前呼叫，用於驗證或中斷變更，<code>ReportValueChanged</code>
+方法用來在狀態改變之後呼叫，用於處理後續邏輯。</p>
+<p>下面這段程式碼新增了兩個 <code>Partial Methods</code> 特別是不需要提供實做細節也能編譯成功，另外注意到 <code>UpdateValue</code> 方法
+在狀態修改前呼叫 <code>ReportValueChanging</code> 還有在狀態修改後呼叫 <code>ReportValueChanged</code>。</p>
+<pre><code class="language-text">public partial class GeneratedStuff
+{
+	private struct ReportChange
+	{
+		public readonly int OldValue;
+		public readonly int NewValue;
+		public ReportChange(int oldValue, int newValue)
+		{
+			OldValue = oldValue;
+			NewValue = newValue;
+		}
+	}
+	private class RequestChange
+	{
+		public ReportChange Values { get; set; }
+		public bool Cancel { get; set; }
+	}
+	
+	partial void ReportValueChanging(RequestChange args);
+	partial void ReportValueChanged(ReportChange values);
+	private int storage = 0;
+	
+	public void UpdateValue(int newValue)
+	{
+		// Precheck the change
+		RequestChange updateArgs = new RequestChange
+		{
+			Values = new ReportChange(storage, newValue)
+		};
+		ReportValueChanging(updateArgs);
+		if (!updateArgs.Cancel)
+		{
+			storage = newValue;
+			ReportValueChanged(new ReportChange(storage, newValue));
+		}
+	}
+}
+</code></pre>
+<p>這種做法的好處是就算  <code>Partial Methods</code> 不提供實做細節也不會影響編譯流程，因為編譯器會自動把這些沒有實做的方法移除掉，
+這樣當使用者想加入額外邏輯就實做 <code>Partial Methods</code>，不想也沒有關係，因為也不會有影響。</p>
+<p>如果沒有提供實做細節，編譯器會把自動移除方法，類似下方這樣。</p>
+<pre><code class="language-text">public void UpdateValue(int newValue)
+{
+   RequestChange updateArgs = new RequestChange
+   {
+       Values = new ReportChange(this.storage, newValue)
+   };
+   if (!updateArgs.Cancel)
+   {
+       this.storage = newValue;
+   }
+}
+</code></pre>
+<p>如果想要也可以提供細節，像下方這樣可以做到額外的日誌記錄功能，或者事前驗證功能。</p>
+<pre><code class="language-text">public partial class GeneratedStuff
+{
+   partial void ReportValueChanging(RequestChange args)
+   {
+       if (args.Values.NewValue &lt; 0)
+       {
+           Console.WriteLine($&#64;&quot;Invalid value: {args.Values.NewValue}, canceling&quot;);
+           args.Cancel = true;
+       }
+       else
+           Console.WriteLine($&#64;&quot;Changing {args.Values.OldValue} to {args.Values.NewValue}&quot;);
+   }
+   partial void ReportValueChanged(ReportChange values)
+   {
+       Console.WriteLine($&#64;&quot;Changed{values.OldValue} to {values.NewValue}&quot;);
+   }
+}
+</code></pre>
+<hr />
+<h2 id="event-handlers">Event Handlers</h2>
+<p>其實事件想要做到的事情也差不多，就是在事件發生前與事件發生後提供兩個 hooks 讓我們掛上自己的程式碼，例如下面這樣。</p>
+<pre><code class="language-text">public partial class GeneratedStuff
+{
+    public event EventHandler&lt;EventArgs&gt; SomeEvent;
+
+    partial void BeforeEventTriggered();
+    partial void AfterEventTriggered();
+
+    public void TriggerEvent()
+    {
+        // 事件觸發前
+        BeforeEventTriggered();
+        // 觸發事件
+        SomeEvent?.Invoke(this, EventArgs.Empty);
+        // 事件觸發後
+        AfterEventTriggered();
+    }
+}
+</code></pre>
+<hr />
+<h2 id="constructors">Constructors</h2>
+<p>最後是建構函式，能夠在初始化過程中新增部分方法 <code>Initialize()</code>，之後開發者就能透過實作此方法插入自己的初始化邏輯。</p>
+<pre><code class="language-text">public partial class GeneratedStuff
+{
+    private int storage;
+    partial void Initialize(); // 提供給開發者的初始化擴展點
+    public GeneratedStuff() : this(0) { } // 預設建構函式
+    public GeneratedStuff(int initialValue) // 帶參數建構函式
+    {
+        storage = initialValue;
+        Initialize(); // 呼叫部分方法以執行用戶邏輯
+    }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p><code>Partial Classes</code> 與 <code>Partial Methods</code> 能夠讓程式碼產生器和開發者的合作更加靈活，並且讓開發者不會去修改自動生成的程式碼
+避免被覆蓋的風險，也能在事件或建構函式中穿插 <code>Partial Methods</code> 提供擴展點做到日誌追蹤等功能，關鍵就是提供擴展點避免人們手動去修改
+更關鍵的程式碼，這種模式很適合用來開發框架。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-23'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
