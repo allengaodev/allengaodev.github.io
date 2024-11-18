@@ -99,6 +99,15 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on Wednesday, June 7, 2023</p>
+<p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
+資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
+設定檔這方面的問題。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-configuration">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/rabbitmq-basic-rpc">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;RPC &#x6A21;&#x5F0F;</a></h2>
   <p class="post-meta">Published on Sunday, June 4, 2023</p>
 <p>今天是 RabbitMQ 基礎用法的最後一篇，之前在討論非同步任務了解到我們可以建立一個 <code>Queue</code> 並且背後建立多個 <code>Worker</code> 來分散執行的任務，這種模式有一個問題
@@ -115,15 +124,6 @@
 它會一次發送給有綁定到 <code>Exchange</code> 上的所有 <code>Queue</code>，如果只想要發送給某個特定族群的 <code>Queue</code> 就可以選擇使用 <code>Direct</code>, <code>Topic</code> 或者 <code>Header</code> 模式。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-fanout">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Fanout</a></h2>
-  <p class="post-meta">Published on Saturday, May 27, 2023</p>
-<p>到目前為止我們已經學會了 RabbitMQ 中最基礎的應用，在上一篇文章中這種一個 <code>Queue</code> 搭配多個 <code>Consumer</code> 的模式叫做 <code>Competing Consumers Pattern</code>
-，不過就如同它名稱所示 <code>消費者競爭模式</code> 每一個 <code>Consumer</code> 都是競爭關係代表信息被某一個 <code>Consumer</code> 取得之後其它的 <code>Consumer</code>
-就再也沒有機會知道這條信息裡面有什麼內容。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-fanout">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/page/30" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -138,10 +138,10 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (90)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (91)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (23)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (24)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
               <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
