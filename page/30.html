@@ -58,6 +58,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -100,7 +108,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on Saturday, June 10, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;10&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
 但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
 </div>
@@ -108,7 +116,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-usersecrets-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; UserSecrets &#x8B80;&#x53D6;&#x4FDD;&#x8B77;&#x7684;&#x8A2D;&#x5B9A;&#x503C;</a></h2>
-  <p class="post-meta">Published on Friday, June 9, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;9&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
 可能被外漏出去會造成很大的問題，因此 Dotnet 提供了 <code>Microsoft.Extensions.Configuration.UserSecrets</code>
 這個 Package 給我們使用。</p>    <p class="small"><a href="/posts/dotnet-usersecrets-with-configuration">Read more...</a></p>
@@ -117,7 +125,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-ioptions">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Bind &#x548C; IOptions&lt;T&gt; &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on Thursday, June 8, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;8&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>在上一篇文章中我們學到了該怎麼使用 Configuration 相關的 Package，程式將透過 DI 容器取得 <code>ConfigurationRoot</code> 可以方便
 讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
 因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到

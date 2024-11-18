@@ -57,6 +57,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -97,7 +105,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/bitwarden-design-user-login">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;</a></h2>
-  <p class="post-meta">Published on Thursday, May 18, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;18&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>在之前的文章中我們已經了解 Bitwarden 的註冊與加密流程，現在我們加密帳號資料已經安全的保存在 Bitwarden 雲端上了，
 接下來我們來看看 Bitwarden 是如何進行登入流程。</p>    <p class="small"><a href="/posts/bitwarden-design-user-login">Read more...</a></p>
 </div>
@@ -105,14 +113,14 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/bitwarden-design-user-register-encryption">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;</a></h2>
-  <p class="post-meta">Published on Monday, May 15, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;15&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>在上一篇文章中我們了解 Bitwarden 的註冊流程，今天來討論它背後是如何進行加密的。</p>    <p class="small"><a href="/posts/bitwarden-design-user-register-encryption">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/bitwarden-design-user-register">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x8A3B;&#x518A;&#x6D41;&#x7A0B;</a></h2>
-  <p class="post-meta">Published on Friday, May 12, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;12&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>在上一篇的文章中成功建立起 Bitwarden 的本地開發環境並且成功的註冊了一個新會員，本篇文章會來討論 Bitwarden
 是如何處理會員註冊邏輯，並且跟一般的註冊邏輯進行比較看看有什麼不同</p>    <p class="small"><a href="/posts/bitwarden-design-user-register">Read more...</a></p>
 </div>
@@ -120,7 +128,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/bitwarden-design-startup">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x5EFA;&#x7ACB;&#x672C;&#x5730;&#x958B;&#x767C;&#x74B0;&#x5883;</a></h2>
-  <p class="post-meta">Published on Thursday, May 11, 2023</p>
+  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;11&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>Bitwarden 作為一套知名的密碼管理系統想當然關於安全性方面的設計肯定需要比一般的系統更加謹慎。
 密碼管理系統一旦有漏洞數以萬計的密碼就會外流到網路上，並且如果使用者安全習慣並不好所有網站都使用
 同一個密碼或者密碼過於簡單就會造成災耐。</p>    <p class="small"><a href="/posts/bitwarden-design-startup">Read more...</a></p>

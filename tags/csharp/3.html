@@ -57,6 +57,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -98,21 +106,21 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/more-effective-csharp-04">More Effective C# 04.&#x5340;&#x5206;&#x5BE6;&#x503C;&#x8207;&#x53C3;&#x8003;&#x578B;&#x5225;</a></h2>
-  <p class="post-meta">Published on Sunday, November 3, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;3&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
 <p>這個做法在討論 Value Types 和 Reference Types 兩種型別中複製與傳遞的差異性與它們的使用場合。</p>    <p class="small"><a href="/posts/more-effective-csharp-04">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/more-effective-csharp-03">More Effective C# 03.&#x5BE6;&#x503C;&#x985E;&#x578B;&#x512A;&#x5148;&#x4F7F;&#x5176;&#x5177;&#x4E0D;&#x53EF;&#x8B8A;&#x6027;</a></h2>
-  <p class="post-meta">Published on Friday, November 1, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;1&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>這個做法說明了 <code>immutable types</code> 與讓類別或結構擁有 <code>immutability</code> 特性的好處與案例。</p>    <p class="small"><a href="/posts/more-effective-csharp-03">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/more-effective-csharp-02">More Effective C# 02.&#x53EF;&#x8B8A;&#x52D5;&#x7684;&#x8CC7;&#x6599;&#x512A;&#x5148;&#x4F7F;&#x7528;&#x96B1;&#x85CF;&#x5C6C;&#x6027;</a></h2>
-  <p class="post-meta">Published on Friday, November 1, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;1&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>這個做法提到了 <code>Implicit Properties</code> 但實際上就是上一個做法提到的 <code>automatically implemented properties</code>，
 並且對 <code>Implicit Properties</code> 進行詳細描述。</p>    <p class="small"><a href="/posts/more-effective-csharp-02">Read more...</a></p>
 </div>
@@ -120,7 +128,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/more-effective-csharp-01">More Effective C# 01.&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x53D6;&#x4EE3;&#x53EF;&#x5B58;&#x53D6;&#x7684;&#x8CC7;&#x6599;&#x6210;&#x54E1;</a></h2>
-  <p class="post-meta">Published on Thursday, October 31, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;31&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>這個做法建議不要使用 <code>public field</code> 的寫法而是改用 <code>automatically implemented properties</code>，
 或者自己在屬性撰寫 <code>get</code>、<code>set</code> 存取子來存取 <code>private field</code>。</p>    <p class="small"><a href="/posts/more-effective-csharp-01">Read more...</a></p>
 </div>
@@ -128,42 +136,42 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-summary">Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</a></h2>
-  <p class="post-meta">Published on Wednesday, October 30, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;30&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>本文章對書中 50 個做法進行總整理，以及對每個做法做出簡短總結，方便日後查看。</p>    <p class="small"><a href="/posts/effective-csharp-summary">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-50">Effective C# 50.&#x5229;&#x7528;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x7684;&#x526F;&#x4F5C;&#x7528;</a></h2>
-  <p class="post-meta">Published on Wednesday, October 30, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;30&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>這個做法在對做法 49 的 Exception Filters 進行補充以及它的特性。</p>    <p class="small"><a href="/posts/effective-csharp-50">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-49">Effective C# 49.&#x504F;&#x597D;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x800C;&#x975E; catch &#x8207;&#x91CD;&#x65B0;&#x62CB;&#x51FA;</a></h2>
-  <p class="post-meta">Published on Tuesday, October 29, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
 <p>這個做法說明了 Exception Filters 與 when 子句的使用方式，還有與舊的判斷語句寫法進行比較。</p>    <p class="small"><a href="/posts/effective-csharp-49">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-48">Effective C# 48.&#x504F;&#x597D;&#x5F37;&#x4F8B;&#x5916;&#x4FDD;&#x8B49;</a></h2>
-  <p class="post-meta">Published on Tuesday, October 29, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
 <p>在做法 39 有提到 <code>Strong exception guarantee</code> 這個概念，這個做法會對三種保證進行詳細說明。</p>    <p class="small"><a href="/posts/effective-csharp-48">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-47">Effective C# 47.&#x5EFA;&#x69CB;&#x5B8C;&#x6574;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x5C08;&#x5C6C;&#x4F8B;&#x5916;&#x985E;&#x5225;</a></h2>
-  <p class="post-meta">Published on Tuesday, October 29, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
 <p>這個做法提出建立你自己客製的 Exception 能夠比直接用預設類別帶來更多詳細的錯誤資訊。</p>    <p class="small"><a href="/posts/effective-csharp-47">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-46">Effective C# 46.&#x4EE5; using &#x8207; try/final &#x6E05;&#x7406;&#x8CC7;&#x6599;</a></h2>
-  <p class="post-meta">Published on Monday, October 28, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>這個做法在之前也提到過很多次了，就是要用 using 或是 try/final 來確保資源一定能正確釋放掉。</p>    <p class="small"><a href="/posts/effective-csharp-46">Read more...</a></p>
 </div>
 

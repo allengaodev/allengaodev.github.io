@@ -57,6 +57,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -98,7 +106,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-15">Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6;</a></h2>
-  <p class="post-meta">Published on Friday, October 11, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;11&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>這個做法提出了建立過多物件會影響效率的概念，雖然我們的系統有 GC 能夠高效的管理記憶體中的物件，
 但清除的效率在快還不如不創建無意義的物件，從根本上解決過度使用 GC 的導致的效率問題。</p>    <p class="small"><a href="/posts/effective-csharp-15">Read more...</a></p>
 </div>
@@ -106,21 +114,21 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-14">Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;</a></h2>
-  <p class="post-meta">Published on Thursday, October 10, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;10&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>在做法 12 提到多個建構函式很容易造成每個建構函式有細微的區別，因此使用 <code>Member Initializers</code> 在宣告時直接賦值以解決這個問題。</p>    <p class="small"><a href="/posts/effective-csharp-14">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-13">Effective C# 13.&#x5C0D;&#x975C;&#x614B;&#x985E;&#x5225;&#x6210;&#x54E1;&#x9032;&#x884C;&#x9069;&#x7576;&#x7684;&#x521D;&#x59CB;&#x5316;</a></h2>
-  <p class="post-meta">Published on Wednesday, October 9, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;9&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>這個做法在討論靜態成員與靜態建構函式該如何初始化。</p>    <p class="small"><a href="/posts/effective-csharp-13">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-12">Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0;</a></h2>
-  <p class="post-meta">Published on Tuesday, October 8, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;8&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
 <p>這個做法介紹了成員初始化的另一種做法，一般來說都是常用建構函式來初始化成員，不過一個類別通常會有超過一個建構函式，
 在這種情況下時間一長就很容易造成每個建構函式有細微的區別產生不同步的情況。</p>    <p class="small"><a href="/posts/effective-csharp-12">Read more...</a></p>
 </div>
@@ -128,7 +136,7 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-11">Effective C# 11.&#x8A8D;&#x8B58; .NET &#x8CC7;&#x6E90;&#x7BA1;&#x7406;</a></h2>
-  <p class="post-meta">Published on Sunday, October 6, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;6&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
 <p>本做法討論幾個與 GC 相關的基本知識: <code>Managed</code>、<code>Unmanaged</code>、<code>Finalizer</code>
 GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記憶體洩漏這種記憶體管理的問題，大多數情況讓 GC 自行運作比你自己手動清理做的更好。</p>    <p class="small"><a href="/posts/effective-csharp-11">Read more...</a></p>
 </div>
@@ -136,14 +144,14 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-10">Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;</a></h2>
-  <p class="post-meta">Published on Thursday, October 3, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;3&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>這個做法在討論在衍生類別使用 new 和 override 對基底類別的影響，內容基本上與 LSP 原則重疊。</p>    <p class="small"><a href="/posts/effective-csharp-10">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-09">Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing</a></h2>
-  <p class="post-meta">Published on Wednesday, October 2, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;2&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>這個做法在討論 boxing 與 unboxing 的運作方式與背後理論。
 首先要先複習 <code>Value Type</code> 和 <code>Reference Type</code> 兩者關鍵的區別，<code>Value Type</code> 的複製是 Copy-by-value，<code>Reference Type</code> 的複製是 Copy-by-reference。</p>    <p class="small"><a href="/posts/effective-csharp-09">Read more...</a></p>
 </div>
@@ -151,7 +159,7 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-08">Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</a></h2>
-  <p class="post-meta">Published on Sunday, September 29, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;29&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
 <p>本做法介紹了 <code>?</code> 運算子的使用方式，與錯誤的使用 event 可能會造成 <code>NullReferenceException</code>。
 首先同樣也複習一下 event 的使用方式，典型的事件用法是在類別或物件發生變動時，告知其他類別或物件或者執行方法，
 通常會有一個發佈者(publisher)與接收者(subscriber)。</p>    <p class="small"><a href="/posts/effective-csharp-08">Read more...</a></p>
@@ -160,14 +168,14 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-07">Effective C# 07.&#x4EE5; delegate &#x8868;&#x793A; callback</a></h2>
-  <p class="post-meta">Published on Saturday, September 28, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;28&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>本做法主要在介紹使用 delegate 的好處，可以先複習一下 lambda 還沒有出現前的寫法。</p>    <p class="small"><a href="/posts/effective-csharp-07">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-06">Effective C# 06.&#x907F;&#x514D;&#x5B57;&#x4E32;&#x578B;&#x5225; API</a></h2>
-  <p class="post-meta">Published on Friday, September 27, 2024</p>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;27&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>這個做法提到了 Stringly Typed 這個概念，字串型別這個翻譯有點模糊表達不夠精確，這個做法主要是在討論弱型別的問題。
 通常在使用外部涵式庫或者使用反射功能時會碰到需要使用弱型別字串來當作參數。</p>    <p class="small"><a href="/posts/effective-csharp-06">Read more...</a></p>
 </div>
