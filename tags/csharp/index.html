@@ -104,6 +104,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-26">More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
+<p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
+例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>    <p class="small"><a href="/posts/more-effective-csharp-26">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/more-effective-csharp-25">More Effective C# 25.Array &#x5F15;&#x6578;&#x9650;&#x5236;&#x53EA;&#x4F7F;&#x7528; params &#x9663;&#x5217;</a></h2>
   <p class="post-meta">Published on 2024&#x5E74;11&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>這個做法提出使用陣列做為參數可能會引發某些問題，並且建議改用 params 陣列。</p>    <p class="small"><a href="/posts/more-effective-csharp-25">Read more...</a></p>
@@ -165,14 +173,6 @@
 <p>這個做法在做法 1 有稍微提到，就是資料封裝(Data encapsulation) 的概念，要避免把私有資料的 reference 回傳，否則就有被修改的風險。</p>    <p class="small"><a href="/posts/more-effective-csharp-17">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-16">More Effective C# 16.&#x70BA;&#x901A;&#x77E5;&#x5BE6;&#x4F5C;&#x4E8B;&#x4EF6;&#x6A21;&#x5F0F;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;13&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法是以前 Effective C# <a href="https://blog.allengaodev.com/posts/effective-csharp-07" target="_blank">做法 7</a>、<a href="https://blog.allengaodev.com/posts/effective-csharp-08" target="_blank">做法 8</a>
-的延伸討論，主要是解說 .NET 事件模式的設計與使用它的好處。</p>    <p class="small"><a href="/posts/more-effective-csharp-16">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
     </div>
@@ -184,10 +184,10 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (92)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (93)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (26)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (25)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
           <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>

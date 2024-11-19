@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;(Enable Immediate Error Reporting in Iterators and Async Methods using Local Functions)">
+
+  <title>More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-26'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-26' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-26'>More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;</a>
+              <span class="subheading">More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;(Enable Immediate Error Reporting in Iterators and Async Methods using Local Functions)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E00;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
+例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>
+<p>比較常用具有延遲特性的方法有 Iterators 與 Async 方法，下面就是常見的 Iterators 方法，雖然有包含參數檢查邏輯但實際上要等到最後一行
+<code>foreach</code> 讀取資料的時候才會拋出錯誤。</p>
+<pre><code class="language-text">public IEnumerable&lt;T&gt; GenerateSample&lt;T&gt;(IEnumerable&lt;T&gt; sequence, int sampleFrequency)
+{
+    if (sequence == null)
+        throw new ArgumentException(&quot;Source sequence cannot be null.&quot;);
+    if (sampleFrequency &lt; 1)
+        throw new ArgumentException(&quot;Sample frequency must be positive.&quot;);
+
+    int index = 0;
+    foreach (var item in sequence)
+    {
+        if (index % sampleFrequency == 0)
+            yield return item;
+    }
+}
+
+// 錯誤未即時拋出，要等到真正讀取資料才會拋出。
+var samples = GenerateSample(fullSequence, -1);
+
+foreach (var item in samples)
+{
+    Console.WriteLine(item);
+}
+</code></pre>
+<p>同樣的問題也會發生在 async 方法上，這裡的 LoadMessage 方法經由編譯器處理過後會回傳一個 <code>Task</code> 物件用來管理狀態和非同步工作，
+必須等到 <code>await Task</code> 發生時才會真正執行 LoadMessage 方法。</p>
+<pre><code class="language-text">async void Main()
+{
+	// 呼叫方法
+	var task = LoadMessage(null);
+	Console.WriteLine(&quot;Not Throw&quot;);
+	await task;
+}
+
+public async Task&lt;string&gt; LoadMessage(string userName)
+{
+	if (string.IsNullOrWhiteSpace(userName))
+		throw new ArgumentException(&quot;Invalid username.&quot;);
+
+	return userName ?? &quot;No message.&quot;;
+}
+</code></pre>
+<p>解決的方法也很簡單，就是把驗證的邏輯拆分成另一個方法，讓它不再具備延遲特性。
+這裡使用的是 <code>Local Functions</code> 寫法，能夠把一個方法包裝在另一個方法裡面，這個寫法的好處就是避免被其他方法給呼叫，
+因為 <code>generateSampleImpl</code> 是 private 的，所以只有 <code>GenerateSample</code> 才有能力呼叫它。</p>
+<p>同時也代表你沒辦法跳過檢查邏輯直接執行 <code>generateSampleImpl</code> 方法，如果不是用 <code>Local Functions</code> 寫法就有可能被不知情的使用者跳過檢查邏輯。</p>
+<pre><code class="language-text">public IEnumerable&lt;T&gt; GenerateSample&lt;T&gt;(IEnumerable&lt;T&gt; sequence, int sampleFrequency)
+{
+	if (sequence == null)
+		throw new ArgumentException(&quot;Source sequence cannot be null.&quot;);
+	if (sampleFrequency &lt; 1)
+		throw new ArgumentException(&quot;Sample frequency must be positive.&quot;);
+
+	return generateSampleImpl();
+
+	IEnumerable&lt;T&gt; generateSampleImpl()
+	{
+		int index = 0;
+		foreach (var item in sequence)
+		{
+			if (index % sampleFrequency == 0)
+				yield return item;
+		}
+	}
+}
+</code></pre>
+<p>同樣的寫法也可以套用在 async 方法上，注意到 async 是寫在 <code>Local Functions</code> 上，這樣外層可以做到馬上執行。</p>
+<pre><code class="language-text">public Task&lt;string&gt; LoadMessage(string userName)
+{
+    if (string.IsNullOrWhiteSpace(userName))
+        throw new ArgumentException(&quot;Invalid username.&quot;);
+
+    return loadMessageImpl();
+
+    async Task&lt;string&gt; loadMessageImpl()
+    {
+        return userName ?? &quot;No message.&quot;;
+    }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法把 Effective C# 29 提到的延遲驗證的問題複習了一下，並且改成用 <code>Local Functions</code> 的寫法，來避免不知情的人略過驗證邏輯
+直接執行主要方法，而且 <code>Local Functions</code> 也提供了封裝性，避免方法被外部的人呼叫。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-26'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
