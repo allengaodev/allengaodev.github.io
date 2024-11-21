@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 27.&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;&#x4F7F;&#x7528; Async &#x65B9;&#x6CD5;(Use Async methods for async work)">
+
+  <title>More Effective C# 27.&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;&#x4F7F;&#x7528; Async &#x65B9;&#x6CD5;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-27'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 27.&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;&#x4F7F;&#x7528; Async &#x65B9;&#x6CD5;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-27' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-27'>More Effective C# 27.&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;&#x4F7F;&#x7528; Async &#x65B9;&#x6CD5;</a>
+              <span class="subheading">More Effective C# 27.&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;&#x4F7F;&#x7528; Async &#x65B9;&#x6CD5;(Use Async methods for async work)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;20&#x65E5; &#x661F;&#x671F;&#x4E09;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在講解 async 背後的運作機制，以及建議改用 async 來處理非同步相關的工作。</p>
+<p>從古至今 C# 提供了多種非同步的寫法，例如: <code>APM</code>、<code>EAP</code>、<code>TAP</code> 每種寫法都有它的特色，不過為了使用上的方便，現在建議只使用
+最新的 <code>TAP</code> 模式以及它的語法糖 <code>async</code>、<code>await</code>，也就是以任務為基礎的開發方式。</p>
+<p>舊有的 <code>APM</code> 要求開發者要提供一個 <code>Begin</code> 與 <code>End</code> 方法來代表非同步工作的開始與結束，
+<code>EAP</code> 則是透過 <code>Event Handler</code> 與 <code>EventArg</code> 這些事件相關的機制來達到非同步的流程，它們寫起來都與同步方法的寫法非常不同，
+當使用 <code>async</code>、<code>await</code> 最大好處就是寫起來跟一般的同步方法幾乎一致，可以大大降低開發非同步程式的難度。</p>
+<p>雖然寫起來與一般同步方法一樣，但加上 <code>async</code>、<code>await</code> 背後的運行順序會有極大的改變，例如下面這個例子中提供了一個 async 方法
+<code>MyDelay</code> 並且在 <code>Task.Delay</code> 前添加了 await 模擬事件操作。</p>
+<pre><code class="language-text">async Task Main()
+{
+	var task = MyDelay(3);
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; Before Await!&quot;);
+	await task;
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; After Await!&quot;);
+}
+
+public async Task MyDelay(int second)
+{
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; Before Delay!&quot;);
+	await Task.Delay(TimeSpan.FromSeconds(second));
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; After Delay!&quot;);
+}
+</code></pre>
+<p>以正常同步程式的邏輯來看會覺得結果是</p>
+<ol>
+<li>Before Delay!</li>
+<li>After Delay!</li>
+<li>Before Await!</li>
+<li>After Await!</li>
+</ol>
+<p>但實際上的結果是</p>
+<ol>
+<li>Before Delay!</li>
+<li>Before Await!</li>
+<li>After Delay!</li>
+<li>After Await!</li>
+</ol>
+<p>很明顯的執行的順序產生了改變，關鍵是在 <code>await Task.Delay</code> 執行時會在這段程式碼的位置留下標記並且可能會取得一個新的
+Thread 執行這個非同步任務，這樣主要的執行緒就不用停在這個位置等待任務執行完畢，所以可以直接返回呼叫端執行之後的任務，
+這也是 <code>Before Delay!</code> 與 <code>Before Await!</code> 會同時輸出的原因。</p>
+<p>接下來 <code>await task</code> 代表我想要取得執行結果，也就是真正等待三秒，完成後會透過之前留下來的標記返回之前中途離開的地點並執行之後的程式碼
+，一切都完成後才返回呼叫端並執行之後的程式碼，也是 <code>After Delay!</code> 會先輸出因為它是之前中斷的後續程式碼，最後才是 <code>After Await!</code></p>
+<p>也有可能 await 工作非常簡單所以很快就執行完了，這樣就沒必要取得新的 Thread 執行這個非同步任務，會有可能接續執行而不是跳回呼叫端，
+例如你可以把等待時間調成零，這樣會變成類似同步的流程。</p>
+<pre><code class="language-text">async Task Main()
+{
+	var task = MyDelay(0);
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; Before Await!&quot;);
+	await task;
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; After Await!&quot;);
+}
+
+public async Task MyDelay(int second)
+{
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; Before Delay!&quot;);
+	await Task.Delay(TimeSpan.FromSeconds(second));
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; After Delay!&quot;);
+}
+</code></pre>
+<hr />
+<p>這種留下標記並等未來完成後返回的特性是透過狀態機(State Machine) 來達成的，也就是說編譯器會把 async 方法轉換成狀態機，
+然後把一些有用的參數和狀態保存到狀態機裡面，這樣就能做到任務完成時返回起始狀態的效果。</p>
+<p>以下就是 <code>MyDelay</code> async 方法編譯出一個新的狀態機類別的程式碼，可以看到這個新類別實做了 <code>IAsyncStateMachine</code> 介面方法 <code>MoveNext</code>、<code>SetStateMachine</code>，
+參數 <code>second</code> 變成了成員，新增了 <code>1__state</code> 成員用來紀錄狀態等等變動。</p>
+<p>比較重要的邏輯落在 <code>GetAwaiter</code> 與 <code>AwaitUnsafeOnCompleted</code> 兩個方法，流程是運行方法後取得方法的 Awaiter，然後透過 <code>AwaitUnsafeOnCompleted</code>
+方法告訴剛剛取得的 Awaiter 方法執行完成後需要呼叫 MoveNext 然後就回到呼叫端了，所以當呼叫端程式執行到 <code>await task</code> 的時候，就是在等待 Awaiter 呼叫 MoveNext，並完成剩下的邏輯。</p>
+<p>在 .net core 已經不使用 <code>SynchronizationContext</code> 來處理非同步任務，而是改用 <code>ExecutionContext</code>。</p>
+<p>最後是錯誤捕捉，當非同步方法拋出例外錯誤的時候，編譯器會捕捉這些例外並將它們包裝在 Task 的 AggregateException 中，然後會把這個 Task
+標記為 <code>TaskStatus.Faulted</code>，接下來如果使用者 await 這個失敗的 Task 就會拋出第一個例外錯誤，所以當 Task 有多個錯誤的同時產生，
+這樣呼叫者需要自行解讀 AggregateException。</p>
+<pre><code class="language-text">[AsyncStateMachine(typeof(&lt;M&gt;d__0))]
+[DebuggerStepThrough]
+public Task M()
+{
+    &lt;M&gt;d__0 stateMachine = new &lt;M&gt;d__0();
+    stateMachine.&lt;&gt;t__builder = AsyncTaskMethodBuilder.Create();
+    stateMachine.&lt;&gt;4__this = this;
+    stateMachine.&lt;&gt;1__state = -1;
+    stateMachine.&lt;&gt;t__builder.Start(ref stateMachine);
+    return stateMachine.&lt;&gt;t__builder.Task;
+}
+    
+[AsyncStateMachine(typeof(&lt;MyDelay&gt;d__1))]
+[DebuggerStepThrough]
+public Task MyDelay(int second)
+{
+    &lt;MyDelay&gt;d__1 stateMachine = new &lt;MyDelay&gt;d__1();
+    stateMachine.&lt;&gt;t__builder = AsyncTaskMethodBuilder.Create();
+    stateMachine.&lt;&gt;4__this = this;
+    stateMachine.second = second;
+    stateMachine.&lt;&gt;1__state = -1;
+    stateMachine.&lt;&gt;t__builder.Start(ref stateMachine);
+    return stateMachine.&lt;&gt;t__builder.Task;
+}
+
+[CompilerGenerated]
+private sealed class &lt;M&gt;d__0 : IAsyncStateMachine
+{
+    public int &lt;&gt;1__state;
+
+    public AsyncTaskMethodBuilder &lt;&gt;t__builder;
+
+    [Nullable(0)]
+    public C &lt;&gt;4__this;
+
+    [Nullable(0)]
+    private Task &lt;task&gt;5__1;
+
+    private TaskAwaiter &lt;&gt;u__1;
+
+    private void MoveNext()
+    {
+        int num = &lt;&gt;1__state;
+        try
+        {
+            TaskAwaiter awaiter;
+            if (num != 0)
+            {
+                &lt;task&gt;5__1 = &lt;&gt;4__this.MyDelay(3);
+                Console.WriteLine(string.Concat(Thread.CurrentThread.ManagedThreadId.ToString(), &quot; Before Await!&quot;));
+                awaiter = &lt;task&gt;5__1.GetAwaiter();
+                if (!awaiter.IsCompleted)
+                {
+                    num = (&lt;&gt;1__state = 0);
+                    &lt;&gt;u__1 = awaiter;
+                    &lt;M&gt;d__0 stateMachine = this;
+                    &lt;&gt;t__builder.AwaitUnsafeOnCompleted(ref awaiter, ref stateMachine);
+                    return;
+                }
+            }
+            else
+            {
+                awaiter = &lt;&gt;u__1;
+                &lt;&gt;u__1 = default(TaskAwaiter);
+                num = (&lt;&gt;1__state = -1);
+            }
+            awaiter.GetResult();
+            Console.WriteLine(string.Concat(Thread.CurrentThread.ManagedThreadId.ToString(), &quot; After Await!&quot;));
+        }
+        catch (Exception exception)
+        {
+            &lt;&gt;1__state = -2;
+            &lt;task&gt;5__1 = null;
+            &lt;&gt;t__builder.SetException(exception);
+            return;
+        }
+        &lt;&gt;1__state = -2;
+        &lt;task&gt;5__1 = null;
+        &lt;&gt;t__builder.SetResult();
+    }
+
+    void IAsyncStateMachine.MoveNext()
+    {
+        //ILSpy generated this explicit interface implementation from .override directive in MoveNext
+        this.MoveNext();
+    }
+
+    [DebuggerHidden]
+    private void SetStateMachine(IAsyncStateMachine stateMachine)
+    {
+    }
+
+    void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine stateMachine)
+    {
+        //ILSpy generated this explicit interface implementation from .override directive in SetStateMachine
+        this.SetStateMachine(stateMachine);
+    }
+}
+    
+[CompilerGenerated]
+private sealed class &lt;MyDelay&gt;d__1 : IAsyncStateMachine
+{
+    public int &lt;&gt;1__state;
+
+    public AsyncTaskMethodBuilder &lt;&gt;t__builder;
+
+    public int second;
+
+    [Nullable(0)]
+    public C &lt;&gt;4__this;
+
+    private TaskAwaiter &lt;&gt;u__1;
+
+    private void MoveNext()
+    {
+        int num = &lt;&gt;1__state;
+        try
+        {
+            TaskAwaiter awaiter;
+            if (num != 0)
+            {
+                Console.WriteLine(string.Concat(Thread.CurrentThread.ManagedThreadId.ToString(), &quot; Before Delay!&quot;));
+                awaiter = Task.Delay(TimeSpan.FromSeconds(second)).GetAwaiter();
+                if (!awaiter.IsCompleted)
+                {
+                    num = (&lt;&gt;1__state = 0);
+                    &lt;&gt;u__1 = awaiter;
+                    &lt;MyDelay&gt;d__1 stateMachine = this;
+                    &lt;&gt;t__builder.AwaitUnsafeOnCompleted(ref awaiter, ref stateMachine);
+                    return;
+                }
+            }
+            else
+            {
+                awaiter = &lt;&gt;u__1;
+                &lt;&gt;u__1 = default(TaskAwaiter);
+                num = (&lt;&gt;1__state = -1);
+            }
+            awaiter.GetResult();
+            Console.WriteLine(string.Concat(Thread.CurrentThread.ManagedThreadId.ToString(), &quot; After Delay!&quot;));
+        }
+        catch (Exception exception)
+        {
+            &lt;&gt;1__state = -2;
+            &lt;&gt;t__builder.SetException(exception);
+            return;
+        }
+        &lt;&gt;1__state = -2;
+        &lt;&gt;t__builder.SetResult();
+    }
+
+    void IAsyncStateMachine.MoveNext()
+    {
+        //ILSpy generated this explicit interface implementation from .override directive in MoveNext
+        this.MoveNext();
+    }
+
+    [DebuggerHidden]
+    private void SetStateMachine(IAsyncStateMachine stateMachine)
+    {
+    }
+
+    void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine stateMachine)
+    {
+        //ILSpy generated this explicit interface implementation from .override directive in SetStateMachine
+        this.SetStateMachine(stateMachine);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>雖然非同步程式有很多寫法沒有特別需求建議都是使用 <code>async</code>、<code>await</code>，另外編譯器會在你使用 <code>async</code>、<code>await</code> 的時候做許多額外的處理，
+主要需要記得的關鍵就是狀態機以及中斷恢復的功能，還有同時產生多個錯誤處理需要自行解讀 AggregateException。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-27'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
