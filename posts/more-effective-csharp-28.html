@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 28.&#x6C38;&#x9060;&#x4E0D;&#x8981;&#x5BEB; async void &#x65B9;&#x6CD5;(Never Write Async void Methods)">
+
+  <title>More Effective C# 28.&#x6C38;&#x9060;&#x4E0D;&#x8981;&#x5BEB; async void &#x65B9;&#x6CD5;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-28'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 28.&#x6C38;&#x9060;&#x4E0D;&#x8981;&#x5BEB; async void &#x65B9;&#x6CD5;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-28' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-28'>More Effective C# 28.&#x6C38;&#x9060;&#x4E0D;&#x8981;&#x5BEB; async void &#x65B9;&#x6CD5;</a>
+              <span class="subheading">More Effective C# 28.&#x6C38;&#x9060;&#x4E0D;&#x8981;&#x5BEB; async void &#x65B9;&#x6CD5;(Never Write Async void Methods)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;21&#x65E5; &#x661F;&#x671F;&#x56DB;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法提出幾個理由讓你知道寫 async void 方法是不好的，所以應該要避免這樣寫非同步方法。</p>
+<p>在處理 FireAndForget 這種不需要回傳值的操作時第一個想法可能就是寫一個 async void 方法，
+但你會發現你沒有辦法 await 一個 async void 方法，例如下面這種寫法編譯器會提示錯誤並無法通過編譯。</p>
+<pre><code class="language-text">async void Main()
+{
+	await FireAndForget();
+}
+
+private async void FireAndForget()
+{
+	await Task.Delay(TimeSpan.FromSeconds(1));
+}
+</code></pre>
+<p>在上一個做法內有提到，當我們在一個非同步方法裡拋出錯誤時這個錯誤會保存在回傳值 Task 內的 <code>AggregateException</code> 裡面，並把 Task
+標記為 <code>TaskStatus.Faulted</code>，也就是說如果你寫的是 async void 方法就沒有辦法執行這個流程，在 .net framework 的時候是會把這種錯誤
+直接拋給 SynchronizationContext 並可能會直接中止應用程式，如果我們想要把這個錯誤記錄下來只能另外設定 UnhandledException 事件來處理。</p>
+<pre><code class="language-text">AppDomain.CurrentDomain.UnhandledException += (sender, e) =&gt;
+{
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine(e.ExceptionObject.ToString());
+};
+</code></pre>
+<p>在 .net core 的時代則是要透過 Middleware 對這種錯誤進行記錄，也就是說這種寫法第一會直接影響應用程式的執行，第二則是記錄錯誤不是用
+try/catch 捕捉流程，而是要透過截然不同的機制來記錄這種錯誤這樣是非常不好的。</p>
+<p>另一個問題是 async void 方法沒辦法被 await 會導致呼叫方不知道這個方法到底執行完了沒有，例如這個 SetSessionState 方法，在對它寫測試方法的時候
+由於沒辦法 await SetSessionState 所以透過 Task.Delay 等待它完成，這個延遲方式並不能保證 SetSessionState 方法一定能設定完成，
+所以就可能會導致單元測試隨時可能會成功或失敗。</p>
+<pre><code class="language-text">public async void SetSessionState()
+{
+    var config = await ReadConfigFromNetwork();
+    this.CurrentUser = config.User;
+}
+</code></pre>
+<pre><code class="language-text">var t = new SessionManager();
+t.SetSessionState();
+await Task.Delay(1000);
+Assert.Equal(t.User, &quot;TestLibrary User&quot;);
+</code></pre>
+<hr />
+<p>唯一能使用 async void 的只有事件處理程式，因為 EventHandler 本身就不需要回傳值，不過還是要進行額外的保護，例如下面就是對
+事件增加 try/catch 保護來確保所有事件都能被正常記錄到。</p>
+<pre><code class="language-text">private async void OnCommand(object sender, RoutedEventArgs e)
+{
+	var viewModel = (DataContext as SampleViewModel);
+	try
+	{
+		await viewModel.Update();
+	}
+	catch (Exception ex)
+	{
+		viewModel.Messages.Add(ex.ToString());
+	}
+}
+</code></pre>
+<p>或者是用以前 Effective C# 50 提到的方式，利用 side effect 紀錄所有的報錯訊息。</p>
+<pre><code class="language-text">private async void OnCommand(object sender, RoutedEventArgs e)
+{
+	var viewModel = (DataContext as SampleViewModel);
+	try
+	{
+		await viewModel.Update();
+	}
+	catch (Exception ex) when (logMessage(viewModel, ex))
+	{
+	}
+}
+private bool logMessage(SampleViewModel viewModel, Exception ex)
+{
+	viewModel.Messages.Add(ex.ToString());
+	return false;
+}
+</code></pre>
+<hr />
+<p>最好的處理方是就是避免使用 async void 都使用 Task 或 Task<T>，這樣呼叫者才可以透過 await 確保執行結束或捕捉例外。</p>
+<p>如果你確實需要 FireAndForget 的功能，可以建立擴充方法搭配 Func 或 Action 引數傳入非同步工作。</p>
+<pre><code class="language-text">public static class Utilities
+{
+	public static async void FireAndForget(this Task task, Action&lt;Exception&gt; onErrors)
+	{
+		try
+		{
+			await task;
+		}
+		catch (Exception ex)
+		{
+			onErrors(ex);
+		}
+	}
+	public static async void FireAndForget(this Task task, Func&lt;Exception, bool&gt; onError)
+	{
+		try
+		{
+			await task;
+		}
+		catch (Exception ex) when (onError(ex))
+		{
+		}
+	}
+}
+</code></pre>
+<p>就能透過這個擴充方法確保錯誤發生時能做出額外的處理。</p>
+<pre><code class="language-text">void Main()
+{
+	FireAndForgetWork()
+		.FireAndForget(ex =&gt; Console.WriteLine($&quot;Error: {ex.Message}&quot;));
+}
+
+public async Task FireAndForgetWork()
+{
+	await Task.Delay(TimeSpan.FromSeconds(3));
+	throw new Exception(&quot;Exception&quot;);
+}
+</code></pre>
+<p>或者更貼近真實需求，添加錯誤回復方法，這個技巧能夠同時記錄錯誤日誌以及透過 Action 添加錯誤回復或回滾的方法。</p>
+<pre><code class="language-text">public static async void FireAndForget&lt;TException&gt;
+	(this Task task,
+	Action&lt;TException&gt; recovery, Func&lt;Exception, bool&gt; onError)
+	where TException : Exception
+{
+	try
+	{
+		await task;
+	}
+	// relies on onError() logging method
+	// always returning false:
+	catch (Exception ex) when (onError(ex))
+	{
+	}
+	catch (TException ex2)
+	{
+		recovery(ex2);
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法提出 async void 的寫法基本上沒有任何好處，甚至會改變錯誤的運行方式以及記錄方式還有無法確認何時完成等問題，關鍵就是會
+影響我們的使用習慣，雖然有一些技巧可以讓 async void 更加實用但本質上並沒有任何好處，建議還是直接用 Task 或 Task<T> 而不是寫 async void 方法。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-28'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
