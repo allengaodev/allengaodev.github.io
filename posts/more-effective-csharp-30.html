@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 30.&#x907F;&#x514D;&#x57F7;&#x884C;&#x7DD2;&#x914D;&#x7F6E;&#x53CA; Context Switches(Use async Methods to Avoid Thread Allocations and Context Switches)">
+
+  <title>More Effective C# 30.&#x907F;&#x514D;&#x57F7;&#x884C;&#x7DD2;&#x914D;&#x7F6E;&#x53CA; Context Switches</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-30'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 30.&#x907F;&#x514D;&#x57F7;&#x884C;&#x7DD2;&#x914D;&#x7F6E;&#x53CA; Context Switches' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-30' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-30'>More Effective C# 30.&#x907F;&#x514D;&#x57F7;&#x884C;&#x7DD2;&#x914D;&#x7F6E;&#x53CA; Context Switches</a>
+              <span class="subheading">More Effective C# 30.&#x907F;&#x514D;&#x57F7;&#x884C;&#x7DD2;&#x914D;&#x7F6E;&#x53CA; Context Switches(Use async Methods to Avoid Thread Allocations and Context Switches)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;22&#x65E5; &#x661F;&#x671F;&#x4E94;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法講解非同步方法在某些情況下要避免新增執行緒以及避免 Context Switches 來提升程式性能。</p>
+<p>許多人誤以為非同步工作必須建立新的執行緒來完成實際工作，例如檔案 I/O 操作使用的就是 IO completion ports 網路請求是使用 network interrupts
+它們都不是啟動新的執行緒來完成工作的，在這種情況下使用非同步設計可以把執行緒挪去做更有用的任務。</p>
+<p>首先要了解把一個工作轉移到另一個新的執行緒上，雖然原本執行緒的壓力會減輕但同時又要額外負擔建立執行緒的開銷，
+也就是說這個減輕壓力的執行緒需要是一個很重要的資源否則這個減輕過程就沒有意義，例如 GUI 上的 UI Thread 就有這樣的特性，
+因為 UI Thread 一但被長時間阻塞就會讓使用者體驗變得很差，所以這種情況就適合把工作轉移到另一個執行緒上，讓 UI Thread 專門處理使用者互動。</p>
+<p>在 Console 應用程式就不太一樣了，假如它也在運行一個 CPU bound 工作，那麼 UI Thread 有沒有被阻塞其實也不太重要，
+換句話說這種情況把任務轉移到另一個新的執行緒上並沒有太大好處，因為 UI Thread 也是在旁邊看著負責工作的執行緒完成手中的工作，
+所以代表你雖然有兩個執行緒但效果跟一個執行緒差不多，不過如果你的 Console 應用程式需要同時執行多個 CPU bound 工作那麼把這些
+工作分散到多個執行緒上也是合理的設計，這個主題會在未來提到。</p>
+<p>接下來討論一下 Web 應用程式，下面這段程式把 CPU bound 工作轉移到新的執行緒上，你可能會認為透過這樣的設計可以分散壓力並幫助應用程式
+承受更多的請求。</p>
+<pre><code class="language-text">public async Task&lt;IActionResult&gt; Compose()
+{
+	var model = await LongRunningCPUTask();
+	return View(model);
+}
+</code></pre>
+<p>要了解這個設計的問題需要先了解整體流程，首先執行這段方法會先前往 thread pool 取得或創建一條新的執行緒，
+這樣原本的執行緒就變得沒有事情做了所以會處於可以被回收的狀態，但是為了讓非同步方法能夠被暫停與恢復，所以背後需要追蹤這個請求的所有狀態，
+最後就導致整個方法結束時你產生了兩個 Context Switches 並且沒有任何帶來實質的好處。</p>
+<p>所以如果你的目的是要讓應用程式能承受更多請求，那應該把這個 CPU bound 工作轉移到另一個應用程式的 process 或者是另一台機器上，才能避免你的 Web 應用程式
+被過多無用的執行緒佔據請求資源。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法解釋非同步方法首先要確保轉移工作到另一個新的執行緒是有意義的，如果操作不當就有可能產生無意義的 Context Switches 並拖慢應用程式的性能，
+所以要確定資源是重要的，例如 UI Thread 或稀缺資源才有保留的意義。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-30'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
