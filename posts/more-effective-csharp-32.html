@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 32.&#x4F7F;&#x7528; Task &#x7269;&#x4EF6;&#x5408;&#x6210;&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;(Compose Asynchronous Work Using Task Objects)">
+
+  <title>More Effective C# 32.&#x4F7F;&#x7528; Task &#x7269;&#x4EF6;&#x5408;&#x6210;&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-32'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 32.&#x4F7F;&#x7528; Task &#x7269;&#x4EF6;&#x5408;&#x6210;&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-32' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-32'>More Effective C# 32.&#x4F7F;&#x7528; Task &#x7269;&#x4EF6;&#x5408;&#x6210;&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;</a>
+              <span class="subheading">More Effective C# 32.&#x4F7F;&#x7528; Task &#x7269;&#x4EF6;&#x5408;&#x6210;&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;(Compose Asynchronous Work Using Task Objects)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;22&#x65E5; &#x661F;&#x671F;&#x4E94;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法講解了 Task 背後執行的原理還有介紹一些常用的方法。</p>
+<p>在前幾篇做法提到的 async/await 其實就是 Task 的語法糖，Task 可以理解成抽象化的 Thread，一般來說現在都只要使用 Task 就好並不需要
+用到更底層的 Thread，並且 Task 內部會自行去 ThreadPool 取得執行緒，使用 Thread 就真的只會創建必須要用到 ThreadPool.QueueUserWorkItem
+才能有 ThreadPool 的功能。</p>
+<p>首先我們看看這個非同步方法，雖然可以正常運作但是沒有必要在每次 foreach 都等待 <code>await ReadSymbol</code> 執行結果。</p>
+<pre><code class="language-text">public static async Task&lt;IEnumerable&lt;StockResult&gt;&gt; ReadStockTicker(IEnumerable&lt;string&gt; symbols)
+{
+	var results = new List&lt;StockResult&gt;();
+	foreach (var symbol in symbols)
+	{
+		var result = await ReadSymbol(symbol);
+		results.Add(result);
+	}
+	return results;
+}
+</code></pre>
+<p>可以修改成以下模式，透過 List<Task> 一次運行所有的任務，最後在使用 <code>Task.WhenAll</code> 等待所有任務運行完成，這種方式可以更快達成任務。</p>
+<pre><code class="language-text">public static async Task&lt;IEnumerable&lt;StockResult&gt;&gt; ReadStockTicker(IEnumerable&lt;string&gt; symbols)
+{
+   var resultTasks = new List&lt;Task&lt;StockResult&gt;&gt;();
+   foreach (var symbol in symbols)
+   {
+       resultTasks.Add(ReadSymbol(symbol));
+   }
+   var results = await Task.WhenAll(resultTasks);
+   return results.OrderBy(s =&gt; s.Price);
+}
+</code></pre>
+<p>有時候你可能需要發出多個相同任務並只要留下最快完成的那筆任務的結果就可以用到 <code>Task.WhenAny</code>，
+像是下面這段讀取 Stock 的程式碼，可以從多個來源中讀取相同一個股票的價格，並只等待最快的那筆結果。</p>
+<pre><code class="language-text">public static async Task&lt;StockResult&gt; ReadStockTicker(string symbol, IEnumerable&lt;string&gt; sources)
+{
+   var resultTasks = new List&lt;Task&lt;StockResult&gt;&gt;();
+   foreach (var source in sources)
+   {
+       resultTasks.Add(ReadSymbol(symbol, source));
+   }
+   return await Task.WhenAny(resultTasks);
+}
+</code></pre>
+<p>如果想要在每個任務完成後讀取它們的結果來進行後續操作，你可能會這樣寫。</p>
+<pre><code class="language-text">public static async Task&lt;IEnumerable&lt;StockResult&gt;&gt; ReadStockTicker(IEnumerable&lt;string&gt; symbols)
+{
+	var resultTasks = new List&lt;Task&lt;StockResult&gt;&gt;();
+	var results = new List&lt;StockResult&gt;();
+	foreach (var symbol in symbols)
+	{
+		resultTasks.Add(ReadSymbol(symbol));
+	}
+	foreach (var task in resultTasks)
+	{
+		var result = await task;
+		results.Add(result);
+	}
+	return results;
+}
+</code></pre>
+<p>但是這種寫法非常沒有效率，因為任務完成的順序跟你 foreach 結果的順序並不相同，所以可能有任務清單所有完成的任務都在等待其中一個任務完成的情況發生，
+這時候就可以搭配 <code>Task.WhenAny</code> 和 <code>while</code> 來改善這個問題，但這種寫法代表每次迴圈都會建立一個 Task 所以並不是最好的解法。</p>
+<pre><code class="language-text">public static async Task&lt;IEnumerable&lt;StockResult&gt;&gt; ReadStockTicker(IEnumerable&lt;string&gt; symbols)
+{
+	var resultTasks = new List&lt;Task&lt;StockResult&gt;&gt;();
+	var results = new List&lt;StockResult&gt;();
+	foreach (var symbol in symbols)
+	{
+		resultTasks.Add(ReadSymbol(symbol));
+	}
+	while (resultTasks.Any())
+	{
+		Task&lt;StockResult&gt; finishedTask = await Task.WhenAny(resultTasks); // 建立新的 Task
+		var result = await finishedTask;
+		resultTasks.Remove(finishedTask);
+		results.Add(result);
+	}
+	var first = await Task.WhenAny(resultTasks);
+	return await first;
+}
+</code></pre>
+<p>下面這個解決方案使用了 <code>TaskCompletionSource</code> 類別，原理是使用 <code>Task.ContinueWith</code> 確保傳入的 <code>sourceTasks</code>
+執行完成後繼續執行其他操作，也就是下面 <code>continuation</code> 這個 Action，他的目的是將完成任務的結果按照 thread-safe 的順序
+放入到 <code>completionSources</code> 裡面。</p>
+<p>簡單來說就是 foreach sourceTasks 的時候會幫所有任務都綁定 <code>continuation</code> 這個 Action，來確保任務執行完會把結果放到 <code>completionSources</code>
+裡面，並且使用 Interlocked.Increment 保證修改的時候的線程安全。</p>
+<pre><code class="language-text">public static Task&lt;T&gt;[] OrderByCompletion&lt;T&gt;(this IEnumerable&lt;Task&lt;T&gt;&gt; tasks)
+{
+	var sourceTasks = tasks.ToList();
+	var completionSources = new TaskCompletionSource&lt;T&gt;[sourceTasks.Count];
+	var outputTasks = new Task&lt;T&gt;[completionSources.Length];
+	for (int i = 0; i &lt; completionSources.Length; i++)
+	{
+		completionSources[i] = new TaskCompletionSource&lt;T&gt;();
+		outputTasks[i] = completionSources[i].Task;
+	}
+
+	int nextTaskIndex = -1;
+	Action&lt;Task&lt;T&gt;&gt; continuation = completed =&gt;
+	{
+		var bucket = completionSources[Interlocked.Increment(ref nextTaskIndex)];
+		if (completed.IsCompleted)
+			bucket.TrySetResult(completed.Result);
+		else if (completed.IsFaulted)
+			bucket.TrySetException(completed.Exception);
+	};
+
+	foreach (var inputTask in sourceTasks)
+	{
+		inputTask.ContinueWith(continuation,
+			CancellationToken.None,
+			TaskContinuationOptions.ExecuteSynchronously,
+			TaskScheduler.Default
+		);
+	}
+	return outputTasks;
+}
+</code></pre>
+<p>使用上只需要傳入一個任務清單，最後就會按照任務完成的時間輸出排序過後的結果。</p>
+<pre><code class="language-text">async Task Main()
+{
+	var results = new List&lt;int&gt;();
+	var t = CreateTaskAsync(3);
+	var t1 = CreateTaskAsync(2);
+	var t2 = CreateTaskAsync(4);
+	var t3 = CreateTaskAsync(1);
+
+	var tl = new List&lt;Task&lt;int&gt;&gt;() {t, t1, t2 ,t3};
+
+	foreach (var task in OrderByCompletion&lt;int&gt;(tl))
+	{
+		var result = await task;
+		results.Add(result);
+	}
+
+	Console.WriteLine(results);
+}
+
+public async Task&lt;int&gt; CreateTaskAsync(int id)
+{
+	await Task.Delay(TimeSpan.FromSeconds(id));
+	return id;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法建議現在只使用 Task 因為它提供了多種方便的 API 讓我們管理非同步的任務，同時介紹了 <code>Task.WhenAll</code>、<code>Task.WhenAny</code>、<code>Task.ContinueWith</code>
+這些常用方法，並介紹 <code>TaskCompletionSource</code> 類別通常用在事件與委派可以讓呼叫端知道任務已經完成。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-32'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

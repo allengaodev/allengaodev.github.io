@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 31.&#x907F;&#x514D;&#x975E;&#x5FC5;&#x8981;&#x7684;&#x5C01;&#x9001;&#x8655;&#x7406; (Marshalling) Context(Avoid Marshalling Context Unnecessarily)">
+
+  <title>More Effective C# 31.&#x907F;&#x514D;&#x975E;&#x5FC5;&#x8981;&#x7684;&#x5C01;&#x9001;&#x8655;&#x7406; (Marshalling) Context</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-31'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 31.&#x907F;&#x514D;&#x975E;&#x5FC5;&#x8981;&#x7684;&#x5C01;&#x9001;&#x8655;&#x7406; (Marshalling) Context' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-31' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-31'>More Effective C# 31.&#x907F;&#x514D;&#x975E;&#x5FC5;&#x8981;&#x7684;&#x5C01;&#x9001;&#x8655;&#x7406; (Marshalling) Context</a>
+              <span class="subheading">More Effective C# 31.&#x907F;&#x514D;&#x975E;&#x5FC5;&#x8981;&#x7684;&#x5C01;&#x9001;&#x8655;&#x7406; (Marshalling) Context(Avoid Marshalling Context Unnecessarily)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;22&#x65E5; &#x661F;&#x671F;&#x4E94;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法主要在講解 context、context-free、context-aware 的概念，以及 ConfigureAwait 背後的原理。</p>
+<p>首先定義 context-free 程式碼代表這段程式碼不必依賴 context 就能順利執行，context-aware 程式碼則是必須在特定的 context 才能順利執行，
+所以你在隨意一個 context 運行 context-free 程式碼那麼不會發生什麼嚴重問題，但你在隨意一個 context 運行 context-aware 程式碼可能會發生嚴重錯誤。</p>
+<p>會討論這個的原因是在前幾篇的做法中有提到，非同步方法有中斷與恢復的功能，那麼這個中斷會捕捉當時執行的 context 以後在恢復的時候理論上就可以避免
+context switch 的發生避免影響性能，但實際上有些時候 context switch 反而會比不執行 context switch 性能來要好。</p>
+<p>所以就有了 ConfigureAwait() 這個方法，它的用途是通知非同步方法不用在捕捉的 context 執行剩餘的程式碼，
+設定為 false 就能讓剩餘的程式碼在新的 context 中執行，當然要確定剩餘的程式碼是 context-free 程式碼。</p>
+<p>例如下面這段程式碼在非同步方法的後面加上 <code>ConfigureAwait(false)</code>，通知剩餘的程式碼不用在捕捉的 context 執行剩餘的程式碼。</p>
+<pre><code class="language-text">public static async Task&lt;XElement&gt; ReadPacket(string Url)
+{
+	var result = await DownloadAsync(Url).ConfigureAwait(false);
+	return XElement.Parse(result);
+}
+</code></pre>
+<p>接下來看看這段方法，你可能會認為 <code>DownloadAsync</code> 有設定 <code>ConfigureAwait(false)</code> 那麼之後的程式碼就不會強迫運行在捕捉的 context 中，
+但實際上如果 <code>DownloadAsync</code> 執行的速度過快會讓整段程式碼以同步的方式運行，那其實就不會產生 context switch 也就是會一直運行在原始的 context 中，
+要避免這個問題最好是把所有非同步方法都加上 <code>ConfigureAwait(false)</code>。</p>
+<pre><code class="language-text">public static async Task&lt;Config&gt; ReadConfig(string Url)
+{
+	var result = await DownloadAsync(Url).ConfigureAwait(false);
+	var items = XElement.Parse(result);
+	var userConfig = from node in items.Descendants()
+					 where node.Name == &quot;Config&quot;
+					 select node.Value;
+	var configUrl = userConfig.SingleOrDefault();
+	if (configUrl != null)
+	{
+		result = await DownloadAsync(configUrl).ConfigureAwait(false);
+		var config = await ParseConfig(result).ConfigureAwait(false);
+		return config;
+	}
+	else
+		return new Config();
+}
+</code></pre>
+<p>這個做法的困難點就是知道自己寫的程式碼是不是 context-aware 的，因為只有 context-aware 的程式碼才有必要運行在捕捉的 context 中，
+另外一但離開捕捉的 context 那就沒辦法再回去了，通常只有更新 UI 的程式碼是 context-aware 的，應該把其它的程式碼都設定 <code>ConfigureAwait(false)</code>。</p>
+<p>像這段程式碼就是混合了 UI 更新的程式碼，就應該把 context-free 設定 <code>ConfigureAwait(false)</code>，UI 更新的程式碼保持預設。</p>
+<pre><code class="language-text">private async void OnCommand(object sender, RoutedEventArgs e)
+{
+	var viewModel = (DataContext as SampleViewModel);
+	try
+	{
+		Config config = await ReadConfigAsync(viewModel);
+		await viewModel.Update(config);
+	}
+	catch (Exception ex) when (logMessage(viewModel, ex))
+	{
+	}
+}
+
+private async Task&lt;Config&gt; ReadConfigAsync(SampleViewModel viewModel)
+{
+	var userInput = viewModel.webSite;
+	var result = await DownloadAsync(userInput).ConfigureAwait(false);
+	var items = XElement.Parse(result);
+	var userConfig = from node in items.Descendants()
+					 where node.Name == &quot;Config&quot;
+					 select node.Value;
+	var configUrl = userConfig.SingleOrDefault();
+	var config = default(Config);
+	if (configUrl != null)
+	{
+		result = await DownloadAsync(configUrl).ConfigureAwait(false);
+		config = await ParseConfig(result).ConfigureAwait(false);
+	}
+	else
+		config = new Config();
+	return config;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法在新的 .NET Core 不會有影響，因為在已經沒有 <code>SynchronizationContext</code> 所以設定 <code>ConfigureAwait(false)</code> 並沒有影響，
+但可能你的函式庫會與 ASP.NET 共用，所以一般還是建議都是加上 <code>ConfigureAwait(false)</code>。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-31'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
