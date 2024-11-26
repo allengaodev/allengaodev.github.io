@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 38.&#x4F7F;&#x7528; BackgroundWorker &#x505A;&#x8DE8;&#x57F7;&#x884C;&#x7DD2;&#x901A;&#x8A0A;(Use BackgroundWorker for Cross-Thread Communication)">
+
+  <title>More Effective C# 38.&#x4F7F;&#x7528; BackgroundWorker &#x505A;&#x8DE8;&#x57F7;&#x884C;&#x7DD2;&#x901A;&#x8A0A;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-38'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 38.&#x4F7F;&#x7528; BackgroundWorker &#x505A;&#x8DE8;&#x57F7;&#x884C;&#x7DD2;&#x901A;&#x8A0A;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-38' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-38'>More Effective C# 38.&#x4F7F;&#x7528; BackgroundWorker &#x505A;&#x8DE8;&#x57F7;&#x884C;&#x7DD2;&#x901A;&#x8A0A;</a>
+              <span class="subheading">More Effective C# 38.&#x4F7F;&#x7528; BackgroundWorker &#x505A;&#x8DE8;&#x57F7;&#x884C;&#x7DD2;&#x901A;&#x8A0A;(Use BackgroundWorker for Cross-Thread Communication)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E00;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法介紹了 <code>BackgroundWorker</code> 類別可以用來跨執行緒通訊。</p>
+<p><code>BackgroundWorker</code> 最簡單的用法就是建立一個委派並把它加入到 <code>DoWork</code> 事件中，然後呼叫 <code>RunWorkerAsync</code> 方法，可以看到
+<code>RunWorkerAsync</code> 內部是透過 <code>Task.Factory</code> 來建立一個新的任務並執行 <code>WorkerThreadStart</code> 方法，最後就是 Invoke DoWorkEventHandler 開始執行設定的任務，
+成功後會再次呼叫 <code>OnRunWorkerCompleted</code> 執行任務成功的相關操作，流程基本上就是以事件為主。</p>
+<pre><code class="language-text">public event DoWorkEventHandler? DoWork;
+public event RunWorkerCompletedEventHandler? RunWorkerCompleted;
+public event ProgressChangedEventHandler? ProgressChanged;
+
+protected virtual void OnDoWork(DoWorkEventArgs e)
+{
+    DoWork?.Invoke(this, e);
+}
+
+public void RunWorkerAsync(object? argument)
+{
+    if (_isRunning)
+    {
+        throw new InvalidOperationException(SR.BackgroundWorker_WorkerAlreadyRunning);
+    }
+
+    _isRunning = true;
+    _cancellationPending = false;
+
+    _asyncOperation = AsyncOperationManager.CreateOperation(null);
+    Task.Factory.StartNew(
+                WorkerThreadStart,
+                argument,
+                CancellationToken.None,
+                TaskCreationOptions.DenyChildAttach,
+                TaskScheduler.Default
+            );
+}
+
+private void WorkerThreadStart(object? argument)
+{
+    Debug.Assert(_asyncOperation != null, &quot;_asyncOperation not initialized&quot;);
+
+    object? workerResult = null;
+    Exception? error = null;
+    bool cancelled = false;
+
+    try
+    {
+        DoWorkEventArgs doWorkArgs = new DoWorkEventArgs(argument);
+        OnDoWork(doWorkArgs);
+        if (doWorkArgs.Cancel)
+        {
+            cancelled = true;
+        }
+        else
+        {
+            workerResult = doWorkArgs.Result;
+        }
+    }
+    catch (Exception exception)
+    {
+        error = exception;
+    }
+
+    var e = new RunWorkerCompletedEventArgs(workerResult, error, cancelled);
+    _asyncOperation.PostOperationCompleted(_operationCompleted, e);
+}
+</code></pre>
+<p>直接呼叫也很簡單，只需要加入委派之後呼叫 <code>RunWorkerAsync</code> 方法啟動即可。</p>
+<pre><code class="language-text">void Main()
+{
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+	var bg = new BackgroundWorker();
+	bg.DoWork += ((sender, e) =&gt; {
+		Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; In BackgroundWorker&quot;);
+	});
+	
+	bg.RunWorkerAsync();
+}
+</code></pre>
+<p>下面這個是一般 Event 的處理流程。</p>
+<pre><code class="language-text">public event DoWorkEventHandler? DoWork;
+
+void Main()
+{
+	Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+	DoWork += ((sender, e) =&gt;
+	{
+		Console.WriteLine(Thread.CurrentThread.ManagedThreadId + &quot; In DoWorkEventHandler&quot;);
+	});
+
+	DoWork?.Invoke(this, null);
+}
+</code></pre>
+<p>從這兩段程式碼可以明顯看出一般 Event 的處理流程是運行在主行緒上，但透過 <code>BackgroundWorker</code> 包裝過後的事件則是運行在新的執行緒上。</p>
+<p>建立這個類別的目的就是重用背景執行的程式碼，並且方便使用者不用在寫前景執行緒與背景執行緒的溝通邏輯。</p>
+<p>例如常用的進度回報、任務取消、異常處理等功能 <code>BackgroundWorker</code> 都有內建，所以我們就不用自己寫這方面的邏輯了。</p>
+<p>下面這個例子就是啟用了回報功能與取消功能的 <code>BackgroundWorker</code>，關鍵是在 <code>DoWork</code> 委派中呼叫 <code>ReportProgress</code> 方法，
+回報目前的進度，並且加上 <code>RunWorkerCompleted</code> 事件添加任務完成後的處理邏輯，也可以添加判斷並呼叫 <code>CancelAsync</code>，直接取消背景任務。</p>
+<pre><code class="language-text">void Main()
+{
+	var worker = new BackgroundWorker()
+	{
+		WorkerReportsProgress = true,
+		WorkerSupportsCancellation = true
+	};
+	
+	worker.DoWork += (sender, e) =&gt; {
+		for (int i = 0; i &lt; 100; i++)
+		{
+			if (worker.CancellationPending)
+			{
+				e.Cancel = true;
+				return;
+			}
+			
+			// throw new Exception();
+			
+			Thread.Sleep(100);
+			(sender as BackgroundWorker)?.ReportProgress(i);
+		}	
+	};
+
+	// 設置 ProgressChanged 事件
+	worker.ProgressChanged += (sender, e) =&gt;
+	{
+		Console.WriteLine($&quot;進度: {e.ProgressPercentage}%&quot;);
+	};
+
+	// 設置 RunWorkerCompleted 事件
+	worker.RunWorkerCompleted += (sender, e) =&gt;
+	{
+		if (e.Cancelled)
+			Console.WriteLine(&quot;作業已取消&quot;);
+		else if (e.Error != null)
+			Console.WriteLine($&quot;發生錯誤: {e.Error.Message}&quot;);
+		else
+			Console.WriteLine(&quot;作業完成&quot;);
+	};
+	
+	worker.RunWorkerAsync();
+	// worker.CancelAsync();
+}
+</code></pre>
+<p>另外一個重要的關鍵是錯誤處理，之前有提到過沒辦法把一個錯誤從 B 執行緒拋給 A 執行緒，這個問題在 <code>BackgroundWorker</code> 也有處理，
+可以看一下 <code>WorkerThreadStart</code> 的原始碼它有透過 try/catch 捕捉錯誤但它沒有直接拋出，反而是透過 <code>RunWorkerCompletedEventArgs</code>
+提供的 Error 屬性把錯誤資訊保存在裡面，最後需要在透過 <code>RunWorkerCompletedEventArgs</code> 事件參數讀取錯誤資訊進行後續處理。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法介紹 <code>BackgroundWorker</code> 讓我們可以透過這個類別方便建立背景執行的工作，並且也提供了進度回報、任務取消、異常處理等常用功能，
+避免每次都要自行實做前景與背景溝通的邏輯。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-38'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

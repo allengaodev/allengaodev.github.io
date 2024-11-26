@@ -107,23 +107,26 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-21">Effective C# 21.&#x5EFA;&#x69CB;&#x652F;&#x63F4; Disposable &#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x6CDB;&#x578B;&#x985E;&#x5225;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-24">Effective C# 24.&#x52FF;&#x65BC;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x6216;&#x4ECB;&#x9762;&#x5EFA;&#x69CB;&#x6CDB;&#x578B;&#x7279;&#x5316;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;19&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+<p>這個做法提出如果你有泛型方法，那就不要再創建針對基底類別或介面的多載方法，
+可以猜猜下面這段程式碼的輸出為何。</p>    <p class="small"><a href="/posts/effective-csharp-24">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-23">Effective C# 23.&#x4F7F;&#x7528; delegate &#x5B9A;&#x7FA9;&#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x65B9;&#x6CD5;&#x7D04;&#x675F;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;19&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+<p>在做法 18 中提出了約束的概念，用意是約束傳入的類型參數(type parameter)需要符合設定的條件才允使傳入到泛型之中，但是內建的約束並不是
+萬能的，像是 <code>new()</code> 這個約束就要求類型參數需要實做無參數的建構函式，如果今天想要約束類型參數需要實做靜態的建構函式或者需要強制實做一個
+方法就需要特殊處理了。</p>    <p class="small"><a href="/posts/effective-csharp-23">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-22">Effective C# 22.&#x652F;&#x63F4;&#x6CDB;&#x578B;&#x7684;&#x5171;&#x8B8A;&#x6578;&#x8207;&#x53CD;&#x8B8A;&#x6578;</a></h2>
   <p class="post-meta">Published on 2024&#x5E74;10&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
-<p>這個做法討論了泛型中一個特殊情況，就是當傳入的類型參數(type parameter)有實做 IDisposable 介面的時候，可能會導致記憶體釋放的問題。</p>    <p class="small"><a href="/posts/effective-csharp-21">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-20">Effective C# 20.&#x4EE5; IComparable&lt;T&gt; &#x8207; IComparer&lt;T&gt; &#x5BE6;&#x4F5C;&#x6392;&#x5E8F;&#x95DC;&#x4FC2;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;17&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>這個做法在教你如何用 IComparable<t> 與 IComparer<t> 介面來實作排序的功能。</t></t></p>    <p class="small"><a href="/posts/effective-csharp-20">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-19">Effective C# 19.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x671F;&#x578B;&#x5225;&#x6AA2;&#x67E5;&#x7279;&#x5316;&#x6CDB;&#x578B;&#x6F14;&#x7B97;&#x6CD5;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;16&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法在討論泛型演算法傳入的參數會影響演算法的效率。</p>    <p class="small"><a href="/posts/effective-csharp-19">Read more...</a></p>
+<p>這個做法提出了三個概念: 共變數(Covariance)、反變數(Contravariance)與不變數(Invariant)。</p>    <p class="small"><a href="/posts/effective-csharp-22">Read more...</a></p>
 </div>
 
   <div>
@@ -140,9 +143,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (103)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (106)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (36)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (39)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
