@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 37.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x7DD2;&#x5340;&#x96C6;&#x53D6;&#x4EE3;&#x5EFA;&#x7ACB;&#x57F7;&#x884C;&#x7DD2;(Use the Thread Pool Instead of Creating Threads)">
+
+  <title>More Effective C# 37.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x7DD2;&#x5340;&#x96C6;&#x53D6;&#x4EE3;&#x5EFA;&#x7ACB;&#x57F7;&#x884C;&#x7DD2;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-37'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 37.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x7DD2;&#x5340;&#x96C6;&#x53D6;&#x4EE3;&#x5EFA;&#x7ACB;&#x57F7;&#x884C;&#x7DD2;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-37' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-37'>More Effective C# 37.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x7DD2;&#x5340;&#x96C6;&#x53D6;&#x4EE3;&#x5EFA;&#x7ACB;&#x57F7;&#x884C;&#x7DD2;</a>
+              <span class="subheading">More Effective C# 37.&#x4F7F;&#x7528;&#x57F7;&#x884C;&#x7DD2;&#x5340;&#x96C6;&#x53D6;&#x4EE3;&#x5EFA;&#x7ACB;&#x57F7;&#x884C;&#x7DD2;(Use the Thread Pool Instead of Creating Threads)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E00;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法解釋 Task 背後的執行緒管理機制與手動建立執行緒對效能的影響。</p>
+<p>由於寫出來的應用程式會運作在各式各樣的機器上，所以你很難在程式設計階段就直接決定可以使用多少執行緒數量，
+所以手動建立執行緒會碰到最大的問題就是很難最佳化應用程式執行緒總數量。</p>
+<p>所以就有了 Thread Pool 這個概念，讓它自行管理最適合的執行緒總數量，如果同時要求過多的執行緒，Thread Pool 會要求應用程式排隊等待，
+直到有可用的執行緒釋出為止，官方目前推薦使用的 Task 類別就內建了 Thread Pool 機制。</p>
+<p>下面這個範例測試了四種情況，分別是單一執行緒方法、以 Task 為主的方法、以 ThreadPool 為主的方法、手動建立 Thread 的方法。</p>
+<pre><code class="language-text">void Main()
+{
+	Console.WriteLine(OneThread());
+	Console.WriteLine(TaskLibrary(100));
+	Console.WriteLine(ThreadPoolThreads(100));
+	Console.WriteLine(ManualThreads(100));
+}
+public static int LowerBound { get; set; } = 1;
+public static int UpperBound { get; set; } = 100000 * 1000;
+
+public static class Hero
+{
+	public static double FindRoot(double number)
+	{
+		double previousError = double.MaxValue;
+		double guess = 1;
+		double error = Math.Abs(guess * guess - number);
+		while (previousError / error &gt; 1.000001)
+		{
+			guess = (number / guess + guess) / 2.0;
+			previousError = error;
+			error = Math.Abs(guess * guess - number);
+		}
+		return guess;
+	}
+}
+
+private static double OneThread()
+{
+	Stopwatch start = new Stopwatch();
+	double answer;
+	start.Start();
+	for (int i = LowerBound; i &lt; UpperBound; i++)
+		answer = Hero.FindRoot(i);
+	start.Stop();
+	return start.ElapsedMilliseconds;
+}
+private static async Task&lt;double&gt; TaskLibrary(int numTasks)
+{
+	var itemsPerTask = (UpperBound - LowerBound) / numTasks + 1;
+	double answer;
+	List&lt;Task&gt; tasks = new List&lt;Task&gt;(numTasks);
+	Stopwatch start = new Stopwatch();
+	start.Start();
+	for (int i = LowerBound; i &lt; UpperBound; i += itemsPerTask)
+	{
+		tasks.Add(Task.Run(() =&gt;
+		{
+			for (int j = i; j &lt; i + itemsPerTask; j++)
+				answer = Hero.FindRoot(j);
+		}));
+	}
+	await Task.WhenAll(tasks);
+	start.Stop();
+	return start.ElapsedMilliseconds;
+}
+private static double ThreadPoolThreads(int numThreads)
+{
+	Stopwatch start = new Stopwatch();
+	using (AutoResetEvent e = new AutoResetEvent(false))
+	{
+		int workerThreads = numThreads;
+		double answer;
+		start.Start();
+		for (int thread = 0; thread &lt; numThreads; thread++)
+			System.Threading.ThreadPool.QueueUserWorkItem(
+				(x) =&gt;
+				{
+					for (int i = LowerBound; i &lt; UpperBound; i++)
+						if (i % numThreads == thread)
+							answer = Hero.FindRoot(i);
+					if (Interlocked.Decrement(ref workerThreads) == 0)
+						e.Set();
+				});
+		e.WaitOne();
+		start.Stop();
+		return start.ElapsedMilliseconds;
+	}
+}
+private static double ManualThreads(int numThreads)
+{
+	Stopwatch start = new Stopwatch();
+	using (AutoResetEvent e = new AutoResetEvent(false))
+	{
+		int workerThreads = numThreads;
+		double answer;
+		start.Start();
+		for (int thread = 0; thread &lt; numThreads; thread++)
+		{
+			Thread t = new Thread(() =&gt;
+				{
+					for (int i = LowerBound; i &lt; UpperBound; i++)
+						if (i % numThreads == thread)
+							answer = Hero.FindRoot(i);
+					if (Interlocked.Decrement(ref workerThreads) == 0)
+						e.Set();
+				});
+			t.Start();
+		}
+		e.WaitOne();
+		start.Stop();
+		return start.ElapsedMilliseconds;
+	}
+}
+</code></pre>
+<p>從這個測試可以看出需要建立大量執行緒的時候反而會造成效能瓶頸，並且 Task 在高負載與低負載的反應時間綜合起來看是最優秀的，
+也得知並不是大量建立執行緒就能更快完成任務，</p>
+<p>建立大量建立執行緒的場景使用 Thread Pool 與手動建立執行緒相比會快很多，是因為 Thread Pool 完成工作後並不會馬上銷毀執行緒，
+而是會在 Thread Pool 等待下一個任務，但手動建立執行緒每次就需要經過建立與銷毀的過程所以需要花費更多時間。</p>
+<p>另外是當建立過多執行緒時 Thread Pool 會自動管理執行緒上限，如果超過就需要排隊等待有空閒的執行緒出現。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>由於手動建立執行緒與透過 Thread Pool 取得執行緒在現代的 C# 已經沒必要使用，除非有特殊的應用場景否則平常使用 Task 就能滿足需求。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-37'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
