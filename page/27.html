@@ -107,23 +107,26 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-05">Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;26&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>在做法 4 中，介紹了字串插值的寫法，但是某些功能需要根據不同的文化產生不同的結果，例如時間輸出的格式就會根據目前電腦的文化設定來輸出時間。</p>    <p class="small"><a href="/posts/effective-csharp-05">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-09">Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;2&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
+<p>這個做法在討論 boxing 與 unboxing 的運作方式與背後理論。
+首先要先複習 <code>Value Type</code> 和 <code>Reference Type</code> 兩者關鍵的區別，<code>Value Type</code> 的複製是 Copy-by-value，<code>Reference Type</code> 的複製是 Copy-by-reference。</p>    <p class="small"><a href="/posts/effective-csharp-09">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-04">Effective C# 04.&#x4EE5;&#x5167;&#x63D2;&#x5B57;&#x4E32;&#x53D6;&#x4EE3; string.Format</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>在 C# 6 引入新的字串內插（string interpolation）的寫法，相比傳統的字串格式化寫法的可讀性還高。</p>    <p class="small"><a href="/posts/effective-csharp-04">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-08">Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;29&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+<p>本做法介紹了 <code>?</code> 運算子的使用方式，與錯誤的使用 event 可能會造成 <code>NullReferenceException</code>。
+首先同樣也複習一下 event 的使用方式，典型的事件用法是在類別或物件發生變動時，告知其他類別或物件或者執行方法，
+通常會有一個發佈者(publisher)與接收者(subscriber)。</p>    <p class="small"><a href="/posts/effective-csharp-08">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-03">Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>在某些場合我們需要手動對 object 類型進行轉型的操作，目前常用的轉型方式有以下幾種：</p>    <p class="small"><a href="/posts/effective-csharp-03">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-07">Effective C# 07.&#x4EE5; delegate &#x8868;&#x793A; callback</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;28&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+<p>本做法主要在介紹使用 delegate 的好處，可以先複習一下 lambda 還沒有出現前的寫法。</p>    <p class="small"><a href="/posts/effective-csharp-07">Read more...</a></p>
 </div>
 
   <div>
@@ -140,9 +143,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (99)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (103)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (32)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (36)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

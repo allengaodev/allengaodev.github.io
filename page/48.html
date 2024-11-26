@@ -107,27 +107,30 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-image-multi-stage-builds">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Image Multi-Stage Builds</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;2&#x6708;25&#x65E5; &#x661F;&#x671F;&#x516D;</p>
-<p>在這篇文章<a href="https://blog.allengaodev.com/posts/dca-imagelayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a>當中有提到一個Dockerfile的規則<br>
-當使用<code>RUN</code>, <code>COPY</code>, <code>ADD</code>任意一個指令，Docker就會幫我們創建一個layers</p>    <p class="small"><a href="/posts/dca-image-multi-stage-builds">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-attach-exec">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Attach vs Exec</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;1&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
+<p>之前在進入 Container 內部時經常使用到 <code>docker attach &lt;ContainerId&gt;</code> 這個命令，不過 Docker 還有提供另一個命令 <code>docker exec</code><br>
+<code>docker exec</code> 顧名思義就是在 container 內部運行一段命令，我們可以在 Host 環境底下直接將命令傳送給 container 內部<br>
+交由 container 內部的系統來運行，所以範用性比起 <code>docker attach</code> 更加的廣泛，今天要來比較這兩個命令的區別</p>    <p class="small"><a href="/posts/dca-attach-exec">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/statiq-giscus">&#x4F7F;&#x7528; Statiq &#x5728;Github Page &#x90E8;&#x5C6C;&#x975C;&#x614B;&#x90E8;&#x843D;&#x683C;&#x7DB2;&#x7AD9; 4 &#x6DFB;&#x52A0;&#x8A55;&#x8AD6;&#x7CFB;&#x7D71; Giscus</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;2&#x6708;24&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
-<p><a href="https://github.com/giscus/giscus" target="_blank">Giscus</a>
-是一套利用 <a href="https://docs.github.com/zh/discussions/quickstart" target="_blank">Github Discussions</a> 提供的 API 所製作出來的 JS Library
-可以快速的幫你的部落格添加一個留言板，另外一套 Disqus 也是經長被使用的留言板系統</p>    <p class="small"><a href="/posts/statiq-giscus">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-tmpfs">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Tmpfs Mounts</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;2&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
+<p>目前我們已經瞭解了兩種資料儲存方式 <code>Volume</code> 和 <code>Bind mount</code>， Docker其實還有提供第三種儲特殊的存資料方法，那就是 <code>Tmpfs mount</code><br>
+Tmpfs mount` 跟其它兩種寫入方式最大的不同就是它是直接寫入到 Host 的記憶體內，只要 container 一停止運行， 用此方式掛載的資料路徑會直接被清除掉<br>
+因為只會寫入到 Host 記憶體內所以很適合用臨時保存一次性生成的密鑰或一些敏感資料
+<img src="https://docs.docker.com/storage/images/types-of-mounts-tmpfs.png" class="img-fluid" alt="mounts-tmpfs"></p>    <p class="small"><a href="/posts/dca-tmpfs">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-workdir-user">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-WORKDIR and USER</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;2&#x6708;23&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>在Dockerfile中WORKDIR也是相當常用的指令<br>
-首先來看看<a href="https://docs.docker.com/engine/reference/builder/#workdir" target="_blank">WORKDIR文檔</a></p>    <p class="small"><a href="/posts/dca-workdir-user">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dca-volume-cli">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME CLI and Bind Mounts</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;2&#x6708;27&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
+<p>在上一篇的文章中: <a href="https://blog.allengaodev.com/posts/dca-volume" target="_blank">Docker Certified Associate(DCA)認證考試學習- VOLUME</a><br>
+我們學到了該怎麼在 Docker 中建立並且使用一個 volume ，今天要來學習另一種創建 volume 的方式<br>
+Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關功能</p>    <p class="small"><a href="/posts/dca-volume-cli">Read more...</a></p>
 </div>
 
   <div>
@@ -144,9 +147,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (99)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (103)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (32)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (36)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

@@ -107,26 +107,26 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;20&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-oauth-oidc">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;OAuth &#x548C; Oidc</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;30&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+<p>在之前的文章中我們利用微軟提供的 Package <code>Microsoft.AspNetCore.Authentication.Google</code> 成功實踐了 Google 外部登入
+我們只要在 <code>Program.cs</code> 的 <code>IServiceCollection</code> 呼叫 <code>AddGoogle</code> 方法即可，接下來的流程就交給內建的 SignInManager 處理</p>    <p class="small"><a href="/posts/dotnet-identity-oauth-oidc">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;17&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
-<p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
-現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-user-tokens">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
+<p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
+分別使用到 SignInManager 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>    <p class="small"><a href="/posts/dotnet-identity-user-tokens">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;16&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
-<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
-在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
-閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-user-logins">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;26&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
+<p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
+所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
 </div>
 
   <div>
@@ -143,9 +143,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (99)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (103)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (32)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (36)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

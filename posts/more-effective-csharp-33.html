@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 33.&#x8003;&#x616E;&#x5BE6;&#x505A; Task &#x53D6;&#x6D88;&#x5354;&#x5B9A; (Task Cancellation Protocol)(Consider Implementing the Task Cancellation Protocol)">
+
+  <title>More Effective C# 33.&#x8003;&#x616E;&#x5BE6;&#x505A; Task &#x53D6;&#x6D88;&#x5354;&#x5B9A; (Task Cancellation Protocol)</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-33'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 33.&#x8003;&#x616E;&#x5BE6;&#x505A; Task &#x53D6;&#x6D88;&#x5354;&#x5B9A; (Task Cancellation Protocol)' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-33' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-33'>More Effective C# 33.&#x8003;&#x616E;&#x5BE6;&#x505A; Task &#x53D6;&#x6D88;&#x5354;&#x5B9A; (Task Cancellation Protocol)</a>
+              <span class="subheading">More Effective C# 33.&#x8003;&#x616E;&#x5BE6;&#x505A; Task &#x53D6;&#x6D88;&#x5354;&#x5B9A; (Task Cancellation Protocol)(Consider Implementing the Task Cancellation Protocol)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;23&#x65E5; &#x661F;&#x671F;&#x516D;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法介紹了 C# 中 Task 提供了 IProgress 與 CancellationToken 可以用來實做進度條與取消任務等功能。</p>
+<p>雖然我們可以幫非同步 API 新增取消的機制，但並不是每一種功能底層機制都支援取消功能，所以不應該把幫每個非同步 API 都加上能夠取消的多載版本。
+同樣的問題在新增回報進度功能也一樣，你的非同步工作應該要有可以劃分階段並提供進度資訊的設計，否則不應該加上能夠回報進度的多載版本。</p>
+<p>假設你寫了一個計算薪資的 API 內部包含了五個步驟，你就可以在每個步驟都額外實做回報進度的多載版本，也可以在第一二三步驟加上取消的多載版本，
+確保在實際支付前都還能取消。</p>
+<ol>
+<li>呼叫一個服務取得員工清單與工作時數。</li>
+<li>呼叫第二個服務計算薪資所得稅金。</li>
+<li>呼叫第三個服務產生薪資單並郵寄給員工。</li>
+<li>呼叫第四的服務執行轉帳。</li>
+<li>結束薪資結算期。</li>
+</ol>
+<p>首先新增一個沒有支援取消與回報的版本。</p>
+<pre><code class="language-text">public async Task RunPayroll(DateTime payrollPeriod)
+{
+	// Step 1: Calculate hours and pay
+	var payrollData = await RetieveEmployeePayrollDataFor(payrollPeriod);
+	// Step 2: Calculate tax
+	var taxReporting = new Dictionary&lt;EmployeePayrollData, TaxWithholding&gt;();
+	foreach (var employee in payrollData)
+	{
+		var taxWitholding = await RetrieveTaxData(employee);
+		taxReporting.Add(employee, taxWitholding);
+	}
+	// Step 3: generate and email paystub documents
+	var paystubs = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+	{
+		var payrollTask = GeneratePayrollDocument(payrollItem.Key, payrollItem.Value);
+		var emailTask = payrollTask.ContinueWith(
+			paystub =&gt; EmailPaystub(payrollItem.Key.Email, paystub.Result)
+		);
+		paystubs.Add(emailTask);
+	}
+	await Task.WhenAll(paystubs);
+	// Step 4: Deposit pay
+	var depositTasks = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+	{
+		depositTasks.Add(MakeDeposit(payrollItem.Key,
+			payrollItem.Value));
+	}
+	await Task.WhenAll(depositTasks);
+	// Step 5: Close payroll period
+	await ClosePayrollPeriod(payrollPeriod);
+}
+</code></pre>
+<p>接下來加上回報進度的功能。</p>
+<pre><code class="language-text">public async Task RunPayroll(DateTime payrollPeriod, IProgress&lt;(int, string)&gt; progress)
+{
+	progress?.Report((0, &quot;Starting Payroll&quot;));
+	// Step 1: Calculate hours and pay
+	var payrollData = await RetieveEmployeePayrollDataFor(payrollPeriod);
+	progress?.Report((20, &quot;Retrieved employees and hours&quot;));
+	// Step 2: Calculate tax
+	var taxReporting = new Dictionary&lt;EmployeePayrollData, TaxWithholding&gt;();
+	foreach (var employee in payrollData)
+	{
+		var taxWitholding = await RetrieveTaxData(employee);
+		taxReporting.Add(employee, taxWitholding);
+	}
+
+	progress?.Report((40, &quot;Calculated Witholding&quot;));
+	// Step 3: generate and email paystub documents
+	var paystubs = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+	{
+		var payrollTask = GeneratePayrollDocument(
+			payrollItem.Key,
+			payrollItem.Value
+		);
+		var emailTask = payrollTask.ContinueWith(
+			paystub =&gt; EmailPaystub(payrollItem.Key.Email,
+				paystub.Result)
+		);
+		paystubs.Add(emailTask);
+	}
+
+	await Task.WhenAll(paystubs);
+	progress?.Report((60, &quot;Emailed Paystubs&quot;));
+	// Step 4: Deposit pay
+	var depositTasks = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+		depositTasks.Add(MakeDeposit(payrollItem.Key,payrollItem.Value));
+
+	await Task.WhenAll(depositTasks);
+	progress?.Report((80, &quot;Deposited pay&quot;));
+	// Step 5: Close payroll period
+	await ClosePayrollPeriod(payrollPeriod);
+	progress?.Report((100, &quot;complete&quot;));
+}
+</code></pre>
+<p>使用者可以這樣呼叫我們的方法，主要就是透過 <code>IProgress</code> 介面提供的 <code>Report</code> 來做到回報的功能。</p>
+<pre><code class="language-text">void Main()
+{
+	await generator.RunPayroll(DateTime.Now, new ProgressReporter());
+}
+
+public class ProgressReporter : IProgress&lt;(int percent, string message)&gt;
+{
+	public void Report((int percent, string message) value)
+	{
+		Console.WriteLine($&quot;{value.percent} completed: {value.message}&quot;;
+	}
+}
+</code></pre>
+<p>接下來加上支援取消的多載版本。</p>
+<pre><code class="language-text">public async Task RunPayroll(DateTime payrollPeriod, CancellationToken cancellationToken)
+{
+	// Step 1: Calculate hours and pay
+	var payrollData = await RetieveEmployeePayrollDataFor(payrollPeriod);
+	cancellationToken.ThrowIfCancellationRequested();
+	// Step 2: Calculate tax
+	var taxReporting = new Dictionary&lt;EmployeePayrollData, TaxWithholding&gt;();
+	foreach (var employee in payrollData)
+	{
+		var taxWitholding = await RetrieveTaxData(employee);
+		taxReporting.Add(employee, taxWitholding);
+	}
+	cancellationToken.ThrowIfCancellationRequested();
+	// Step 3: generate and email paystub documents
+	var paystubs = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+	{
+		var payrollTask = GeneratePayrollDocument(
+			payrollItem.Key, payrollItem.Value);
+		var emailTask = payrollTask.ContinueWith(
+			paystub =&gt; EmailPaystub(payrollItem.Key.Email,
+				paystub.Result));
+		paystubs.Add(emailTask);
+	}
+	await Task.WhenAll(paystubs);
+	cancellationToken.ThrowIfCancellationRequested();
+	// Step 4: Deposit pay
+	var depositTasks = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+	{
+		depositTasks.Add(MakeDeposit(payrollItem.Key,
+			payrollItem.Value));
+	}
+	await Task.WhenAll(depositTasks);
+	// Step 5: Close payroll period
+	await ClosePayrollPeriod(payrollPeriod);
+}
+</code></pre>
+<p>呼叫者可以透過 <code>CancellationTokenSource</code> 管理 Token 的生命週期，注意到這裡是透過拋出 <code>TaskCanceledException</code> 來達到中止任務的效果。</p>
+<pre><code class="language-text">void Main()
+{
+    var cts = new CancellationTokenSource();
+    generator.RunPayroll(DateTime.Now, cts.Token);
+    // to cancel:
+    cts.Cancel();
+}
+</code></pre>
+<p>最後將所有內容合併到一起讓使用者選擇需要的版本，這裡把共用的程式碼都放到一個方法中，當 <code>progress</code> 為 null 是不會有錯誤的也不會回報進度，
+<code>cancelationToken</code> 也一樣只會新增但實際上沒有人管理取消功能所以不會被要求取消。</p>
+<pre><code class="language-text">public Task RunPayroll(DateTime payrollPeriod) =&gt; RunPayroll(payrollPeriod, new CancellationToken(), null);
+public Task RunPayroll(DateTime payrollPeriod, CancellationToken cancellationToken) =&gt; 
+	RunPayroll(payrollPeriod, cancellationToken, null);
+public Task RunPayroll(DateTime payrollPeriod, IProgress&lt;(int, string)&gt; progress) =&gt;
+   RunPayroll(payrollPeriod, new CancellationToken(), progress);
+public async Task RunPayroll(DateTime payrollPeriod, CancellationToken cancelationToken, IProgress&lt;(int, string)&gt; progress)
+{
+	progress?.Report((0, &quot;Starting Payroll&quot;));
+	// Step 1: Calculate hours and pay
+	var payrollData = await RetieveEmployeePayrollDataFor(payrollPeriod);
+	cancelationToken.ThrowIfCancellationRequested();
+	progress?.Report((20, &quot;Retrieved employees and hours&quot;));
+	// Step 2: Calculate tax
+	var taxReporting = new Dictionary&lt;EmployeePayrollData, TaxWithholding&gt;();
+	foreach (var employee in payrollData)
+	{
+		var taxWitholding = await RetrieveTaxData(employee);
+		taxReporting.Add(employee, taxWitholding);
+	}
+	cancelationToken.ThrowIfCancellationRequested();
+	progress?.Report((40, &quot;Calculated Witholding&quot;));
+	// Step 3: generate and email paystub documents
+	var paystubs = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+	{
+		var payrollTask = GeneratePayrollDocument(
+			payrollItem.Key, payrollItem.Value);
+		var emailTask = payrollTask.ContinueWith(
+			paystub =&gt; EmailPaystub(payrollItem.Key.Email,
+				paystub.Result));
+		paystubs.Add(emailTask);
+	}
+	await Task.WhenAll(paystubs);
+	cancelationToken.ThrowIfCancellationRequested();
+	progress?.Report((60, &quot;Emailed Paystubs&quot;));
+	// Step 4: Deposit pay
+	var depositTasks = new List&lt;Task&gt;();
+	foreach (var payrollItem in taxReporting)
+	{
+		depositTasks.Add(MakeDeposit(payrollItem.Key,
+			payrollItem.Value));
+	}
+	await Task.WhenAll(depositTasks);
+	progress?.Report((80, &quot;Deposited pay&quot;));
+	// Step 5: Close payroll period
+	await ClosePayrollPeriod(payrollPeriod);
+	cancelationToken.ThrowIfCancellationRequested();
+	progress?.Report((100, &quot;complete&quot;));
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法介紹 Task 能夠支援任務取消與回報進度的功能，可以按照自己的需求評估是否需要實做。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-33'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

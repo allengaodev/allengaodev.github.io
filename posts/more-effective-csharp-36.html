@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 36.&#x5EFA;&#x69CB;&#x6709;&#x8003;&#x616E;&#x4F8B;&#x5916;&#x60C5;&#x6CC1;&#x7684;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;(Construct Parallel Algorithms with Exceptions in Mind)">
+
+  <title>More Effective C# 36.&#x5EFA;&#x69CB;&#x6709;&#x8003;&#x616E;&#x4F8B;&#x5916;&#x60C5;&#x6CC1;&#x7684;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-36'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 36.&#x5EFA;&#x69CB;&#x6709;&#x8003;&#x616E;&#x4F8B;&#x5916;&#x60C5;&#x6CC1;&#x7684;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-36' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-36'>More Effective C# 36.&#x5EFA;&#x69CB;&#x6709;&#x8003;&#x616E;&#x4F8B;&#x5916;&#x60C5;&#x6CC1;&#x7684;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;</a>
+              <span class="subheading">More Effective C# 36.&#x5EFA;&#x69CB;&#x6709;&#x8003;&#x616E;&#x4F8B;&#x5916;&#x60C5;&#x6CC1;&#x7684;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;(Construct Parallel Algorithms with Exceptions in Mind)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;24&#x65E5; &#x661F;&#x671F;&#x65E5;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在說明將方法轉成平行化內部發生例外錯誤後該如何處理。</p>
+<p>在平行作業執行的過程中，如果一個子執行緒發生錯誤，那麼該執行緒可能會被直接中止，並且由於 Exceptions 沒辦法跨執行緒所以這個 Exceptions
+也沒有辦法拋出到主執行緒的 AggregateException 當中，也就代表呼叫的執行緒沒辦法做出相對應的處理。</p>
+<p>另外一個可能性是使用超過一個平行運算，結果會導致多個 AggregateExceptions 嵌套在一起增加處理難度，例如下面就需要透過
+一個 AggregateException 的 InnerExceptions 遞迴執行直到回傳出真正的錯誤。</p>
+<pre><code class="language-text">try
+{
+	urls.RunAsync(
+        url =&gt; startDownload(url),
+        task =&gt; finishDownload(
+	        task.AsyncState.ToString(), task.Result)
+	);
+}
+catch (AggregateException problems)
+{
+	ReportAggregateError(problems);
+}
+private static void ReportAggregateError(AggregateException aggregate)
+{
+	foreach (var exception in aggregate.InnerExceptions)
+		if (exception is AggregateException agEx)
+			ReportAggregateError(agEx);
+		else
+			Console.WriteLine(exception.Message);
+}
+</code></pre>
+<p>但上面並不是非常好，我們可以寫出另一個方法只對關注的 Exception 進行處理就好，下面這個方法就是透過 <code>Dictionary</code> 將
+想要處理的 Exception 類型綁定一個 Action，確保特定的 Exception 能夠進行特殊處理。</p>
+<p>並且注意到 <code>throw</code> 是拋出原始的 AggregateException 避免失去錯誤資訊。</p>
+<pre><code class="language-text">try
+{
+	urls.RunAsync(
+		url =&gt; startDownload(url),
+		task =&gt; finishDownload(task.AsyncState.ToString(),
+		task.Result));
+}
+catch (AggregateException problems)
+{
+	var handlers = new Dictionary&lt;Type, Action&lt;Exception&gt;&gt;();
+	handlers.Add(typeof(WebException),
+		ex =&gt; Console.WriteLine(ex.Message));
+	if (!HandleAggregateError(problems, handlers))
+		throw;
+}
+
+private static bool HandleAggregateError(
+   AggregateException aggregate,
+   Dictionary&lt;Type, Action&lt;Exception&gt;&gt; exceptionHandlers)
+{
+	foreach (var exception in aggregate.InnerExceptions)
+	{
+		if (exception is AggregateException agEx)
+		{
+			if (!HandleAggregateError(agEx, exceptionHandlers))
+			{
+				return false;
+			}
+			else
+			{
+				continue;
+			}
+		}
+		else if (exceptionHandlers.ContainsKey(exception.GetType()))
+		{
+			exceptionHandlers[exception.GetType()](exception);
+		}
+		else
+			return false;
+	}
+	return true;
+}
+</code></pre>
+<p>另外也可以使用之前學過的 <code>TaskCompletionSource</code> 提供的 <code>TrySetException</code> 和 <code>TrySetResult</code>，將某些錯誤進行特定處理。
+下面這個寫法修改了原有的 <code>startDownload</code> 方法，將 WebException 特別挑出來視為正確的流程確保它不會中止程式的運行。</p>
+<pre><code class="language-text">private static Task&lt;byte[]&gt; startDownload(string url)
+{
+    var tcs = new TaskCompletionSource&lt;byte[]&gt;(url);
+    var wc = new WebClient();
+    wc.DownloadDataCompleted += (sender, e) =&gt;
+    {
+        if (e.Error is WebException)
+            tcs.TrySetResult(new byte[0]);
+        else if (e.Error != null)
+            tcs.TrySetException(e.Error);
+        else
+            tcs.TrySetResult(e.Result);
+    };
+    wc.DownloadDataAsync(new Uri(url), tcs);
+    return tcs.Task;
+}
+</code></pre>
+<p>在 PLINQ 中大不分的工作都會分散到背景的子執行緒身上，所以處理上與傳統的 LINQ 不同，建議是使用 try/catch 將 PLINQ 語法包起來，
+並且要注意 catch 的只能用 AggregateException，而不是某些特定的錯誤。</p>
+<pre><code class="language-text">try
+{
+    var results = data.AsParallel()
+                      .Where(x =&gt; x &lt; 100)
+                      .Select(x =&gt; Compute(x));
+                      
+    foreach (var result in results)
+    {
+        Console.WriteLine(result);
+    }
+}
+catch (AggregateException ex)
+{
+    Console.WriteLine($&quot;Error: {ex.Message}&quot;);
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法講解在撰寫平行演算法的時候要考慮到幾個關於錯誤處理的設計，首先要將錯誤分類成可允許的錯誤與重大錯誤，可以把可允許的錯誤挑出來
+避免影響應用程式運行，也可以搭配 Dictionary 與 Action 將特定的錯誤挑出來處理，還有要注意執行 PLINQ 程式最好是用 try/catch 將語法包裝起來，
+還有只能捕捉 AggregateException。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-36'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

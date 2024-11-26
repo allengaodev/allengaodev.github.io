@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 35.&#x5B78;&#x7FD2; PLINQ &#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;(Learn How PLINQ Implements Parallel Algorithms)">
+
+  <title>More Effective C# 35.&#x5B78;&#x7FD2; PLINQ &#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-35'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 35.&#x5B78;&#x7FD2; PLINQ &#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-35' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-35'>More Effective C# 35.&#x5B78;&#x7FD2; PLINQ &#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;</a>
+              <span class="subheading">More Effective C# 35.&#x5B78;&#x7FD2; PLINQ &#x5982;&#x4F55;&#x5BE6;&#x4F5C;&#x5E73;&#x884C;&#x6F14;&#x7B97;&#x6CD5;(Learn How PLINQ Implements Parallel Algorithms)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;24&#x65E5; &#x661F;&#x671F;&#x65E5;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法講解 PLINQ 是怎麼做到平行運算的，以及與 LINQ 相比之下多做了什麼事情。</p>
+<p>要將一般的 LINQ 語法轉換成 PLINQ 非常簡單，只要加上 <code>AsParallel()</code> 就好。</p>
+<pre><code class="language-text">void Main()
+{
+	var source = Enumerable.Range(1, 100000);
+	var result = source.AsParallel().Where(x =&gt; x % 2 == 0);
+	var count = result.Count();
+}
+</code></pre>
+<p>但要了解並不是轉換成平行處理的版本就能獲得更好的性能，首先要了解 PLINQ 操作的是 <code>ParallelQuery</code> 類別而不是一般的
+<code>Enumerable</code>，它只能處理 LINQ to Objects 這種針對記憶體的操作，沒有辦法平行化處理 LINQ to SQL 或 EntityFramework。</p>
+<p>與 <code>Enumerable</code> 類別的擴充方法類似，在 PLINQ 中則是透過 <code>ParallelEnumerable</code> 類別提供許多常用的擴充方法，使用上基本與 LINQ 相同，
+所以可以直接把 LINQ 的知識套用在 PLINQ 上。</p>
+<p>當我們呼叫 <code>AsParallel()</code> 方法時背後會透過 <code>ParallelEnumerableWrapper</code> 把傳入的 <code>IEnumerable</code> 包裝成 <code>ParallelQuery</code> 物件，
+這樣就可以直接使用 <code>ParallelEnumerable</code> 類別裡面的擴充方法了，下面是包裝的程式碼。</p>
+<pre><code class="language-text">// ParallelEnumerable.cs
+public static ParallelQuery AsParallel(this IEnumerable source)
+{
+    ArgumentNullException.ThrowIfNull(source);
+
+    return new ParallelEnumerableWrapper(source);
+}
+
+// ParallelEnumerableWrapper.cs
+internal sealed class ParallelEnumerableWrapper : ParallelQuery&lt;object?&gt;
+{
+    private readonly IEnumerable _source; // The wrapped enumerable object.
+
+    //-----------------------------------------------------------------------------------
+    // Instantiates a new wrapper object.
+    //
+
+    internal ParallelEnumerableWrapper(Collections.IEnumerable source)
+        : base(QuerySettings.Empty)
+    {
+        Debug.Assert(source != null);
+        _source = source;
+    }
+
+    internal override IEnumerator GetEnumeratorUntyped()
+    {
+        return _source.GetEnumerator();
+    }
+
+    public override IEnumerator&lt;object?&gt; GetEnumerator()
+    {
+        return new EnumerableWrapperWeakToStrong(_source).GetEnumerator();
+    }
+}
+</code></pre>
+<hr />
+<p>要平行處理任務第一個步驟就是將一群任務切割成一小塊才能分配給多個執行緒處理，而這個分割演算法總共有四種，分別是:</p>
+<ol>
+<li>Range Partitioning</li>
+<li>Chunk Partitioning</li>
+<li>Striped Partitioning</li>
+<li>Hash Partitioning</li>
+</ol>
+<h3 id="range-partitioning">Range Partitioning</h3>
+<p>這個分割演算法比較容易理解，假如有 1000 個任務在一台四核心的機器上運行，那麼就會分割出四個 Range 並且每個 Range 包含 250 個任務，
+使用 Range Partitioning 要求傳入的資料源必須是 <code>List&lt;T&gt;</code>、<code>arrays</code>、<code>IList&lt;T&gt;</code> 這種支援 Index 的集合，通常傳入集合的時候預設就是用這個分割方法。</p>
+<h3 id="chunk-partitioning">Chunk Partitioning</h3>
+<p>這個分割演算法通常用在不固定長度的資料來源上，首先會將系統會將資料來源切割成一個小的 Chunk 並分配給多個執行緒運行，接下來會將 Chunk 逐漸增大，
+例如有 50 個任務在一台四核心的機器上運行，那麼可能會將任務切割成下面這樣，這種分割演算法的好處是可以平均分配每個核心的壓力，確保所有任務
+都能在差不多的時間內完成。</p>
+<pre><code class="language-text">1 1 1 1 
+2 2 2 2 
+4 4 4 4 
+8 8 6	
+</code></pre>
+<h3 id="chunk-partitioning-1">Chunk Partitioning</h3>
+<p>這個分割演算法使用了 <code>SkipWhile</code> 與 <code>TakeWhile</code> 將資料來源進行分組，原理是根據核心的數量分配起始值與跳過的值，
+例如有多個任務在一台四核心的機器上運行，那麼可能會將任務切割成下面這樣</p>
+<pre><code class="language-text">核心 1: 0 4 8 12
+核心 2: 1 5 9 13
+核心 3: 2 6 10 14
+核心 4: 3 7 11 15
+</code></pre>
+<h3 id="hash-partitioning">Hash Partitioning</h3>
+<p>當你的查詢語法有包含 <code>Join</code>、<code>GroupJoin</code>、<code>GroupBy</code>、<code>Distinct</code>、<code>Except</code>、<code>Union</code>、<code>Intersect</code> 才會使用 Hash Partitioning，
+它會確保有相同 hash 值的運算能夠被同一個執行緒處理，避免共享的資料跨執行緒溝通。</p>
+<hr />
+<p>PLINQ 還額外使用了三種執行模型來處理平行化任務，分別是:</p>
+<ol>
+<li>Pipelining</li>
+<li>Stop &amp; Go</li>
+<li>Inverted Enumeration</li>
+</ol>
+<h3 id="pipelining">Pipelining</h3>
+<p>Pipelining 是預設使用的，它會建立一個執行緒專門負責枚舉工作(foreach)，其他執行緒負責處理查詢工作。</p>
+<h3 id="stop-go">Stop &amp; Go</h3>
+<p>這個模型需要搭配 <code>ToList()</code> 或 <code>ToArray()</code> 方法使用，通常是用在要求查詢語法立即執行或者是需要做排序與搜尋這類需要提前知道結果的工作，
+下面這兩個查詢語法就使用到 Stop &amp; Go，優點是可以獲得更好的性能但會提高記憶體消耗。</p>
+<pre><code class="language-text">var stopAndGoArray = (from n in data.AsParallel()
+					  where n &lt; 150
+					  select Factorial(n)).ToArray();
+var stopAndGoList = (from n in data.AsParallel()
+					 where n &lt; 150
+					 select Factorial(n)).ToList();
+</code></pre>
+<h3 id="inverted-enumeration">Inverted Enumeration</h3>
+<p>這個模型需要搭配 <code>ForAll()</code> 方法使用，它的特點是不生成完整結果，但能直接對結果執行操作，所以它基本上是耗的記憶體最少並執行更快的模型。</p>
+<pre><code class="language-text">var nums2 = from n in data.AsParallel()
+           where n &lt; 150
+           select Factorial(n);
+nums2.ForAll(item =&gt; Console.WriteLine(item));
+</code></pre>
+<hr />
+<p>接下來看一下使用 <code>AsParallel()</code> 程式會有什麼改變，首先下面這段是一個簡單的 LINQ 範例。</p>
+<pre><code class="language-text">void Main()
+{
+	var answers = from n in Enumerable.Range(0, 30)
+				  where n.SomeTest()
+				  select n.SomeProjection();
+
+	var iter = answers.GetEnumerator();
+	Console.WriteLine(&quot;About to start iterating&quot;);
+	while (iter.MoveNext())
+	{
+		Console.WriteLine(&quot;called MoveNext&quot;);
+		Console.WriteLine(iter.Current);
+	}
+}
+
+public static class Extensions{
+	public static bool SomeTest(this int inputValue)
+	{
+		Console.WriteLine($&quot;testing element: {inputValue}&quot;);
+		return inputValue % 5 == 0;
+	}
+	public static string SomeProjection(this int input)
+	{
+		Console.WriteLine($&quot;projecting an element: {input}&quot;);
+		return $&quot;Delivered {input} at {DateTime.Now:T}&quot;;
+	}
+}
+</code></pre>
+<pre><code class="language-text">About to start iterating
+testing element: 0
+projecting an element: 0
+called MoveNext
+Delivered 0 at 下午 03:01:32
+testing element: 1
+testing element: 2
+testing element: 3
+testing element: 4
+testing element: 5
+projecting an element: 5
+called MoveNext
+Delivered 5 at 下午 03:01:32
+testing element: 6
+testing element: 7
+testing element: 8
+testing element: 9
+testing element: 10
+projecting an element: 10
+called MoveNext
+Delivered 10 at 下午 03:01:32
+testing element: 11
+testing element: 12
+testing element: 13
+testing element: 14
+testing element: 15
+projecting an element: 15
+called MoveNext
+Delivered 15 at 下午 03:01:32
+testing element: 16
+testing element: 17
+testing element: 18
+testing element: 19
+testing element: 20
+projecting an element: 20
+called MoveNext
+Delivered 20 at 下午 03:01:32
+testing element: 21
+testing element: 22
+testing element: 23
+testing element: 24
+testing element: 25
+projecting an element: 25
+called MoveNext
+Delivered 25 at 下午 03:01:32
+testing element: 26
+testing element: 27
+testing element: 28
+testing element: 29
+</code></pre>
+<p>下面改成用 ParallelEnumerable 以平行的方式處理，會發現並不是從 0 開始而是隨機的。</p>
+<pre><code class="language-text">var answers = from n in ParallelEnumerable.Range(0, 30)
+			  where n.SomeTest()
+			  select n.SomeProjection();
+</code></pre>
+<pre><code class="language-text">About to start iterating
+testing element: 6
+testing element: 4
+testing element: 7
+testing element: 5
+testing element: 10
+testing element: 0
+testing element: 2
+testing element: 3
+testing element: 12
+testing element: 13
+testing element: 14
+testing element: 15
+testing element: 8
+testing element: 9
+testing element: 18
+testing element: 19
+testing element: 20
+testing element: 16
+testing element: 17
+testing element: 24
+testing element: 25
+projecting an element: 5
+projecting an element: 15
+testing element: 26
+projecting an element: 10
+testing element: 28
+projecting an element: 25
+testing element: 11
+testing element: 22
+testing element: 23
+testing element: 27
+projecting an element: 0
+projecting an element: 20
+called MoveNext
+testing element: 21
+Delivered 5 at 下午 03:05:29
+testing element: 29
+testing element: 1
+called MoveNext
+Delivered 10 at 下午 03:05:29
+called MoveNext
+Delivered 15 at 下午 03:05:29
+called MoveNext
+Delivered 20 at 下午 03:05:29
+called MoveNext
+Delivered 25 at 下午 03:05:29
+called MoveNext
+Delivered 0 at 下午 03:05:29
+</code></pre>
+<p>可以使用 <code>WithDegreeOfParallelism</code> 限制執行緒的使用數量。</p>
+<pre><code class="language-text">var answers = (from n in ParallelEnumerable.Range(0, 30).WithDegreeOfParallelism(1)
+				   where n.SomeTest()
+				   select n.SomeProjection());
+</code></pre>
+<p>使用 <code>AsSequential</code> 可以將 ParallelQuery 轉回 IEnumerable。</p>
+<pre><code class="language-text">var answers = (from n in ParallelEnumerable.Range(0, 30).AsSequential()
+			   where n.SomeTest()
+			   select n.SomeProjection());
+</code></pre>
+<p>使用 <code>WithExecutionMode</code> 可以強迫 PLINQ 平行化所有查詢，預設情況下 PLINQ 只會平行化有效益的操作。</p>
+<pre><code class="language-text">var answers = (from n in ParallelEnumerable.Range(0, 30).WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+				   where n.SomeTest()
+				   select n.SomeProjection());
+</code></pre>
+<p>使用 <code>WithMergeOptions</code> 來設定是否要啟動 buffer，目的是要將分散在各個執行緒的結果結合在一起顯示給呼叫者看。</p>
+<pre><code class="language-text">var answers = (from n in ParallelEnumerable.Range(0, 30).WithMergeOptions(ParallelMergeOptions.AutoBuffered)
+			   where n.SomeTest()
+			   select n.SomeProjection());
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法介紹了 PLINQ 背後的原理以及常用到的擴充方法，基本使用上與 LINQ 相同，但是平行化後的查詢是否能提升效能還是要自行測量結果
+，誤用 AsParallel() 可能會對效能造成影響。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-35'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

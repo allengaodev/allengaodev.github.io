@@ -105,6 +105,35 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-07">Effective C# 07.&#x4EE5; delegate &#x8868;&#x793A; callback</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;28&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+<p>本做法主要在介紹使用 delegate 的好處，可以先複習一下 lambda 還沒有出現前的寫法。</p>    <p class="small"><a href="/posts/effective-csharp-07">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-06">Effective C# 06.&#x907F;&#x514D;&#x5B57;&#x4E32;&#x578B;&#x5225; API</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;27&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
+<p>這個做法提到了 Stringly Typed 這個概念，字串型別這個翻譯有點模糊表達不夠精確，這個做法主要是在討論弱型別的問題。
+通常在使用外部涵式庫或者使用反射功能時會碰到需要使用弱型別字串來當作參數。</p>    <p class="small"><a href="/posts/effective-csharp-06">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-05">Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;26&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
+<p>在做法 4 中，介紹了字串插值的寫法，但是某些功能需要根據不同的文化產生不同的結果，例如時間輸出的格式就會根據目前電腦的文化設定來輸出時間。</p>    <p class="small"><a href="/posts/effective-csharp-05">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-04">Effective C# 04.&#x4EE5;&#x5167;&#x63D2;&#x5B57;&#x4E32;&#x53D6;&#x4EE3; string.Format</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
+<p>在 C# 6 引入新的字串內插（string interpolation）的寫法，相比傳統的字串格式化寫法的可讀性還高。</p>    <p class="small"><a href="/posts/effective-csharp-04">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-03">Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB;</a></h2>
   <p class="post-meta">Published on 2024&#x5E74;9&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
 <p>在某些場合我們需要手動對 object 類型進行轉型的操作，目前常用的轉型方式有以下幾種：</p>    <p class="small"><a href="/posts/effective-csharp-03">Read more...</a></p>
@@ -148,38 +177,6 @@
 我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>    <p class="small"><a href="/posts/dotnet-identity-server-ui">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-server">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;5&#x6708;3&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>在上一篇文章有提到要建立自己的 OIDC 伺服器，今天就來看看在 .NET 生態系中經常使用到的 <code>Identity Server</code>
-這篇文章使用的是 <code>Duende.IdentityServer</code> 可以在測試及與開發時免費使用</p>    <p class="small"><a href="/posts/dotnet-identity-server">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-oauth-oidc">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;OAuth &#x548C; Oidc</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;30&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
-<p>在之前的文章中我們利用微軟提供的 Package <code>Microsoft.AspNetCore.Authentication.Google</code> 成功實踐了 Google 外部登入
-我們只要在 <code>Program.cs</code> 的 <code>IServiceCollection</code> 呼叫 <code>AddGoogle</code> 方法即可，接下來的流程就交給內建的 SignInManager 處理</p>    <p class="small"><a href="/posts/dotnet-identity-oauth-oidc">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-user-tokens">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
-<p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
-分別使用到 SignInManager 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>    <p class="small"><a href="/posts/dotnet-identity-user-tokens">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-user-logins">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;26&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
-所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/tags/csharp/8" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -192,9 +189,9 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (99)</a>
+          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (103)</a>
           <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (32)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (36)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
