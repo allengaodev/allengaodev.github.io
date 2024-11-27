@@ -107,24 +107,23 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-18">More Effective C# 18.&#x512A;&#x5148;&#x4F7F;&#x7528; Override &#x66FF;&#x4EE3; Event Handler</a></h2>
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-21">More Effective C# 21.&#x53EA;&#x5BA3;&#x544A; Nonvirtual Event</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;16&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+<p>這個做法警告不要宣告 <code>virtual event</code> 因為在衍生類別覆寫 event 可能會導致意料外的問題。</p>    <p class="small"><a href="/posts/more-effective-csharp-21">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-20">More Effective C# 20.&#x4E86;&#x89E3;&#x4E8B;&#x4EF6;&#x5982;&#x4F55;&#x589E;&#x9032;&#x7269;&#x4EF6;&#x4E4B;&#x9593;&#x57F7;&#x884C;&#x671F;&#x7684;&#x8026;&#x5408;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;15&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
+<p>這個做法說明雖然使用事件可以降低程式碼之間的耦合性，但同時又會帶來資源管理或是 EventArgs 參數共用等潛在耦合問題。</p>    <p class="small"><a href="/posts/more-effective-csharp-20">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-19">More Effective C# 19.&#x907F;&#x514D;&#x5728;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x4E2D;&#x5B9A;&#x7FA9;&#x65B9;&#x6CD5;&#x591A;&#x8F09;</a></h2>
   <p class="post-meta">Published on 2024&#x5E74;11&#x6708;14&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>這個做法在討論處理系統事件時該用 <code>override</code> 還是該 Attach 到既有事件。</p>    <p class="small"><a href="/posts/more-effective-csharp-18">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-17">More Effective C# 17.&#x907F;&#x514D;&#x50B3;&#x56DE;&#x5167;&#x90E8;&#x985E;&#x5225;&#x7269;&#x4EF6;&#x7684;&#x53C3;&#x8003;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;13&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法在做法 1 有稍微提到，就是資料封裝(Data encapsulation) 的概念，要避免把私有資料的 reference 回傳，否則就有被修改的風險。</p>    <p class="small"><a href="/posts/more-effective-csharp-17">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-16">More Effective C# 16.&#x70BA;&#x901A;&#x77E5;&#x5BE6;&#x4F5C;&#x4E8B;&#x4EF6;&#x6A21;&#x5F0F;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;13&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法是以前 Effective C# <a href="https://blog.allengaodev.com/posts/effective-csharp-07" target="_blank">做法 7</a>、<a href="https://blog.allengaodev.com/posts/effective-csharp-08" target="_blank">做法 8</a>
-的延伸討論，主要是解說 .NET 事件模式的設計與使用它的好處。</p>    <p class="small"><a href="/posts/more-effective-csharp-16">Read more...</a></p>
+<p>這個做法建議不要在衍生類別多載基底類別存在的方法，因為會造成誤會以及使用上的困擾。</p>    <p class="small"><a href="/posts/more-effective-csharp-19">Read more...</a></p>
 </div>
 
   <div>
@@ -141,9 +140,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (106)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (109)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (39)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (42)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

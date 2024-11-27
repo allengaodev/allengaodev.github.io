@@ -107,26 +107,25 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-09">Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;2&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法在討論 boxing 與 unboxing 的運作方式與背後理論。
-首先要先複習 <code>Value Type</code> 和 <code>Reference Type</code> 兩者關鍵的區別，<code>Value Type</code> 的複製是 Copy-by-value，<code>Reference Type</code> 的複製是 Copy-by-reference。</p>    <p class="small"><a href="/posts/effective-csharp-09">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-12">Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;8&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
+<p>這個做法介紹了成員初始化的另一種做法，一般來說都是常用建構函式來初始化成員，不過一個類別通常會有超過一個建構函式，
+在這種情況下時間一長就很容易造成每個建構函式有細微的區別產生不同步的情況。</p>    <p class="small"><a href="/posts/effective-csharp-12">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-08">Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;29&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
-<p>本做法介紹了 <code>?</code> 運算子的使用方式，與錯誤的使用 event 可能會造成 <code>NullReferenceException</code>。
-首先同樣也複習一下 event 的使用方式，典型的事件用法是在類別或物件發生變動時，告知其他類別或物件或者執行方法，
-通常會有一個發佈者(publisher)與接收者(subscriber)。</p>    <p class="small"><a href="/posts/effective-csharp-08">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-11">Effective C# 11.&#x8A8D;&#x8B58; .NET &#x8CC7;&#x6E90;&#x7BA1;&#x7406;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;6&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+<p>本做法討論幾個與 GC 相關的基本知識: <code>Managed</code>、<code>Unmanaged</code>、<code>Finalizer</code>
+GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記憶體洩漏這種記憶體管理的問題，大多數情況讓 GC 自行運作比你自己手動清理做的更好。</p>    <p class="small"><a href="/posts/effective-csharp-11">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-07">Effective C# 07.&#x4EE5; delegate &#x8868;&#x793A; callback</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;28&#x65E5; &#x661F;&#x671F;&#x516D;</p>
-<p>本做法主要在介紹使用 delegate 的好處，可以先複習一下 lambda 還沒有出現前的寫法。</p>    <p class="small"><a href="/posts/effective-csharp-07">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-10">Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;3&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
+<p>這個做法在討論在衍生類別使用 new 和 override 對基底類別的影響，內容基本上與 LSP 原則重疊。</p>    <p class="small"><a href="/posts/effective-csharp-10">Read more...</a></p>
 </div>
 
   <div>
@@ -143,9 +142,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (106)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (109)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (39)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (42)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

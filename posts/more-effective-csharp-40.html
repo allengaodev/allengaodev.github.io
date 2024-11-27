@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 40.&#x4F7F;&#x7528; lock() &#x4F5C;&#x70BA;&#x540C;&#x6B65;&#x8655;&#x7406;&#x7684;&#x9996;&#x9078;(Use lock() as Your First Choice for Synchronization)">
+
+  <title>More Effective C# 40.&#x4F7F;&#x7528; lock() &#x4F5C;&#x70BA;&#x540C;&#x6B65;&#x8655;&#x7406;&#x7684;&#x9996;&#x9078;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-40'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 40.&#x4F7F;&#x7528; lock() &#x4F5C;&#x70BA;&#x540C;&#x6B65;&#x8655;&#x7406;&#x7684;&#x9996;&#x9078;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-40' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-40'>More Effective C# 40.&#x4F7F;&#x7528; lock() &#x4F5C;&#x70BA;&#x540C;&#x6B65;&#x8655;&#x7406;&#x7684;&#x9996;&#x9078;</a>
+              <span class="subheading">More Effective C# 40.&#x4F7F;&#x7528; lock() &#x4F5C;&#x70BA;&#x540C;&#x6B65;&#x8655;&#x7406;&#x7684;&#x9996;&#x9078;(Use lock() as Your First Choice for Synchronization)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;26&#x65E5; &#x661F;&#x671F;&#x4E8C;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法在討論跨執行緒共享資料會導致資料完整性錯誤，並介紹 .net 內建的 synchronization primitives 以及使用 lock 的範例。</p>
+<p>在多執行緒的任務時常會碰到有同時多於一個執行緒要修改共享的資料，這種操作就會造成資料處於不正確的狀態，所以 .net 提供了
+<a href="https://learn.microsoft.com/en-us/dotnet/standard/threading/overview-of-synchronization-primitives" target="_blank">synchronization primitives</a>
+用來保護共享資料的完整性。</p>
+<p>synchronization primitives 提供了多種類型讓我們能夠以同步的方式存取資料，其中存在最久的就是 <code>Monitor</code> 類別，使用上要注意它是一個
+靜態的類別，我們可以使用 <code>Monitor.Enter</code> 取得物件的排他鎖，之後使用 <code>Monitor.Exit</code> 將取得的排他鎖釋放掉，另外常用的還有 <code>Monitor.Wait</code>
+會將目前執行緒取得的鎖釋放掉並 block 執行緒重新排隊等待重新獲得物件的鎖，還有與它搭配的 <code>Monitor.Pulse</code> 與 <code>Monitor.PulseAll</code> 能夠將隊伍中的執行緒喚醒並通知
+輪到它取得鎖了並工作了，要注意如果沒有呼叫 <code>Monitor.Pulse</code> 與 <code>Monitor.PulseAll</code> 執行緒會一直等待下去。</p>
+<p><code>Monitor.Enter</code> 之所以可以獲得排他鎖是因為它使用了每個物件都有的 sync block index(SBI)，當一個物件實例化後它的 SBI 會為初始值 -1，
+當我們調用 <code>Monitor.Enter</code> 會在 CLR 中的 sync block array 找到空閒的 sync block 並把它在 array 中的 index 記錄下來對應到
+物件的 SBI 上，這樣就能把物件跟 sync block 對應起來了。</p>
+<p>當調用 <code>Monitor.Exit</code> 則會檢查有沒有其他執行緒正在排隊等待使用指定物件的 sync block，如果已經沒有人要使用的話就會將物件的 SBI 改回 -1，
+這樣之前使用的 sync block 就會回到自由狀態了，等未來可以再次跟其他物件關聯在一起。</p>
+<p>下面這段程式碼實例化一個 Transaction 物件並且透過 <code>ThreadPool.QueueUserWorkItem</code> 方法模擬跨執行緒讀取 <code>LastTransaction</code> 屬性，
+由於這個屬性讀取時需要獲取物件的排他鎖，我們故意在 <code>ThreadPool.QueueUserWorkItem</code> 方法執行前呼叫 <code>Monitor.Enter</code> 將  Transaction 物件
+的排他鎖佔據起來，這樣就會導致執行緒一值阻塞直到運行 <code>Monitor.Exit</code> 將鎖還回去為止。</p>
+<pre><code class="language-text">void Main()
+{
+	SomeMethod();
+}
+
+public static void SomeMethod()
+{
+	var t = new Transaction();
+	Monitor.Enter(t);
+	ThreadPool.QueueUserWorkItem(o =&gt; Console.WriteLine(t.LastTransaction));
+	Monitor.Exit(t);
+}
+
+internal sealed class Transaction
+{
+    private readonly object _lock = new object();
+	private DateTime m_timeOfLastTrans;
+	public void PerformTransaction()
+	{
+		Monitor.Enter(this);
+		m_timeOfLastTrans = DateTime.Now;
+		Monitor.Exit(this);
+	}
+	public DateTime LastTransaction
+	{
+		get
+		{
+			Monitor.Enter(this);
+			DateTime temp = m_timeOfLastTrans;
+			Monitor.Exit(this);
+			return temp;
+		}
+	}
+}
+</code></pre>
+<p>上面這段程式碼會發生這個問題的根本原因是物件的 SBI 就是一個 public 的屬性，也就導致不管在什麼範圍都能夠透過 SBI 取得 sync block，
+要解決這個問題也很簡單就是透過一個私有的欄位當作鎖，這樣就能避免鎖與外界一起共用的情況發生了。</p>
+<p>添加一個 object 類型的鎖並稍微修改程式碼，現在獲得的就是 <code>_lock</code> 物件的 sync block，就不會跟外界的鎖起衝突了。</p>
+<pre><code class="language-text">internal sealed class Transaction
+{
+	private readonly object _lock = new object();
+	private DateTime m_timeOfLastTrans;
+	public void PerformTransaction()
+	{
+		Monitor.Enter(_lock);
+		m_timeOfLastTrans = DateTime.Now;
+		Monitor.Exit(_lock);
+	}
+	public DateTime LastTransaction
+	{
+		get
+		{
+			Monitor.Enter(_lock);
+			DateTime temp = m_timeOfLastTrans;
+			Monitor.Exit(_lock);
+			return temp;
+		}
+	}
+}
+</code></pre>
+<hr />
+<p>接下來就可以討論 <code>lock</code> 語句了，它其實就是 <code>Monitor</code> 類別的語法糖，這樣我們就不用每次都要寫 <code>Monitor.Enter</code> 跟 <code>Monitor.Exit</code> 了。
+同樣使用 <code>lock</code> 也要注意不要寫成 <code>lock (this)</code> 了，這樣會產生跟 <code>Monitor.Enter(this)</code> 一樣的問題。</p>
+<pre><code class="language-text">internal sealed class Transaction
+{
+	private readonly object _lock = new object();
+	private DateTime m_timeOfLastTrans;
+	public void PerformTransaction()
+	{
+		lock (_lock)
+		{
+			m_timeOfLastTrans = DateTime.Now;
+		}
+	}
+	public DateTime LastTransaction
+	{
+		get
+		{
+			lock (_lock)
+			{
+				DateTime temp = m_timeOfLastTrans;
+				return temp;
+			}
+		}
+	}
+}
+</code></pre>
+<p>背後編譯器會產生類似下方的程式碼，可以看到基本上與我們剛剛自己寫的差不多，有多了 try/finally 確保一定能釋放掉排他鎖，還有 lockTaken
+他是用來確保某些特殊情況能夠運作正常，當執行到 <code>Monitor.Enter</code> 會將 lockTaken 修改成 true，這樣就一定能在 finally 區塊釋放掉鎖，
+但是也有可能在執行 <code>Monitor.Enter</code> 之前程式就停止並進入到 finally，這種情況直接呼叫 <code>Monitor.Exit</code> 反而會造成報錯，所以才多加了 lockTaken
+確保沒有真的取得到鎖最後就不必釋放鎖了。</p>
+<pre><code class="language-text">internal sealed class Transaction
+{
+    [Nullable(1)]
+    private readonly object _lock = new object();
+
+    private DateTime m_timeOfLastTrans;
+
+    public DateTime LastTransaction
+    {
+        get
+        {
+            object &#64;lock = _lock;
+            bool lockTaken = false;
+            try
+            {
+                Monitor.Enter(&#64;lock, ref lockTaken);
+                return m_timeOfLastTrans;
+            }
+            finally
+            {
+                if (lockTaken)
+                {
+                    Monitor.Exit(&#64;lock);
+                }
+            }
+        }
+    }
+
+    public void PerformTransaction()
+    {
+        object &#64;lock = _lock;
+        bool lockTaken = false;
+        try
+        {
+            Monitor.Enter(&#64;lock, ref lockTaken);
+            m_timeOfLastTrans = DateTime.Now;
+        }
+        finally
+        {
+            if (lockTaken)
+            {
+                Monitor.Exit(&#64;lock);
+            }
+        }
+    }
+}
+</code></pre>
+<p>但使用 lock 只能鎖定一個區域範圍的操作並不能跨方法或是透過 lambda 表達式在其他地方釋放掉鎖，也沒有辦法限制超時時間只能不斷等待，
+這兩種情況可以改用 Monitor 類別，設計起來會比較靈活。</p>
+<p>另外要注意取得鎖的物件必須是參考型別的，如果是值型別首先會導致裝箱並取得鎖，這個時候同時又有另一個工作要取得鎖，這時候值型別
+又會在一次裝箱，這樣就造成兩個執行緒拿到了兩個不同的鎖，導致不會將流程轉換成同步處理，所以跟沒有鎖一樣。</p>
+<p>例如下面這段程式碼運行後會拋出 <code>SynchronizationLockException</code> 因為 <code>Monitor.Exit(_lock)</code> 這邊的  <code>_lock</code> 物件裝箱後跟之前
+取得的鎖完全沒有關係，所以就變成釋放掉一個沒有取得過的鎖導致拋出這個錯誤。</p>
+<pre><code class="language-text">internal sealed class Transaction
+{
+	private readonly int _lock = new int();
+	private DateTime m_timeOfLastTrans;
+	public void PerformTransaction()
+	{
+		try
+		{
+			Monitor.Enter(_lock);
+			m_timeOfLastTrans = DateTime.Now;
+		}
+		finally
+		{
+			Monitor.Exit(_lock);
+		}
+
+	}
+	public DateTime LastTransaction
+	{
+		get
+		{
+			try
+			{
+				Monitor.Enter(_lock);
+				DateTime temp = m_timeOfLastTrans;
+				return temp;
+
+			}
+			finally
+			{
+				Monitor.Exit(_lock);
+			}
+		}
+	}
+}
+</code></pre>
+<p>下面這個寫法雖然不會拋出錯誤，但問題也是一樣，每次拿到的都是新 box 的鎖。</p>
+<pre><code class="language-text">internal sealed class Transaction
+{
+	private readonly object _lock = new int();
+	private DateTime m_timeOfLastTrans;
+	public void PerformTransaction()
+	{
+		try
+		{
+			Monitor.Enter(_lock);
+			m_timeOfLastTrans = DateTime.Now;
+		}
+		finally
+		{
+			Monitor.Exit(_lock);
+		}
+
+	}
+	public DateTime LastTransaction
+	{
+		get
+		{
+			try
+			{
+				Monitor.Enter(_lock);
+				DateTime temp = m_timeOfLastTrans;
+				return temp;
+
+			}
+			finally
+			{
+				Monitor.Exit(_lock);
+			}
+		}
+	}
+}
+</code></pre>
+<hr />
+<p>某些情況可以改用 <code>Interlocked</code> 來同步化操作，他能提供原子性的操作，無需使用到完整的鎖定邏輯。
+例如數值增減可以使用 <code>Interlocked.Increment()</code>、<code>Interlocked.Decrement()</code>，數值交換 <code>Interlocked.Exchange()</code>，還有經常使用的
+CAS <code>Interlocked.CompareExchange()</code>。</p>
+<p>下面就是透過 CAS 來比較與替換會員的金額，執行的效率會比使用 lock 還要好。</p>
+<pre><code class="language-text">async Task Main()
+{
+	var tasks = new List&lt;Task&gt;();
+	var user = new User();
+
+	for (int i = 0; i &lt; 10000; i++)
+	{
+		tasks.Add(Task.Run(() =&gt;
+		{
+			user.UpdateBalance();
+		}));
+	}
+
+	for (int i = 0; i &lt; 10000; i++)
+	{
+		tasks.Add(Task.Run(() =&gt;
+		{
+			user.UpdateBalance();
+		}));
+	}
+
+	Console.WriteLine(tasks.Count());
+	Task.WaitAll(tasks);
+	Console.WriteLine(user);
+}
+
+public class User
+{
+	public int Balance;
+	public void UpdateBalance()
+	{
+		int val = Balance;
+		do
+		{
+			val = Balance;
+		} while (val != Interlocked.CompareExchange(ref Balance, Balance + 10, val));
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法講解了 <code>Monitor</code> 類別、<code>lock</code> 語句和 <code>Interlocked</code> 類別，都有他們自己的使用場景，我們在設計的時候應該首先考慮使用 <code>Interlocked</code> 類別
+，如果不符合需求在使用 <code>lock</code> 語句。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-40'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
