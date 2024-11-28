@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 43.&#x4E86;&#x89E3;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x5229;&#x5F0A;(Understand the Pros and Cons of Dynamic)">
+
+  <title>More Effective C# 43.&#x4E86;&#x89E3;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x5229;&#x5F0A;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-43'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 43.&#x4E86;&#x89E3;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x5229;&#x5F0A;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-43' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-43'>More Effective C# 43.&#x4E86;&#x89E3;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x5229;&#x5F0A;</a>
+              <span class="subheading">More Effective C# 43.&#x4E86;&#x89E3;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x5229;&#x5F0A;(Understand the Pros and Cons of Dynamic)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;27&#x65E5; &#x661F;&#x671F;&#x4E09;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法比較動態類型與靜態類型各自的優勢，還有介紹如何使用 dynamic 將物件宣告成動態物件。</p>
+<p>C# 一直以來都是靜態的語言，但同時也支持動態語言的特性讓我們在特定情況下獲得動態類型開發的好處。</p>
+<p>下面這段程式碼使用了 <code>dynamic</code> 類型宣告了區域變數 value，第一次迭代時 <code>value</code> 為 <code>10</code> 並且編譯器自己會知道該用 Int32 的方法版本，
+第二次迭代 <code>value</code> 為 <code>AA</code> 並且編譯器自己會知道該用 String 的方法版本。</p>
+<pre><code class="language-text">void Main()
+{
+	dynamic value;
+	for (Int32 demo = 0; demo &lt; 2; demo++)
+	{
+		value = (demo == 0) ? (dynamic)5 : (dynamic)&quot;A&quot;;
+		value = value + value;
+		M(value);
+	}
+}
+private static void M(Int32 n)
+{
+	Console.WriteLine(&quot;M(Int32): &quot; + n);
+}
+private static void M(String s)
+{
+	Console.WriteLine(&quot;M(String): &quot; + s);
+}
+</code></pre>
+<p>上面那段程式碼能夠運行主要就是因為 <code>dynamic</code> 類型的物件可以跳過某些靜態類型的檢查，大部分情況下 <code>dynamic</code> 與 <code>object</code> 在行為上是相同的，
+但是 <code>dynamic</code> 類型的物件 <code>value</code> 會延後到執行時期才決定實際的類型，接下來才能決定符號 <code>+</code> 實際要做什麼事情，評估該使用哪一個方法的過程其實跟泛型有點類似，
+只不過泛型是在編譯時期就決定該使用哪個版本，動態類型則是要在執行時期才能決定使用哪個版本。</p>
+<p>泛型同樣也是預設將類型參數 T 當成 <code>object</code> 類型，我們必須使用 where 子句對泛型加上約束來擴充類型參數 T 所擁有的方法，例如下面這個例子。</p>
+<pre><code class="language-text">void Main()
+{
+	var e = new MyEmployee()
+	{
+		Name = &quot;Allen&quot;
+	};
+	var manager = new EmployeeManager&lt;MyEmployee&gt;();
+	Console.WriteLine(manager.GetEmployeeName(e));
+}
+
+public class MyEmployee : IEmployee
+{
+	public string Name { get; set; }
+	public string GetName()
+	{
+		return this.Name;
+	}
+}
+
+	public interface IEmployee
+{
+	public string Name { get; set; }
+	public string GetName();
+}
+
+public class EmployeeManager&lt;T&gt; where T : IEmployee
+{
+	public string GetEmployeeName(T employee)
+	{
+		return employee.GetName();
+	}
+}
+</code></pre>
+<p>但是類型參數 T 沒辦法透過泛型約束直接加上特定的方法，例如上面的例子我想要讓類型參數 T 能夠使用 <code>GetName</code> 方法，那我就要透過
+另一個介面 <code>IEmployee</code> 來提供這個方法，我並沒有辦法直接用某種寫法讓類型參數 T 直接支援 <code>GetName</code> 方法，所以關鍵就是
+我們必須提早知道類型參數 T 的實際的類型才有辦法做出更多的功能。</p>
+<p>假如我們想要寫一個方法它會依賴操作子 <code>+</code> 就很難做到，很明顯 <code>object</code> 類型別沒有覆寫操作子 <code>+</code>，
+所以是不可能把兩個編譯器預設的 <code>object</code> 相加起來，除非我們要加上一個有覆寫操作子 <code>+</code>的約束才有可能相加，所以下面這段寫法會報錯。</p>
+<pre><code class="language-text">public class EmployeeManager&lt;T&gt;
+{
+	public T Add(T n)
+	{
+		return n + n;
+	}
+}
+</code></pre>
+<p>這個要到 .NET 7 以後才有提供 <code>IAdditionOperators</code> 介面才能做到類似的功能。</p>
+<pre><code class="language-text">void Main()
+{
+	var e = new MyEmployee()
+	{
+		Name = &quot;Allen&quot;,
+		Age = 30
+	};
+	var manager = new EmployeeManager&lt;int&gt;();
+	Console.WriteLine(manager.Add(e.Age, e.Age));
+}
+
+public class MyEmployee : IEmployee
+{
+	public string Name { get; set; }
+	public int Age { get; set; }
+}
+
+public interface IEmployee
+{
+	public string Name { get; set; }
+	public int Age { get; set; }
+}
+
+public class EmployeeManager&lt;T&gt; where T : IAdditionOperators&lt;T, T, T&gt;
+{
+	public T Add(T left, T right)
+	{
+		return left + right;
+	}
+}
+</code></pre>
+<p>但如果今天用的是 <code>dynamic</code> 就能很輕鬆的做到，因為它能夠跳過針對類型的編譯檢查，所以你可以認為 <code>dynamic</code> 就是任何可能的類型，
+所以只要未來是 int 就會呼叫 int 的操作子 <code>+</code> 將兩個數值相加，如果未來是 string 就會呼叫 string 的操作子 <code>+</code> 將兩個字串聯起來。</p>
+<pre><code class="language-text">public static dynamic Add(dynamic left, dynamic right)
+{
+	return left + right;
+}
+</code></pre>
+<p>因為只要確認執行期別有覆寫操作子 <code>+</code> 就好，所以下面這些寫法除了最後一個都能正確運行，並且宣告 answer 也要使用 dynamic 或是 var。</p>
+<pre><code class="language-text">void Main()
+{
+	dynamic answer = Add(5, 5);
+	answer = Add(5.5, 7.3);
+	answer = Add(5, 12.3);
+	answer = Add(&quot;Hello, &quot;, &quot;World!&quot;);
+	answer = Add(new MyClass(), new MyClass());
+}
+
+public class MyClass {}
+</code></pre>
+<p>雖然動態型別很方便但是也是有缺點，第一個就上面例子中 MyClass 相加的那段程式碼，很明顯我們在寫程式的時候就已經知道不可能可以相加，
+並且編譯器因為動態型別的原因所以它會跳過檢查，一直到執行期別才發現錯誤，所以缺點之一就是編譯器沒辦法在我們寫程式的途中提供協助，
+另一個缺點就是綁定真實型別的過程需要額外的運算和檢查，所以會影響程式運行的效率。</p>
+<p>如果你知道編譯時期的參數類別那可以透過泛型與傳入 Lambda 表達式達到類似 <code>dynamic</code> 的效果，
+但實際上這種寫法會產生很多沒有意義的程式碼，例如我們還要再額外提供一個處理加法的 AddMethod 才能運作。</p>
+<pre><code class="language-text">void Main()
+{
+	var lambdaAnswer = Add(5, 5, (a, b) =&gt; a + b);
+	var lambdaAnswer2 = Add(5.5, 7.3, (a, b) =&gt; a + b);
+	var lambdaAnswer3 = Add(5, 12.3, (a, b) =&gt; a + b);
+	var lambdaLabel = Add(&quot;Here is &quot;, &quot;a label&quot;, (a, b) =&gt; a + b);
+	var finalLabel = Add(&quot;something&quot;, 3, (a, b) =&gt; a + b.ToString());
+}
+
+public static TResult Add&lt;T1, T2, TResult&gt;(T1 left, T2 right, Func&lt;T1, T2, TResult&gt; AddMethod)
+{
+	return AddMethod(left, right);
+}
+</code></pre>
+<p>或者也可以透過建立 expression tree 來產生一個處理加法的委派，但這種方法每次運行加法都要建立一個委派所以不是很有效率。</p>
+<pre><code class="language-text">public static TResult AddExpression&lt;T1, T2, TResult&gt;(T1 left, T2 right)
+{
+	var leftOperand = Expression.Parameter(typeof(T1), &quot;left&quot;);
+	var rightOperand = Expression.Parameter(typeof(T2), &quot;right&quot;);
+	var body = Expression.Add(leftOperand, rightOperand);
+	var lambda = Expression.Lambda&lt;Func&lt;T1, T2, TResult&gt;&gt;(body, leftOperand, rightOperand);
+	return lambda.Compile()(left, right);
+}
+</code></pre>
+<p>可以透過一個靜態欄位將這個委派緩存起來能夠稍微改進效率，但這種寫法在使用上當處理兩個不同型別的加法時靈活度反而沒有直接用 <code>dynamic</code> 來的好，
+因為要處理兩個不同型別的加法反而要在程式碼加上不少的轉換邏輯，那不如把這段工作交給 <code>dynamic</code> 自行處理。</p>
+<pre><code class="language-text">public static class BinaryOperator&lt;T1, T2, TResult&gt;
+{
+	static Func&lt;T1, T2, TResult&gt; compiledExpression;
+	public static TResult Add(T1 left, T2 right)
+	{
+		if (compiledExpression == null)
+			createFunc();
+		return compiledExpression(left, right);
+	}
+	private static void createFunc()
+	{
+		var leftOperand = Expression.Parameter(typeof(T1), &quot;left&quot;);
+		var rightOperand = Expression.Parameter(typeof(T2), &quot;right&quot;);
+		var body = Expression.Add(leftOperand, rightOperand);
+		var lambda = Expression.Lambda&lt;Func&lt;T1, T2, TResult&gt;&gt;(body, leftOperand, rightOperand);
+		compiledExpression = lambda.Compile();
+	}
+}
+</code></pre>
+<p>權衡之下還是使用單一個類型參數等之後在轉型比較實用。</p>
+<pre><code class="language-text">public static class BinaryOperators&lt;T&gt;
+{
+	static Func&lt;T, T, T&gt; compiledExpression;
+	public static T Add(T left, T right)
+	{
+		if (compiledExpression == null)
+			createFunc();
+		return compiledExpression(left, right);
+	}
+	private static void createFunc()
+	{
+		var leftOperand = Expression.Parameter(typeof(T), &quot;left&quot;);
+		var rightOperand = Expression.Parameter(typeof(T), &quot;right&quot;);
+		var body = Expression.Add(leftOperand, rightOperand);
+		var adder = Expression.Lambda&lt;Func&lt;T, T, T&gt;&gt;(body, leftOperand, rightOperand);
+		compiledExpression = adder.Compile();
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>當方法需要支援多種類型使用 <code>dynamic</code> 會比較方便，但是靜態型別的好處就是速度比動態型別快的多，因此如果類型有限可以使用 expression tree 建立委派
+來達到更快的速度，但還是建議首選介面搭配泛型，畢竟速度是最快的同時又能獲得編譯器檢查與最佳化的好處。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-43'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

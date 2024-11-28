@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 42.&#x907F;&#x514D;&#x5728;&#x9396;&#x5B9A;&#x7684;&#x5340;&#x6BB5;&#x547C;&#x53EB;&#x4E0D;&#x660E;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;(Avoid Calling Unknown Code in Locked Sections)">
+
+  <title>More Effective C# 42.&#x907F;&#x514D;&#x5728;&#x9396;&#x5B9A;&#x7684;&#x5340;&#x6BB5;&#x547C;&#x53EB;&#x4E0D;&#x660E;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-42'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 42.&#x907F;&#x514D;&#x5728;&#x9396;&#x5B9A;&#x7684;&#x5340;&#x6BB5;&#x547C;&#x53EB;&#x4E0D;&#x660E;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-42' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-42'>More Effective C# 42.&#x907F;&#x514D;&#x5728;&#x9396;&#x5B9A;&#x7684;&#x5340;&#x6BB5;&#x547C;&#x53EB;&#x4E0D;&#x660E;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;</a>
+              <span class="subheading">More Effective C# 42.&#x907F;&#x514D;&#x5728;&#x9396;&#x5B9A;&#x7684;&#x5340;&#x6BB5;&#x547C;&#x53EB;&#x4E0D;&#x660E;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;(Avoid Calling Unknown Code in Locked Sections)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;26&#x65E5; &#x661F;&#x671F;&#x4E8C;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法講解了死鎖是怎麼造成的並且該怎麼做才能避免死鎖。</p>
+<p>當一條執行緒 A 在等待執行緒 B 完成工作，這時執行緒 B 也同時在等待執行緒 A 完成工作，這種情況就會造成死鎖，
+不過除此之外還有其他可能會造成死鎖，那就是在 lock 範圍內加入了許多不相干的程式碼，假如它們牽涉到另一條執行緒，那也是有可能造成死鎖的。</p>
+<p>假設下面這段程式碼是一個 WinForm 程式，我們在做法 39 有提到過要更新 UI 必須使用當初建立 UI 的執行緒才允許更新，所以才要透過
+Control.Invoke 將委派交給 UI 執行緒運行，但是在運行 <code>RaiseProgress?.Invoke</code> 之前就已經把 syncHandle 鎖定起來了，代表目前
+取得鎖的是背景執行緒，但是運行 <code>RaiseProgress?.Invoke</code> 之後取得 progressCounter 還需要再次取得 syncHandle，現在是 UI 執行緒
+想要取得鎖，但是鎖已經被背景執行緒拿去了，最後就造成鎖死。</p>
+<pre><code class="language-text">void Main()
+{
+	var worker = new WorkerClass();
+	worker.RaiseProgress += engine_RaiseProgress;
+	worker.DoWork();
+}
+static void engine_RaiseProgress(object sender, EventArgs e)
+{
+	WorkerClass engine = sender as WorkerClass;
+	if (engine != null)
+		Console.WriteLine(engine.Progress);
+}
+
+public class WorkerClass
+{
+	public event EventHandler&lt;EventArgs&gt; RaiseProgress;
+	private object syncHandle = new object();
+	public void DoWork()
+	{
+		for (int count = 0; count &lt; 100; count++)
+		{
+			lock (syncHandle)
+			{
+				System.Threading.Thread.Sleep(100);
+				progressCounter++;
+				RaiseProgress?.Invoke(this, EventArgs.Empty);
+			}
+		}
+	}
+	private int progressCounter = 0;
+	public int Progress
+	{
+		get
+		{
+			lock (syncHandle)
+				return progressCounter;
+		}
+	}
+}
+</code></pre>
+<p>要修改這個問題也很簡單，因為問題就是背景執行緒與 UI 執行緒都要用到鎖，所以把關鍵的 <code>Control.Invoke</code> 的程式移出鎖定範圍，
+這樣就能讓背景執行緒提早離開 lock 語句並釋放掉鎖，等到 UI 執行緒要用到鎖的時候就不會衝突了。</p>
+<p>從這個例子可以了解 lock 並不是越多越好，太多的 lock 只會導致死鎖的機率增加，並且 lock 的鎖定範圍也不能太大，不要將
+不相干的程式碼都加入倒 lock 範圍內部，這樣只會造成查問題的麻煩。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法的關鍵就是要縮小 lock 的鎖定範圍，並且在處理事件的時候要額外注意，因為很容易觸發意料之外的邏輯導致死鎖。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-42'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
