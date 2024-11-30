@@ -107,6 +107,15 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;16&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
+在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
+閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-manager">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</a></h2>
   <p class="post-meta">Published on 2023&#x5E74;4&#x6708;15&#x65E5; &#x661F;&#x671F;&#x516D;</p>
 <p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
@@ -120,15 +129,6 @@
   <p class="post-meta">Published on 2023&#x5E74;4&#x6708;13&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
 <p>在開發新專案時，身份驗證和授權通常為第一個實做的功能，在 dotnet 生態系中微軟官方會推薦你使用 ASP.NET Core Identity 來實踐
 大部分的文章只會要你使用 Visual Studio 直接勾選使用樣板，或是直接給你一段命令直接產生專案</p>    <p class="small"><a href="/posts/dotnet-identity-customizing-basic">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/linux-gnupg-asymmetric">&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>在昨天的<a href="https://blog.allengaodev.com/posts/linux-gnupg-sign" target="_blank">文章</a> 中，學習到目前在 Linux 環境中是如何對軟體進行簽章的<br>
-今天要來學習另一個主要的功能就是『非對稱加密』，跟我們在使用壓縮軟體時對壓縮檔加密的『對稱加密』方式不同
-『非對稱加密』需要一組密鑰，一個『公開』的密鑰與一個『私人』的密鑰，在昨天的範例中也有提到相關的例子</p>    <p class="small"><a href="/posts/linux-gnupg-asymmetric">Read more...</a></p>
 </div>
 
   <div>
@@ -145,9 +145,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (111)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (112)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (44)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (45)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

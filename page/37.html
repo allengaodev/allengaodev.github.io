@@ -107,6 +107,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;10&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+<p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
+但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-usersecrets-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; UserSecrets &#x8B80;&#x53D6;&#x4FDD;&#x8B77;&#x7684;&#x8A2D;&#x5B9A;&#x503C;</a></h2>
   <p class="post-meta">Published on 2023&#x5E74;6&#x6708;9&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
 <p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
@@ -124,15 +132,6 @@
 但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-appsettings-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Microsoft.Extensions.Configuration &#x8B80;&#x53D6; appsettings.json &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;7&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
-資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
-設定檔這方面的問題。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-configuration">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/page/36" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -147,9 +146,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (111)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (112)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (44)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (45)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
