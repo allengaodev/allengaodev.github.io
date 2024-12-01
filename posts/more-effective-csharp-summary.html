@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;">
+
+  <title>More Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-summary'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-summary' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-summary'>More Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</a>
+              <span class="subheading">More Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;30&#x65E5; &#x661F;&#x671F;&#x516D;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>本文章對書中 50 個做法進行總整理，以及對每個做法做出簡短總結，方便日後查看。</p>
+<hr />
+<h2 id="chapter-1.working-with-data-types">Chapter 1. Working with Data Types</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-01" target="_blank"><u>01.Use Properties Instead of Accessible Data Members</u> :</a></strong>
+保存資料只使用 <code>private field</code> 搭配 <code>public properties</code> 與 <code>protected properties</code> 對外開放存取，永遠不要使用 <code>public field</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-02" target="_blank"><u>02.Prefer Implicit Properties for Mutable Data</u> :</a></strong>
+當資料是可變類型時建議直接使用 <code>Auto-implemented properties</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-03" target="_blank"><u>03.Prefer Immutability for Value Types</u> :</a></strong>
+準備使用 <code>Value Types</code> 時最好讓它具備 <code>Immutable</code> 特性。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-04" target="_blank"><u>04.Distinguish Between Value Types and Reference Types</u> :</a></strong>
+區分 <code>Value Types</code> 與 <code>Reference Types</code> 的分別，如果不確定在設計中使用 <code>Value Types</code> 對應用程式是否有幫助那最好不要使用。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-05" target="_blank"><u>05.Ensure That 0 Is a Valid State for Value Types</u> :</a></strong>
+使用 <code>Enum</code> 時一定要確保 <code>0</code> 具備有效的狀態。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-06" target="_blank"><u>06.Ensure That Properties Behave Like Data</u> :</a></strong>
+要讓屬性存取保持輕量，不要讓它在背後做出大家意料之外的事情。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-07" target="_blank"><u>07.Limit Type Scope by Using Anonymous Types</u> :</a></strong>
+說明 <code>Anonymous Types</code> 與 <code>Tuple Types</code> 並不會消耗這麼多資源，如果使用 <code>Tuple Types</code> 則資料會具備 <code>Mutable</code> 特性</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-08" target="_blank"><u>08.Define Local Functions on Anonymous Types</u> :</a></strong>
+透過建立高階函式可以將匿名函式與 lambda 當成引數來傳遞。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-09" target="_blank"><u>09.Understand the Relationships Among the Many Different Concepts of Equality</u> :</a></strong>
+在覆寫相等性檢查方法時不要去覆寫 <code>static bool ReferenceEquals()</code> 與 <code>static bool Equals</code>，另外當型別為 <code>Value Types</code> 則需要覆寫 <code>Equals()</code> 方法與 <code>==</code> 運算子並同時實做 <code>IEquatable&lt;T&gt;</code> 介面。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-10" target="_blank"><u>10.Understand the Pitfalls of GetHashCode()</u> :</a></strong>
+說明設計 <code>GetHashCode()</code> 方法的最佳實踐以及覆寫 <code>Equals()</code> 方法的時候同時要覆寫 <code>GetHashCode()</code> 方法。</li>
+</ul>
+<h2 id="chapter-2.api-design">Chapter 2. API Design</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-11" target="_blank"><u>11.Avoid Conversion Operators in Your APIs</u> :</a></strong>
+最好不要使用 <code>implicit</code> 與 <code>explicit</code> 操作子處理轉型工作。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-12" target="_blank"><u>12.Use Optional Parameters to Minimize Method Overloads</u> :</a></strong>
+使用 <code>Optional Parameters</code> 可以讓減少方法多載的版本數量並增加可讀性。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-13" target="_blank"><u>13.Limit Visibility of Your Types</u> :</a></strong>
+建議最好只保留程式可運作的最低可見性，而不是一昧的只使用 <code>public</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-14" target="_blank"><u>14.Prefer Defining and Implementing Interfaces to Inheritance</u> :</a></strong>
+說明 <code>Interfaces</code> 比起 <code>Abstract Class</code> 使用上彈性來的大的多。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-15" target="_blank"><u>15.Understand How Interface Methods Differ from Virtual Methods</u> :</a></strong>
+說明 <code>Interfaces</code> 設計彈性比較高並且能在內部使用 <code>abstract</code> 與 <code>virtual</code> 修飾方法。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-16" target="_blank"><u>16.Implement the Event Pattern for Notifications</u> :</a></strong>
+講解 <code>EventHandler</code> 背後運作的機制以及可以用來解除發佈者跟訂閱者之間的耦合。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-17" target="_blank"><u>17.Avoid Returning References to Internal Class Objects</u> :</a></strong>
+說明資料封裝的重要性，要避免私有資料的參考傳出物件外。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-18" target="_blank"><u>18.Prefer Overrides to Event Handlers</u> :</a></strong>
+說明在處理 <code>WinForm</code> 專案的事件時應該優先使用覆寫，其他複雜的場合再考慮 Attach 到既有事件</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-19" target="_blank"><u>19.Avoid Overloading Methods Defined in Base Classes</u> :</a></strong>
+解釋不要在衍生類別多載基底類別存在的方法，並說明編譯器解析正確方法的順序。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-20" target="_blank"><u>20.Understand How Events Increase Runtime Coupling Among Objects</u> :</a></strong>
+說明事件是怎麼導致釋放流程推遲執行的。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-21" target="_blank"><u>21.Declare Only Nonvirtual Events</u> :</a></strong>
+宣告 <code>virtual event</code> 會造成理解上的誤會導致誤用最好不要這樣使用。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-22" target="_blank"><u>22.Create Method Groups That Are Clear, Minimal, and Complete</u> :</a></strong>
+提供幾條建議讓我們在處理 API 多載時能夠更加實用。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-23" target="_blank"><u>23.Give Partial Classes Partial Methods for Constructors, Mutators, and Event Handlers</u> :</a></strong>
+使用 <code>Partial Classes</code> 與 <code>Partial Methods</code> 能夠把邏輯分散到多個檔案中，也可以讓一般工程師與程式碼產生器不會互相干擾。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-24" target="_blank"><u>24.Avoid ICloneable because it limits your design choices</u> :</a></strong>
+建議不要實做 <code>ICloneable</code> 因為會影響繼承關係，並且沒有辦法清楚得知實做的內容是 <code>Deep Copy</code> 還是 <code>Shallow Copy</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-25" target="_blank"><u>25.Limit Array Parameters to Params Arrays</u> :</a></strong>
+使用 <code>Params Array</code> 帶來的方便性與好處。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-26" target="_blank"><u>26.Enable Immediate Error Reporting in Iterators and Async Methods using Local Functions</u> :</a></strong>
+使用 <code>Local Functions</code> 能夠將某段私有邏輯封裝在某個方法內部，避免被其他人使用。</li>
+</ul>
+<h2 id="chapter-3.task-based-asynchronous-programming">Chapter 3. Task based Asynchronous Programming</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-27" target="_blank"><u>27:Use Async methods for async work</u> :</a></strong>
+建議現在開發非同步程式優先使用 <code>async</code> 和 <code>await</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-28" target="_blank"><u>28:Never Write Async void Methods</u> :</a></strong>
+不要使用 <code>async void</code> 因為它並不會帶來任何好處還必須搭配補助程式碼才能順利運行。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-29" target="_blank"><u>29:Avoid Composing Synchronous and Asynchronous Methods</u> :</a></strong>
+不要在非同步方法裡面混用同步邏輯，因為可能會導致死鎖。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-30" target="_blank"><u>30:Use async Methods to Avoid Thread Allocations and Context Switches</u> :</a></strong>
+不要產生無意義的 Context Switches，因為它會影響程式性能</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-31" target="_blank"><u>31:Avoid Marshalling Context Unnecessarily</u> :</a></strong>
+說明 Context 對於執行緒的意義以及建議非同步方法都加上 <code>ConfigureAwait(false)</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-32" target="_blank"><u>32:Compose Asynchronous Work Using Task Objects</u> :</a></strong>
+介紹 Task 常用的幾個 API。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-33" target="_blank"><u>33:Consider Implementing the Task Cancellation Protocol</u> :</a></strong>
+介紹 Task 的取消與回報功能。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-34" target="_blank"><u>34:Cache Generalized Async Return types</u> :</a></strong>
+說明大量建立 Task 會影響程式的性能，可以使用緩存或 <code>ValueTask</code> 來改善。</li>
+</ul>
+<h2 id="chapter-4.parallel-processing">Chapter 4. Parallel Processing</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-35" target="_blank"><u>35:Learn How PLINQ Implements Parallel Algorithms</u> :</a></strong>
+講解 PLINQ 背後運作的機制以及常用的擴充方法</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-36" target="_blank"><u>36:Construct Parallel Algorithms with Exceptions in Mind</u> :</a></strong>
+建立平行運算方法時需要額外小心例外處理，因為它的運作邏輯與一般方法不同。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-37" target="_blank"><u>37:Use the Thread Pool Instead of Creating Threads</u> :</a></strong>
+說明 Thread Pool 能夠自動管理執行緒，在大量建立執行緒的場合會對性能有大大的改善。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-38" target="_blank"><u>38:Use BackgroundWorker for Cross-Thread Communication</u> :</a></strong>
+介紹 <code>BackgroundWorker</code> 以及常用的進度回報、任務取消、異常處理等功能。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-39" target="_blank"><u>39:Understand Cross-Thread Calls in XAML environments</u> :</a></strong>
+說明和處理 WinForm 與 WPF 在非同步的環境下更新 UI 的問題。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-40" target="_blank"><u>40:Use lock() as Your First Choice for Synchronization</u> :</a></strong>
+介紹 <code>Monitor</code>、<code>lock</code>、<code>Interlocked</code>，應該首先考慮使用 <code>Interlocked</code> 類別，如果不符合需求在使用 <code>lock</code>。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-41" target="_blank"><u>41:Use the Smallest Possible Scope for Lock Handles</u> :</a></strong>
+說明鎖定有公開性的物件會導致的問題，建議在類別產生私有的鎖物件。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-42" target="_blank"><u>42:Avoid Calling Unknown Code in Locked Sections</u> :</a></strong>
+建議要縮小 lock 的鎖定範圍，如果將大量不相干的程式碼加到範圍內會增加死鎖風險。</li>
+</ul>
+<h2 id="chapter-5.dynamic-programming">Chapter 5. Dynamic Programming</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-43" target="_blank"><u>43:Understand the Pros and Cons of Dynamic</u> :</a></strong>
+說明靜態型別與動態型別的好處與壞處。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-44" target="_blank"><u>44:Use Dynamic to Leverage the Runtime Type of Generic Type Parameters</u> :</a></strong>
+說明 <code>Cast&lt;T&gt;</code> 方法的缺陷並且說明如何用 <code>dynamic</code> 把轉型缺失的資訊補上。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-45" target="_blank"><u>45:Use DynamicObject or IDynamicMetaObjectProvider for Data Driven Dynamic Types</u> :</a></strong>
+介紹 <code>DynamicObject</code> 與 <code>IDynamicMetaObjectProvider</code> 如何在執行時期建立出一個新的型別。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-46" target="_blank"><u>46:Understand How to Make Use of the Expression API</u> :</a></strong>
+介紹 <code>Expression API</code> 以及 <code>Expression Trees</code> 的相關概念</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-47" target="_blank"><u>47:Minimize Dynamic Objects in Public APIs</u> :</a></strong>
+說明使用 <code>dynamic</code> 的物件時首先要避免過度蔓延，並且要利用額外的設計來限制 <code>dynamic</code> 的影響範圍</li>
+</ul>
+<h2 id="chapter-6.participate-in-the-global-c-community">Chapter 6. Participate in the global C# Community</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-48" target="_blank"><u>48:Seek the best answer, not the most popular answer</u> :</a></strong>
+建議不要只看最熱門的答案，應該要嘗試尋找更完美的解決方案並且分享出去。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-49" target="_blank"><u>49:Participate in Specs and Code</u> :</a></strong>
+建議多參與開源的專案同時能夠貢獻程式碼又能提升自己的能力。</li>
+<li><strong><a href="https://blog.allengaodev.com/posts/more-effective-csharp-50" target="_blank"><u>50:Consider automating practices with Analyzers</u> :</a></strong>
+可以在專案安裝分析器這樣能夠加快審查的過程並減輕維護的工作量。</li>
+</ul>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-summary'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

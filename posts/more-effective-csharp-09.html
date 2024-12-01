@@ -303,8 +303,8 @@ Console.WriteLine(StructuralComparisons.StructuralEqualityComparer.Equals(list1,
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>在這個做法中建議不要去重定義 <code>static bool ReferenceEquals()</code> 與 <code>static bool Equals</code> 兩個方法，只建議處理 <code>override Equals()</code> 方法
-，以及在 <code>value type</code> 中因為效能的問題建議要重定義  <code>override Equals()</code> 方法與 <code>==</code> 運算子，並且做好也同時實做 <code>IEquatable&lt;T&gt;</code> 介面。</p>
+<p>在這個做法中建議不要去覆寫 <code>static bool ReferenceEquals()</code> 與 <code>static bool Equals</code> 兩個方法，只建議覆寫 <code>Equals()</code> 方法
+，以及在 <code>value type</code> 中因為效能的問題建議要覆寫 <code>Equals()</code> 方法與 <code>==</code> 運算子，並且做好也同時實做 <code>IEquatable&lt;T&gt;</code> 介面。</p>
 
 
         

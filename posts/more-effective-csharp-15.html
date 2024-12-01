@@ -153,8 +153,7 @@ public class MyClass : MyInterface
 	}
 }
 </code></pre>
-<p>不過這個寫法是沒有意義的，編譯器會幫你把 abstract 刪減掉，virtual 同樣也是刪減並直接變成 Default Interface Methods 的語法，
-大概如下所示。</p>
+<p>這段程式碼可以看出 Abstract Method 與 Interface 確實有相似之處，都是在另一個型別提供定義然後在新的型別繼承或實做細節。</p>
 <pre><code class="language-text">public class C
 {
     public void M()
@@ -180,7 +179,6 @@ public class MyClass : MyInterface
     }
 }
 </code></pre>
-<p>由上面這幾段程式碼可以看出 Abstract Method 與 Interface 確實有相似之處，都是在另一個型別提供定義然後在新的型別繼承或實做細節，</p>
 <p>接下來看看它們之間的差異，首先下面這段程式碼建立了一個 <code>IMessage</code> 介面與 <code>MyClass</code> 類別，由於 <code>MyClass</code> 有實做 <code>IMessage</code> 介面，
 所以我們可以透過 <code>IMessage</code> 介面來呼叫 <code>Message</code> 方法。</p>
 <pre><code class="language-text">void Main()
@@ -378,7 +376,7 @@ public class MyDerivedClass : MyClass, IMessage
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>實做介面能與 abstract virtual 方法相比彈性更高，因為實做介面的時候可以為 virtual 或者是 abstract，
+<p>實做介面與 abstract virtual 方法相比彈性更高，因為實做介面的時候可以為 virtual 或者是 abstract，
 或者是像最後一個寫法另外提供 virtual 方法給之後衍生類別實做細節。</p>
 
 

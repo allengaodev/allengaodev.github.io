@@ -104,7 +104,7 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <p>這個做法在說明 <code>implicit</code> 與 <code>explicit</code> operator 的應用場景與可能會導致錯誤發生時很難找到問題。</p>
+        <p>這個做法在說明 <code>implicit</code> 與 <code>explicit</code> operator 在轉型中的應用場景與可能會導致錯誤發生時很難找到問題。</p>
 <p>我們知道所有類型的基底類型都是 <code>System.Object</code>，也就代表能夠將衍生的類型轉型回 <code>System.Object</code>，這樣就能在某些需要傳入 Object 類型的方法
 改用其他類型來替換 Object，這個就是使用 polymorphism 的特性來達到替換的功能。</p>
 <p>例如下面的 <code>Object.Equals</code> 方法，就能夠直接傳入 int 類型進行替換。</p>
@@ -198,7 +198,7 @@ public class Vehicle {}
 <p>這種方式也會產生中間物件，但並不會丟失修改的狀態也不會被直接回收，而且表達的語意也比較明確好懂，就是透過多載建構函式就能達到一樣的效果。</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>這個做法在說明 <code>implicit</code> 與 <code>explicit</code> operator 雖然可以讓你的程式碼更加簡潔，但也更難排除問題，
+<p>這個做法在說明 <code>implicit</code> 與 <code>explicit</code> operator 雖然可以讓你的轉型程式碼更加簡潔，但也更難排除問題，
 並且方法可能修改的只是中間物件導致狀態遺失，這種問題在大型的應用程式中不好排查，而且透過多載建構函是也能達到同樣的效果，所以不建議用這兩個 operator。</p>
 
 

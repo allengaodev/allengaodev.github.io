@@ -328,7 +328,7 @@ private sealed class ListEntry
 <hr />
 <h2 id="summary">Summary</h2>
 <p>這個做法又再次複習了 EventHandler 的使用方式，以及它編譯後會產生<code>add</code> 與 <code>remove</code> 存取子，並且本身就是一個 <code>MulticastDelegate</code>，
-由於發起事件的時候不管有沒有訂閱者都能正常運行，使用這個模式可以很方便的把發佈者跟訂閱者解耦合。</p>
+由於發起事件的時候不管有沒有訂閱者都能正常運行，使用這個模式可以很方便的解除發佈者跟訂閱者之間的耦合。</p>
 
 
         
