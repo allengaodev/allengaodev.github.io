@@ -107,23 +107,24 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-21">More Effective C# 21.&#x53EA;&#x5BA3;&#x544A; Nonvirtual Event</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;16&#x65E5; &#x661F;&#x671F;&#x516D;</p>
-<p>這個做法警告不要宣告 <code>virtual event</code> 因為在衍生類別覆寫 event 可能會導致意料外的問題。</p>    <p class="small"><a href="/posts/more-effective-csharp-21">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-26">More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
+<p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
+例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>    <p class="small"><a href="/posts/more-effective-csharp-26">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-20">More Effective C# 20.&#x4E86;&#x89E3;&#x4E8B;&#x4EF6;&#x5982;&#x4F55;&#x589E;&#x9032;&#x7269;&#x4EF6;&#x4E4B;&#x9593;&#x57F7;&#x884C;&#x671F;&#x7684;&#x8026;&#x5408;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;15&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
-<p>這個做法說明雖然使用事件可以降低程式碼之間的耦合性，但同時又會帶來資源管理或是 EventArgs 參數共用等潛在耦合問題。</p>    <p class="small"><a href="/posts/more-effective-csharp-20">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-25">More Effective C# 25.Array &#x5F15;&#x6578;&#x9650;&#x5236;&#x53EA;&#x4F7F;&#x7528; params &#x9663;&#x5217;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
+<p>這個做法提出使用陣列做為參數可能會引發某些問題，並且建議改用 params 陣列。</p>    <p class="small"><a href="/posts/more-effective-csharp-25">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-19">More Effective C# 19.&#x907F;&#x514D;&#x5728;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x4E2D;&#x5B9A;&#x7FA9;&#x65B9;&#x6CD5;&#x591A;&#x8F09;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;14&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>這個做法建議不要在衍生類別多載基底類別存在的方法，因為會造成誤會以及使用上的困擾。</p>    <p class="small"><a href="/posts/more-effective-csharp-19">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-24">More Effective C# 24.&#x907F;&#x514D;&#x4F7F;&#x7528; ICloneable&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x9650;&#x5236;&#x4F60;&#x7684;&#x8A2D;&#x8A08;&#x9078;&#x64C7;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;17&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+<p>這個做法建議不要實做 <code>ICloneable</code> 介面，還有 <code>Deep Copy</code> 和 <code>Shallow Copy</code> 的概念。</p>    <p class="small"><a href="/posts/more-effective-csharp-24">Read more...</a></p>
 </div>
 
   <div>
@@ -140,9 +141,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (112)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (117)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (45)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (50)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

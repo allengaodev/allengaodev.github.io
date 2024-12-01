@@ -107,29 +107,26 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/linux-gnupg-asymmetric">&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>在昨天的<a href="https://blog.allengaodev.com/posts/linux-gnupg-sign" target="_blank">文章</a> 中，學習到目前在 Linux 環境中是如何對軟體進行簽章的<br>
-今天要來學習另一個主要的功能就是『非對稱加密』，跟我們在使用壓縮軟體時對壓縮檔加密的『對稱加密』方式不同
-『非對稱加密』需要一組密鑰，一個『公開』的密鑰與一個『私人』的密鑰，在昨天的範例中也有提到相關的例子</p>    <p class="small"><a href="/posts/linux-gnupg-asymmetric">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;20&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
+<p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/linux-gnupg-sign">&#x4F7F;&#x7528; GnuPG (GPG) &#x7C3D;&#x7F72;&#x529F;&#x80FD;&#x4F86;&#x78BA;&#x4FDD;&#x8CC7;&#x6599;&#x6C92;&#x6709;&#x88AB;&#x7AC4;&#x6539;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
-<p>今天來學習經常在 Linux 環境中使用到的技術 GnuPG<br>
-我們知道在 Windows 有時在安裝軟體時會跳出安全行警告，通知使用者目前要安裝的這個 App 的是未知的發行者，安裝之前需要額外小心軟體可能已經被修改過了<br>
-要便免這個問題就要透過數位簽章，簽章的擁有者在發布新軟體時需要再次加簽證明新版的軟體的確是由正常來源發行的，這樣使用者就可以安心的進行安裝</p>    <p class="small"><a href="/posts/linux-gnupg-sign">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;17&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
+<p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
+現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/mongodb-docker-replica-set">&#x5229;&#x7528; Docker &#x5EFA;&#x7ACB; MongoDB Replica Set &#x6559;&#x5B78;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;26&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
-<p>今天來學習如何透過 docker compose 建立出一個 MongoDB Replica Set
-這次將使用 <a href="https://labs.play-with-docker.com/" target="_blank">play-with-docker</a> 提供的 Instance 來建立我們環境
-我們建立三台 Instance 來模擬三台虛擬機的情況</p>    <p class="small"><a href="/posts/mongodb-docker-replica-set">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
+  <p class="post-meta">Published on 2023&#x5E74;4&#x6708;16&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
+在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
+閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
 </div>
 
   <div>
@@ -146,9 +143,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (112)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (117)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (45)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (50)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 46.&#x4E86;&#x89E3;&#x5982;&#x4F55;&#x904B;&#x7528; Expression API(Understand How to Make Use of the Expression API)">
+
+  <title>More Effective C# 46.&#x4E86;&#x89E3;&#x5982;&#x4F55;&#x904B;&#x7528; Expression API</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-46'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 46.&#x4E86;&#x89E3;&#x5982;&#x4F55;&#x904B;&#x7528; Expression API' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-46' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-46'>More Effective C# 46.&#x4E86;&#x89E3;&#x5982;&#x4F55;&#x904B;&#x7528; Expression API</a>
+              <span class="subheading">More Effective C# 46.&#x4E86;&#x89E3;&#x5982;&#x4F55;&#x904B;&#x7528; Expression API(Understand How to Make Use of the Expression API)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E94;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法介紹該如何使用 Expression API 以及 Expression Trees 的相關概念。</p>
+<p>在 C# 舊版本中想要處理動態相關或者在執行期別產生程式碼等功能需要透過反射，但是現在的 C# 我們有更好的選擇那就是 <code>Expression</code> 和 <code>Expression Trees</code>。</p>
+<p>在寫一個 <code>Expression</code> 時，它的語法看起來與一般的 C# 程式碼相同，例如下面這段程式碼寫了一個 lambda 表達式，但是實際上它已經轉換成 <code>Expression Tree</code> 了，
+目前它代表的意義是紀錄右側程式碼的結構，所以我們已經不能把它當成委派來呼叫了。</p>
+<pre><code class="language-text">Expression&lt;Func&lt;int, int&gt;&gt; square = x =&gt; x * x;
+// square(5);
+</code></pre>
+<p>使用 <code>Expression</code> 最常見的做法就是呼叫 <code>Compile()</code> 方法將這段結構編譯成一個實際可運作的委派。</p>
+<pre><code class="language-text">Func&lt;int, int&gt; func = square.Compile();
+Console.WriteLine(func(5)); // 輸出 25
+</code></pre>
+<hr />
+<p>我們可以透過這個機制來產生 client-side proxy，正常都需要額外依賴外部工具來產生 client-side proxy，但是只要我們的後端服務介面有修改
+或改變參數的數量就必須要更新 proxy，這時候就能嘗試使用 <code>Expression</code> 來解決這個問題。</p>
+<p>這裡我們建立一個通用的代理類別 <code>ClientProxy</code>，可以透過它動態解析語法並執行方法呼叫。</p>
+<pre><code class="language-text">void Main()
+{
+	var client = new ClientProxy&lt;IService&gt;();
+	var result = client.CallInterface&lt;string&gt;(srv =&gt; srv.DoWork(172));
+}
+public interface IService
+{
+	string DoWork(int value);
+}
+</code></pre>
+<p>可以將傳入的 lambda <code>srv =&gt; srv.DoWork(172)</code> 轉型成 <code>Expression</code> 並進行分析，這也是 <code>Expression</code> 常用功能之一，所以現在我們得知
+目前要呼叫的是 <code>IService.DoWork</code> 方法，並且能解析出要傳入的引數為 Int32 <code>172</code>，有了這兩個資訊未來就可以直接呼叫背後實做的內容，</p>
+<pre><code class="language-text">public class ClientProxy&lt;T&gt;
+{
+	public TResult CallInterface&lt;TResult&gt;(Expression&lt;Func&lt;T, TResult&gt;&gt; op)
+	{
+		var exp = op.Body as MethodCallExpression;
+		var methodName = exp.Method.Name;
+		var allParameters = from element in exp.Arguments
+							select processArgument(element);
+		Console.WriteLine($&quot;Calling {methodName}&quot;);
+		foreach (var parm in allParameters)
+			Console.WriteLine(&#64;$&quot;Parameter type = {parm.ParmType}, Value = {parm.ParmValue}&quot;);
+		return default(TResult);
+	}
+
+	private (Type ParmType, object ParmValue) processArgument(Expression element)
+	{
+		object argument = default(object);
+		LambdaExpression expression = Expression.Lambda(Expression.Convert(element, element.Type));
+		Type parmType = expression.ReturnType;
+		argument = expression.Compile().DynamicInvoke();
+		return (parmType, argument);
+	}
+}
+</code></pre>
+<p>這個技巧甚至可以在一個 CallInterface 包含另一個 CallInterface，這樣就能讓使用者在執行時期運行想要的程式碼。</p>
+<pre><code class="language-text">client.CallInterface(srver =&gt; srver.DoWork(
+	client.CallInterface(srv =&gt; srv.GetANumber())));
+</code></pre>
+<hr />
+<p>另一個常見的應用是轉型，因為通常第三方的類別會與我方的類別有些微差異，當然你也可以手動進行對應或者是使用類似 automapper 之類的函式庫來處理，
+但其實也可以透過 <code>Expression</code> 來處理這個問題。</p>
+<p>下面這段程式碼目標是把 <code>SourceContact</code> 轉換成第三方的格式 <code>DestinationContact</code>，接下來會建立一個轉換的泛型方法 <code>Converter</code>。</p>
+<pre><code class="language-text">void Main()
+{
+	var source = new SourceContact { Name = &quot;Alice&quot;, Email = &quot;alice&#64;example.com&quot; };
+	var converter = new Converter&lt;SourceContact, DestinationContact&gt;();
+	var dest = converter.ConvertFrom(source);
+
+	Console.WriteLine($&quot;MyName: {dest.MyName}, Email: {dest.MyEmail}&quot;);
+}
+
+public class SourceContact
+{
+	public string Name { get; set; }
+	public string Email { get; set; }
+}
+
+public class DestinationContact
+{
+	[DisplayName(&quot;Name&quot;)]
+	public string MyName { get; set; }
+	[DisplayName(&quot;Email&quot;)]
+	public string MyEmail { get; set; }
+}
+</code></pre>
+<p>這個方法的關鍵就是用源頭類別的屬性找出對應類別的屬性，這裡可以透過 attribute 將兩邊不同名稱的屬性對應起來，找出屬性後呼叫 <code>Expression.Assign</code>
+方法，它背後邏輯就是跟自行 Assign 的步驟相同，接下來使用 <code>Expression.Block</code> 方法，可以把它想像成一般方法中大括號 <code>{ ... }</code> 區塊，
+要注意 <code>body</code> 中最後一個 Expression 類型會作為這個 block 的回傳類型。</p>
+<p>最後再透過 <code>Expression.Lambda</code> 將所有的步驟都組裝起來在 Compile 就能得到最終的委派，
+這個委派就是包含所有 Assign 的步驟的一個操作物件。</p>
+<pre><code class="language-text">public class Converter&lt;TSource, TDest&gt;
+{
+	private Func&lt;TSource, TDest&gt; _converter;
+
+	public TDest ConvertFrom(TSource source)
+	{
+		if (_converter == null)
+		{
+			CreateConverterIfNeeded();
+		}
+		return _converter(source);
+	}
+
+	private void CreateConverterIfNeeded()
+	{
+		var sourceParam = Expression.Parameter(typeof(TSource), &quot;source&quot;);
+		var destVar = Expression.Variable(typeof(TDest), &quot;dest&quot;);
+
+		// 建立屬性對應賦值邏輯
+		var assignments = new List&lt;Expression&gt;();
+		foreach (var srcProp in typeof(TSource).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+		{
+			if (!srcProp.CanRead) continue;
+
+			PropertyInfo destProp = null;
+
+			foreach (var prop in typeof(TDest).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+			{
+				var attr = prop?.GetCustomAttributes(typeof(DisplayNameAttribute), false)
+				.Cast&lt;DisplayNameAttribute&gt;()
+				.Where(a =&gt; a.DisplayName == srcProp.Name)
+				.FirstOrDefault();
+				
+				if (attr != null)
+				{
+					destProp = prop;
+					break;
+				}
+			}
+
+			if (destProp == null || !destProp.CanWrite) continue;
+
+			// dest.Prop = source.Prop
+			var assign = Expression.Assign(
+				Expression.Property(destVar, destProp),
+				Expression.Property(sourceParam, srcProp)
+			);
+			assignments.Add(assign);
+		}
+		var body = new List&lt;Expression&gt;
+		{
+			Expression.Assign(destVar, Expression.New(typeof(TDest)))
+	    };
+		body.AddRange(assignments);
+		body.Add(destVar); // 作為 return 類型
+
+		var block = Expression.Block(new[] { destVar }, body);
+		var lambda = Expression.Lambda&lt;Func&lt;TSource, TDest&gt;&gt;(block, sourceParam);
+
+		_converter = lambda.Compile();
+	}
+}
+</code></pre>
+<p>上面這個方法產生的 <code>Expression Trees</code> 可以分解成幾個步驟</p>
+<ol>
+<li>var result = new DestinationContact()</li>
+<li>dest.MyName = source.Name</li>
+<li>dest.MyEmail = source.Email</li>
+<li>return result</li>
+</ol>
+<p>基本上把產生的程式碼想像成下面這樣。</p>
+<pre><code class="language-text">public class Converter&lt;TSource, TDest&gt;  
+	where TSource : SourceContact
+	where TDest : DestinationContact, new()
+
+{
+	private Func&lt;TSource, TDest&gt; _converter = (TSource) =&gt;
+	{
+		var d = new TDest();
+		d.MyName = TSource.Name;
+		d.MyEmail = TSource.Email;
+		return d;
+	};
+
+	public TDest ConvertFrom(TSource source)
+	{
+		return _converter(source);
+	}
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>這個做法演示了兩種常見的 <code>Expression</code> 應用方式，主要的目的就是在執行時期產生可運作的程式碼，
+我們現在可以多使用 <code>Expression</code> 來取代舊有的反射程式碼。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-46'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
