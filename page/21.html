@@ -107,24 +107,26 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-35">Effective C# 35.&#x4E0D;&#x8981;&#x904E;&#x8F09;&#x64F4;&#x5145;&#x65B9;&#x6CD5;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;23&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法在討論多載這個特性與多載擴充方法是非常不好的。</p>    <p class="small"><a href="/posts/effective-csharp-35">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-41">Effective C# 41.&#x907F;&#x514D;&#x6355;&#x6349;&#x6602;&#x8CB4;&#x7684;&#x8CC7;&#x6E90;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;27&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+<p>這個做法都是以 closure(閉包)為討論主軸，並討論背後轉換的原理以及為什麼在使用 closure 的時候可能會導致記憶體流失的問題。
+首先 closure 這個名詞很常在 javascript 中討論以及只使用到， closure 是一種能讓內部方法取得外部變數的一種寫法，
+例如以下範例中的 <code>counter</code> 變數明明作用範圍是在 Main 底下，但是我們透過 lambda 把 delegate 當成參數傳給 <code>Generate</code> 方法，
+之後在最內部的執行範圍竟然可以操作不同作用範圍的 <code>counter</code> 變數。</p>    <p class="small"><a href="/posts/effective-csharp-41">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-34">Effective C# 34.&#x4F7F;&#x7528;&#x51FD;&#x5F0F;&#x53C3;&#x6578;&#x89E3;&#x8026;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;23&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法是做法 32 的延伸說明，主要在說明把函式當成參數來傳遞所帶來的好處。</p>    <p class="small"><a href="/posts/effective-csharp-34">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-40">Effective C# 40.&#x5340;&#x5206;&#x63D0;&#x524D;&#x8207;&#x5EF6;&#x9072;&#x57F7;&#x884C;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
+<p>本做法提到了 <code>Declarative code</code> 與  <code>Imperative code</code> 兩種程式碼風格，還有提前與延遲執行推薦的使用情況。</p>    <p class="small"><a href="/posts/effective-csharp-40">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-33">Effective C# 33.&#x88AB;&#x8ACB;&#x6C42;&#x6642;&#x7522;&#x751F;&#x5E8F;&#x5217;&#x9805;&#x76EE;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;22&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
-<p>這個做法也是繼續在對 <code>Iterator Methods</code> 與 <code>yield return</code> 進行延伸討論，這次是在對 <code>Lazy Evaluation</code> 特性進行更詳細的說明，
-還有不使用 <code>Iterator Methods</code> 可能會導致轉換問題。</p>    <p class="small"><a href="/posts/effective-csharp-33">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-csharp-39">Effective C# 39.&#x907F;&#x514D;&#x5728;&#x51FD;&#x5F0F;&#x8207;&#x52D5;&#x4F5C;&#x4E2D;&#x62CB;&#x51FA;&#x4F8B;&#x5916;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
+<p>這個做法建議不要在 Func 與 Action 的執行過程中拋出 Exceptions，因為這會導致物件狀態難以還原回原狀態的情況發生。</p>    <p class="small"><a href="/posts/effective-csharp-39">Read more...</a></p>
 </div>
 
   <div>
@@ -141,9 +143,9 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (111)</a>
+              <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (117)</a>
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (44)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (50)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>

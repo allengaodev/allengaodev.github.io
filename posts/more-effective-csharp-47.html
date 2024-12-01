@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="More Effective C# 47.&#x5728;&#x516C;&#x958B;&#x7684;API&#x4E2D;&#x6E1B;&#x5C11;&#x52D5;&#x614B;&#x7269;&#x4EF6;&#x7684;&#x4F7F;&#x7528;(Minimize Dynamic Objects in Public APIs)">
+
+  <title>More Effective C# 47.&#x5728;&#x516C;&#x958B;&#x7684;API&#x4E2D;&#x6E1B;&#x5C11;&#x52D5;&#x614B;&#x7269;&#x4EF6;&#x7684;&#x4F7F;&#x7528;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-47'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='More Effective C# 47.&#x5728;&#x516C;&#x958B;&#x7684;API&#x4E2D;&#x6E1B;&#x5C11;&#x52D5;&#x614B;&#x7269;&#x4EF6;&#x7684;&#x4F7F;&#x7528;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-47' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-47'>More Effective C# 47.&#x5728;&#x516C;&#x958B;&#x7684;API&#x4E2D;&#x6E1B;&#x5C11;&#x52D5;&#x614B;&#x7269;&#x4EF6;&#x7684;&#x4F7F;&#x7528;</a>
+              <span class="subheading">More Effective C# 47.&#x5728;&#x516C;&#x958B;&#x7684;API&#x4E2D;&#x6E1B;&#x5C11;&#x52D5;&#x614B;&#x7269;&#x4EF6;&#x7684;&#x4F7F;&#x7528;(Minimize Dynamic Objects in Public APIs)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;30&#x65E5; &#x661F;&#x671F;&#x516D;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法說明最好避免在任何公開的方法使用 dynamic 物件來避免蔓延，還有建議限制 dynamic 的使用範圍避免它把所有的物件變成動態物件。</p>
+<p>之前有提到 dynamic 物件會跳過某些編譯檢查，並且它會把解析型別的過程延後到執行時期，這個流程等於就放棄了靜態程式語言提供的型別安全性，
+還有如果你的方法回傳的是 dynamic 物件就很可能會導致它蔓延到四處各地，例如下面這個方法可以傳入兩個 dynamic 物件並回傳新的 dynamic 物件，
+如果下一步還要額外操作可能又要額外的 dynamic 方法來處理這個回傳值。</p>
+<pre><code class="language-text">public dynamic Add(dynamic x, dynamic y)
+{
+	return x + y;
+}
+</code></pre>
+<p>並且編譯器為了處理動態型別必須產生非常多的程式碼才能讓動態型別能夠在執行時期解析出真正的型別，同時每執行一次就必須重新解析一次
+這樣會會對應用程式的性能造成影響，例如下面這麼簡單的呼叫背後其實產生大量的輔助程式碼。</p>
+<pre><code class="language-text">void Main()
+{
+	dynamic answer = Add(5, 5);
+	Console.WriteLine(answer);
+}
+
+public dynamic Add(dynamic x, dynamic y)
+{
+	return x + y;
+}
+</code></pre>
+<pre><code class="language-text">[CompilerGenerated]
+private static class &lt;&gt;o__0
+{
+    public static CallSite&lt;Action&lt;CallSite, Type, object&gt;&gt; &lt;&gt;p__0;
+}
+
+
+[CompilerGenerated]
+private static class &lt;&gt;o__1
+{
+    public static CallSite&lt;Func&lt;CallSite, object, object, object&gt;&gt; &lt;&gt;p__0;
+}
+
+public void M()
+{
+    object arg = Add(5, 5);
+    if (&lt;&gt;o__0.&lt;&gt;p__0 == null)
+    {
+        Type typeFromHandle = typeof(C);
+        CSharpArgumentInfo[] array = new CSharpArgumentInfo[2];
+        array[0] = CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType | CSharpArgumentInfoFlags.IsStaticType, null);
+        array[1] = CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null);
+        &lt;&gt;o__0.&lt;&gt;p__0 = CallSite&lt;Action&lt;CallSite, Type, object&gt;&gt;.Create(Microsoft.CSharp.RuntimeBinder.Binder.InvokeMember(CSharpBinderFlags.ResultDiscarded, &quot;WriteLine&quot;, null, typeFromHandle, array));
+    }
+    &lt;&gt;o__0.&lt;&gt;p__0.Target(&lt;&gt;o__0.&lt;&gt;p__0, typeof(Console), arg);
+}
+
+[NullableContext(1)]
+[return: Dynamic]
+public object Add([Dynamic] object x, [Dynamic] object y)
+{
+    if (&lt;&gt;o__1.&lt;&gt;p__0 == null)
+    {
+        Type typeFromHandle = typeof(C);
+        CSharpArgumentInfo[] array = new CSharpArgumentInfo[2];
+        array[0] = CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null);
+        array[1] = CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null);
+        &lt;&gt;o__1.&lt;&gt;p__0 = CallSite&lt;Func&lt;CallSite, object, object, object&gt;&gt;.Create(Microsoft.CSharp.RuntimeBinder.Binder.BinaryOperation(CSharpBinderFlags.None, ExpressionType.Add, typeFromHandle, array));
+    }
+    return &lt;&gt;o__1.&lt;&gt;p__0.Target(&lt;&gt;o__1.&lt;&gt;p__0, x, y);
+}
+</code></pre>
+<hr />
+<p>我們可以透過一個泛型的 <code>Add</code> 方法，將動態的方法包覆起來這樣就能不直接呼叫動態的方法，這樣能避免編譯器產生非常多相同輔助的程式碼，
+提供泛型的版本就能把這些輔助程式碼限制在這一個範圍內。</p>
+<pre><code class="language-text">private static dynamic DynamicAdd(dynamic left, dynamic right) =&gt; left + right;
+public static T1 Add&lt;T1, T2&gt;(T1 left, T2 right)
+{
+	dynamic result = DynamicAdd(left, right);
+	return (T1)result;
+}
+</code></pre>
+<p>這種處理方式能讓呼叫端繼續保持強型別，同時又能保持動態方法的特性，例如下面這段寫法背後還是 dynamic 所以能同時支援多個型別，
+並且回傳值也不會變成動態，確保動態型別不會蔓延。</p>
+<pre><code class="language-text">void Main()
+{
+	var answer = Add(5, 5);
+	Console.WriteLine(answer);
+
+	DateTime tomorrow = Add(DateTime.Now, TimeSpan.FromDays(1));
+	Console.WriteLine(tomorrow);
+}
+</code></pre>
+<hr />
+<p>另外涉及到動態資料的場合，例如 CSV 解析，也適合用 dynamic 來處理，因為實際的欄位名稱無法在編譯時期確定，
+這個例子只有對外開放兩個公開成員 <code>this[int index]</code> 跟 <code>Rows</code> 這裡公開 dynamic 物件給外部使用雖然不是很好的設計，
+但因為是必要的所以算是可接受的設計。</p>
+<pre><code class="language-text">void Main()
+{
+	var csv = &#64;&quot;Name,Age
+	John,30
+	Jane,25&quot;;
+
+	using var reader = new StringReader(csv);
+	var container = new CSVDataContainer(reader);
+}
+
+public class CSVDataContainer
+{
+	private class CSVRow : DynamicObject
+	{
+		private List&lt;(string, string)&gt; values = new List&lt;(string, string)&gt;();
+		public CSVRow(IEnumerable&lt;string&gt; headers, IEnumerable&lt;string&gt; items)
+		{
+			values.AddRange(headers.Zip(items, (header, value) =&gt; 
+				(header,value))
+			);
+		}
+		public override bool TryGetMember(GetMemberBinder binder, out object result)
+		{
+			var answer = values.FirstOrDefault(n =&gt; n.Item1 == binder.Name);
+			result = answer.Item2;
+			return result != null;
+		}
+	}
+
+	private List&lt;string&gt; columnNames = new List&lt;string&gt;();
+	private List&lt;CSVRow&gt; data = new List&lt;CSVRow&gt;();
+	public CSVDataContainer(TextReader stream)
+	{
+		// read headers:
+		var headers = stream.ReadLine();
+		columnNames = (from header in headers.Split(',')
+			 select header.Trim()).ToList();
+		var line = stream.ReadLine();
+		while (line != null)
+		{
+			var items = line.Split(',');
+			data.Add(new CSVRow(columnNames, items));
+			line = stream.ReadLine();
+		}
+	}
+	public dynamic this[int index] =&gt; data[index];
+	public IEnumerable&lt;dynamic&gt; Rows =&gt; data;
+}
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>使用 dynamic 的物件時首先需要避免過度蔓延，主要可以透過額外的泛型方法來限制範圍，另外只有在必要的時刻才使用 dynamic 例如 csv 與 json 這種
+需要處理動態資料的場合，同時還要注意處理完後的資料型別，如果是 dynamic 則要思考清楚開放這個成員是不是必要的。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-47'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

@@ -7,11 +7,12 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
+    <meta name="description" content="More Effective C# 50.&#x8003;&#x616E;&#x7528;&#x5206;&#x6790;&#x5668;&#x81EA;&#x52D5;&#x5316;&#x6163;&#x7528;&#x6CD5;(Consider automating practices with Analyzers)">
 
-  <title>Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</title>
+  <title>More Effective C# 50.&#x8003;&#x616E;&#x7528;&#x5206;&#x6790;&#x5668;&#x81EA;&#x52D5;&#x5316;&#x6163;&#x7528;&#x6CD5;</title>
 
 
-  <link rel="canonical" href='https://blog.allengaodev.com/tags/azure'>
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-50'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -20,9 +21,9 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;' />
+  <meta property="og:title" content='More Effective C# 50.&#x8003;&#x616E;&#x7528;&#x5206;&#x6790;&#x5668;&#x81EA;&#x52D5;&#x5316;&#x6163;&#x7528;&#x6CD5;' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://blog.allengaodev.com/tags/azure' />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-50' />
 
   <link rel="icon" href='/favicon.svg'>
 
@@ -82,10 +83,16 @@
   <div class="container position-relative">
     <div class="row">
       <div class="col-md-12">
-        <div class='site-heading'>
+        <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/tags/azure'>Azure</a>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-50'>More Effective C# 50.&#x8003;&#x616E;&#x7528;&#x5206;&#x6790;&#x5668;&#x81EA;&#x52D5;&#x5316;&#x6163;&#x7528;&#x6CD5;</a>
+              <span class="subheading">More Effective C# 50.&#x8003;&#x616E;&#x7528;&#x5206;&#x6790;&#x5668;&#x81EA;&#x52D5;&#x5316;&#x6163;&#x7528;&#x6CD5;(Consider automating practices with Analyzers)</span>
           </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;30&#x65E5; &#x661F;&#x671F;&#x516D;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
         </div>
       </div>
     </div>
@@ -97,48 +104,45 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-          <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+        <p>這個做法介紹 Roslyn Analyzers 並且說明它可以用來自動化程式碼規範分析，提升程式碼的質量。</p>
+<p><a href="https://github.com/dotnet/roslyn-analyzers" target="_blank">Roslyn Analyzers</a> 這個專案背後使用 Roslyn APIs 來對程式碼進行分析，
+能夠自動化進行程式碼規範檢查。</p>
+<p><a href="https://github.com/code-cracker/code-cracker" target="_blank">Code Cracker</a>，提供 C# 與 VB 的程式碼分析器，
+它能輔助開發者完成更佳的實踐。</p>
+<p><a href="https://github.com/dotnetanalyzers" target="_blank">.NET Analyzers</a> 它是一個組織目前專注於提供不同應用程式類型與函式庫分析器規則。</p>
+<p>當我們安裝完分析器後下一步就是新增規則，安裝規則清單之前要記得確認它的內容，確保其符合開發需求，也能避免一些過度配置產生的提示干擾影響開發。</p>
+<p>如果現有的分析器無法符合需求，可以選擇自己開發，也可以做出團隊開發習慣的專屬分析器。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>透過使用分析器，我們能夠自動化檢查程式碼是否為最佳實踐或者有誤用，這樣能大大加快程式碼審查的過程並減輕維護的工作量，我們應該要根據自己
+專案的需求調整分析器的規則，最後也能選擇做出團隊的專屬分析器。</p>
+
+
         
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;10&#x65E5; &#x661F;&#x671F;&#x516D;</p>
-<p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
-但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
-</div>
-
-
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (117)</a>
-          <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (50)</a>
-          <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
-          <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
-          <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-secondary"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-secondary"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-secondary"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-secondary"> ABP (3)</a>
-          <a href="/tags/linux" class="badge text-bg-secondary"> Linux (3)</a>
-          <a href="/tags/security" class="badge text-bg-secondary"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-secondary"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-secondary"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-secondary"> Azure (1)</a>
       </div>
     </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-50'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
   </div>
-
-        
-
-      </div>
-    </div>
   </div>
 
   <hr>

@@ -7,11 +7,12 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
+    <meta name="description" content="More Effective C# 49.&#x53C3;&#x8207;&#x898F;&#x683C;&#x53CA;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8A02;&#x5B9A;(Participate in Specs and Code)">
 
-  <title>Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</title>
+  <title>More Effective C# 49.&#x53C3;&#x8207;&#x898F;&#x683C;&#x53CA;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8A02;&#x5B9A;</title>
 
 
-  <link rel="canonical" href='https://blog.allengaodev.com/tags/azure'>
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/more-effective-csharp-49'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -20,9 +21,9 @@
   <meta name="msapplication-tooltip" content='Gao.Dev' />
   <meta name="msapplication-starturl" content='/' />
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
-  <meta property="og:title" content='Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;' />
+  <meta property="og:title" content='More Effective C# 49.&#x53C3;&#x8207;&#x898F;&#x683C;&#x53CA;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8A02;&#x5B9A;' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://blog.allengaodev.com/tags/azure' />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/more-effective-csharp-49' />
 
   <link rel="icon" href='/favicon.svg'>
 
@@ -82,10 +83,16 @@
   <div class="container position-relative">
     <div class="row">
       <div class="col-md-12">
-        <div class='site-heading'>
+        <div class='post-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/tags/azure'>Azure</a>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/more-effective-csharp-49'>More Effective C# 49.&#x53C3;&#x8207;&#x898F;&#x683C;&#x53CA;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8A02;&#x5B9A;</a>
+              <span class="subheading">More Effective C# 49.&#x53C3;&#x8207;&#x898F;&#x683C;&#x53CA;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8A02;&#x5B9A;(Participate in Specs and Code)</span>
           </h1>
+            <div class="meta">Published on 2024&#x5E74;11&#x6708;30&#x65E5; &#x661F;&#x671F;&#x516D;</div>
+              <div class="mt-3">
+                  <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp</a>
+                  <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C#</a>
+              </div>
         </div>
       </div>
     </div>
@@ -97,48 +104,44 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-          <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+        <p>這個做法說明現在 C# 已經是開源狀態，應該要鼓勵更多開發者參與並協助演進。</p>
+<p>由於 C# 現在是開源的狀態，所以代表語言的設計與修改過程都是對外公開的，我們可以直接瀏覽與學習甚至未來參與語言的修訂，
+所以平常應該要多關注編譯器 <a href="https://github.com/dotnet/roslyn" target="_blank">Roslyn</a> 與 <a href="https://github.com/dotnet/csharplang" target="_blank">csharplang</a>
+這兩個知名的專案。</p>
+<p>我們能透過專案的倉庫了解最新的規範和討論的紀錄以及功能提案，讓所有開發者深入了解這些新功能的背後的邏輯與決策過程。</p>
+<p>例如 <code>csharplang</code> 專案就有 <code>Proposals</code> 資料夾負責記錄各個版本的功能提案，另外每一個功能都會對應一個 <code>issue</code> 用來追蹤功能的進度。</p>
+<p>我們也可以直接 Clone 專案下來看看單元測試並深入了解各自的規則。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>由於以前的 C# 是閉源的所以只有少部分的人有權力了解內容和參與討論，現在則是可以透過參與規範設計、功能討論和貢獻程式碼來提升自己的能力，
+也能對語言未來的發展做出貢獻達到雙贏。</p>
+
+
         
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;6&#x6708;10&#x65E5; &#x661F;&#x671F;&#x516D;</p>
-<p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
-但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
-</div>
-
-
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (117)</a>
-          <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (50)</a>
-          <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
-          <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
-          <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-secondary"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-secondary"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-secondary"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-secondary"> ABP (3)</a>
-          <a href="/tags/linux" class="badge text-bg-secondary"> Linux (3)</a>
-          <a href="/tags/security" class="badge text-bg-secondary"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-secondary"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-secondary"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-secondary"> Azure (1)</a>
       </div>
     </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-49'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
   </div>
-
-        
-
-      </div>
-    </div>
   </div>
 
   <hr>
