@@ -189,7 +189,7 @@ sealed class Derived : BaseType, ICloneable
 <hr />
 <h2 id="summary">Summary</h2>
 <p>實做 <code>ICloneable</code> 介面會影響到繼承，導致衍生類別都需要額外實做 <code>ICloneable</code> 介面保證功能能正常運作，由於不能確定使用者提供的
-是 <code>Deep Copy</code> 和 <code>Shallow Copy</code> 所以建議是完全不要實做 <code>ICloneable</code> 介面比較好，改成用 <code>Copy Constructor</code> 明確進行複製也能達到同樣的效果。</p>
+是 <code>Deep Copy</code> 還是 <code>Shallow Copy</code> 所以建議是完全不要實做 <code>ICloneable</code> 介面比較好，改成用 <code>Copy Constructor</code> 明確進行複製也能達到同樣的效果。</p>
 
 
         

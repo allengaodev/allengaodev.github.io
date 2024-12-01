@@ -208,7 +208,7 @@ public struct LogMessage
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>系統會預設把所有 Value Types 的實例化設定為 0，所以必須避免我們的程式碼在處理 0 值的問題時發生問題，所以要假設使用者傳入的參數
+<p>系統會預設把所有 Value Types 的實例化設定為 0，因此必須避免 <code>Enum</code> 相關的程式碼在處理 0 值的問題時發生問題，所以要假設使用者傳入的參數
 全部為 0 當成預設的情況，並要注意使用 FlagsAttribute 的時候一定要設定 0 用來代表沒有任何 flags 的意思。</p>
 
 
