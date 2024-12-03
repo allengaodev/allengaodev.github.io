@@ -99,16 +99,188 @@
   <div class="container">
     <div class="row">
       <div id="content" class="col-md-12">
-        <h1 id="hashing-1106">2.1 Hashing (11:06)</h1>
-<h1 id="data-integrity-0647">2.2 Data-Integrity (06:47)</h1>
-<h1 id="encryption-1323">2.3 Encryption (13:23)</h1>
-<h1 id="public-and-private-keys-1203">2.4 Public and Private Keys (12:03)</h1>
-<h1 id="how-tls-and-ssl-use-cryptography-0722">2.5 How TLS and SSL use Cryptography (07:22)</h1>
-<h1 id="public-key-infrastructure-pki-0513">2.6 Public Key Infrastructure (PKI) (05:13)</h1>
-<h1 id="rsa-1512">2.7 RSA (15:12)</h1>
-<h1 id="diffie-hellman-0620">2.8 Diffie-Hellman (06:20)</h1>
-<h1 id="digital-signature-algorithm-0510">2.9 Digital Signature Algorithm (05:10)</h1>
-<h1 id="module-2-review-questions">2.10 Module 2 Review Questions</h1>
+        <h2 id="hashing-1106">2.1 Hashing (11:06)</h2>
+<h3 id="hashing">Hashing</h3>
+<p>Hashing 的定義是將任意一段長度的訊息傳入演算法之後產出一個能夠代表這段訊息的指紋。</p>
+<p>hello =&gt; (8 + 5 + 12 + 12 + 15) =&gt; 52
+將 hello 這個訊息傳入特定 hashing 演算法後輸出 52，那就代表 52 就代表 hello 這段訊息的指紋。
+hashing 演算法輸出的結果的正式名稱為 <code>Digest</code> 也能稱為 (<code>Checksum</code>, <code>Fingerprint</code>, <code>Hash</code>, <code>CRC</code>)</p>
+<p><code>Digest</code> 的用途就是用來比較兩段訊息是否相同</p>
+<p>cello =&gt; (3 + 5 + 12 + 12 + 15) =&gt; 47</p>
+<p>這樣不用知道原始訊息也能從 <code>Digest</code> 52 != 47 判斷出訊息是不同的。</p>
+<p>上面的 hashing 演算法內部是透過加法來處理，這個很明顯現實世界根本不可能使用。
+優秀的 hashing 演算法要包含以下特性：</p>
+<ol>
+<li><p>Infeasible to produce a given digest
+確保輸出的 <code>Digest</code> 幾乎不可能重複，例如上面的加法 hashing 輸出的結果 52，只要稍微換一下字母的排列順序，
+就能獲得同樣的 <code>Digest</code> (<code>ehllo</code>)。</p>
+</li>
+<li><p>Impossible to extract original message
+保證不能用結果推導出實際的訊息，方向只能是單向的，例如某人知道結果為 52 那要避免被它推測出原始的訊息為 <code>hello</code>。</p>
+</li>
+<li><p>Slight changes produce drastic difference
+確保兩個類似的訊息輸出的結果大不相同，例如要確保 <code>hello</code> 與 <code>cello</code> 輸出的 <code>Digest</code> 差異要非常大，否則很容易
+被某人用類似的訊息推導出原訊息。</p>
+</li>
+<li><p>Resulting digest if fixed width(length)
+確保輸出的 <code>Digest</code> 為固定的長度，像上面的加法 hashing 只要把輸入的訊息加長就會讓輸出的 <code>Digest</code> 突破二位數，
+這要能避免別人透過 <code>Digest</code> 推測出原始的訊息的長短，不管訊息多長都要輸出同樣的長度。</p>
+</li>
+</ol>
+<pre><code class="language-text">$ echo &quot;hello&quot;
+hello
+$ echo &quot;hello&quot; | md5sum
+b1946ac92492d2347c6235b4d2611184  -
+$ echo -n &quot;hello&quot; | md5sum
+5d41402abc4b2a76b9719d911017c592  -
+$ echo -n &quot;cello&quot; | md5sum
+711d6d0272f84193afc991a50492f57a  -
+$ echo -n &quot;Lets all be unique together until we realise we are all the same.&quot; | md5sum
+9e3bd333938f7569f13ed94f8f459032  -
+</code></pre>
+<p>md5 是現實常用的 hashing 演算法
+第一點要求 <code>Digest</code> <code>b1946ac92492d2347c6235b4d2611184</code> 確實幾乎不可能重複。
+第二點要求確實很難從 <code>b1946ac92492d2347c6235b4d2611184</code> 推測出原始訊息。
+第三點能看出 <code>hello</code> 與 <code>cello</code> 輸出的 <code>Digest</code> 確實差異很大。
+第四點能看出 <code>hello</code> 與很長的句子輸出的 <code>Digest</code> 長度是相同的。</p>
+<p>hashing 演算法通常是透過不斷的對結果迭代，最後產生的結果才會大不相同，又稱為 avalanche effect ，所以可能第一次迭代結果是差不多的。</p>
+<h3 id="collisions">Collisions</h3>
+<p>Collisions 的定義是兩個不同訊息算出來的 <code>Digest</code> 是相同的，這樣很糟糕因為這樣就不能分辨出原始訊息是否有差異。</p>
+<p>並且 Collisions 是不能避免的，這是因為固定長度所導致。</p>
+<p>PRAC-HASH 輸出的結果為三個 bit 總共有2的三次方種可能性(8種)
+000
+001
+010
+011
+100
+101
+110
+111</p>
+<p>所以傳入的第九個文件時可能會有一個 <code>Digest</code> 同時代表兩個文件，所以固定長度因為排列組合一定是有限的，最終一定有機率造成 Collisions，
+要解決這個問題可以增加輸出的 bit，讓 Collisions 的機率盡可能降低。</p>
+<p>MD5 128 bits
+SHA/SHA1 160 bits
+SHA2 family
+SHA-224 224 bits
+SHA-256 256 bits
+SHA-384 384 bits
+SHA-512 512 bits</p>
+<h2 id="data-integrity-0647">2.2 Data-Integrity (06:47)</h2>
+<p>Hashing 的結果為 <code>Digest</code> 是用來確認資料的 Integrity，所以透過 <code>Digest</code> 就能判斷傳輸的過程中資料有沒有被修改。</p>
+<ol>
+<li>Sender 將訊息傳入特定的 Hashing 演算法並得出這個訊息的 <code>Digest</code>。</li>
+<li>Sender 將訊息與 <code>Digest</code> 一起傳送出去。</li>
+<li>Receiver 收到兩個內容後讀取訊息並使用特定 Hashing 演算法得出這個訊息的 <code>Digest</code>。</li>
+<li>Receiver 將自己計算的 <code>Digest</code> 與接收的 <code>Digest</code> 兩者進行比較，如果完全相同代表訊息沒有被修改過。</li>
+</ol>
+<p>但是上面這個流程有一個問題，那就是如果中間有壞人把訊息攔截後修改訊息內容並產生新的 <code>Digest</code> 再次轉發出去，那麼 Receiver
+接收到的就是假的訊息和它對應的 <code>Digest</code>，這樣 Receiver 再次計算也不能發現訊息是造假的，最後就被騙了。</p>
+<p>所以可以透過 Mutual Secret Key 來解決這個問題，就是 Sender 與 Receiver 私底下先講好一組 key 並且要確保這組 key 不能被外流。</p>
+<ol>
+<li>Sender 與 Receiver 私底下約定好 key</li>
+<li>Sender 將訊息與 key 傳入特定的 Hashing 演算法得出這個訊息的 <code>Digest</code>。</li>
+<li>Sender 將訊息與 <code>Digest</code> 一起傳送出去，注意訊息為原始訊息不能包含有 key 的內容。</li>
+<li>Receiver 收到兩個內容後讀取訊息並使用之前約定好的 key 傳入特定的 Hashing 演算法得出這個訊息的 <code>Digest</code>。</li>
+<li>Receiver 將自己計算的 <code>Digest</code> 與接收的 <code>Digest</code> 兩者進行比較，如果完全相同代表訊息沒有被修改過。</li>
+</ol>
+<p>這樣中間的壞人攔截到訊息後因為沒有 key 的資訊所以算出來的 <code>Digest</code> 不可能符合需求，所以就能避免資料被修改。</p>
+<p>這個使用 key 來確保資料的 Integrity 的流程叫做 Message Authentication Code(MAC)。
+MAC 的定義是將原始訊息與一組密鑰進行 hashing 後產出 <code>Digest</code>，另外要注意計算 <code>Digest</code> 的時候資訊跟密鑰的組合順序是很重要的一定要相同。</p>
+<p>用來定義資訊跟密鑰的組合順序有一個工業標準(RFC-2104) Hash Bashed Message Authentication Code(HMAC)</p>
+<p>Hashing Algorithm
+input: Message
+output: Digest
+Example MD5, SHA1...</p>
+<p>MAC (Message Authentication Code)
+input: Message + Secret Key
+output: Digest
+Example (Hmac) Hash Bashed Message Authentication Code</p>
+<h2 id="encryption-1323">2.3 Encryption (13:23)</h2>
+<p>Encryption 是用來提供資料的 Confidentiality，就是要保證傳輸的資料只有接收方看得懂。</p>
+<p>hello =&gt; Encryption =&gt; lohel</p>
+<p>Encryption 前的資料叫做 <code>Plain Text</code> 也叫做 <code>Clear Text</code>
+Encryption 後的資料叫做 <code>Cipher Text</code></p>
+<p>Sender 將 <code>Plain Text</code> 進行 Encryption 之後把產生出的 <code>Cipher Text</code> 傳輸給 Receiver。</p>
+<p>Receiver 把接收到的 <code>Cipher Text</code> 進行 Decryption 得到 <code>Plain Text</code></p>
+<p>這個過程叫做 Simple Encryption 但是這有一個問題那就是當 Sender 送出 <code>Cipher Text</code> lohel 給 Receiver1，然後又把同一個
+<code>Cipher Text</code> lohel 給 Receiver2，那就會導致 Receiver1 與 Receiver2 互相知道彼此的 <code>Cipher Text</code> 這樣就沒辦法保證 Confidentiality。</p>
+<p>所以就必須重新開發加密演算法，這樣 Receiver1 就是收到 lohel，Receiver2 就是收到 olleh，Receiver3 就是收到 ifmmp，
+這樣就能確保原始資料 hello 的 Confidentiality。</p>
+<p>所以 Simple Encryption 的缺點就是沒辦法 scale up 因為多一個人就需要重新開發新的演算法，並且不能使用公開演算法因為會被別人知道我們是如何加解密的。</p>
+<p>之後就產生了 Key Base Encryption，他是結合群加密演算法專家開發出來的演算法和一組密鑰來進行 Encryption，
+這裡的密鑰可以隨機產生，這樣每個 Receiver 都有自己獨立的密鑰，避免被其他人解密，同時又很適合 scale up。</p>
+<p>總共有兩種 Key Base Encryption：</p>
+<ol>
+<li>Symmetric Encryption
+加密跟解密都用同一組密鑰</li>
+</ol>
+<p>hello =&gt; Encryption(key = 3) =&gt; khoor
+h 往後移 3 位結果為 k</p>
+<p>khoor =&gt; Decryption(key = 3) =&gt; hello
+因為使用同一組密鑰 3 所以只要往前移 3 位就能還原結果</p>
+<p>優點是速度很快 CPU 消耗比較低。
+優點是 <code>Cipher Text</code> 的長度與原始訊息的長度差不多。
+缺點是安全性比較低因為要把密鑰跟其他人分享。
+適合用來傳輸大批量的資料(bulk data)</p>
+<p>DSA 大概安全
+RSA 推薦使用 2048 bit keys
+Diffie-Hellman
+ECDSA
+ECDH</p>
+<ol start="2">
+<li>Asymmetric Encryption
+加密跟解密使用不同組密鑰</li>
+</ol>
+<p>hello =&gt; Encryption(key = 5) =&gt; mjqqt
+h 往後移 5 位結果為 m</p>
+<p>mjqqt =&gt; Decryption(key = 21) =&gt; hello
+因為 Asymmetric 的設計所以我們沒辦法使用同一組密鑰 3 往前回推出原始內容，它需要使用另一組密鑰 21 往後回推出原始內容
+計算方式叫做 trapdoor function 就是同一個方向計算很簡單，但是要反方向運算非常困難。
+所以 Asymmetric Encryption 的演算法要有 trapdoor function 的特性。</p>
+<p>這裡的兩組密鑰 5 與 21 是數學上相關連的，也就代表我們可以顛倒過來加密與解密。
+hello =&gt; Encryption(key = 21) =&gt; czggj
+czggj =&gt; Decryption(key = 5) =&gt; hello</p>
+<p>工業標準把其中一把密鑰稱為 <code>public key</code>
+另一把密鑰稱為 <code>private key</code></p>
+<p>所以我們可以把 <code>public key</code> 傳給任何人，這樣大家就可以使用我的 <code>public key</code> 進行加密，之後把加密的訊息傳給我，因為 <code>private key</code> 只存在我手中
+所以就只有我能解密這段加密訊息，也就是大家可以安全的跟我溝通並且不會被別人知道。</p>
+<p>缺點是速度慢，因為加密的密鑰要比較長。
+缺點是 <code>Cipher Text</code> 的長度會比原始訊息還要長。
+優點是安全性比較高因為 <code>private key</code> 不需要跟其他人分享。
+適合用來傳輸小批量的資料</p>
+<p>通常 bit 越大越安全
+DES         56 bit key 不安全
+RC4         128 bit key 不安全
+3DES        168 bit key 大概安全
+AES         128, 192, 256 bit keys
+ChaCha20    128, 256 bit keys</p>
+<h2 id="public-and-private-keys-1203">2.4 Public and Private Keys (12:03)</h2>
+<p>Pam 和 Jim 各自都有一組 <code>public key</code> 與 <code>private key</code></p>
+<h3 id="encryption">Encryption</h3>
+<p>當 Jim 想要傳輸一條祕密訊息給 Pam，這個時候就可以拿 Pam 的 <code>public key</code> 把這條訊息加密，現在全世界就只有 Pam 能夠解密這條訊息，
+這個就是依靠 Asymmetric Encryption 提供的 Confidentiality。</p>
+<h3 id="signatures">Signatures</h3>
+<p>當 Pam 想要發出一條訊息並且她並不在意 Confidentiality，這時候就能使用她自己的 <code>private key</code> 進行加密，這時候世界上只有 Pam
+的 <code>public key</code> 能夠解密這條訊息，因為 Pam 的 <code>public key</code> 大家都有，所以 Jim 可以正常解密這條訊息。</p>
+<p>Jim 能正常解密這條訊息代表這條訊息肯定是 Pam 發出的，這就確保了 Authentication，另外代表這條訊息肯定沒有被攔截竄改過所以也保證了 Integrity。</p>
+<p>這種使用方式也叫做 <code>Signatures</code>。</p>
+<p>但是當傳輸的資料很龐大的時候，使用 Asymmetric Keys 的 <code>private key</code> 進行加密會相當緩慢，所以就可以先用任意 Hashing 演算法算出
+這條訊息的 hash 值，因為 hash 值可以當成是這條訊息的 fingerprint 所以我們就能用 <code>private key</code> 對 hash 值進行加密，這樣當 Jim
+接收到的時候就可以用 Pam 的 <code>public key</code> 讀取出 hash 值，最後 Jim 在對原始資料自行算出 hash 值，相比較之後就能知道有沒有被竄改過。</p>
+<p>這個改良過得流程能執行的更快速並且還是能保證 Authentication 與 Integrity。</p>
+<p>這個簽名流程很常用來簽名 Message, Certificates, Software, Email...</p>
+<h3 id="hybrid-encryption-asymmetric-keys-symmetric-keys">Hybrid Encryption(使用 Asymmetric Keys 來分享 Symmetric Keys)</h3>
+<p>Pam 可以隨機產生一把 <code>Symmetric Keys</code>，接下來 Pam 使用 Jim 的 <code>public key</code> 對這把 <code>Symmetric Keys</code> 進行加密，這樣全世界只有
+Jim 的 <code>private key</code> 能夠解密這條訊息並獲得 Pam 的 <code>Symmetric Keys</code>。</p>
+<p>這樣兩個人就各自都有一組 <code>public key</code> 與 <code>private key</code> 和一把 <code>Symmetric Keys</code>，以後傳輸大批量資料就能用更適合這個場景的 <code>Symmetric Keys</code> 了，
+並且雙方都可以用 <code>Symmetric Keys</code> 傳輸資料了。</p>
+<p>SSH 與 TLS 加密連線都是靠這種方式。</p>
+<h2 id="how-tls-and-ssl-use-cryptography-0722">2.5 How TLS and SSL use Cryptography (07:22)</h2>
+<h2 id="public-key-infrastructure-pki-0513">2.6 Public Key Infrastructure (PKI) (05:13)</h2>
+<h2 id="rsa-1512">2.7 RSA (15:12)</h2>
+<h2 id="diffie-hellman-0620">2.8 Diffie-Hellman (06:20)</h2>
+<h2 id="digital-signature-algorithm-0510">2.9 Digital Signature Algorithm (05:10)</h2>
+<h2 id="module-2-review-questions">2.10 Module 2 Review Questions</h2>
 
         
 

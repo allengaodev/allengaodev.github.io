@@ -11,7 +11,7 @@
   <title>Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</title>
 
 
-  <link rel="canonical" href='https://blog.allengaodev.com/tags/csharp/6'>
+  <link rel="canonical" href='https://blog.allengaodev.com/tags/effective-sql'>
 
       <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
       <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
@@ -22,7 +22,7 @@
   <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
   <meta property="og:title" content='Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;' />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content='https://blog.allengaodev.com/tags/csharp/6' />
+  <meta property="og:url" content='https://blog.allengaodev.com/tags/effective-sql' />
 
   <link rel="icon" href='/favicon.svg'>
 
@@ -84,8 +84,7 @@
       <div class="col-md-12">
         <div class='site-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/tags/csharp/6'>CSharp</a>
-              <small>(Page 6)</small>
+            <a style="color:white" href='https://blog.allengaodev.com/tags/effective-sql'>Effective SQL</a>
           </h1>
         </div>
       </div>
@@ -105,84 +104,12 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-01">More Effective C# 01.&#x4F7F;&#x7528;&#x5C6C;&#x6027;&#x53D6;&#x4EE3;&#x53EF;&#x5B58;&#x53D6;&#x7684;&#x8CC7;&#x6599;&#x6210;&#x54E1;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;31&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>這個做法建議不要使用 <code>public field</code> 的寫法而是改用 <code>automatically implemented properties</code>，
-或者自己在屬性撰寫 <code>get</code>、<code>set</code> 存取子來存取 <code>private field</code>。</p>    <p class="small"><a href="/posts/more-effective-csharp-01">Read more...</a></p>
+  <h2 class="post-title"><a href="/posts/effective-sql-01">Effective SQL 01.&#x78BA;&#x5B9A;&#x6240;&#x6709;&#x8CC7;&#x6599;&#x8868;&#x90FD;&#x6709;&#x4E3B;&#x9375;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;12&#x6708;2&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
+<p>由於 <code>Rleational Model</code> 要求資料庫系統能夠從資料表所有行(row)中區別出任意一行(row)，所以每個資料表都應該將一個或多個列定義為主鍵，
+為了要從非常多行資料中取得特定其中一行，所以做為主鍵的每個行應該都要有一個獨一無二的內容並且不能為 <code>null</code>。</p>    <p class="small"><a href="/posts/effective-sql-01">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-summary">Effective C# &#x8B80;&#x5F8C;&#x7E3D;&#x7D50;&#x8207;&#x6574;&#x7406;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;30&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>本文章對書中 50 個做法進行總整理，以及對每個做法做出簡短總結，方便日後查看。</p>    <p class="small"><a href="/posts/effective-csharp-summary">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-50">Effective C# 50.&#x5229;&#x7528;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x7684;&#x526F;&#x4F5C;&#x7528;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;30&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
-<p>這個做法在對做法 49 的 Exception Filters 進行補充以及它的特性。</p>    <p class="small"><a href="/posts/effective-csharp-50">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-49">Effective C# 49.&#x504F;&#x597D;&#x4F8B;&#x5916;&#x904E;&#x6FFE;&#x800C;&#x975E; catch &#x8207;&#x91CD;&#x65B0;&#x62CB;&#x51FA;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
-<p>這個做法說明了 Exception Filters 與 when 子句的使用方式，還有與舊的判斷語句寫法進行比較。</p>    <p class="small"><a href="/posts/effective-csharp-49">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-48">Effective C# 48.&#x504F;&#x597D;&#x5F37;&#x4F8B;&#x5916;&#x4FDD;&#x8B49;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
-<p>在做法 39 有提到 <code>Strong exception guarantee</code> 這個概念，這個做法會對三種保證進行詳細說明。</p>    <p class="small"><a href="/posts/effective-csharp-48">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-47">Effective C# 47.&#x5EFA;&#x69CB;&#x5B8C;&#x6574;&#x7684;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x5C08;&#x5C6C;&#x4F8B;&#x5916;&#x985E;&#x5225;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;29&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
-<p>這個做法提出建立你自己客製的 Exception 能夠比直接用預設類別帶來更多詳細的錯誤資訊。</p>    <p class="small"><a href="/posts/effective-csharp-47">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-46">Effective C# 46.&#x4EE5; using &#x8207; try/final &#x6E05;&#x7406;&#x8CC7;&#x6599;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
-<p>這個做法在之前也提到過很多次了，就是要用 using 或是 try/final 來確保資源一定能正確釋放掉。</p>    <p class="small"><a href="/posts/effective-csharp-46">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-45">Effective C# 45.&#x4EE5;&#x4F8B;&#x5916;&#x56DE;&#x5831;&#x65B9;&#x5F0F;&#x7D04;&#x5B9A;&#x5931;&#x6557;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
-<p>這個做法提到什麼情況適合使用 Exceptions 以及相較之下使用 Error Code 所會帶來的問題點。</p>    <p class="small"><a href="/posts/effective-csharp-45">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-44">Effective C# 44.&#x907F;&#x514D;&#x4FEE;&#x6539;&#x9650;&#x754C;&#x8B8A;&#x6578;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;28&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
-<p>這個做法在解說 closure 把區域變數提升為成內部成員時，又被其他程式碼修改所導致的問題。</p>    <p class="small"><a href="/posts/effective-csharp-44">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-43">Effective C# 43.&#x4F7F;&#x7528; Single() &#x8207; First() &#x4EE5;&#x5F37;&#x5236;&#x67E5;&#x8A62;&#x7684;&#x8A9E;&#x610F;&#x7D50;&#x679C;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;27&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
-<p>這個做法在介紹 LINQ 中 Single、First、Last、SingleOrDefault、FirstOrDefault、LastOrDefault 這幾個擴充方法。</p>    <p class="small"><a href="/posts/effective-csharp-43">Read more...</a></p>
-</div>
-
-  <div>
-    <div class="float-sm-start">
-        <a class="btn btn-primary" href="/tags/csharp/5" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
-    </div>
-    <div class="float-sm-end">
-        <a class="btn btn-primary" href="/tags/csharp/7" role="button">Older <i class="fas fa-angle-double-right"></i></a>
-    </div>
-    <div class="clearfix"></div>
-  </div>
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
