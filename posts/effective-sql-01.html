@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective SQL 01.&#x78BA;&#x5B9A;&#x6240;&#x6709;&#x8CC7;&#x6599;&#x8868;&#x90FD;&#x6709;&#x4E3B;&#x9375; (Verify That All Tables Have a Primary Key)">
+
+  <title>Effective SQL 01.&#x78BA;&#x5B9A;&#x6240;&#x6709;&#x8CC7;&#x6599;&#x8868;&#x90FD;&#x6709;&#x4E3B;&#x9375;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-sql-01'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective SQL 01.&#x78BA;&#x5B9A;&#x6240;&#x6709;&#x8CC7;&#x6599;&#x8868;&#x90FD;&#x6709;&#x4E3B;&#x9375;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-sql-01' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-sql-01'>Effective SQL 01.&#x78BA;&#x5B9A;&#x6240;&#x6709;&#x8CC7;&#x6599;&#x8868;&#x90FD;&#x6709;&#x4E3B;&#x9375;</a>
+              <span class="subheading">Effective SQL 01.&#x78BA;&#x5B9A;&#x6240;&#x6709;&#x8CC7;&#x6599;&#x8868;&#x90FD;&#x6709;&#x4E3B;&#x9375; (Verify That All Tables Have a Primary Key)</span>
+          </h1>
+            <div class="meta">Published on 2024&#x5E74;12&#x6708;2&#x65E5; &#x661F;&#x671F;&#x4E00;</div>
+              <div class="mt-3">
+                  <a href="/tags/sql" class="badge text-bg-secondary"> SQL</a>
+                  <a href="/tags/effective-sql" class="badge text-bg-secondary"> Effective SQL</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>由於 <code>Rleational Model</code> 要求資料庫系統能夠從資料表所有行(row)中區別出任意一行(row)，所以每個資料表都應該將一個或多個列定義為主鍵，
+為了要從非常多行資料中取得特定其中一行，所以做為主鍵的每個行應該都要有一個獨一無二的內容並且不能為 <code>null</code>。</p>
+<p>所以資料表一但沒有主鍵，在本次查詢中就很精準匹配零行或一行數據，因為沒有主鍵就代表沒有唯一性，所以回傳的數據可能會返回多行結果，
+但並沒有強迫所有的表一定要有主鍵。</p>
+<p>就算你把某個列設定為唯一且非空，也並不代表資料庫引擎的查詢速度會加快，你必須明確告訴資料庫哪幾個列是主鍵，另外缺少一個資料表缺少主鍵
+是沒辦法跟其他表建立關聯關係的。</p>
+<p>一個沒有主鍵的資料表會導致：</p>
+<ol>
+<li>重複或不一致的數據產生</li>
+<li>查詢效率低下</li>
+<li>報表會提示相關錯誤</li>
+</ol>
+<p>一個好的主鍵應該要符合幾個特徵：</p>
+<ol>
+<li>內容必須是唯一值</li>
+<li>不能為空值(null)</li>
+<li>需要是穩定的，未來不可以經常更新它的值。</li>
+<li>要越簡單越好，例如能用 int 就不要用 float 或 text，並且建議使用單行主鍵而不是多行主鍵</li>
+</ol>
+<p>符合這些條件的常見作法是使用 <code>Auto-increment</code>，它會自動生成一個無意義數值作為主鍵。</p>
+<p><code>Referential integrity</code> (RI) 是關聯式資料庫一個很重要的概念。
+<code>Enforced RI</code> 代表在 Child Table 中，每一個非空的外鍵值，都必須在 Parent Table 中匹配一筆對應的紀錄。</p>
+<p>所以 <code>Orders</code> 表中的客戶訊息應該透過外鍵關聯另一個 <code>Customer</code> 表的主鍵，這樣就算有同名同姓的客戶還能用唯一的標識符來區別客戶。</p>
+<p>為了維持兩個資料表之間的 RI，主鍵值的更新需要 cascaded 更新到所有關聯表中的子紀錄，但是 cascaded 更新會導致關聯表鎖定，所以在高併發
+系統會發生問題。</p>
+<p>所以使用有意義的主鍵未來發生變動會對系統的性能造成影響，所以乾脆建立一個無意義的主鍵這樣未來也不會產生變動這個主鍵的動機，也就不會有剛剛提到的那些更新鎖定問題。</p>
+<p>相比之下使用文本做為主鍵可以簡化 SQL 語句，因為可以省下 joins 查詢關聯資料表關聯數值主鍵的這一段開銷。</p>
+<p>建議不要使用複合主鍵有兩個原因：</p>
+<ol>
+<li>定義主鍵時，有些資料庫會強制創建唯一主鍵，在多個列上創建唯一主鍵對資料庫造成額外負擔。</li>
+<li>很難在多個列上使用複合主鍵做 join 查詢，速度也比較慢。</li>
+</ol>
+<p>像是產品與供應商的關聯表就適合用 VendorID 和 ProductID 建立複合主鍵，因為之後做關聯查詢一定會用到其中一個列，因此會比單獨建立一個
+無意義的數值主鍵更有效率，同時又能確保唯一性。</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<ol>
+<li>所有資料表都必須要用一列或多列設置為主鍵。</li>
+<li>如果你擔心產生重複值的問題，可以為非主鍵欄位建立唯一索引。</li>
+<li>使用越簡單越好的值做為主鍵，並且要確保未來不會變動。</li>
+<li>使用複合主鍵前必須考慮清楚，應該在必要時根據業務需求來建立。</li>
+</ol>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-sql-01'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
