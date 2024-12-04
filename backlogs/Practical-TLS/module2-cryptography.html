@@ -276,11 +276,203 @@ Jim 的 <code>private key</code> 能夠解密這條訊息並獲得 Pam 的 <code
 並且雙方都可以用 <code>Symmetric Keys</code> 傳輸資料了。</p>
 <p>SSH 與 TLS 加密連線都是靠這種方式。</p>
 <h2 id="how-tls-and-ssl-use-cryptography-0722">2.5 How TLS and SSL use Cryptography (07:22)</h2>
+<p>Confidentiality: 確保資料只能被 Client 和 Server 讀懂內容，所以必須透過資料加密的方式確保資料被捕獲時壞人也看不懂。
+Integrity: 防止資料傳輸的過程中被篡改，它並不能禁止壞人直接修改資料，它能確保資料被修改時 Server 方能查覺到。
+Authentication: 確保 Client 和 Server 的來源是真的，兩台機器會透過類似驗證身分證的方式確保機器是真的機器。</p>
+<p>Confidentiality 使用 Encryption 將資料加密。
+Integrity 使用 Hashing 檢測資料是否被篡改。
+Authentication 使用 PKI 驗證身分。</p>
+<h3 id="hashing-1">Hashing</h3>
+<p>Digest
+Message Authentication Code(MAC): Integrity, Authentication</p>
+<h3 id="symmetric-keys">Symmetric Keys</h3>
+<p>Encryption: Confidentiality</p>
+<h3 id="asymmetric-keys">Asymmetric Keys</h3>
+<p>Key Exchange: Establish Shared keys
+Signatures: Integrity, Authentication
+Encryption: Confidentiality</p>
+<h3 id="hashing-symmetric-keys-vs-asymmetric-keys">Hashing + Symmetric Keys vs Asymmetric Keys</h3>
+<p>Hashing + Symmetric Keys = Bulk Data
+Asymmetric Keys = Limited Data</p>
+<h3 id="how-tls-and-ssl-use-cryptography">How TLS and SSL use Cryptography</h3>
+<p>一個瀏覽器要傳送批量資料給 blue.com，這時候就要用到之前提到過得 Hybrid Encryption，也就是先準備一把 Mutual Secret Key 之後用來
+Symmetric Encryption，之後透過 Asymmetric Keys 執行 Key Exchange。</p>
+<p>這樣瀏覽器跟 blue.com 目前都有一把 Symmetric Keys，還有對方的 public key 以及自己的 secret key。</p>
+<p>但是任何人都能產生一組 Asymmetric Keys，以至於我們並不能知道這個跟我們交換密鑰的網站到底是真的假的，所以現在只有符合 Confidentiality 與 Integrity。</p>
+<p>Authentication 則是依賴 Certificate Authority(CA) 這個公正的第三方網站，它能對 blue.com 的 public key 發行憑證，
+因為憑證不能造假，這樣我們就能根據交換過來的 public 知道它是真的網站還是偽造的網站。</p>
+<p>所以網站需要事先到 Certificate Authority(CA) 使用自己的 public key 申請憑證，這樣在跟瀏覽器交換的過程中就能直接知道網站的真假，
+也就是說我們交換 public key 的當下就已經獲得 Authentication 特性。</p>
+<p>所以當全部的 key 交換完後會同時滿足三個特性 Confidentiality, Integrity, Authentication。</p>
+<p>瀏覽器, 伺服器, CA 可以成一個三角形簡稱 PKI(Public Key Infrastructure)</p>
 <h2 id="public-key-infrastructure-pki-0513">2.6 Public Key Infrastructure (PKI) (05:13)</h2>
+<p>PKI 由三個角色組成:</p>
+<ol>
+<li>Client: 需要建立安全連線或核實身分</li>
+<li>Server: 需要提供身分</li>
+<li>Certificate Authority: 認證身分與產生憑證</li>
+</ol>
+<p>還有另一種形式的 PKI</p>
+<ol>
+<li><p>程式碼簽名
+Client: 操作系統
+Server: 各種軟體或應用程式
+CA: Code Signing CAs，跟網路連線 CA 不一樣，可以有很多種形式。</p>
+</li>
+<li><p>Corporate PKI
+Client: 員工/工作電腦/手機
+Server: 公司資源
+CA: 公司內部 CA</p>
+</li>
+</ol>
 <h2 id="rsa-1512">2.7 RSA (15:12)</h2>
+<p>RSA(Rivest–Shamir–Adleman)由三個發明人的名字開頭組成。</p>
+<p>是一種最常用的 Asymmetric Encryption，它會產生一組 Commutative 密鑰，並不是所有加密演算法密鑰都具有 Commutative 特性。</p>
+<h3 id="factor">Factor</h3>
+<p>Factor 因數: 某個自然數 A 與自然數 B 存在的整除關係。
+Factor of 12 = 1, 2, 3, 4, 6, 12
+Factor of 7 = 1, 7</p>
+<h3 id="prime">Prime</h3>
+<p>Prime 質數: 某個自然數 A 它的因數只有 1 與它自己。
+2, 3, 5, 7, 11, 13</p>
+<h3 id="semi-prime">Semi-Prime</h3>
+<p>Semi-Prime 半質數: 某個自然數 A 它的因數都是質數。
+Factor of Semi-Prime 21 = 1, 3, 7, 21
+只要將兩個質數相乘那就是半質數，6, 10, 14...</p>
+<h3 id="modulo">Modulo</h3>
+<p>Modulo 模數: 某個自然數 A 除以自然數 B 的餘數。
+13 MOD 5 = 3
+21 MOD 5 = 1
+25 MOD 5 = 0</p>
+<h3 id="ras-example">RAS Example</h3>
+<ol>
+<li>Generating Keys:
+<ul>
+<li>Select two Prime Numbers(P, Q) = (7, 19)</li>
+<li>Calculate Product(P * Q = N) = (7 * 19 = 133)</li>
+<li>Calculate Totient((P - 1) * (Q - 1) = T) = (7 - 1) * (19 - 1) = 108</li>
+<li>Select Public Key(E = 29):
+<ul>
+<li>Must be Prime</li>
+<li>Must be less than Totient</li>
+<li>Must NOT be a factor of the Totient
+3 是 Prime, 也小於 Totient, 但 (108 mod 3 = 0) 不符合條件
+5 是 Prime, 也小於 Totient, (108 mod 5 = 3) 符合條件
+29 是 Prime, 也小於 Totient, (108 mod 5 = 21) 符合條件</li>
+</ul>
+</li>
+<li>Select Private Key(D = 41):
+<ul>
+<li>Product of D and E, divide by T, must result in a remainder of 1</li>
+<li>(D * E) MOD T = 1</li>
+<li>(41 * 21) MOD 108 = 1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Encryption and Decryption:
+<ul>
+<li>Encryption
+<ul>
+<li>Message^E MOD N = Cipher Text</li>
+</ul>
+</li>
+<li>Decryption
+<ul>
+<li>Cipher^D MOD N = Message</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>Message = 60
+(60 ^ 29) MOD 133 = 86
+(86 ^ 41) MOD 133 = 60</p>
+<p>(60 ^ 41) MOD 133 = 72
+(72 ^ 29) MOD 133 = 60</p>
+<h3 id="how-secure-is-rsa">How Secure is RSA</h3>
+<p>安全性取決於找出 Semi-Prime 兩個質數的難度。
+Semi-Prime 133 很簡單就知道兩個質數為 7 跟 19</p>
+<p>1909 只有 11 個 bits
+最長被解出來的歷史紀錄只有 829 bits(2020/2月)
+2002 建議使用 1024 bits
+2015 建議使用 2048 bits</p>
 <h2 id="diffie-hellman-0620">2.8 Diffie-Hellman (06:20)</h2>
+<p>Diffie-Hellman Key Exchange 是一種允許兩個實體之間透過不安全的公開網路建立 Shared secret 的方式。</p>
+<ol>
+<li><p>首先 Alice 與 Bob 要達成共識公開產生兩個數值 <code>Prime Number (P)</code>, <code>Generator of P (G)</code>
+P = 13
+G = 6</p>
+</li>
+<li><p>Alice 與 Bob 私下隨機產生自己的 private key
+Alice private key = 5
+Bob private key = 4</p>
+</li>
+<li><p>計算出 public key
+G^(Private Key) MOD P
+Alice public key = 6<sup>5 MOD 13 = 2
+Bob public key = 6</sup>4 MOD 13 = 9</p>
+</li>
+<li><p>Alice 與 Bob 交換 public key 並計算出 Shared Key
+(Shared Public Key)<sup>(Private Key) MOD P
+Alice public key = 9</sup>5 MOD 13 = 3
+Bob public key = 2^4 MOD 13 = 3
+這樣 Alice 與 Bob 就有了 Shared Key 之後會用來計算 Symmetric Key。
+因為公開的資料只有 <code>P</code>,<code>G</code>,<code>Alice public key</code>,<code>Bob public key</code> 所以中間的壞人沒辦法推測出 Shared Key</p>
+</li>
+</ol>
+<h3 id="diffie-hellman">Diffie-Hellman 安全度</h3>
+<p>Exponential(指數): Gives G and X, it is easy to find N (G ^ X = N) (2 ^ 2 = 4)
+Logarithm(對數): Give G and N, it is difficult to find X (2 ^ X = 4) (log24 = 2) (log25 =　?)
+Discrete Exponential(離散指數): Given G,X,P it is easy to find N (G ^ X MOD P = N) (2<sup>2 MOD 4 = 0)
+Discrete Logarithm(離散對數): Given G,P,N it is infeasible to find N (G ^ X MOD P = N) (2</sup>X MOD 4 = 0)</p>
+<p>要解決 Discrete Logarithm 問題只能用暴力破解的方式，所以只要數字設定的好那就要花費幾萬年來破解。</p>
 <h2 id="digital-signature-algorithm-0510">2.9 Digital Signature Algorithm (05:10)</h2>
+<p>DSA 是一種 Asymmetric Encryption Algorithm，但與其它演算法不同。</p>
+<p>RSA 可以做 Encryption, Signatures, Key Exchanges
+D-H 可以做 Key Exchanges
+DSA 可以做 Signatures</p>
+<p>DSA 只能做兩件事 Signatures Generation, Signatures Verification</p>
+<h3 id="signatures-generation">Signatures Generation</h3>
+<p>Input: Message, Private Key, Random #, DSA Parameters
+Output: Signature</p>
+<p>Random Numbers 非常重要，每條訊息都要一個獨特的數字，如果使用同一個數字來簽名那可能會被推導出 private key。
+最好使用大到不可能重複的數字，或者使用 RFC-6979 的規定來根據加密的訊息產生隨機數字。</p>
+<h3 id="signatures-verification">Signatures Verification</h3>
+<p>Input: Message, Public Key, Signature, DSA Parameters
+Output: 0 or 1</p>
 <h2 id="module-2-review-questions">2.10 Module 2 Review Questions</h2>
+<ol>
+<li>What is a Hashing Algorithm?
+將訊息傳入後輸出一個屬於這條訊息的指紋 <code>Digest</code>。</li>
+<li>What is a Collision?
+就是兩個不同的訊息但產生相同的指紋，這樣就沒辦法確認訊息是否有被竄改，輸出 bits 太少越有可能出現。</li>
+<li>What is a MAC?
+MAC 就是訊息搭配一組私下協議好的密鑰組合運算的過程，用來確保資料的 Integrity。</li>
+<li>How is a MAC different from an HMAC?
+就是一種更安全嚴謹的 MAC，它需要根據 RFC-2104 定義的組合方式來計算 MAC。</li>
+<li>What are the two types of Key-based encryption that exist?
+Symmetric Encryption 和 Asymmetric Encryption</li>
+<li>How are they different?
+Symmetric Encryption 只需要一個密鑰並且加解密使用同一個密鑰, Asymmetric Encryption 需要兩個密鑰並且加解密需要使用不同的密鑰。</li>
+<li>Which type of encryption is considered more secure?
+Asymmetric Encryption 加密比較安全但是執行速度比較慢。</li>
+<li>Which type of encryption is better for Bulk Data?
+Symmetric Encryption 適合處理批量資料。</li>
+<li>What is the general process for Hybrid encryption?
+混和 Asymmetric Encryption 與 Symmetric Encryption，確保雙方都各有一個 Symmetric key 與一組 Asymmetric key，這樣批量資料可以用 Symmetric key，需要安全可以用 Asymmetric key。</li>
+<li>What is the general process for Message Signing?
+設計用來幫資料簽名確保資料擁有 Integrity 與 Authentication 特性。</li>
+<li>What are the three functions of Asymmetric Encryption?
+<code>Encryption</code>, <code>Signature</code>, <code>Key Exchange</code></li>
+<li>What is RSA?
+是一種最常用的 Asymmetric Encryption，它會產生一組 Commutative 密鑰，所以我可以用公鑰加密私鑰解密也可以私鑰加密公鑰解密，
+現在建議使用 RSA 2048 bits 基本不可能破解，並且它 <code>Encryption</code>, <code>Signature</code>, <code>Key Exchange</code> 都能處理。</li>
+<li>What is Diffie-Hellman? What is its purpose?
+用來安全的交換 Shared Key，因為只能用暴力破解所以初始值設定的好就很安全，它只能做到 <code>Key Exchange</code> 功能。</li>
+<li>What is the Digital Signature Algorithm? How is it different from RSA and DH?
+它只能做到產生簽名與驗證簽名兩個功能，特點是不使用 hashing 與 Encryption，但只能做到 <code>Signature</code> 功能。</li>
+</ol>
 
         
 

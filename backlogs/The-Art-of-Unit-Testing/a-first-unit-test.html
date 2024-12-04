@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Chapter 2 - A first unit test">
+
+  <title>Chapter 2 - A first unit test</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/backlogs/The-Art-of-Unit-Testing/a-first-unit-test'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Chapter 2 - A first unit test' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/backlogs/The-Art-of-Unit-Testing/a-first-unit-test' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='site-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/backlogs/The-Art-of-Unit-Testing/a-first-unit-test'>Chapter 2 - A first unit test</a>
+              <span class="subheading">Chapter 2 - A first unit test</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="section">2.1 單元測試框架</h2>
+<p>用手動的方式進行測試或回歸測試非常容易出錯也很浪費時間。
+使用單元測試框架提供的 API 可以快速撰寫測試程式，且能夠自動執行測試並回傳結果，也不用擔心漏做了什麼操作。</p>
+<h3 id="section-1">2.1.1 單元測試框架提供哪些東西</h3>
+<p>大部分人寫的單元測試都會有某幾個缺點。</p>
+<ul>
+<li>非結構化的測試(They weren’t structured)
+每次要測試一個新功能，就得重新寫一段程式。代表這些測試都沒有滿足「容易實現」的要求。</li>
+<li>無法重複執行(They weren’t repeatable)
+你或團隊沒辦法簡單的運行之前寫的測試程式，這違反了「可重複」的要求。</li>
+<li>測試沒有覆蓋到程式中所有重要的部分(They didn’t cover all the important parts of the code)
+因為程式任何一個地方都有可能出錯，解法就是在所有重要的地方加上單元測試，所以當寫測試變的很容易就會提升寫測試的意願。</li>
+</ul>
+<p>總結一個單元測試框架應該要讓我們非常簡單得寫出單元測試、又能自動重複運作並且回傳結果給我們。
+有 MSTest、xUnit 和 Nunit 可以選擇。</p>
+<h3 id="xunit">2.1.2 xUnit 框架</h3>
+<p>基本上單元測試框架都使用 Uint 作為結尾來命名，例如 Nunit、Junit、HUnit。</p>
+<h2 id="logan">2.2 LogAn 專案介紹</h2>
+<p>書裡建立了一個範例範例 LogAn 場景是監控產品並記錄私有格式的 Log 檔，以及對它進行分析。</p>
+<h2 id="nunit">2.3 NUnit 的第一個步驟</h2>
+<p>NUnit 是開源的產品可以免費下載安裝，並學習它的特性。</p>
+<h3 id="nunit-1">2.3.1 安裝 NUnit</h3>
+<p>在 Visual Studio 安裝 NUnit 管理工具。</p>
+<h3 id="section-2">2.3.2 載入方案的方式</h3>
+<p>專案名稱: LogAn
+測試 LogAn 專案的專案名稱: LogAn.Tests
+類別名稱: LogAnalyzer
+測試 LogAnalyzer 類別的類別名稱: LogAnalyzerTests</p>
+<p>單元測試命名規則 <code>[UnitOfWorkName]_[ScenarioUnderTest]_[ExpectedBehavior]</code></p>
+<ol>
+<li>UnitOfWorkName: 你正在測試的方法名稱、一組方法的名稱或類別的名稱。</li>
+<li>Scenario: 現在這個測試的假設條件，例如「登入失敗」、「無效的使用者」、「密碼正確」，或者可以用程式的初始狀態或運行的情境來描述，
+例如「系統記憶體不足」、「無此使用者」、「該使用者已經存在」。</li>
+<li>ExpectedBehavior:根據上面定義的測試情境，你對被測試方法的行為所做出的預期，可能有三種行為發生
+<ol>
+<li>結果是一個回傳值(一個真實的值或 Exception)。</li>
+<li>結果是產生系統狀態改變。</li>
+<li>結果是額外呼叫第三方系統(呼叫外部 API 服務)。</li>
+</ol>
+</li>
+</ol>
+<p>IsValidLogFileName_BadExtension_ReturnsFalse</p>
+<h3 id="nunit-attribute">2.3.3 在程式中使用 NUnit 的 Attribute</h3>
+<p>NUnit 使用 Attribute 來判斷和加載測試，就像在一本書夾著書簽一樣，Attribute 可以協助測試框架載入組件中的重要內容，以及要執行的測試方法。
+舊版的 NUnit 提供了一個 Assembly (nunit.framework.dll) 裡面就包含這些特殊的 Attribute。</p>
+<p>NUnit runner 需要透過兩個 Attribute 才知道哪些測試需要被執行。</p>
+<ol>
+<li>[TestFixture] 用來標記這個 Class 內部有包含自動化的 NUnit 測試，所以要在 LogAnalyzerTests 類別加上這個 Attribute。</li>
+<li>[Test] 用來標記這個自動化測試需要被執行，要把這個 Attribute 加到方法 IsValidLogFileName_BadExtension_ReturnsFalse 上。</li>
+</ol>
+<pre><code class="language-text">[TestFixture]
+public class LogAnalyzerTests
+{
+    [Test]
+    public void IsValidLogFileName_BadExtension_ReturnsFalse()
+    {
+    }
+}
+</code></pre>
+<p>NUnit 要求測試方法需要是 public、void、parameterless，但有些時候是允許傳入參數的。</p>
+<h2 id="section-3">2.4 撰寫第一個測試程式</h2>
+<p>一個單元測試包含三個行為:</p>
+<ol>
+<li>準備(Arrange): 建立物件和進行必要的設定。</li>
+<li>操作(Act): 對物件進行操作。</li>
+<li>驗證(Assert): 驗證某些條件是否符合預期。</li>
+</ol>
+<pre><code class="language-text">[TestFixture]
+public class LogAnalyzerTests
+{
+    [Test]
+    public void IsValidLogFileName_BadExtension_ReturnsFalse()
+    {
+        var analyzer = new LogAnalyzer();
+        var result = analyzer.IsValidLogFileName(&quot;filewithbadextension.foo&quot;);
+        Assert.False(result);
+    }
+}
+</code></pre>
+<p>Assert 類別是撰寫單元測試相當重要的一個部分。</p>
+<h3 id="assert">2.4.1 Assert 類別</h3>
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
+          <br />
+        <p class="copyright">&#xA9; Allen Gao 2024</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

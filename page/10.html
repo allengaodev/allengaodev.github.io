@@ -107,6 +107,14 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-26">More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;</a></h2>
+  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
+<p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
+例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>    <p class="small"><a href="/posts/more-effective-csharp-26">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/more-effective-csharp-25">More Effective C# 25.Array &#x5F15;&#x6578;&#x9650;&#x5236;&#x53EA;&#x4F7F;&#x7528; params &#x9663;&#x5217;</a></h2>
   <p class="post-meta">Published on 2024&#x5E74;11&#x6708;18&#x65E5; &#x661F;&#x671F;&#x4E00;</p>
 <p>這個做法提出使用陣列做為參數可能會引發某些問題，並且建議改用 params 陣列。</p>    <p class="small"><a href="/posts/more-effective-csharp-25">Read more...</a></p>
@@ -117,13 +125,6 @@
   <h2 class="post-title"><a href="/posts/more-effective-csharp-24">More Effective C# 24.&#x907F;&#x514D;&#x4F7F;&#x7528; ICloneable&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x9650;&#x5236;&#x4F60;&#x7684;&#x8A2D;&#x8A08;&#x9078;&#x64C7;</a></h2>
   <p class="post-meta">Published on 2024&#x5E74;11&#x6708;17&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
 <p>這個做法建議不要實做 <code>ICloneable</code> 介面，還有 <code>Deep Copy</code> 和 <code>Shallow Copy</code> 的概念。</p>    <p class="small"><a href="/posts/more-effective-csharp-24">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-23">More Effective C# 23.&#x90E8;&#x5206;&#x985E;&#x5225;&#x7684;&#x5EFA;&#x69CB;&#x51FD;&#x5F0F;&#x3001;&#x66F4;&#x52D5;&#x5B50;&#x8207; Event handler &#x4F7F;&#x7528;&#x90E8;&#x5206;&#x65B9;&#x6CD5;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;11&#x6708;17&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
-<p>這個做法講解了 <code>Partial Classes</code> 與 <code>Partial Methods</code> 建議的使用場景與背後原理。</p>    <p class="small"><a href="/posts/more-effective-csharp-23">Read more...</a></p>
 </div>
 
   <div>
