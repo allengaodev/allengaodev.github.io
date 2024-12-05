@@ -100,7 +100,74 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="overview-of-the-ssl-process-0351">3.1 Overview of the SSL Process (03:51)</h2>
+<ol>
+<li>CA 擁有一個 Public Key, Private Key, Self-Signed Certificate，這個 Certificate 是用來代表 CA 本身，Self-Signed 代表它是自己幫自己簽名。</li>
+<li>Server 想要獲得 Certificate 之前需要先產生自己的 Public Key 與 Private Key。</li>
+<li>接下來 Server 需要生成一個 Certificate Signing Request(CSR)，可以把它當成申請憑證的申請表，等於是填表完後提交給 CA 審核後才能獲得 Certificate。</li>
+<li>CSR 的內容要包括 Public Key，產生出 CSR 後要再用自己的 Private Key 進行簽名。</li>
+<li>下一步 Server 把這份 CSR 提交給 CA 進行審核，這裡的審核步驟基本上就是在確認我們是不是真的是這個域名的所有人，不然就可以假裝自己是某個知名域名的所有人然後又可以獲得第三方機構的認可。</li>
+<li>認證成功後 CA 會根據 CSR 的內容產生 Certificate，並且 CA 使用 CA 自己的 Private Key 將這個 Certificate 進行簽名，證明這份 Certificate 已經被某個 CA 認證過了。</li>
+<li>Server 下載簽名過後的 Certificate，就能把這份 Certificate 分享給所有想連到我們網站的 Client。</li>
+</ol>
 <h2 id="what-is-in-a-certificate-1601">3.2 What is in a Certificate? (16:01)</h2>
+<p>x.509 規範定義了一個標準的 Certificate 裡面該包含什麼內容。</p>
+<p>一個 Certificate 由三個區塊所組成:</p>
+<ol>
+<li>Certificate Data: 重要的資料都在這個區塊
+<ul>
+<li>Version
+指定 x509 的版本，不要跟 SSL/TLS 版本搞混!
+0x0 - x509 version 1 已經不使用
+0x1 - x509 version 2 很少使用也不建議使用
+0x2 - x509 version 3 目前使用中，新增了 <code>Certificate Extensions</code> 功能，來擴充 Certificate 的功能。</li>
+<li>Serial Number
+由 20 bytes (160 bits) 組成的數據，CA 用這個唯一的數值來區分所發出的證書。
+兩家 CA 所發出的證書可能會有重複的 Serial Number 但不會有影響。
+因為到 CA 系統查詢這個 Certificate 是否合法時就是將 Serial Number 帶入查詢，所以你不會把一個系統的 Serial Number 帶入另一個系統查詢。
+檢查憑證合法有兩種協定: CRL(Certificate Revocation List), OCSP(Online Certificate Status Protocol)</li>
+<li>Signature Algorithm
+用來產生 Certificate 簽名的演算法，會包含兩個演算法
+Hashing 演算法
+產生 Asymmetric Key 的演算法
+例如 md5WithRSAEncryption(不安全), sha1WithRSAEncryption(不安全), ecdsa-with-SHA256(安全), sha256WithRSAEncryption(安全)</li>
+<li>Validity
+用來說明 Certificate 的合法使用期間，會包含 <code>Not Before</code> 與 <code>Not After</code> 兩個日期。
+例如下面這個憑證大概可以使用一年，如果時間是 2012 或是 2014 那麼會通知這個憑證是過期的。
+<code>Not Before: Mar 22 00:00:00 2013 GMT</code>
+<code>Not After: Mar 22 00:00:00 2013 GMT</code></li>
+<li>Subject and Issuer
+Subject: <code>blue.com</code>，Certificate 所要證明的主體
+Issuer: <code>Orange CA</code> 發行 Certificate 以及簽名的機構
+不過 <code>CA</code> 也可以發行 Certificate 給自己，所以角色不是固定的
+Subject: <code>Orange CA</code>，Certificate 所要證明的主體
+Issuer: <code>Orange CA</code> 發行 Certificate 以及簽名的機構
+這種 Subject 與 Issuer 都是自己的 Certificate 就是 Self-Signed Certificate
+它們會以 Distinguished Name(DN) 格式來顯示，<code>Attribute:Value</code>
+<code>C = GB</code>、<code>C = US</code>、<code>C = RU</code> C = Country
+<code>ST = Washington</code>、<code>ST = California</code>、<code>ST = Colorado</code> ST = State
+<code>L = San Francisco</code>、<code>L = San Jose</code>、<code>ST = Mountain View</code> Location(City)
+<code>O = Reddit Inc.</code>、<code>O = Twitter Inc.</code>、<code>ST = Google LLC</code> Organization
+<code>CN = *.reddit.com</code>、<code>CN = twitter.com</code>、<code>CN = *.google.com</code> Common Name
+Reddit 的 Full Distinguished Name 組合後就會像下面這樣。
+<code>Subject: C = US, ST = California, L = San Francisco, O = Reddit Inc., CN = *.reddit.com</code>
+Google 的 Full Distinguished Name 組合後就會像下面這樣。
+<code>Subject: C = US, ST = California, L = Mountain View, O = Google LLC, CN = *.google.com</code>
+LDAP - RFC-4519 有其它更多 Attribute 定義
+Common Name 是最重要的，每個 Certificate 都一定要有，因為這是瀏覽器判斷域名是否保護的依據。
+正常來說每一張 Certificate 都只能保護一個域名，但是可以使用 wildcard * 來保護子域名，要注意只有一個 <code>*</code> 跟 <code>*.*</code> 保護的範圍不一樣。</li>
+<li>Public Key
+RSA 由兩個值組成 <code>Modulus</code> 與 <code>Exponent</code>。
+ECDSA 由兩個值組成 <code>Public Key</code> 與 <code>Curve</code>。</li>
+<li>Extensions
+x509 v3 才新增的，幫 Certificate 額外添加了許多可選的設定值，所以未來的新功能會一值加到 Extensions。</li>
+</ul>
+</li>
+<li>Signature Algorithm
+決定簽名時要用哪種 Hashing 演算法，以及用來產生 Asymmetric Key 的演算法，Certificate Data 裡面也有 Signature Algorithm，
+這是因為要確保簽名要跟演算法關聯起來，否則壞人就可以直接替換 Signature Algorithm 產生新簽名。</li>
+<li>Signature
+會先讀取 Certificate Data 所有的內容在跟 CA 自己的 Private Key 進行 Hashing 產生簽名。</li>
+</ol>
 <h2 id="inspecting-a-certificate-0952">3.3 Inspecting a Certificate (09:52)</h2>
 <h2 id="certificate-extensions-1331">3.4 Certificate Extensions (13:31)</h2>
 <h2 id="what-is-in-a-private-key-0905">3.5 What is in a Private Key? (09:05)</h2>

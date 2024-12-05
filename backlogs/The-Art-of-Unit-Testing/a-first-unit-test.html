@@ -180,6 +180,78 @@ public class LogAnalyzerTests
 </code></pre>
 <p>Assert 類別是撰寫單元測試相當重要的一個部分。</p>
 <h3 id="assert">2.4.1 Assert 類別</h3>
+<p>現在 Nunit3 建議使用下面這新寫法。
+Assert.That(result, Is.False);
+Assert.That(result, Is.True);</p>
+<p>不再建議使用下面這舊寫法。
+Assert.False(result);
+Assert.IsTrue(result);</p>
+<p>Assert.That(1+1, Is.EqualTo(2), &quot;Math is broken&quot;);
+Assert.That(&quot;1&quot;, Is.SameAs(&quot;1&quot;), &quot;this test should fail&quot;);</p>
+<p>方法的最後一個參數是用來輸出測試失敗訊息，但不建議使用這個參數，我們應該思考更容易讀懂的測試方法名稱就直接透過成功或失敗來了解這個測試發生的結果，
+可以把這個參數當成註解來用，但要知道這個參數是多餘的，把測試名稱改好一點比較有意義。</p>
+<h3 id="nunit-2">2.4.2 用 NUnit 執行第一個測試</h3>
+<p>直接運行測試因為我們之前寫的程式有缺陷，所以會提示測試失敗，修改成下面這樣就會執行成功了。</p>
+<pre><code class="language-text">public bool IsValidLogFileName(string fileName)
+{
+    if (!fileName.EndsWith(&quot;.SLF&quot;))
+    {
+        return false;
+    }
+    return true;
+}
+
+[TestFixture]
+public class LogAnalyzerTests
+{
+    [Test]
+    public void IsValidLogFileName_BadExtension_ReturnsFalse()
+    {
+        var analyzer = new LogAnalyzer();
+        var result = analyzer.IsValidLogFileName(&quot;filewithbadextension.foo&quot;);
+        Assert.That(result, Is.False);
+    }
+}
+</code></pre>
+<h3 id="section-4">2.4.3 增加正向的測試</h3>
+<p>雖然現在測試是能通過了，但是並不代表我們的程式已經完美了，程式的背後還是有許多缺陷，我們根據 TDD 的開發方式再而外新增針對這些漏洞的測試，
+讓單元測試返回失敗的狀態。</p>
+<p>這裡根據我們的設計這個方法不應該有大小寫之分，所以我們補上兩個測試並推測執行的結果應該都要為 true 才正確。</p>
+<pre><code class="language-text">[Test]
+public void IsValidLogFileName_GoodExtensionLowercase_ReturnsTrue()
+{
+    var analyzer = new LogAnalyzer();
+    var result = analyzer.IsValidLogFileName(&quot;filewithgoodextension.slf&quot;);
+    Assert.That(result, Is.True);
+}
+
+[Test]
+public void IsValidLogFileName_GoodExtensionUppercase_ReturnsTrue()
+{
+    var analyzer = new LogAnalyzer();
+    var result = analyzer.IsValidLogFileName(&quot;filewithgoodextension.SLF&quot;);
+    Assert.That(result, Is.True);
+}
+</code></pre>
+<p>但由於我們現在的 IsValidLogFileName 方法只能判斷大寫的 <code>.SLF</code> 也就代表我們針對大小寫進行測試，所以小寫的副檔名的測試現在屬於失敗的狀態下，
+這時候就需要回頭去修改 IsValidLogFileName 方法讓這個測試能夠通過。</p>
+<pre><code class="language-text">public bool IsValidLogFileName(string fileName)
+{
+    if (!fileName.EndsWith(&quot;.SLF&quot;, StringComparison.CurrentCultureIgnoreCase))
+    {
+        return false;
+    }
+    return true;
+}
+</code></pre>
+<h3 id="section-5">2.4.4 由紅到綠；測試成功</h3>
+<p>UI測試介面的概念很簡單，那就是綠色是正常紅色是不正常，哪怕是所有測試都成功但只有一個是失敗，那也應該認真對待並馬上修正。
+所以 TDD 的開發過程就是 「紅燈-綠燈-重構」不斷重複。
+另外有一種測試是專門測試 Exception 的，並不是一看到 Exception 就把它當成錯誤。</p>
+<h3 id="section-6">2.4.5 測試程式風格</h3>
+<p>一個好的單元測試應該以可讀性為優先，所以寫起來可能會長的跟一般的程式碼不太一樣。
+最明顯的就是測試的名稱會很長並且有下劃線確保我們能從名稱直接看出測試的意圖。
+並且在 Arrange, Act, Assert 三個階段中間都額外插入空白行，這樣可以馬上知道特定程式碼屬於哪個階段。</p>
 
         
 
