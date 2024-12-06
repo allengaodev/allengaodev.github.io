@@ -49,7 +49,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
   <div class="container">
-    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <a class="navbar-brand" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
@@ -105,16 +105,14 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-12">Effective C# 12.&#x504F;&#x597D;&#x6210;&#x54E1;&#x521D;&#x59CB;&#x5316;&#x7A0B;&#x5E8F;&#x800C;&#x975E;&#x6307;&#x6D3E;&#x9673;&#x8FF0;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;8&#x65E5; &#x661F;&#x671F;&#x4E8C;</p>
-<p>這個做法介紹了成員初始化的另一種做法，一般來說都是常用建構函式來初始化成員，不過一個類別通常會有超過一個建構函式，
-在這種情況下時間一長就很容易造成每個建構函式有細微的區別產生不同步的情況。</p>    <p class="small"><a href="/posts/effective-csharp-12">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-11">Effective C# 11.&#x8A8D;&#x8B58; .NET &#x8CC7;&#x6E90;&#x7BA1;&#x7406;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;6&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/10/06
+    </a>
+
+  </p>
+
 <p>本做法討論幾個與 GC 相關的基本知識: <code>Managed</code>、<code>Unmanaged</code>、<code>Finalizer</code>
 GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記憶體洩漏這種記憶體管理的問題，大多數情況讓 GC 自行運作比你自己手動清理做的更好。</p>    <p class="small"><a href="/posts/effective-csharp-11">Read more...</a></p>
 </div>
@@ -122,14 +120,26 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-10">Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;3&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/10/03
+    </a>
+
+  </p>
+
 <p>這個做法在討論在衍生類別使用 new 和 override 對基底類別的影響，內容基本上與 LSP 原則重疊。</p>    <p class="small"><a href="/posts/effective-csharp-10">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-09">Effective C# 09.&#x6E1B;&#x5C11; boxing &#x8207; unboxing</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;10&#x6708;2&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/10/02
+    </a>
+
+  </p>
+
 <p>這個做法在討論 boxing 與 unboxing 的運作方式與背後理論。
 首先要先複習 <code>Value Type</code> 和 <code>Reference Type</code> 兩者關鍵的區別，<code>Value Type</code> 的複製是 Copy-by-value，<code>Reference Type</code> 的複製是 Copy-by-reference。</p>    <p class="small"><a href="/posts/effective-csharp-09">Read more...</a></p>
 </div>
@@ -137,7 +147,13 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-08">Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;29&#x65E5; &#x661F;&#x671F;&#x65E5;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/09/29
+    </a>
+
+  </p>
+
 <p>本做法介紹了 <code>?</code> 運算子的使用方式，與錯誤的使用 event 可能會造成 <code>NullReferenceException</code>。
 首先同樣也複習一下 event 的使用方式，典型的事件用法是在類別或物件發生變動時，告知其他類別或物件或者執行方法，
 通常會有一個發佈者(publisher)與接收者(subscriber)。</p>    <p class="small"><a href="/posts/effective-csharp-08">Read more...</a></p>
@@ -146,14 +162,26 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-07">Effective C# 07.&#x4EE5; delegate &#x8868;&#x793A; callback</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;28&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/09/28
+    </a>
+
+  </p>
+
 <p>本做法主要在介紹使用 delegate 的好處，可以先複習一下 lambda 還沒有出現前的寫法。</p>    <p class="small"><a href="/posts/effective-csharp-07">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-06">Effective C# 06.&#x907F;&#x514D;&#x5B57;&#x4E32;&#x578B;&#x5225; API</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;27&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/09/27
+    </a>
+
+  </p>
+
 <p>這個做法提到了 Stringly Typed 這個概念，字串型別這個翻譯有點模糊表達不夠精確，這個做法主要是在討論弱型別的問題。
 通常在使用外部涵式庫或者使用反射功能時會碰到需要使用弱型別字串來當作參數。</p>    <p class="small"><a href="/posts/effective-csharp-06">Read more...</a></p>
 </div>
@@ -161,22 +189,53 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-05">Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;26&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/09/26
+    </a>
+
+  </p>
+
 <p>在做法 4 中，介紹了字串插值的寫法，但是某些功能需要根據不同的文化產生不同的結果，例如時間輸出的格式就會根據目前電腦的文化設定來輸出時間。</p>    <p class="small"><a href="/posts/effective-csharp-05">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-04">Effective C# 04.&#x4EE5;&#x5167;&#x63D2;&#x5B57;&#x4E32;&#x53D6;&#x4EE3; string.Format</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/09/25
+    </a>
+
+  </p>
+
 <p>在 C# 6 引入新的字串內插（string interpolation）的寫法，相比傳統的字串格式化寫法的可讀性還高。</p>    <p class="small"><a href="/posts/effective-csharp-04">Read more...</a></p>
 </div>
 
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-03">Effective C# 03.&#x504F;&#x597D; is &#x6216; as &#x904B;&#x7B97;&#x5B50;&#x800C;&#x975E;&#x578B;&#x5225;&#x8F49;&#x63DB;</a></h2>
-  <p class="post-meta">Published on 2024&#x5E74;9&#x6708;25&#x65E5; &#x661F;&#x671F;&#x4E09;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/09/25
+    </a>
+
+  </p>
+
 <p>在某些場合我們需要手動對 object 類型進行轉型的操作，目前常用的轉型方式有以下幾種：</p>    <p class="small"><a href="/posts/effective-csharp-03">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-02">Effective C# 02.&#x504F;&#x597D; readonly &#x800C;&#x975E; const</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/09/22
+    </a>
+
+  </p>
+
+<p>C# 有兩種常數的寫法：</p>    <p class="small"><a href="/posts/effective-csharp-02">Read more...</a></p>
 </div>
 
   <div>
@@ -192,8 +251,8 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
           <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (118)</a>
-          <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (52)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (50)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (51)</a>
+          <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
           <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
           <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
           <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
@@ -205,10 +264,10 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
           <a href="/tags/statiq" class="badge text-bg-secondary"> Statiq (4)</a>
           <a href="/tags/abp" class="badge text-bg-secondary"> ABP (3)</a>
           <a href="/tags/linux" class="badge text-bg-secondary"> Linux (3)</a>
+          <a href="/tags/sql" class="badge text-bg-secondary"> SQL (2)</a>
+          <a href="/tags/effective-sql" class="badge text-bg-secondary"> Effective SQL (2)</a>
           <a href="/tags/security" class="badge text-bg-secondary"> Security (2)</a>
           <a href="/tags/mongodb" class="badge text-bg-secondary"> MongoDB (2)</a>
-          <a href="/tags/sql" class="badge text-bg-secondary"> SQL (1)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-secondary"> Effective SQL (1)</a>
           <a href="/tags/orleans" class="badge text-bg-secondary"> Orleans (1)</a>
           <a href="/tags/azure" class="badge text-bg-secondary"> Azure (1)</a>
       </div>
@@ -228,9 +287,7 @@ GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記�
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
-          <br />
-        <p class="copyright">&#xA9; Allen Gao 2024</p>
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
 
       </div>
     </div>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Effective SQL 02.&#x6D88;&#x9664;&#x91CD;&#x8907;&#x5132;&#x5B58;&#x8CC7;&#x6599; (Eliminate Redundant Storage of Data Items)">
+
+  <title>Effective SQL 02.&#x6D88;&#x9664;&#x91CD;&#x8907;&#x5132;&#x5B58;&#x8CC7;&#x6599;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/effective-sql-02'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Effective SQL 02.&#x6D88;&#x9664;&#x91CD;&#x8907;&#x5132;&#x5B58;&#x8CC7;&#x6599;' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/effective-sql-02' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'> Home </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li>
+          <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/effective-sql-02'>Effective SQL 02.&#x6D88;&#x9664;&#x91CD;&#x8907;&#x5132;&#x5B58;&#x8CC7;&#x6599;</a>
+              <span class="subheading">Effective SQL 02.&#x6D88;&#x9664;&#x91CD;&#x8907;&#x5132;&#x5B58;&#x8CC7;&#x6599; (Eliminate Redundant Storage of Data Items)</span>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2024/12/03
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/sql" class="badge text-bg-secondary"> SQL</a>
+                  <a href="/tags/effective-sql" class="badge text-bg-secondary"> Effective SQL</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <p>這個做法建議使用資料庫設計中的資料正規化(Normalization)，來消除重複儲存的資料，同時能解決資料一致性問題以及避免插入、更新、刪除資料時發生異常。</p>
+<p>這個做法所說的冗餘數據是一個資料表中同時存在一模一樣的資料，並不是指主鍵與外鍵這種必須建立同樣的數據來維持兩個表之間的關聯關係。</p>
+<p>正規化最重要的目的就是最小化資料重複的可能性，例如一個客户 Tom 它在汽車銷售紀錄表中的有兩筆交易紀錄，其中關於 Tom 的基礎資料幾乎都相同，
+但是在地址列中有些微差異，最糟糕的是我們並不知道到底哪個地址是真的，這個現象就是資料不一致。</p>
+<p>另外因為汽車銷售紀錄表裡面包含了客戶資料，所以我們沒辦法略過客戶的資料不輸入，代表我們並不能只單獨新增新汽車的型號，
+所以就只能再銷售成功的當下每次都客戶當成新客戶輸入，把汽車當成新汽車來輸入，這種設計方式的缺點也很明顯，就是同一個客戶買不同型號的汽車
+那就會產生兩筆非常類似的資料，不僅浪費硬碟空間，又浪費資料輸入人員的時間，同時又很容易因為操作失誤產生錯誤的資料。</p>
+<p>還有需要更新客戶資料的場合，如果有非常多重複的資料那就必須更新每一筆資料的內容，這樣會讓資料庫承受很大的壓力。</p>
+<p>最後是刪除，因為資料表包含很多重複的資料，那在刪除的時候就很有可能刪除錯誤的資料，並且也可能把重要的資料刪除掉。</p>
+<hr />
+<p>我們可以把汽車銷售紀錄表根據邏輯拆分成四個表。</p>
+<ol>
+<li>Customers: 用來保存客戶資訊</li>
+<li>Employees: 用來保存銷售人員資訊</li>
+<li>AutomobileModels: 用來保存汽車的型號</li>
+<li>SalesTransactions: 銷售紀錄表</li>
+</ol>
+<p>改成這種設計後 SalesTransactions 就只需要透過外鍵的方式來關聯其它的表，就還是能達到跟原本設計相同的功能。</p>
+<p>也可以額外建立資料庫視圖(view)，來重現原本的設計，同時又能避免冗餘數據。</p>
+<pre><code class="language-text">SELECT st.SalesID, c.CustFirstName, c.CustLastName, c.Address, c.City, c.Phone, 
+    st.PurchaseDate, 
+    m.ModelYear, m.Model,
+    e.SalesPerson
+FROM SalesTransactions st
+INNER JOIN Customers c
+ON c.CustomerID = st.CustomerID
+INNER JOIN Employees e
+ON e.EmployeeID = st.SalesPersonID
+INNER JOIN AutomobileModels m
+ON m.ModelID = st.ModelID;
+</code></pre>
+<hr />
+<h2 id="summary">Summary</h2>
+<ol>
+<li>使用正規化(normalization)的目標是消除重複數據，並且減少資料處理時的資源消耗。</li>
+<li>使用正規化消除重複數據，就能避免文內提到的插入、更新、刪除等不正常的情況發生。</li>
+<li>使用正規化消除重複數據，就能盡量減少資料不一致的情況發生。</li>
+</ol>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-sql-02'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

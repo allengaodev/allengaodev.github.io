@@ -50,7 +50,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
   <div class="container">
-    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <a class="navbar-brand" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
@@ -107,8 +107,28 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dca-compose-command-config">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Command Config</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/03/13
+    </a>
+
+  </p>
+
+<p>我們在前幾篇的文章只有使用到一個命令 <code>docker compose up -d</code><br>
+但實際上 docker compose 其實跟 docker cli 一樣有提供相當多個命令可以使用</p>    <p class="small"><a href="/posts/dca-compose-command-config">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-compose-yaml-env">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Environment</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;11&#x65E5; &#x661F;&#x671F;&#x516D;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/03/11
+    </a>
+
+  </p>
+
 <p>今天要來學習如何在 Docker Compose 設定環境變數讓我們可以在 container 內部使用，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#environment" target="_blank">文檔</a><br>
 首先先建立環境與輸入以下內容</p>    <p class="small"><a href="/posts/dca-compose-yaml-env">Read more...</a></p>
 </div>
@@ -116,19 +136,16 @@
 
 <div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-compose-yaml-ports">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Ports</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;10&#x65E5; &#x661F;&#x671F;&#x4E94;</p>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/03/10
+    </a>
+
+  </p>
+
 <p>今天要來學習如何在 Docker Compose 開放 Port 讓我們可以使用到 container 提供的服務，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#ports" target="_blank">文檔</a><br>
 用法也跟之前類似，之前的作法是需要先在 Dockerfile 設定要開放的 container port， 之後在 <code>docker run</code> 帶入 <code>-p</code> 參數，指定要和哪個 Host port 進行綁定<br>
 在docker compose 中也是要先在 Dockerfile 設定，之後在 docker-compose.yml 中進行設定</p>    <p class="small"><a href="/posts/dca-compose-yaml-ports">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-compose-yaml-volumes">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Volumes</a></h2>
-  <p class="post-meta">Published on 2023&#x5E74;3&#x6708;9&#x65E5; &#x661F;&#x671F;&#x56DB;</p>
-<p>根據之前的文章我們了解到創建 Volume 有兩種方式一種是在 Dockerfile 設定 VOLUMES 指令，<a href="https://blog.allengaodev.com/posts/dca-volume" target="_blank">文章地址</a><br>
-另一種方式則是透過 Docker Cli 的方式先使用 Cli 建立好 Volume 之後在透過 docker run 啟動時帶入<code>-v</code>參數即可使用到剛剛設定的 Volume，<a href="https://blog.allengaodev.com/posts/dca-volume-cli" target="_blank">文章地址</a><br>
-並且還有其他兩種做資料持久化的方式，一個是使用 Bind mount 直接將 Host 目錄綁定到 container 內部， 令一種則是特殊的 tmpfs 方式，能直接把資料寫入到 Host 的記憶體內部，<a href="https://blog.allengaodev.com/posts/dca-tmpfs" target="_blank">文章地址</a></p>    <p class="small"><a href="/posts/dca-compose-yaml-volumes">Read more...</a></p>
 </div>
 
   <div>
@@ -146,8 +163,8 @@
           <div>
             <h3>Tags</h3>
               <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (118)</a>
-              <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (52)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (50)</a>
+              <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (51)</a>
+              <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
               <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
@@ -170,6 +187,9 @@
             <li>
               <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/linkedin-mark.svg)" href="https://linkedin.com/in/cin-hong-kao" target="_blank">LinkedIn</a>
             </li>
+            <li>
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/gmail.svg)" href="mailto:allengaodev@gmail.com" target="_blank">Mail</a>
+            </li>
           </ul>
 
       
@@ -191,9 +211,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
-          <br />
-        <p class="copyright">&#xA9; Allen Gao 2024</p>
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
 
       </div>
     </div>

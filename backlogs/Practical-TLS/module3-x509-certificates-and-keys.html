@@ -50,7 +50,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
   <div class="container">
-    <a class="navbar-brand" href='/'>Gao.Dev</a>
+    <a class="navbar-brand" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
@@ -100,9 +100,277 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="overview-of-the-ssl-process-0351">3.1 Overview of the SSL Process (03:51)</h2>
+<ol>
+<li>CA 擁有一個 Public Key, Private Key, Self-Signed Certificate，這個 Certificate 是用來代表 CA 本身，Self-Signed 代表它是自己幫自己簽名。</li>
+<li>Server 想要獲得 Certificate 之前需要先產生自己的 Public Key 與 Private Key。</li>
+<li>接下來 Server 需要生成一個 Certificate Signing Request(CSR)，可以把它當成申請憑證的申請表，等於是填表完後提交給 CA 審核後才能獲得 Certificate。</li>
+<li>CSR 的內容要包括 Public Key，產生出 CSR 後要再用自己的 Private Key 進行簽名。</li>
+<li>下一步 Server 把這份 CSR 提交給 CA 進行審核，這裡的審核步驟基本上就是在確認我們是不是真的是這個域名的所有人，不然就可以假裝自己是某個知名域名的所有人然後又可以獲得第三方機構的認可。</li>
+<li>認證成功後 CA 會根據 CSR 的內容產生 Certificate，並且 CA 使用 CA 自己的 Private Key 將這個 Certificate 進行簽名，證明這份 Certificate 已經被某個 CA 認證過了。</li>
+<li>Server 下載簽名過後的 Certificate，就能把這份 Certificate 分享給所有想連到我們網站的 Client。</li>
+</ol>
 <h2 id="what-is-in-a-certificate-1601">3.2 What is in a Certificate? (16:01)</h2>
+<p>x.509 規範定義了一個標準的 Certificate 裡面該包含什麼內容。</p>
+<p>一個 Certificate 由三個區塊所組成:</p>
+<ol>
+<li>Certificate Data: 重要的資料都在這個區塊
+<ul>
+<li>Version
+指定 x509 的版本，不要跟 SSL/TLS 版本搞混!
+0x0 - x509 version 1 已經不使用
+0x1 - x509 version 2 很少使用也不建議使用
+0x2 - x509 version 3 目前使用中，新增了 <code>Certificate Extensions</code> 功能，來擴充 Certificate 的功能。</li>
+<li>Serial Number
+由 20 bytes (160 bits) 組成的數據，CA 用這個唯一的數值來區分所發出的證書。
+兩家 CA 所發出的證書可能會有重複的 Serial Number 但不會有影響。
+因為到 CA 系統查詢這個 Certificate 是否合法時就是將 Serial Number 帶入查詢，所以你不會把一個系統的 Serial Number 帶入另一個系統查詢。
+檢查憑證合法有兩種協定: CRL(Certificate Revocation List), OCSP(Online Certificate Status Protocol)</li>
+<li>Signature Algorithm
+用來產生 Certificate 簽名的演算法，會包含兩個演算法
+Hashing 演算法
+產生 Asymmetric Key 的演算法
+例如 md5WithRSAEncryption(不安全), sha1WithRSAEncryption(不安全), ecdsa-with-SHA256(安全), sha256WithRSAEncryption(安全)</li>
+<li>Validity
+用來說明 Certificate 的合法使用期間，會包含 <code>Not Before</code> 與 <code>Not After</code> 兩個日期。
+例如下面這個憑證大概可以使用一年，如果時間是 2012 或是 2014 那麼會通知這個憑證是過期的。
+<code>Not Before: Mar 22 00:00:00 2013 GMT</code>
+<code>Not After: Mar 22 00:00:00 2013 GMT</code></li>
+<li>Subject and Issuer
+Subject: <code>blue.com</code>，Certificate 所要證明的主體
+Issuer: <code>Orange CA</code> 發行 Certificate 以及簽名的機構
+不過 <code>CA</code> 也可以發行 Certificate 給自己，所以角色不是固定的
+Subject: <code>Orange CA</code>，Certificate 所要證明的主體
+Issuer: <code>Orange CA</code> 發行 Certificate 以及簽名的機構
+這種 Subject 與 Issuer 都是自己的 Certificate 就是 Self-Signed Certificate
+它們會以 Distinguished Name(DN) 格式來顯示，<code>Attribute:Value</code>
+<code>C = GB</code>、<code>C = US</code>、<code>C = RU</code> C = Country
+<code>ST = Washington</code>、<code>ST = California</code>、<code>ST = Colorado</code> ST = State
+<code>L = San Francisco</code>、<code>L = San Jose</code>、<code>ST = Mountain View</code> Location(City)
+<code>O = Reddit Inc.</code>、<code>O = Twitter Inc.</code>、<code>ST = Google LLC</code> Organization
+<code>CN = *.reddit.com</code>、<code>CN = twitter.com</code>、<code>CN = *.google.com</code> Common Name
+Reddit 的 Full Distinguished Name 組合後就會像下面這樣。
+<code>Subject: C = US, ST = California, L = San Francisco, O = Reddit Inc., CN = *.reddit.com</code>
+Google 的 Full Distinguished Name 組合後就會像下面這樣。
+<code>Subject: C = US, ST = California, L = Mountain View, O = Google LLC, CN = *.google.com</code>
+LDAP - RFC-4519 有其它更多 Attribute 定義
+Common Name 是最重要的，每個 Certificate 都一定要有，因為這是瀏覽器判斷域名是否保護的依據。
+正常來說每一張 Certificate 都只能保護一個域名，但是可以使用 wildcard * 來保護子域名，要注意只有一個 <code>*</code> 跟 <code>*.*</code> 保護的範圍不一樣。</li>
+<li>Public Key
+RSA 由兩個值組成
+<code>Modulus</code> (第二章的 <code>N</code> Product <code>P*Q</code> 就是兩個 Prime 相乘後得到的 Semi-Prime)
+<code>Exponent</code> (第二章的 <code>E</code> Public Key 一個要符合條件的 Prime)。
+ECDSA 由兩個值組成 <code>Public Key</code> 與 <code>Curve</code>。</li>
+<li>Extensions
+x509 v3 才新增的，幫 Certificate 額外添加了許多可選的設定值，所以未來的新功能會一值加到 Extensions。</li>
+</ul>
+</li>
+<li>Signature Algorithm
+決定簽名時要用哪種 Hashing 演算法，以及用來產生 Asymmetric Key 的演算法，Certificate Data 裡面也有 Signature Algorithm，
+這是因為要確保簽名要跟演算法關聯起來，否則壞人就可以直接替換 Signature Algorithm 產生新簽名。</li>
+<li>Signature
+會先讀取 Certificate Data 所有的內容在跟 CA 自己的 Private Key 進行 Hashing 產生簽名。</li>
+</ol>
 <h2 id="inspecting-a-certificate-0952">3.3 Inspecting a Certificate (09:52)</h2>
+<p>使用 openssl 的 s_client 功能可以將自己模擬成 client 端跟特定的網站建立 SSL/TLS 連線。
+<code>openssl s_client -connect reddit.com:443</code></p>
+<p>這個 Certificate 的內容就是由之前提到的三個區塊 Certificate Data、Signature Algorithm、Signature 所組成。</p>
+<pre><code class="language-text">-----BEGIN CERTIFICATE-----
+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
+WA==
+-----END CERTIFICATE-----
+</code></pre>
+<p>但這份 Certificate 輸出的是 Base64 格式，所以還要進一步轉換。
+<code>openssl x509 -in reddit.com-cert -text -noout</code></p>
+<p>Public-Key Modulus 就是之前第二章提到的 RSA Semi-Prime 的 Hex 格式</p>
+<pre><code class="language-text">Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            0d:3e:71:f4:e6:55:c0:3d:ff:59:7e:70:3f:2e:d0:e9
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C = US, O = DigiCert Inc, CN = DigiCert TLS RSA SHA256 2020 CA1
+        Validity
+            Not Before: Oct 13 00:00:00 2024 GMT
+            Not After : Apr 11 23:59:59 2025 GMT
+        Subject: C = US, ST = California, L = San Francisco, O = &quot;REDDIT, INC.&quot;, CN = *.reddit.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:cf:e9:9a:54:a3:a4:1a:e2:29:2d:45:81:72:b3:
+                    a8:8b:4c:ce:2b:bb:a2:d7:3d:9e:69:6c:f3:32:d1:
+                    68:ac:03:1d:1a:70:55:f8:86:5a:42:dc:90:e7:ef:
+                    86:7e:fd:53:6c:ea:c0:38:a5:27:b4:ca:7a:96:e3:
+                    5e:0a:5a:ee:65:20:b3:96:d7:e4:3a:99:3d:78:72:
+                    7d:5d:61:14:3e:ba:45:14:22:db:05:5b:bd:d6:c9:
+                    74:11:8b:dd:5a:ca:65:52:51:20:8a:53:b5:cd:d0:
+                    d7:af:45:22:c9:4d:29:b7:3d:78:6a:b5:9f:03:bf:
+                    44:48:48:e5:dc:43:08:70:28:1f:02:e9:a7:e5:df:
+                    6e:39:01:24:6c:e5:80:a2:01:74:11:de:77:ae:ca:
+                    15:55:0a:16:f8:75:45:56:a7:54:95:0d:1b:a2:24:
+                    01:75:e7:3d:94:a2:83:07:c0:db:00:47:dd:08:2e:
+                    39:cd:58:c6:cc:0f:07:87:0e:1f:9b:1d:65:e0:09:
+                    43:a8:fd:ad:2c:4d:aa:36:6d:86:85:78:dc:b6:b9:
+                    9e:c5:58:c5:1b:6b:78:9f:28:a1:5e:59:5f:f7:6c:
+                    2f:b0:41:06:45:9f:17:f6:9c:55:25:37:7f:b5:fb:
+                    5e:21:73:db:7b:eb:b9:0c:81:35:02:93:d8:72:97:
+                    c2:07
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Authority Key Identifier:
+                B7:6B:A2:EA:A8:AA:84:8C:79:EA:B4:DA:0F:98:B2:C5:95:76:B9:F4
+            X509v3 Subject Key Identifier:
+                71:E0:50:D1:E7:80:52:FB:23:14:65:9D:43:A7:8D:31:AA:56:69:26
+            X509v3 Subject Alternative Name:
+                DNS:*.reddit.com, DNS:reddit.com
+            X509v3 Certificate Policies:
+                Policy: 2.23.140.1.2.2
+                  CPS: http://www.digicert.com/CPS
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Extended Key Usage:
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 CRL Distribution Points:
+                Full Name:
+                  URI:http://crl3.digicert.com/DigiCertTLSRSASHA2562020CA1-4.crl
+                Full Name:
+                  URI:http://crl4.digicert.com/DigiCertTLSRSASHA2562020CA1-4.crl
+            Authority Information Access:
+                OCSP - URI:http://ocsp.digicert.com
+                CA Issuers - URI:http://cacerts.digicert.com/DigiCertTLSRSASHA2562020CA1-1.crt
+            X509v3 Basic Constraints: critical
+                CA:FALSE
+            CT Precertificate SCTs:
+                Signed Certificate Timestamp:
+                    Version   : v1 (0x0)
+                    Log ID    : 4E:75:A3:27:5C:9A:10:C3:38:5B:6C:D4:DF:3F:52:EB:
+                                1D:F0:E0:8E:1B:8D:69:C0:B1:FA:64:B1:62:9A:39:DF
+                    Timestamp : Oct 13 00:01:11.548 2024 GMT
+                    Extensions: none
+                    Signature : ecdsa-with-SHA256
+                                30:44:02:20:30:ED:D3:35:81:C5:C5:51:D5:4D:3A:1C:
+                                23:1A:BE:7A:17:2A:F1:DD:EF:4E:A5:98:14:1B:B5:9C:
+                                35:11:86:BE:02:20:69:CF:17:6F:DA:AD:73:C3:6A:95:
+                                21:06:03:06:94:49:8D:24:74:A8:1B:9C:F6:DA:5D:A6:
+                                02:CE:A0:D0:14:BD
+                Signed Certificate Timestamp:
+                    Version   : v1 (0x0)
+                    Log ID    : CC:FB:0F:6A:85:71:09:65:FE:95:9B:53:CE:E9:B2:7C:
+                                22:E9:85:5C:0D:97:8D:B6:A9:7E:54:C0:FE:4C:0D:B0
+                    Timestamp : Oct 13 00:01:11.498 2024 GMT
+                    Extensions: none
+                    Signature : ecdsa-with-SHA256
+                                30:45:02:20:5E:7A:1B:EE:74:8F:4C:6E:2E:3A:58:05:
+                                1A:B9:E5:82:6A:E9:4A:37:C5:34:0F:75:24:91:F6:9F:
+                                D5:7A:FF:B2:02:21:00:D4:85:B8:D2:BA:76:9F:14:B9:
+                                7B:35:97:69:47:1B:7B:63:D1:7D:8E:C9:34:05:F1:59:
+                                1F:B5:B1:C5:7F:58:32
+                Signed Certificate Timestamp:
+                    Version   : v1 (0x0)
+                    Log ID    : CF:11:56:EE:D5:2E:7C:AF:F3:87:5B:D9:69:2E:9B:E9:
+                                1A:71:67:4A:B0:17:EC:AC:01:D2:5B:77:CE:CC:3B:08
+                    Timestamp : Oct 13 00:01:11.551 2024 GMT
+                    Extensions: none
+                    Signature : ecdsa-with-SHA256
+                                30:45:02:20:3B:B5:67:45:E3:B2:BF:B1:E8:14:02:F8:
+                                B8:A7:C5:BD:42:BD:6B:35:65:BC:6C:50:00:91:76:01:
+                                66:0B:82:94:02:21:00:97:1C:26:C4:12:EB:DB:F2:EF:
+                                C1:50:0A:FA:26:12:01:B8:53:86:74:09:06:2D:2D:2C:
+                                24:9C:29:6B:29:EA:F9
+    Signature Algorithm: sha256WithRSAEncryption
+    Signature Value:
+        25:13:0e:3b:33:3e:49:78:fb:56:23:ae:a6:cd:23:13:b2:c4:
+        ce:0e:7c:93:4c:97:0b:d3:a6:60:f2:ed:6b:a6:b7:17:23:f3:
+        8f:2a:0f:fd:dd:e5:c3:31:66:62:20:64:08:33:1c:56:13:c3:
+        ac:9b:b5:d4:a4:76:d5:21:47:f3:53:91:da:74:68:01:a1:6d:
+        3f:ae:33:52:4e:d6:79:e2:ea:a3:c4:8c:e6:0a:15:e1:ed:ff:
+        d4:59:92:3b:af:a0:57:95:8e:4a:01:ac:3d:91:78:73:0f:58:
+        f6:16:c1:ad:d6:c8:44:43:f9:bd:2d:6f:b8:c4:01:b6:72:cc:
+        81:7f:8c:ee:e6:24:31:db:93:21:01:15:84:c1:3c:54:80:b9:
+        97:b3:98:bc:85:a9:11:e2:ec:0b:eb:a8:19:39:4a:eb:98:89:
+        80:de:22:c2:56:1c:7e:ef:10:08:58:0a:75:86:60:1a:02:c9:
+        a1:02:30:1a:39:b4:bb:83:6c:44:f6:0f:48:2e:32:f7:78:6e:
+        96:56:6d:22:30:c6:a1:23:0b:c3:2f:ea:8d:df:a1:55:b9:6a:
+        81:75:9b:97:39:3b:c9:5f:47:1f:7d:c0:00:f9:88:27:08:fb:
+        62:cc:d5:34:85:fc:58:5c:e5:7b:ba:6e:2f:af:ec:9c:96:e3:
+        25:44:e5:58
+</code></pre>
 <h2 id="certificate-extensions-1331">3.4 Certificate Extensions (13:31)</h2>
+<p>Extensions 功能只有 x509 v3 才有支援，它能提供可選的設定讓我們控制新加入的功能。</p>
+<ul>
+<li>Extensions:
+<ul>
+<li>Key Usage: 限制使用的目的與範圍(Limits by Purpose)
+這兩個是用來設定 Certificate 的 public key/private key 的使用範圍，可以避免 Certificate 丟失因為有強制限定使用範圍所以不會有太大影響。
+Encrypt Data
+Establish Symmetric Keys
+Verify Certificate Signatures
+Verify Signatures
+Verify CRL Signatures</li>
+<li>Extended Key Usage: 根據 Key Usage 限制的範圍更加詳細限制到某些特定功能或協定 (Limits by Protocol and/or Role)
+TLS Web server authentication
+TLS Web client authentication
+Email protection</li>
+<li>Basic Constraints: 用來判斷這張 Certificate 的 Subject 是 <code>CA</code> 還是 <code>End-Entity</code>
+需要這個設定的原因是 <code>CA</code> 可以當 Issuers，<code>End-Entity</code> 不可以當 Issuers。
+沒有這個設定就會造成 <code>CA</code> 發行憑證給我，我下載憑證後把自己當成是 <code>CA</code> 再發行另外新的憑證。</li>
+<li>Name Constraints: 限制底下合作的 CA 能夠發行憑證的域名。
+例如限制它只能發行 <code>acme.com</code> 這個域名的子域名憑證，但不可以發行 <code>paypal.com</code> 憑證。</li>
+<li>Subject Key Identifier
+這兩個是用來定義此憑證的唯一 ID</li>
+<li>Authority Key Identifier
+發行人的憑證唯一 ID，當我發行子憑證的時候子憑證的 Authority Key Identifier 欄位的值就是發行人的 Subject Key Identifier。
+因為一個發行人手上可能有許多憑證同時用來簽名，所以有這個欄位可以清楚知道這個子憑證的父憑證是誰。
+如果 Authority Key Identifier 與 Subject Key Identifier 相同就代表這是個 Self-Sign Certificate。</li>
+<li>Subject Alternative Name: 允許一個 Certificate 保護多個域名。
+一般來說一個憑證的 CN 只能有一個所以只能保護一個域名，之後又有個 wildcard 的寫法能夠保護多個域名，但只能用於次級域名。
+<code>S.A.N</code> 則是能夠保護多個域名，例如 live.com 裡面有 hotmail.com 所以他們倆個域名可以共用憑證。</li>
+<li>CRL Distribution Point
+CRL(Certificate Revocation List)，這裡能夠設定一連串網址來獲得 CRL，這個 CRL 就是由 CA 負責維護的憑證吊銷清單</li>
+<li>Authority Information Access: 會包含以下兩個內容
+<ul>
+<li>Issuer’s Certificate: 一串網址可以用來下載 CA 的證書，因為要驗證憑證的簽名是否正確需要先獲得 CA 的 Public Key，所以這裡可以提供下載網址。</li>
+<li>OCSP Location: OCSP(Online Certificate Status Protocol) 的網址，它能更快速的確認憑證目前的狀態或撤銷狀態。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="what-is-in-a-private-key-0905">3.5 What is in a Private Key? (09:05)</h2>
 <h2 id="what-is-in-a-csr-pki-0638">3.6 What is in a CSR? (PKI) (06:38)</h2>
 <h2 id="file-formats-0902">3.7 File Formats (09:02)</h2>
@@ -121,9 +389,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-          <p class="text-center small text-muted">Originally published at <a href='https://blog.allengaodev.com'> blog.allengaodev.com</a>.</p>
-          <br />
-        <p class="copyright">&#xA9; Allen Gao 2024</p>
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
 
       </div>
     </div>
