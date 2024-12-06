@@ -252,6 +252,161 @@ public void IsValidLogFileName_GoodExtensionUppercase_ReturnsTrue()
 <p>一個好的單元測試應該以可讀性為優先，所以寫起來可能會長的跟一般的程式碼不太一樣。
 最明顯的就是測試的名稱會很長並且有下劃線確保我們能從名稱直接看出測試的意圖。
 並且在 Arrange, Act, Assert 三個階段中間都額外插入空白行，這樣可以馬上知道特定程式碼屬於哪個階段。</p>
+<h2 id="section-7">2.5 使用參數來重構測試</h2>
+<p>現在這個寫法只要在 LogAnalyzer 裡面新增參數，測試就會全部錯誤，我們可以用參數化測試來處理這個問題。
+只要替換 <code>[Test] =&gt; [TestCase]</code>，就可以直接把我們的測試值當成引數，這樣我們就可以像正常方法那樣使用參數了。</p>
+<pre><code class="language-text">[TestCase(&quot;filewithbadextension.foo&quot;)]
+public void IsValidLogFileName_BadExtension_ReturnsFalse(string fileName)
+{
+    var analyzer = new LogAnalyzer();
+    var result = analyzer.IsValidLogFileName(fileName);
+    Assert.That(result, Is.False);
+}
+</code></pre>
+<p>接下來可以把所有的測試進行合併，並寫新增一個參數來應對不同的執行結果。</p>
+<pre><code class="language-text">[TestCase(&quot;filewithgoodextension.slf&quot;, true)]
+[TestCase(&quot;filewithgoodextension.SLF&quot;, true)]
+[TestCase(&quot;filewithbadextension.foo&quot;, false)]
+public void IsValidLogFileName_VariousExtensions_ChecksThem(string fileName, bool expectedResult)
+{
+    var analyzer = new LogAnalyzer();
+    var result = analyzer.IsValidLogFileName(fileName);
+    Assert.That(expectedResult, Is.EqualTo(result));
+}
+</code></pre>
+<p>但是過多的參數就會讓這個測試變的非常通用，這樣就會導致方法的意圖變得模糊，所以傳入的參數應該要保持簡單明瞭。</p>
+<h2 id="nunit-3">2.6 更多的 NUnit 特性</h2>
+<h3 id="setup-teardown">2.6.1 setup 和 teardown</h3>
+<p>執行單元測試一個很重要的點就是要準備執行前的資料以及測試完後將這些資料銷毀，如果沒有及時銷毀可以就會影響到下一個單元測試的結果。
+介紹了 <code>[SetUp]</code> 會在測試開始前執行與 <code>[TearDown]</code> 會在測試後執行。
+但要注意使用越多 <code>[SetUp]</code> 會導致程式可讀性降低，因為人們需要花費更多時間思考這個結果是怎麼產生出來的。</p>
+<pre><code class="language-text">[TestFixture]
+public class LogAnalyzerTests
+{
+    private LogAnalyzer _analyzer = null;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _analyzer = new LogAnalyzer();
+    }
+
+    [TestCase(&quot;filewithgoodextension.slf&quot;, true)]
+    [TestCase(&quot;filewithgoodextension.SLF&quot;, true)]
+    [TestCase(&quot;filewithbadextension.foo&quot;, false)]
+    public void IsValidLogFileName_BadExtension_ReturnsFalse(string fileName, bool expectedResult)
+    {
+        var result = _analyzer.IsValidLogFileName(fileName);
+        Assert.That(expectedResult, Is.EqualTo(result));
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _analyzer = null;
+    }
+}
+</code></pre>
+<p>實務上可以使用工廠方法而不是使用 SetUp 來初始化物件。
+TearDown 也非常少用，只建議在兩個測試方法之間用來重設靜態變數或單例的狀態才使用。</p>
+<h3 id="section-8">2.6.2 驗證預期的例外</h3>
+<p>有些測試可能會預期結果是 Exception，這個時候就可以使用 <code>Assert.Throws</code> 或 <code>Assert.Catch</code>。</p>
+<p><code>Assert.Throws</code> 需要傳入一個 Lambda，它是根據 Lambda 的執行結果來判斷的，並不是整個單元測試的範圍，避免不知道是哪段程式碼拋出的錯誤。</p>
+<pre><code class="language-text">[Test]
+public void IsValidFileName_EmptyFileName_ThrowsException()
+{
+    var ex = Assert.Throws&lt;ArgumentException&gt;(() =&gt; _analyzer.IsValidLogFileName(string.Empty));
+    StringAssert.Contains(&quot;filename has to be provided&quot;, ex.Message);
+}
+
+[Test]
+public void IsValidFileName_EmptyFileName_ThrowsException()
+{
+    var action = () =&gt; _analyzer.IsValidLogFileName(string.Empty);
+    action.Should().Throw&lt;ArgumentException&gt;()
+        .WithMessage(&quot;filename has to be provided&quot;);
+}
+</code></pre>
+<h3 id="section-9">2.6.3 忽略此測試</h3>
+<p>有時候測試寫到一半同時又可能需要馬上簽入程式碼，這種時候就可以使用<code>[Ignore]</code> Attribute，直接忽略這個測試。</p>
+<pre><code class="language-text">[Test]
+[Ignore(&quot;there is a problem with this test&quot;)]
+public void IsValidFileName_ValidFile_ReturnsTrue()
+{
+}
+</code></pre>
+<h3 id="nunit-4">2.6.4 NUnit 的流利語法</h3>
+<p>NUnit 3.0 以後都建議使用 fluent syntax。</p>
+<pre><code class="language-text">[Test]
+public void IsValidFileName_EmptyFileName_ThrowsFluent()
+{
+    var ex =  Assert.Catch&lt;ArgumentException&gt;(() =&gt;  _analyzer.IsValidLogFileName(&quot;&quot;));
+    Assert.That(ex.Message, Does.Contain(&quot;filename has to be provided&quot;));
+    Assert.That(ex.Message, Contains.Substring(&quot;filename has to be provided&quot;));
+}
+</code></pre>
+<h3 id="section-10">2.6.5 設定測試分類</h3>
+<p>就可以使用<code>[Category]</code> Attribute，將特定幾個測試分到同個群組裡，預設是使用命名空間來分類的。</p>
+<pre><code class="language-text">[Test]
+[Category(&quot;Fast Tests&quot;)]
+public void IsValidFileName_ValidFile_ReturnsTrue()
+{
+
+}
+</code></pre>
+<h2 id="section-11">2.7 測試系統狀態的改變，而非驗證回傳值</h2>
+<p>另一種測試方式就是觀察物件狀態的改變，也就是針對物件狀態的測試，通常是方法執行完後物件的狀態會與初始狀態不同，我們可以根據
+這個狀態變化來判斷測試是否運作正常。</p>
+<p>類別加上新的屬性 <code>WasLastFileNameValid</code></p>
+<pre><code class="language-text">public class LogAnalyzer
+{
+    public bool WasLastFileNameValid { get; set; }
+
+    public bool IsValidLogFileName(string fileName)
+    {
+        WasLastFileNameValid = false;
+
+        if (string.IsNullOrEmpty(fileName))
+        {
+            throw new ArgumentException(&quot;filename has to be provided&quot;);
+        }
+
+        if (!fileName.EndsWith(&quot;.SLF&quot;, StringComparison.CurrentCultureIgnoreCase))
+        {
+            return false;
+        }
+
+        WasLastFileNameValid = true;
+
+        return true;
+    }
+}
+</code></pre>
+<pre><code class="language-text">[Test]
+public void  IsValidFileName_WhenCalled_ChangesWasLastFileNameValid()
+{
+    _analyzer.IsValidLogFileName(&quot;badname.foo&quot;);
+    Assert.False(_analyzer.WasLastFileNameValid);
+}
+</code></pre>
+<pre><code class="language-text">[TestCase(&quot;badfile.foo&quot;, false)]
+[TestCase(&quot;goodfile.slf&quot;, true)]
+public void IsValidFileName_WhenCalled_ChangesWasLastFileNameValid(string file, bool expected)
+{
+    _analyzer.IsValidLogFileName(file);
+    Assert.AreEqual(expected, _analyzer.WasLastFileNameValid);
+}
+</code></pre>
+<h2 id="section-12">2.8 小結</h2>
+<p><code>[TestCase]</code> 可以添加參數到單元測試上。
+<code>[SetUp]</code> 單元測試運行前會執行。
+<code>[TearDown]</code> 單元測試運行後會執行。
+<code>Assert.Catch</code> 可以在單元測試驗證 Exception。</p>
+<ul>
+<li>建議是幫每個待測試類別單獨建立對應的測試類別，以及每個待測試專案都建立一個對應的測試專案。</li>
+<li><code>[UnitOfWork]_[Scenario]_[ExpectedBehavior]</code> 這種單元測試命名會讓測試更好理解。</li>
+<li>最好不要用 <code>[SetUp]</code> 和 <code>[TearDown]</code>，它們會讓單元測試更難理解。</li>
+</ul>
 
         
 
