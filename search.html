@@ -56,15 +56,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <span class="nav-link">
               <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
                 <input type="submit" hidden />
               </form>
             </span>
-          </li>
+          </li> -->
           <li class="nav-item">
+    <a class="nav-link" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
@@ -84,7 +87,7 @@
       <div class="col-md-12">
         <div class='site-heading'>
           <h1>
-            <a style="color:white" href='https://blog.allengaodev.com/search'>&#x958B;&#x767C;&#x7A7A;&#x9593;</a>
+            <a style="color:white" href='https://blog.allengaodev.com/search'>Search</a>
           </h1>
         </div>
       </div>
@@ -99,8 +102,8 @@
       <div id="content" class="col-md-12">
         <form>
   <div class="form-group">
-    <label for="search">Search Query</label>
-    <input class="form-control" type="search" aria-label="Search" id="search-query">
+    <input class="form-control" type="search" aria-label="Search" id="search-query" placeholder="Search..." onkeydown="return key !== 'Enter';">
+    <br>
   </div>
 </form>
 
