@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="Chapter 3 - Using stubs to break dependencies">
+
+  <title>Chapter 3 - Using stubs to break dependencies</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/backlogs/The-Art-of-Unit-Testing/using-stubs-to-break-dependencies'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Chapter 3 - Using stubs to break dependencies' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/backlogs/The-Art-of-Unit-Testing/using-stubs-to-break-dependencies' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'> Home </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <!-- <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li> -->
+          <li class="nav-item">
+    <a class="nav-link" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='site-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/backlogs/The-Art-of-Unit-Testing/using-stubs-to-break-dependencies'>Chapter 3 - Using stubs to break dependencies</a>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="introducing-stubs">3.1 虛設常式簡介 (Introducing stubs)</h2>
+<p>如果你要測試的物件是依賴於另一個你無法控制的物件，例如 Web 服務、系統時間、執行緒、或三方物件，由於我們無法決定這些相依物件的回傳值，
+也不能控制它們的行為，這個時候就可以使用 Stub。</p>
+<p>虛設常式(Stub): 是在系統中產生一個可控的替代物件，來取代一個外部相依物件(或協作者)。你可以在測試程式中，透過 stub 來避免必須直接
+相依物件所造成的問題。</p>
+<h2 id="logan-identifying-a-filesystem-dependency-in-logan">3.2 找到 LogAn 中對檔案系統的依賴 (Identifying a filesystem dependency in LogAn)</h2>
+<p>我們可以假設 LogAnalyzer 類別的 IsValidLogFileName 方法會去存取檔案系統中的日誌設定檔。</p>
+<pre><code class="language-text">public bool IsValidLogFileName(string fileName)
+{
+    //read through the configuration file
+    //return true if configuration says extension is supported.
+}
+</code></pre>
+<p>這時候針對 IsValidLogFileName 方法所寫的測試，其實會變成整合測試並不是單元測試，因為這個方法已經依賴於檔案系統了，
+因為當你的程式碼依賴於外部資源，即使你寫的測試再完美，也有可能因為外部的不穩定因素導致測試失敗。</p>
+<h2 id="loganalyzer-determining-how-to-easily-test-loganalyzer">3.3 如何讓測試 LogAnalyzer 更簡單 (Determining how to easily test LogAnalyzer)</h2>
+<pre><code class="language-text">There is no object-oriented problem that cannot be solved by
+adding a layer of indirection, except, of course, too many layers of indirection.
+</code></pre>
+<p>我們可以在加上一個中介層來封裝對這段程式碼的呼叫行為，接著就可以在測試中模擬這個中介層的實做內容，或是讓這段程式碼變的可替代。
+首先找到被測試物件所使用的介面或 API，之後再把這個介面的底層實做替換成我們能模擬掌控的東西。</p>
+<ol>
+<li>找到導致 unit of work 無法順利測試的介面，也就是我們的剛剛提到的讀取日誌設定檔。</li>
+<li>如果被測試的 unit of work 是直接依賴這個介面，那就在這段程式碼中加入一個中介層，來隱藏這個依賴的行為，也就是程式去讀取檔案系統的流程，
+我們可以把讀取的這段邏輯搬到 FileExtensionManager 這個新類別裡面。</li>
+<li>將這段依賴介面的底層實做替換成我們能掌控的程式碼，也就是在測試中把實例化的 FileExtensionManager 替換成 StubExtensionManager。</li>
+</ol>
+<p>現在我們的 stub instance 就直接解除了被測試物件跟檔案系統的依賴關係，因為檔案系統的存取正常與否跟我們的程式碼並無關係，所以這個
+stub instance 什麼是事情都不做也沒有關係。</p>
+<p>IsValidLogFileName(string) =&gt; FileExtensionManager =&gt; 檔案系統
+依賴關係替換成下面這樣
+IsValidLogFileName(string) =&gt; IExtensionManager(StubExtensionManager 不做事情)</p>
+<h2 id="refactoring-your-design-to-be-more-testable">3.4 重構設計以提昇程式碼的可測試性 (Refactoring your design to be more testable)</h2>
+<p>重構(Refactoring): 在不改變程式碼功能的前提下修改程式碼，也就代表程式碼在修改前後必須保持相同的行為，不能多也不能少，
+只是看起來跟原本不一樣了。</p>
+<p>接縫(Seams): 是指在程式碼中可以抽換(plug in)不同功能的地方，剛剛使用的 stub instance 就是其中之一。</p>
+<p>我們可以在重構的過程中同時加入一些接縫，這樣既可以調整程式碼的設計，又不會破壞程式既有的功能，也就是 IExtensionManager 介面。</p>
+<h3 id="extract-an-interface-to-allow-replacing-underlying-implementation">3.4.1 擷取介面以便替換底層實做的內容 (Extract an interface to allow replacing underlying implementation)</h3>
+<p>先擷取出介面 <code>IExtensionManager</code>，並建立 stub 類別 <code>AlwaysValidFakeExtensionManager</code>。
+但是現在 <code>IsValidLogFileName()</code> 方法還是依賴 <code>FileExtensionManager</code> 類別，所以接下來要在程式中加入接縫，以便我們注入 stub 類別。</p>
+<pre><code class="language-text">public class LogAnalyzer
+{
+    public bool WasLastFileNameValid { get; set; }
+
+    public bool IsValidLogFileName(string fileName)
+    {
+        IExtensionManager mgr =  new FileExtensionManager();
+        return mgr.IsValid(fileName);
+    }
+}
+
+public class FileExtensionManager : IExtensionManager
+{
+    public bool IsValid(string fileName)
+    {
+        return true;
+    }
+}
+
+public interface IExtensionManager
+{
+    bool IsValid (string fileName);
+}
+
+public class AlwaysValidFakeExtensionManager : IExtensionManager
+{
+    public bool IsValid(string fileName)
+    {
+        return true;
+    }
+}
+</code></pre>
+<h3 id="dependency-injection-inject-a-fake-implementation-into-a-unit-under-test">3.4.2 依賴注入:在被測試單元中注入一個假的實做內容 (Dependency injection: inject a fake implementation into a unit under test)</h3>
+
+        
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

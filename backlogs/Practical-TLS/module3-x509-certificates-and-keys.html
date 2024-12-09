@@ -90,7 +90,6 @@
         <div class='site-heading'>
           <h1>
             <a style="color:white" href='https://blog.allengaodev.com/backlogs/Practical-TLS/module3-x509-certificates-and-keys'>Module 3 - x509 Certificates and Keys</a>
-              <span class="subheading">x509 Certificates and Keys (01:08:00)</span>
           </h1>
         </div>
       </div>
@@ -376,9 +375,123 @@ CRL(Certificate Revocation List)，這裡能夠設定一連串網址來獲得 CR
 </li>
 </ul>
 <h2 id="what-is-in-a-private-key-0905">3.5 What is in a Private Key? (09:05)</h2>
+<p>Modulus (N = P * Q)
+Public Exponent (E)
+Private Exponent (D)
+Prime 1 (P)
+Prime 2 (Q)
+Exponent 1
+Exponent 2
+Coefficient</p>
+<p>注意 Private Key file 跟 Certificate 兩個裡面都有 Modulus，並且它們是完全相同，就是依靠 Modules 才能找出對應的檔案。</p>
+<pre><code class="language-text">// 查看 Private Key 的內容
+openssl rsa -in &lt;KEY-FILE.key&gt; -noout
+
+// 直接輸出 Certificate 的 Modulus 內容
+openssl x509 -in &lt;CERT-FILE.cert &gt; -noout -modulus
+
+// 直接輸出 Private Key 的 Modulus 內容
+openssl rsa -in &lt;KEY-FILE.key&gt; -noout -modulus
+</code></pre>
+<pre><code class="language-text">Blue.cert=B62D8
+Green.cert=E2DAE
+Orange.cert=CD31C
+Violet.cert=EAACF
+Yellow.cert=BE854
+
+key1.key=CD31C
+key2.key=B62D8
+key3.key=BE854
+key4.key=E2DAE
+key5.key=EAACF
+
+Blue.cert=key2.key
+Green.cert=key4.key
+Orange.cert=key1.key
+Violet.cert=key5.key
+Yellow.cert=key3.key
+</code></pre>
 <h2 id="what-is-in-a-csr-pki-0638">3.6 What is in a CSR? (PKI) (06:38)</h2>
+<p>CSR 是由三個部分組成的，結構上跟 Certificate 差不多，CSR 是由 Server 建立的，之後將這份申請書傳送給 CA。</p>
+<ol>
+<li><p>Certificate Request Info</p>
+<ul>
+<li>Version
+0x0 - CSR Version 1: 現在只有一個版本。</li>
+<li>Subject DN
+這個主體的 DN 值，CA 就是根據我們建立的 CSR 來產生 Certificate 的 DN 值，除此之外 CA 還會額外將自己的 DN 加到憑證的 Issuer DN 欄位。
+<code>C= ST= L= O= OU= CN=</code></li>
+<li>Public Key
+由 Modulus 與 Exponent 組成。</li>
+<li>Attribute
+可選欄位，使用來擴充 CSR 功能用的。
+Extension Requests: 就是用來申請 Certificate 中的 Extensions 使用的，例如 <code>Subject Key Identifier</code>, <code>S.A.N</code>。
+Challenge Password(已過時): 用來確保只能有管理權限的人才能變動 Certificate 的狀態，之後就要輸入密碼才能讓憑證失效，現在建議直接到 CA 網站管理就好。
+<code>a0:00</code> 代表沒有任何 Attribute 的意思。</li>
+</ul>
+</li>
+<li><p>Signature Algorithm
+說明簽名過程要用到的 Hashing 演算法與 Signing 演算法</p>
+</li>
+<li><p>Signature
+讀取 Certificate Request Info 所有內容後使用 Server Private Key 進行簽名。</p>
+</li>
+</ol>
 <h2 id="file-formats-0902">3.7 File Formats (09:02)</h2>
+<p>Certificate 與 Key 都是以文件形式保存在我們電腦裡，總共有以下四種形式</p>
+<ul>
+<li>DER (Distinguished Encoding Rules)
+用來傳輸用的文件形式，他是以二進制保存內容的。
+<code>.der</code>, <code>.cert</code>, <code>.crt</code>, <code>.csr</code>，但並不代表這些副檔名一定就是這個 DER 格式。</li>
+<li>PEM (Privacy Enhanced Mail)
+就是用 base64 編碼的 DER 格式，使用很方便可以直接複製，下面這個開頭代表就是 PEM 格式。
+<code>-----BEGIN CERTIFICATE-----</code>
+<code>-----BEGIN PRIVATE Key-----</code>
+<code>-----BEGIN CERTIFICATE REQUEST-----</code>
+<code>.pem</code>, <code>.cert</code>, <code>.crt</code>, <code>.key</code>，, <code>.csr</code>，但並不代表這些副檔名一定就是這個 PEM 格式。</li>
+<li>PFX/PKCS#12 (Personal Information Exchange/Public-Key Cryptography Standard #12)
+PFX 是 1996 年微軟發布的但很難懂。
+PKCS#12 是 1999 年 RSA Laboratory 將 PFX 重新發佈後的版本。
+包含一個 Certificate 與 Matching Key。
+兩個都是以二進制保存內容的。
+<code>.pfx</code>, <code>.p12</code>, <code>.pkcs12</code></li>
+<li>PKCS#7 (Public-Key Cryptography Standard #7)
+內容是用 base64 編碼，打開後會看到 <code>-----BEGIN PKCS7-----</code> 開頭。
+它只能包含 Certificate 或 Chain，不能有密鑰。
+很少在 SSL/TLS 使用，通常是用來保障 email 安全。
+<code>.pkcs7</code>, <code>.p7b</code>, <code>.p7c</code></li>
+</ul>
+<p>DER: Java
+PEM: Apache, NGINX, Linux, Plesk, Cisco Routers, Cisco ASAs, BigIP F5
+PKCS#12: IIS, Windows, Tomcat, Thunderbird, Firefox
+PKCS#7: S/MIME, Java, Windows</p>
 <h2 id="module-3-review-questions">3.8 Module 3 Review Questions</h2>
+<ul>
+<li>What are the three parts of a Certificate?
+<code>Certificate Data</code>, <code>Signature Algorithm</code>, <code>Signature</code></li>
+<li>What is the purpose of each of these fields in a certificate:
+<ul>
+<li>Serial Number: 每個 Certificate 都有的專屬唯一編號。</li>
+<li>Validity: 包含 <code>Not Before</code> 與 <code>Not After</code>。</li>
+<li>Subject: 定義這個 Certificate 的 Full Distinguished Name。</li>
+<li>Issuer: 定義這個 Certificate 發行者的 Full Distinguished Name。</li>
+<li>Public Key: RSA 由兩個值組成 <code>Modulus</code>, <code>Exponent</code>。</li>
+<li>Extensions: 擴充 Certificate 功能使用</li>
+</ul>
+</li>
+<li>What is a SAN Certificate?
+<code>S.A.N</code> 則是能夠保護多個域名，例如 live.com 裡面有 hotmail.com 所以他們倆個域名可以共用同一個憑證。</li>
+<li>What is a Wildcard Certificate?
+代表 live.com 可以保護 *.live.com 的二級域名。</li>
+<li>How are these two different?
+一個可以同時處理多域名，一個只能二級域名。</li>
+<li>What value can you compare to match a specific Certificate file to a Private Key file?
+證書跟 key 的 Modulus 會相同。</li>
+<li>What are four file formats for Certificate and Key files?
+<code>DER</code>, <code>PEM</code>, <code>PFX/PKCS#12</code>, <code>PKCS#7</code></li>
+<li>The most common File formats are PEM and PFX/PKCS#12, how are they different? How would you identify either format?
+PEM 是用 base64 編碼保存內容的所以可以方便傳輸，PFX/PKCS#12 則是使用二進制編碼，但它可以同時保存內容跟私鑰。</li>
+</ul>
 
         
 
