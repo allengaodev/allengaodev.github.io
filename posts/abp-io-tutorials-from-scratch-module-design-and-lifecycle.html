@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x6DF1;&#x5165;&#x89E3;&#x6790; ABP.IO &#x6846;&#x67B6;&#x7684;&#x6A21;&#x7D44;&#x5316;&#x8A2D;&#x8A08;&#x539F;&#x7406;&#xFF0C;&#x5F9E;&#x96F6;&#x958B;&#x59CB;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x5168;&#x65B0;&#x7684;&#x6A21;&#x7D44;&#x7CFB;&#x7D71;&#xFF0C;&#x5168;&#x9762;&#x8986;&#x84CB;&#x5206;&#x5C64;&#x8A2D;&#x8A08;&#x3001;&#x6A21;&#x7D44;&#x751F;&#x547D;&#x9031;&#x671F;&#x8207; ABP &#x7684;&#x4F9D;&#x8CF4;&#x7BA1;&#x7406;&#x6A5F;&#x5236;&#x3002;&#x900F;&#x904E;&#x5BE6;&#x969B;&#x7BC4;&#x4F8B;&#x8207;&#x8A73;&#x7D30;&#x6B65;&#x9A5F;&#xFF0C;&#x5E6B;&#x52A9;&#x958B;&#x767C;&#x8005;&#x638C;&#x63E1; Domain&#x3001;Application&#x3001;Infrastructure &#x7B49;&#x5C64;&#x7D1A;&#x7684;&#x67B6;&#x69CB;&#x8A2D;&#x8A08;&#xFF0C;&#x4E26;&#x4E86;&#x89E3;&#x5982;&#x4F55;&#x904B;&#x7528; ABP &#x63D0;&#x4F9B;&#x7684;&#x6A21;&#x7D44;&#x5316;&#x6846;&#x67B6;&#x4F86;&#x958B;&#x767C;&#x9AD8;&#x6548;&#x3001;&#x53EF;&#x64F4;&#x5C55;&#x7684; .NET &#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x3002;&#x521D;&#x5B78;&#x8005;&#x80FD;&#x5728;&#x9019;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x627E;&#x5230;&#x6700;&#x4F73;&#x5BE6;&#x8E10;&#x5EFA;&#x8B70;&#x3002;">
+
+  <title>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x8A2D;&#x8A08;&#x8207;&#x5BE6;&#x8E10; - Part 1</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x8A2D;&#x8A08;&#x8207;&#x5BE6;&#x8E10; - Part 1' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'> Home </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <!-- <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li> -->
+          <li class="nav-item">
+    <a class="nav-link" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle'>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x8A2D;&#x8A08;&#x8207;&#x5BE6;&#x8E10; - Part 1</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2023/06/14
+              </a>
+
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2024/12/08
+                </a>
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge text-bg-secondary"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="section">目錄</h2>
+<ul>
+<li><a href="#abp">建立空白方案 &amp; ABP 框架模組介紹</a></li>
+<li><a href="#bookstorescratch">BookStoreScratch 專案層級設計 &amp; 安裝與調整相關依賴</a></li>
+<li><a href="#abpmodule">建立 AbpModule</a></li>
+<li><a href="#module">測試 Module &amp; 生命週期</a>
+<br><br></li>
+</ul>
+<hr />
+<h2 id="abp">建立空白方案 &amp; ABP 框架模組介紹</h2>
+<p>這個系列會來逐步分解 ABP 背後的設計與各項模組背後的原理，建議做完 ABP 官方 <a href="https://abp.io/docs/latest/tutorials/book-store?UI=MVC&amp;DB=EF" target="_blank">Book Store 教學</a> 後才繼續觀看。</p>
+<p>這次我們將從空白方案開始一步一步以模組化的方式建立出各個層級專案，再次完成 10 回的教學，並且對比較細項的內容進行補充，基本上適用於任何 ABP 版本。</p>
+<p>首先我們建立一個新的空的方案 <code>BookStoreScratch.sln</code>。</p>
+<pre><code class="language-text">dotnet new sln -o BookStoreScratch
+cd BookStoreScratch
+git init
+dotnet new gitignore
+</code></pre>
+<p>ABP 是根據 DDD 的設計原則與參考 <code>Clean Architecture</code> 的架構分別設計出四個層級:</p>
+<ol>
+<li>Domain Layer(領域層): 包含整個應用程式的 <code>Domain Objects(Business Objects)</code> 以及 <code>Business Rules</code>。</li>
+<li>Application Layer(應用層): 透過建立各種應用服務(Application Services)來操作或協調 <code>Domain Objects</code> 來實現具體的應用程式 <code>Use Cases</code>。</li>
+<li>Presentation Layer(表現層): 負責用戶介面與應用程式的互動，由各種頁面或 UI 元件所組成。</li>
+<li>Infrastructure Layer (基礎設施層): 透過抽象的方式來提供其他層級使用基礎設施或第三方服務。</li>
+</ol>
+<p>為了要讓我們程式碼符合 ABP 的規範，所以我們必須在每個層級中安裝對應的 ABP 框架模組，只要看到 ABP 專案名稱含有 DDD 就代表這個專案是與層級相關的框架模組，
+目前這類型的專案總共有以下幾個:</p>
+<ol>
+<li><code>Volo.Abp.Ddd.Application</code></li>
+<li><code>Volo.Abp.Ddd.Application.Contracts</code></li>
+<li><code>Volo.Abp.Ddd.Domain</code></li>
+<li><code>Volo.Abp.Ddd.Domain.Shared</code></li>
+<li><code>Volo.Abp.Ddd.Tests</code></li>
+</ol>
+<p>扣掉最後一個與測試相關的專案，所以其實只有四個是與層級相關的框架模組，其中有兩個專案是屬於更細項的層級框架模組:</p>
+<ol>
+<li><code>Volo.Abp.Ddd.Application.Contracts</code>: 存放應用服務(Application Services)的 <code>Interface</code> 與相關的 <code>Data Transfer Object(DTO)</code>。</li>
+<li><code>Volo.Abp.Ddd.Domain.Shared</code>: 將 <code>Const</code>、<code>Enum</code>、<code>多語系 json</code> 等等可以安全共享或者是跟層級無關的資料放在這一層。</li>
+</ol>
+<p>仔細看原始碼會發現這兩個層級其實是可有可無的，因為 <code>Volo.Abp.Ddd.Application</code> 與 <code>Volo.Abp.Ddd.Domain</code> 會直接參考它們，
+所以在建立專案的時候如果覺得不需要這兩個額外的層級是可以省略掉它們只保留兩個層級就夠了。</p>
+<p>所有 ABP 常用的 <a href="https://abp.io/docs/latest/modules" target="_blank">Application Modules 應用模組</a>，例如 <code>Identity</code>、
+<code>Audit Logging</code>、<code>Setting</code> 等應用模組的對應層級都有安裝這些 APB 定義的 DDD 的框架模組。</p>
+<p>例如下面 <code>Setting</code> 應用模組就是將細項的層級分開並安裝對應的 DDD 層級框架模組:
+<code>Volo.Abp.SettingManagement.Application</code> 安裝 <code>Volo.Abp.Ddd.Application</code>
+<code>Volo.Abp.SettingManagement.Application.Contracts</code> 安裝 <code>Volo.Abp.Ddd.Application.Contracts</code>
+<code>Volo.Abp.SettingManagement.Domain</code> 安裝 <code>Volo.Abp.Ddd.Domain</code>
+<code>Volo.Abp.SettingManagement.Domain.Shared</code> 安裝 <code>Volo.Abp.Ddd.Domain.Shared</code></p>
+<p><br><br></p>
+<hr />
+<h2 id="bookstorescratch">BookStoreScratch 專案層級設計 &amp; 安裝與調整相關依賴</h2>
+<p>接下來根據上一節的分層設計的建議，我們開始設計自己的 BookStoreScratch 應用模組，
+本文章選擇了 Entity Framework Core 作為 Database Provider，UI 則是先跳過等待底層處理完後處理。</p>
+<ol>
+<li>Domain Layer(領域層):
+<ul>
+<li>BookStoreScratch.Domain</li>
+<li>BookStoreScratch.Domain.Shared</li>
+</ul>
+</li>
+<li>Application Layer(應用層):
+<ul>
+<li>BookStoreScratch.Application</li>
+<li>BookStoreScratch.Application.Contracts</li>
+</ul>
+</li>
+<li>Infrastructure Layer(基礎設施層):
+<ul>
+<li>BookStoreScratch.EntityFrameworkCore</li>
+</ul>
+</li>
+</ol>
+<p>ABP 在處理資料庫存取有三種方式，它們各自都有一個主要的基底模組:</p>
+<ol>
+<li>Entity Framework Core: <code>Volo.Abp.EntityFrameworkCore</code></li>
+<li>MongoDB: <code>Volo.Abp.MongoDB</code></li>
+<li>Dapper: <code>Volo.Abp.Dapper</code></li>
+</ol>
+<p>其中最重要的就是 <code>Entity Framework Core</code>，ABP 將具體的資料庫實做進行分離，等需要決定具體該用哪個資料庫時再來安裝即可，
+ABP 官方提供以下幾種資料庫 package:</p>
+<ol>
+<li><code>Volo.Abp.EntityFrameworkCore.MySQL</code></li>
+<li><code>Volo.Abp.EntityFrameworkCore.Oracle</code></li>
+<li><code>Volo.Abp.EntityFrameworkCore.Oracle.Devart</code></li>
+<li><code>Volo.Abp.EntityFrameworkCore.PostgreSql</code></li>
+<li><code>Volo.Abp.EntityFrameworkCore.Sqlite</code></li>
+<li><code>Volo.Abp.EntityFrameworkCore.SqlServer</code></li>
+</ol>
+<p>這裡要注意如果你是做為一個模組開發者，那麼應該把資料庫的選擇權交給模組的使用者，所以這裡直接安裝 <code>Volo.Abp.EntityFrameworkCore</code> 就足夠了，
+避免依賴到具體實做，影響使用我們模組的人。</p>
+<p>還有 <code>Volo.Abp.Dapper</code> 底層其實也是依賴 <code>Volo.Abp.EntityFrameworkCore</code>，這是因為 ABP 官方事建議混用兩種模式，你需要高性能查詢可以選擇使用
+Dapper，其他情況使用 EFCore 即可，所以 <code>Volo.Abp.Dapper</code> 封裝了幾個方便的方法，讓我們能從 DbContext 直接獲取到 <code>IDbConnection</code> 並發出 SQL 語句。</p>
+<p>接下來根據設計後建立以下專案。</p>
+<pre><code class="language-text">mkdir src
+dotnet new classlib -o src/BookStoreScratch.Domain
+dotnet new classlib -o src/BookStoreScratch.Domain.Shared
+dotnet new classlib -o src/BookStoreScratch.Application
+dotnet new classlib -o src/BookStoreScratch.Application.Contracts
+dotnet new classlib -o src/BookStoreScratch.EntityFrameworkCore
+
+dotnet sln add src/BookStoreScratch.Domain
+dotnet sln add src/BookStoreScratch.Domain.Shared
+dotnet sln add src/BookStoreScratch.Application
+dotnet sln add src/BookStoreScratch.Application.Contracts
+dotnet sln add src/BookStoreScratch.EntityFrameworkCore
+
+rm src/BookStoreScratch.Domain/Class1.cs
+rm src/BookStoreScratch.Domain.Shared/Class1.cs
+rm src/BookStoreScratch.Application/Class1.cs
+rm src/BookStoreScratch.Application.Contracts/Class1.cs
+rm src/BookStoreScratch.EntityFrameworkCore/Class1.cs
+</code></pre>
+<p>調整所有專案的 <code>RootNamespace</code> 與刪除 <code>ImplicitUsings</code>。</p>
+<pre><code class="language-text">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net9.0&lt;/TargetFramework&gt;
+  &lt;Nullable&gt;enable&lt;/Nullable&gt;
+  &lt;RootNamespace/&gt;
+&lt;/PropertyGroup&gt;
+</code></pre>
+<p>如果有需要支援舊版本的程式建議是調整 <code>Application.Contracts</code>、<code>Domain</code>、<code>Domain.Shared</code> 這些與具體實做沒關係的專案的支援 <code>netstandard</code>。</p>
+<pre><code class="language-text">&lt;TargetFrameworks&gt;netstandard2.0;netstandard2.1;net9.0&lt;/TargetFrameworks&gt;
+</code></pre>
+<p>安裝必要的 ABP Package。</p>
+<pre><code class="language-text">dotnet add src/BookStoreScratch.Application package Volo.Abp.Ddd.Application
+dotnet add src/BookStoreScratch.Application.Contracts package Volo.Abp.Ddd.Application.Contracts
+dotnet add src/BookStoreScratch.Domain package Volo.Abp.Ddd.Domain
+dotnet add src/BookStoreScratch.Domain.Shared package Volo.Abp.Ddd.Domain.Shared
+dotnet add src/BookStoreScratch.EntityFrameworkCore package Volo.Abp.EntityFrameworkCore
+</code></pre>
+<p>下一步就是建立各個專案之間的依賴關係，這裡根據目前整理出來的訊息列出以下幾的重點。</p>
+<ol>
+<li><code>Domain.Shared</code> 層級是用來放置跟層級無關的共享資料，所以每個層級都須要有這個 <code>Domain.Shared</code> 層級參考。</li>
+<li><code>Application.Contracts</code> 層級存放 Application Services 的 <code>Interface</code> 與 <code>DTO</code>，所以代表 <code>Application</code> 層級需要參考 <code>Application.Contracts</code> 層級才有辦法建立應用服務。</li>
+<li><code>Application</code> 層級則是負責建立各種應用服務來操作 <code>Domain Objects</code>，所以代表 <code>Application</code> 層級還需要參考 <code>Domain</code> 層級才有辦法建立應用服務。</li>
+<li><code>Domain</code> 層級包含整個應用程式的 <code>Domain Objects</code> 以及 <code>Business Rules</code>。</li>
+<li><code>EntityFrameworkCore</code> 層級由於 <code>Domain Objects</code> 是保存在 <code>Domain</code> 層級，所以 <code>EntityFrameworkCore</code> 層級需要參考 <code>Domain</code> 層級，才能透過資料庫建立對應的 .NET 物件。</li>
+</ol>
+<p>由上面的重點得知 <code>Domain.Shared</code> 層必須要在最底層給所有層級參考，<code>Application</code> 層必須同時參考 <code>Application.Contracts</code> 與 <code>Domain</code> 才有辦法建立應用服務，
+<code>Domain</code> 層目前沒有特殊要求，<code>EntityFrameworkCore</code> 層級需要參考 <code>Domain</code> 層級，有這寫資訊後就可以來建立專案關聯了。</p>
+<pre><code class="language-text">dotnet add src/BookStoreScratch.Domain reference src/BookStoreScratch.Domain.Shared
+dotnet add src/BookStoreScratch.Application.Contracts reference src/BookStoreScratch.Domain.Shared
+dotnet add src/BookStoreScratch.Application reference src/BookStoreScratch.Application.Contracts
+dotnet add src/BookStoreScratch.Application reference src/BookStoreScratch.Domain
+dotnet add src/BookStoreScratch.EntityFrameworkCore reference src/BookStoreScratch.Domain
+</code></pre>
+<p><br><br></p>
+<hr />
+<h2 id="abpmodule">建立 AbpModule</h2>
+<p>接下來根據 ABP 的規範建立每一個層級的 Module 檔案，要注意由於目前的 <code>RootNamespace</code> 已經被我們調整過，
+所以現在命名空間是參考資料夾結構來命名的，另外 ABP 官方建議要使用 <code>CompanyName.ModuleName</code> 的格式來命名模組，
+例如 <code>Volo.Abp.SettingManagement</code> 就是代表 Volo 公司 ABP 專案的 SettingManagement 模組。</p>
+<p>這篇文章就省略掉了 <code>CompanyName</code> 直接用 <code>ModuleName</code> 來進行命名，也就是說我們的每個專案都要在建立一個 <code>BookStoreScratch</code> 資料夾來
+辨別命名空間，並且之後開發的程式都要在這個資料夾底下命名空間才會正確。</p>
+<p><code>EntityFrameworkCore</code> 層級額外建立了一個 <code>EntityFrameworkCore</code> 資料夾來避免污染命名空間。</p>
+<pre><code class="language-text">mkdir -p src/BookStoreScratch.Application/BookStoreScratch &amp;&amp; touch &quot;$_&quot;/BookStoreScratchApplicationModule.cs
+mkdir -p src/BookStoreScratch.Application.Contracts/BookStoreScratch &amp;&amp; touch &quot;$_&quot;/BookStoreScratchApplicationContractsModule.cs
+mkdir -p src/BookStoreScratch.Domain/BookStoreScratch &amp;&amp; touch &quot;$_&quot;/BookStoreScratchDomainModule.cs
+mkdir -p src/BookStoreScratch.Domain.Shared/BookStoreScratch &amp;&amp; touch &quot;$_&quot;/BookStoreScratchDomainSharedModule.cs
+mkdir -p src/BookStoreScratch.EntityFrameworkCore/BookStoreScratch/EntityFrameworkCore &amp;&amp; touch &quot;$_&quot;/BookStoreScratchEntityFrameworkCoreModule.cs
+</code></pre>
+<p>建立完成後就能開始撰寫 ABP 程式了，首先 ABP 底層是透過 <code>ModuleManager</code> 來管理所有 Module 的生命週期，一個模組會經歷以下過程</p>
+<ol>
+<li><code>OnPreApplicationInitialization</code>: 初始化前執行</li>
+<li><code>OnApplicationInitialization</code>: 初始化時執行</li>
+<li><code>OnPostApplicationInitialization</code>: 初始化後執行</li>
+<li><code>OnApplicationShutdown</code>: 結束應用程式時執行</li>
+</ol>
+<p><code>ModuleManager</code> 會使用 <code>foreach</code> 的方法來執行每個有實做 <code>IAbpModule</code> 介面的模組內的 <code>OnApplicationInitializationAsync</code> 方法，
+來初始化應用程式，其它的生命週期也是同樣的執行流程，下面是相關的原始碼。</p>
+<pre><code class="language-text">public virtual async Task InitializeModulesAsync(ApplicationInitializationContext context)
+{
+    foreach (var contributor in _lifecycleContributors)
+    {
+        foreach (var module in _moduleContainer.Modules)
+        {
+            try
+            {
+                await contributor.InitializeAsync(context, module.Instance);
+            }
+            catch (Exception ex)
+            {
+                throw new AbpInitializationException($&quot;An error occurred during the initialize {contributor.GetType().FullName} phase of the module {module.Type.AssemblyQualifiedName}: {ex.Message}. See the inner exception for details.&quot;, ex);
+            }
+        }
+    }
+
+    _logger.LogInformation(&quot;Initialized all ABP modules.&quot;);
+}
+</code></pre>
+<p>也就是說我們現在需要確保剛剛建立的所有 <code>BookStoreScratch</code> Module 都有實做 <code>IAbpModule</code> 介面才能將我們的模組接入到 ABP 系統內，
+這一點我們直接繼承 <code>AbpModule</code> 就能轉換成 ABP 模組了，但是這樣還不夠，因為模組有層層依賴的關係，所以需要有一個機制負責處理我們模組內部依賴的底層模組才能確保我們的程式能正常運作，
+ABP 則是透過 <code>DependsOn</code> Attribute 來自動註冊底層模組，設定後 ABP 會自動處理模組之間的載入優先順序。</p>
+<p>接下來就開始處理所有 <code>BookStoreScratch</code> Module。</p>
+<details> 
+   <summary>展開模組詳細設定</summary>
+<pre><code class="language-text">// BookStoreScratchDomainSharedModule.cs
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+public class BookStoreScratchDomainSharedModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchDomainModule.cs
+using Volo.Abp.Domain;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpDddDomainModule))]
+[DependsOn(typeof(BookStoreScratchDomainSharedModule))]
+public class BookStoreScratchDomainModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchApplicationContractsModule.cs
+using Volo.Abp.Application;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpDddApplicationContractsModule))]
+[DependsOn(typeof(BookStoreScratchDomainSharedModule))]
+public class BookStoreScratchApplicationContractsModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchApplicationModule.cs
+using Volo.Abp.Application;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(typeof(AbpDddApplicationModule))]
+[DependsOn(
+    typeof(BookStoreScratchApplicationContractsModule),
+    typeof(BookStoreScratchDomainModule)
+)]
+public class BookStoreScratchApplicationModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchEntityFrameworkCoreModule.cs
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+[DependsOn(typeof(AbpEntityFrameworkCoreModule))]
+[DependsOn(typeof(BookStoreScratchDomainModule))]
+public class BookStoreScratchEntityFrameworkCoreModule : AbpModule
+{
+}
+</code></pre>
+</details>
+<p><br><br></p>
+<hr />
+<h2 id="module">測試 Module &amp; 生命週期</h2>
+<p>專案雛型到這裡就完成了，接下來可以來看看 ABP 是怎麼加載模組的。</p>
+<p>首先建立一個 Console 專案並安裝 <code>Volo.Abp.Core</code>，這個 Package 是 APB 最核心的專案，所有最基礎的功能都會放在這個專案裡面，
+例如之前提到負責管理模組加載的 <code>ModuleManager</code> 以及 <code>DependsOn</code> Attribute，另外安裝 Serilog 紀錄日誌。</p>
+<pre><code class="language-text">mkdir app
+dotnet new worker -o app/BookStoreScratch.Console
+dotnet sln add app/BookStoreScratch.Console
+rm app/BookStoreScratch.Console/Worker.cs
+
+dotnet add app/BookStoreScratch.Console package Volo.Abp.Core
+dotnet add app/BookStoreScratch.Console package Serilog.Extensions.Hosting
+dotnet add app/BookStoreScratch.Console package Serilog.Extensions.Logging
+dotnet add app/BookStoreScratch.Console package Serilog.Sinks.Async
+dotnet add app/BookStoreScratch.Console package Serilog.Sinks.Console
+</code></pre>
+<p>同樣也是建立 <code>BookStoreScratchConsoleModule</code> 以及依賴 <code>AbpModule</code>。</p>
+<pre><code class="language-text">mkdir -p app/BookStoreScratch.Console &amp;&amp; touch &quot;$_&quot;/BookStoreScratchConsoleModule.cs
+</code></pre>
+<pre><code class="language-text">using Volo.Abp.Modularity;
+
+namespace BookStoreScratch.Console;
+
+public class BookStoreScratchConsoleModule : AbpModule
+{
+}
+</code></pre>
+<p>最後是調整 <code>Program.cs</code> 的內容。</p>
+<pre><code class="language-text">using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
+
+namespace BookStoreScratch.Console;
+
+public class Program
+{
+    public static async Task&lt;int&gt; Main(string[] args)
+    {
+        Log.Logger = new LoggerConfiguration()
+#if DEBUG
+            .MinimumLevel.Debug()
+#else
+            .MinimumLevel.Information()
+#endif
+            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .WriteTo.Async(c =&gt; c.Console())
+            .CreateLogger();
+
+        try
+        {
+            Log.Information(&quot;Starting console host.&quot;);
+
+            var builder = Host.CreateApplicationBuilder(args);
+
+            builder.Logging.ClearProviders().AddSerilog();
+
+            await builder.Services.AddApplicationAsync&lt;BookStoreScratchConsoleModule&gt;();
+
+            var host = builder.Build();
+
+            await host.InitializeAsync();
+
+            await host.RunAsync();
+
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            if (ex is HostAbortedException)
+            {
+                throw;
+            }
+
+            Log.Fatal(ex, &quot;Host terminated unexpectedly!&quot;);
+            return 1;
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
+    }
+}
+</code></pre>
+<p>重要的內容只有 <code>AddApplicationAsync</code> 這一行，他是讓一般的 .Net 應用程式變成 ABP 應用程式的關鍵，
+我們在文章一開始有提到 ABP 提供了四種生命週期，實際上還有三種跟 Dependency Injection 有關的生命週期，所以總共有以下幾種生命週期：</p>
+<ol>
+<li><code>PreConfigureServices</code></li>
+<li><code>ConfigureServices</code></li>
+<li><code>PostConfigureServices</code></li>
+<li><code>OnPreApplicationInitialization</code></li>
+<li><code>OnApplicationInitialization</code></li>
+<li><code>OnPostApplicationInitialization</code></li>
+<li><code>OnApplicationShutdown</code></li>
+</ol>
+<p>所以你會發現 ABP 的註冊方法跟 <code>Startup.cs</code> 的寫法其實是差不多的，
+在寫一般的 .Net 時我們會在這個 <code>Startup.cs</code> 檔案建立兩個方法 <code>ConfigureServices</code> 用來註冊服務到 DI 容器中，
+<code>Configure</code> 用來設定設定 Middleware。</p>
+<p>所以你可以把 <code>Startup.cs</code> 的 <code>ConfigureServices</code> 對應成 abp 中的 <code>ConfigureServices</code>，
+<code>Configure</code> 對應成 abp 中的 <code>OnApplicationInitialization</code> 方法。</p>
+<p>其他方法可以從名稱中知道他的用途 <code>PreConfigureServices</code> 代表會在 <code>ConfigureServices</code> 運行之前執行，
+<code>PostConfigureServices</code> 代表會在 <code>ConfigureServices</code> 完成後運行。</p>
+<p>因此當我們建立一個新模組時繼承 AbpModule 就可以透過覆寫 <code>ConfigureServices</code> 方法將服務註冊到 DI 容器內，
+如果模組需要使用新的 Middleware 可以覆寫 <code>OnApplicationInitialization</code> 方法來註冊新的 Middleware。</p>
+<p>運行專案後會看到終端輸出以下內容:</p>
+<pre><code class="language-text">[19:40:15 INF] Starting console host.
+[19:40:15 INF] Loaded ABP modules:
+[19:40:15 INF] - BookStoreScratch.Console.BookStoreScratchConsoleModule
+[19:40:15 INF] Initialized all ABP modules.
+[19:40:15 INF] Application started. Press Ctrl+C to shut down.
+</code></pre>
+<p>如果有看到 <code>Loaded ABP modules</code> 這一行內容就代表成功了，ABP 會自動處理模組的加載順序，由於我們目前只有添加一個
+<code>BookStoreScratchConsoleModule</code> 並且沒有其他依賴，所以下面的內容就只有載入這個模組而已。</p>
+<p>接下來可以試試看把我們之前寫的層級模組的參考加入進來，要注意這種寫法只適合測試用，實做上還需要另外分層。</p>
+<pre><code class="language-text">dotnet add app/BookStoreScratch.Console reference src/BookStoreScratch.Domain.Shared
+dotnet add app/BookStoreScratch.Console reference src/BookStoreScratch.Application.Contracts
+dotnet add app/BookStoreScratch.Console reference src/BookStoreScratch.Application
+dotnet add app/BookStoreScratch.Console reference src/BookStoreScratch.Domain
+dotnet add app/BookStoreScratch.Console reference src/BookStoreScratch.EntityFrameworkCore
+</code></pre>
+<p>添加完參考後也要記得在 <code>DependsOn</code> 添加需要依賴的模組。</p>
+<pre><code class="language-text">[DependsOn(
+    typeof(BookStoreScratchApplicationModule),
+    typeof(BookStoreScratchApplicationContractsModule),
+    typeof(BookStoreScratchDomainModule),
+    typeof(BookStoreScratchDomainSharedModule),
+    typeof(BookStoreScratchEntityFrameworkCoreModule)
+)]
+public class BookStoreScratchConsoleModule : AbpModule
+{
+}
+</code></pre>
+<p>完成後直接運行會看到加載了非常多的模組，這些大部分是 ABP 的框架模組，每個框架模組是按照功能來區分並建立出對應的模組。</p>
+<pre><code class="language-text">[19:53:18 INF] Starting console host.
+[19:53:18 INF] Loaded ABP modules:
+[19:53:18 INF] - BookStoreScratch.Console.BookStoreScratchConsoleModule
+[19:53:18 INF]   - BookStoreScratch.BookStoreScratchApplicationModule
+[19:53:18 INF]     - Volo.Abp.Application.AbpDddApplicationModule
+[19:53:18 INF]       - Volo.Abp.Domain.AbpDddDomainModule
+[19:53:18 INF]         - Volo.Abp.Auditing.AbpAuditingModule
+[19:53:18 INF]           - Volo.Abp.Data.AbpDataModule
+[19:53:18 INF]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+[19:53:18 INF]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+[19:53:18 INF]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+[19:53:18 INF]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+[19:53:18 INF]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+[19:53:18 INF]           - Volo.Abp.Json.AbpJsonModule
+[19:53:18 INF]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+[19:53:18 INF]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+[19:53:18 INF]               - Volo.Abp.Timing.AbpTimingModule
+[19:53:18 INF]                 - Volo.Abp.Localization.AbpLocalizationModule
+[19:53:18 INF]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+[19:53:18 INF]                   - Volo.Abp.Settings.AbpSettingsModule
+[19:53:18 INF]                     - Volo.Abp.Security.AbpSecurityModule
+[19:53:18 INF]                   - Volo.Abp.Threading.AbpThreadingModule
+[19:53:18 INF]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+[19:53:18 INF]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+[19:53:18 INF]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+[19:53:18 INF]         - Volo.Abp.EventBus.AbpEventBusModule
+[19:53:18 INF]           - Volo.Abp.Guids.AbpGuidsModule
+[19:53:18 INF]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+[19:53:18 INF]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+[19:53:18 INF]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+[19:53:18 INF]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+[19:53:18 INF]         - Volo.Abp.Specifications.AbpSpecificationsModule
+[19:53:18 INF]         - Volo.Abp.Caching.AbpCachingModule
+[19:53:18 INF]           - Volo.Abp.Serialization.AbpSerializationModule
+[19:53:18 INF]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+[19:53:18 INF]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+[19:53:18 INF]       - Volo.Abp.Validation.AbpValidationModule
+[19:53:18 INF]       - Volo.Abp.Authorization.AbpAuthorizationModule
+[19:53:18 INF]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+[19:53:18 INF]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+[19:53:18 INF]       - Volo.Abp.Features.AbpFeaturesModule
+[19:53:18 INF]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+[19:53:18 INF]     - BookStoreScratch.BookStoreScratchApplicationContractsModule
+[19:53:18 INF]       - BookStoreScratch.BookStoreScratchDomainSharedModule
+[19:53:18 INF]     - BookStoreScratch.BookStoreScratchDomainModule
+[19:53:18 INF]   - BookStoreScratch.EntityFrameworkCore.BookStoreScratchEntityFrameworkCoreModule
+[19:53:18 INF]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+[19:53:18 INF] Initialized all ABP modules.
+[19:53:18 INF] Application started. Press Ctrl+C to shut down.
+[19:53:18 INF] Hosting environment: Production
+</code></pre>
+<p>如果到目前都還理解的話，應該早就發現 <code>DependsOn</code> 其實不用添加這麼多模組，例如 <code>Application</code> 層級早就在他自己的
+<code>BookStoreScratchApplicationModule</code> 添加依賴的模組了，所以這裡其實不用再次添加，不過添加也沒關係 ABP 也會自動處理
+底層的模組依賴，所以把程式碼改成下面這樣並運行，你會發現輸出一模一樣的結果。</p>
+<pre><code class="language-text">[DependsOn(
+    typeof(BookStoreScratchApplicationModule),
+    typeof(BookStoreScratchEntityFrameworkCoreModule)
+)]
+public class BookStoreScratchConsoleModule : AbpModule
+{
+}
+</code></pre>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
