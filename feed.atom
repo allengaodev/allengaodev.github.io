@@ -2,9 +2,132 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>https://blog.allengaodev.com/</id>
 	<title>開發空間</title>
+	<author>
+		<name>allengaodev@gmail.com</name>
+	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2024 by Allen Gao</rights>
-	<updated>2024-12-09T15:13:06Z</updated>
+	<updated>2024-12-12T12:42:46Z</updated>
 	<logo>https://blog.allengaodev.com/assets/img/101night.avif</logo>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</id>
+		<title>ABP IO 教學 | 模組化架構入門：設計與實踐 - Part 1</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-12-08T00:00:00Z</updated>
+		<content>False</content>
+		<summary>本篇文章深入解析 ABP.IO 框架的模組化設計原理，從零開始建立一個全新的模組系統，全面覆蓋分層設計、模組生命週期與 ABP 的依賴管理機制。透過實際範例與詳細步驟，幫助開發者掌握 Domain、Application、Infrastructure 等層級的架構設計，並了解如何運用 ABP 提供的模組化框架來開發高效、可擴展的 .NET 應用程式。初學者能在這篇文章中找到最佳實踐建議。</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/effective-sql-02</id>
+		<title>Effective SQL 02.消除重複儲存資料</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/effective-sql-02" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-12-03T00:00:00Z</updated>
+		<content>False</content>
+		<summary>Effective SQL 02.消除重複儲存資料 (Eliminate Redundant Storage of Data Items)</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/effective-sql-01</id>
+		<title>Effective SQL 01.確定所有資料表都有主鍵</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/effective-sql-01" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-12-02T00:00:00Z</updated>
+		<content>False</content>
+		<summary>Effective SQL 01.確定所有資料表都有主鍵 (Verify That All Tables Have a Primary Key)</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/more-effective-csharp-summary</id>
+		<title>More Effective C# 讀後總結與整理</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-summary" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-12-01T12:00:00Z</updated>
+		<content>False</content>
+		<summary>More Effective C# 讀後總結與整理</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/more-effective-csharp-50</id>
+		<title>More Effective C# 50.考慮用分析器自動化慣用法</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-50" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-12-01T11:00:00Z</updated>
+		<content>False</content>
+		<summary>More Effective C# 50.考慮用分析器自動化慣用法(Consider automating practices with Analyzers)</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/more-effective-csharp-49</id>
+		<title>More Effective C# 49.參與規格及程式碼的訂定</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-49" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-11-30T00:00:00Z</updated>
+		<content>False</content>
+		<summary>More Effective C# 49.參與規格及程式碼的訂定(Participate in Specs and Code)</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/more-effective-csharp-48</id>
+		<title>More Effective C# 48.尋求最好的答案，而不是最受歡迎的答案</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-48" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-11-30T00:00:00Z</updated>
+		<content>False</content>
+		<summary>More Effective C# 48.尋求最好的答案，而不是最受歡迎的答案(Seek the best answer, not the most popular answer)</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/more-effective-csharp-47</id>
+		<title>More Effective C# 47.在公開的API中減少動態物件的使用</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-47" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-11-30T00:00:00Z</updated>
+		<content>False</content>
+		<summary>More Effective C# 47.在公開的API中減少動態物件的使用(Minimize Dynamic Objects in Public APIs)</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/more-effective-csharp-46</id>
+		<title>More Effective C# 46.了解如何運用 Expression API</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-46" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-11-29T00:00:00Z</updated>
+		<content>False</content>
+		<summary>More Effective C# 46.了解如何運用 Expression API(Understand How to Make Use of the Expression API)</summary>
+	</entry>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/more-effective-csharp-45</id>
+		<title>More Effective C# 45.資料驅動(Data-Driven)動態型別使用 DynamicObject 或 IDynamicMetaObjectProvider</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-45" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-11-28T00:00:00Z</updated>
+		<content>False</content>
+		<summary>More Effective C# 45.資料驅動(Data-Driven)動態型別使用 DynamicObject 或 IDynamicMetaObjectProvider(Use DynamicObject or IDynamicMetaObjectProvider for Data-Driven Dynamic Types)</summary>
+	</entry>
 </feed>
