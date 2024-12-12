@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x6DF1;&#x5165;&#x89E3;&#x6790; ABP.IO &#x6846;&#x67B6;&#x7684;&#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x9032;&#x968E;&#x8A2D;&#x8A08;&#xFF0C;&#x5C08;&#x6CE8;&#x65BC; Domain Layer &#x7684;&#x8A2D;&#x8A08;&#x8207;&#x5BE6;&#x4F5C;&#xFF0C;&#x4E26;&#x8A73;&#x7D30;&#x4ECB;&#x7D39;&#x5982;&#x4F55;&#x5229;&#x7528; ABP &#x63D0;&#x4F9B;&#x7684; Building Blocks&#xFF0C;&#x5982; Entity&#x3001;Domain Service &#x7B49;&#xFF0C;&#x4F86;&#x5BE6;&#x73FE;&#x7B26;&#x5408; DDD &#x539F;&#x5247;&#x7684;&#x6838;&#x5FC3;&#x529F;&#x80FD;&#x3002;&#x540C;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x900F;&#x904E;&#x5EFA;&#x7ACB;&#x6E2C;&#x8A66;&#x5C08;&#x6848;&#x9A57;&#x8B49; Domain &#x5C64;&#x7684;&#x529F;&#x80FD;&#x5B8C;&#x6574;&#x6027;&#xFF0C;&#x4E26;&#x4ECB;&#x7D39;&#x5982;&#x4F55;&#x6709;&#x6548;&#x904B;&#x7528; ABP &#x7684;&#x6E2C;&#x8A66;&#x5DE5;&#x5177;&#x63D0;&#x5347;&#x958B;&#x767C;&#x6548;&#x7387;&#x3002;">
+
+  <title>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x9818;&#x57DF;&#x5C64;&#x7D1A; - Part 2</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x9818;&#x57DF;&#x5C64;&#x7D1A; - Part 2' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'> Home </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <!-- <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li> -->
+          <li class="nav-item">
+    <a class="nav-link" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer'>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x9818;&#x57DF;&#x5C64;&#x7D1A; - Part 2</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2024/12/11
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge text-bg-secondary"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="section">目錄</h2>
+<ul>
+<li><a href="#abp-building-blocks">ABP Building Blocks</a></li>
+<li><a href="#domain-layer">Domain Layer 設計</a></li>
+<li><a href="#domain-layer-1">Domain Layer 實做</a></li>
+<li><a href="#domain-layer-2">Domain Layer 測試專案</a>
+<br><br></li>
+</ul>
+<hr />
+<h2 id="abp-building-blocks">ABP Building Blocks</h2>
+<p>ABP 根據 DDD Tactical Design 定義出幾個關鍵的類別，也就是 <code>Building Blocks</code>，其中細分成 Domain Layer Building Blocks 與
+Application Layer Building Blocks，上一篇提到的 <code>Domain Objects</code> 其實就是 <code>Domain Layer Building Blocks</code>。</p>
+<p>Domain Layer Building Blocks 總共提供以下幾個基礎類別:</p>
+<ol>
+<li>Entity</li>
+<li>Value Object</li>
+<li>Aggregate &amp; Aggregate Root</li>
+<li>Repository</li>
+<li>Domain Service</li>
+<li>Specification</li>
+<li>Domain Event</li>
+</ol>
+<p>Application Layer Building Blocks 總共提供以下幾個基礎類別:</p>
+<ol>
+<li>Application Service</li>
+<li>Data Transfer Object (DTO)</li>
+<li>Unit of Work (UOW)</li>
+</ol>
+<p>詳細的定義可以參考市面上的 DDD 書籍，或者是參考 <a href="https://abp.io/docs/latest/framework/architecture/domain-driven-design" target="_blank">ABP 官方文檔</a> 提供的定義。</p>
+<p>整理一下目前的流程，一個請求會從 Application Service (應用服務)開始，它負責操作或協調 <code>Domain Objects</code> 來實現具體的應用程式 <code>Use Cases</code>，
+也就代表我們要在應用服務操作或協調上面的 <code>Domain Building Blocks</code> 清單中的類別，並且完成某項任務或者達成使用者預計的結果。</p>
+<p>例如一間書店，使用者想透過我們的系統搜尋特定的書籍，並回傳它的相關資料，那麼可以整理成以下流程:</p>
+<ol>
+<li>使用者點擊書店搜尋功能頁面，並輸入書籍相關資料。</li>
+<li>呼叫書籍應用服務的搜尋功能並帶入書籍資料引數。</li>
+<li>從某個資料儲存地點讀取出特定的書籍資料物件。</li>
+<li>將結果回傳給書籍應用服務的搜尋功能。</li>
+<li>書籍應用服務的搜尋功能將結果轉換成 DTO 並回傳給書店搜尋功能頁面。</li>
+<li>使用者查看回傳結果。</li>
+</ol>
+<p>要達成上面的流程那麼至少要建立以下幾個新功能:</p>
+<ol>
+<li>搜尋書籍 UI。</li>
+<li>BookAppService: 書籍應用服務。</li>
+<li>Book: 書籍物件。</li>
+<li>持久化資料讀寫功能。</li>
+<li>BookDto: 書籍 DTO。</li>
+</ol>
+<p>接下來按照層級來區分每個功能:
+Domain Layer(領域層): <code>Book</code>
+Application Layer(應用層): <code>BookAppService</code>、<code>BookDto</code>
+Infrastructure Layer(基礎設施層): <code>持久化資料讀寫功能</code>
+Presentation Layer(表現層): <code>搜尋書籍 UI</code></p>
+<p>這篇文章我們先把 Domain Layer 的功能先完成。</p>
+<p><br><br></p>
+<hr />
+<h2 id="domain-layer">Domain Layer 設計</h2>
+<p>首先要設計 <code>Book</code> 內部要包含什麼樣的成員。</p>
+<ol>
+<li>Name(string): 書本名稱。</li>
+<li>Type(BookType): 書本類型，需要額外建立 <code>BookType</code> Enum。</li>
+<li>PublishDate(DateTime): 書本出版日期。</li>
+<li>Price(decimal): 書本價格。</li>
+</ol>
+<p>接下來就跟一般的 .NET 開發流程不太一樣了，在 ABP 我們需要先 Building Blocks 中選擇要繼承的類型，跟物件相關的 Building Blocks 有以下幾種:</p>
+<ol>
+<li>Entity</li>
+<li>Value Object</li>
+<li>Aggregate &amp; Aggregate Root</li>
+</ol>
+<p>對於我們的 <code>Book</code> 來說 Entity 是比較恰當的選擇，這個 Entity 還是屬於 DDD 的範圍，實際上開發須要繼承 ABP 提供的相關實做，
+這些實做就放在上一篇文章提到的 <code>Volo.Abp.Ddd.Domain</code> Package 內部，對於 Entity 來說總共有以下幾種實做和它們的泛型版本:</p>
+<ol>
+<li><code>Entity</code> | <code>Entity&lt;TKey&gt;</code></li>
+<li><code>AuditedEntity</code> | <code>AuditedEntity&lt;TKey&gt;</code></li>
+<li><code>AuditedEntityWithUser&lt;TUser&gt;</code> | <code>AuditedEntityWithUser&lt;&lt;TKey, TUser&gt;&gt;</code></li>
+<li><code>CreationAuditedEntity</code> | <code>CreationAuditedEntity&lt;TKey&gt;</code></li>
+<li><code>CreationAuditedEntityWithUser&lt;TUser&gt;</code> | <code>CreationAuditedEntityWithUser&lt;TKey, TUser&gt;</code></li>
+<li><code>FullAuditedEntity</code> | <code>FullAuditedEntity&lt;TKey&gt;</code></li>
+<li><code>FullAuditedEntityWithUser&lt;TUser&gt;</code> | <code>FullAuditedEntityWithUser&lt;TKey, TUser&gt;</code></li>
+</ol>
+<p>注意到泛型參數 <code>TKey</code> 非常重要，在 DDD 的世界中是使用 <code>id</code> 來區分兩個 Entity，也就是說兩個 Entity 就算內部的屬性完全一樣，
+但只要 <code>id</code> 不相同就應該把這兩個物件認定為不相等，在 ABP 中建議是從 <code>Guid</code>、<code>int</code>、<code>long</code> 挑選一種來當作 <code>id</code>。</p>
+<p>每個 Entity 都有適合的使用場合，最乾淨的就是 <code>Entity</code> 類型其它的都是從 <code>Entity</code> 類型衍生並添加額外的功能創造出來的，所以這裡我們使用
+<code>Entity</code> 就足夠了。</p>
+<p>下一個是 <code>BookType</code> Enum，我們也需要先想清楚總共有多少書本類型:</p>
+<ol>
+<li>Undefined</li>
+<li>Adventure</li>
+<li>Biography</li>
+<li>Dystopia</li>
+<li>Fantastic</li>
+<li>Horror</li>
+<li>Science</li>
+<li>ScienceFiction</li>
+<li>Poetry</li>
+</ol>
+<p>Enum 在 ABP 就沒有特殊的處理流程了，只需要按照平常的開發習慣即可，只是要注意這個 <code>BookType</code> Enum 的放置層級，如果你有 Domain.Shared 層
+那就應該把這種類型資料放在這個層級，如果沒有額外建立層級也可以放置在 Domain 層。</p>
+<p>建立完 <code>Book</code> 實體後就要想該如何處理新增跟查詢書籍的功能，我們在上面的流程表中有一個步驟是呼叫 <code>BookAppService</code> 並取得書籍，
+也就是要在 <code>BookAppService</code> 建立一個新增與查詢的方法來建立與搜尋書籍，由於 <code>BookAppService</code> 主要的工作是操作或協調，
+那麼新增書籍時檢查書籍名稱或長度這些商業邏輯的程式碼就不適合放在 <code>BookAppService</code> 裡面了。</p>
+<p>這種處理額外的商業邏輯就適合放在 Domain Service 這也是 Building Blocks 其中之一，所以需要在設計插入一個流程就是
+建立一個管理書籍 Domain Service 叫做 <code>BookManager</code>，這樣使用者在處理 CRUD 的請求時就可以直接重複使用 <code>BookManager</code> 裡面的商業邏輯。</p>
+<p>跟 Entity 相同，ABP 也有建立 Domain Service 的具體實做 <code>DomainService</code>，所以我們在建立 <code>BookManager</code> 的時候要確定類別要
+繼承 <code>DomainService</code> 類別，才能讓 ABP 系統知道你建立的是一個 Domain Service。</p>
+<p><br><br></p>
+<hr />
+<h2 id="domain-layer-1">Domain Layer 實做</h2>
+<p>準備完設計後就可以開始寫程式了，由於 <code>Book</code> 內部會使用到 <code>BookType</code> 所以先把 Enum 準備好。</p>
+<pre><code class="language-text">touch src/BookStoreScratch.Domain.Shared/BookStoreScratch/BookType.cs
+</code></pre>
+<pre><code class="language-text">// BookType.cs
+namespace BookStoreScratch;
+
+public enum BookType
+{
+    Undefined,
+    Adventure,
+    Biography,
+    Dystopia,
+    Fantastic,
+    Horror,
+    Science,
+    ScienceFiction,
+    Poetry
+}
+</code></pre>
+<p>接下來建立 <code>Book</code> 類別並繼承 <code>Entity&lt;TKey&gt;</code>，這裡的選擇使用 <code>Guid</code> 來做為實體 <code>id</code>，這裡將建構函式設定成 internal 避免
+其他層級私自建立 <code>Book</code> 物件，所有 <code>Book</code> 物件都必須透過 <code>BookManager</code> 產生。</p>
+<pre><code class="language-text">touch src/BookStoreScratch.Domain/BookStoreScratch/Book.cs
+</code></pre>
+<pre><code class="language-text">// Book.cs
+public class Book : Entity&lt;Guid&gt;
+{
+    public string Name { get; set; }
+
+    public BookType BookType { get; set; }
+
+    public DateTime PublishDate { get; set; }
+
+    public decimal Price { get; set; }
+
+    [JsonConstructor]
+    private Book() {}
+
+    internal Book(
+        Guid id,
+        string name,
+        BookType bookType,
+        DateTime publishDate,
+        decimal price)
+        : base(id)
+    {
+        Name = name;
+        BookType = bookType;
+        PublishDate = publishDate;
+        Price = price;
+    }
+}
+</code></pre>
+<p>建立完實體 <code>Book</code> 之後添加 <code>BookManager</code> Domain Service 確保在新增書本的時候能遵守制定的商業邏輯，同時這裡也是唯一能建立 <code>Book</code>
+實體的方法，因為建構函式使用 internal 進行限制，這樣就能避免使用者略過商業邏輯直接在 Application Service 中建立實體。</p>
+<pre><code class="language-text">touch src/BookStoreScratch.Domain/BookStoreScratch/BookManager.cs
+</code></pre>
+<pre><code class="language-text">using System;
+using Volo.Abp;
+using Volo.Abp.Domain.Services;
+
+namespace BookStoreScratch;
+
+public class BookManager : DomainService
+{
+    public Book CreateBook(string name, BookType bookType, DateTime publishDate, decimal price)
+    {
+        Check.NotNullOrWhiteSpace(name, nameof(name));
+        Check.NotDefaultOrNull&lt;BookType&gt;(bookType, nameof(bookType));
+        Check.NotDefaultOrNull&lt;DateTime&gt;(publishDate, nameof(publishDate));
+	
+        if (price &lt; 0)
+        {
+            throw new ArgumentException(&quot;Price must be greater than or equal to 0.&quot;);
+        }
+
+        return new Book(
+            new Guid(),
+            name,
+            bookType,
+            publishDate,
+            price
+        );
+    }
+}
+</code></pre>
+<p><br><br></p>
+<hr />
+<h2 id="domain-layer-2">Domain Layer 測試專案</h2>
+<p>由於目前只有 Domain 層的程式碼，要查看效果比較不方便，所以這裡選擇先建立 Domain 層級的測試專案，ABP 建議測試專案安裝以下幾個 Package:</p>
+<ol>
+<li><code>Microsoft.NET.Test.Sdk</code></li>
+<li><code>NSubstitute</code></li>
+<li><code>Shouldly</code></li>
+<li><code>xunit</code></li>
+<li><code>xunit.extensibility.execution</code></li>
+<li><code>xunit.runner.visualstudio</code></li>
+</ol>
+<p>上面這些 Package 都是我們平常測試會使用到的，另外 ABP 還有提供 <code>Volo.Abp.TestBase</code>，安裝這個 Package 可以幫助我們建立整合測試(IntegratedTest)。</p>
+<p>這裡由於每個層級都需要同樣的 Package 所以我們選擇建立一個獨立的專案 <code>BookStoreScratch.TestBase</code> 將共用的 Package 安裝在這裡面。</p>
+<pre><code class="language-text">mkdir test
+dotnet new classlib -o test/BookStoreScratch.TestBase
+dotnet new classlib -o test/BookStoreScratch.Domain.Tests
+
+dotnet sln add test/BookStoreScratch.TestBase
+dotnet sln add test/BookStoreScratch.Domain.Tests
+
+rm test/BookStoreScratch.TestBase/Class1.cs
+rm test/BookStoreScratch.Domain.Tests/Class1.cs
+</code></pre>
+<p>調整所有專案的 <code>RootNamespace</code> 與刪除 <code>ImplicitUsings</code>。</p>
+<pre><code class="language-text">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net9.0&lt;/TargetFramework&gt;
+  &lt;Nullable&gt;enable&lt;/Nullable&gt;
+  &lt;RootNamespace/&gt;
+&lt;/PropertyGroup&gt;
+</code></pre>
+<pre><code class="language-text">dotnet add test/BookStoreScratch.Domain.Tests package Microsoft.NET.Test.Sdk
+dotnet add test/BookStoreScratch.TestBase package Microsoft.NET.Test.Sdk
+dotnet add test/BookStoreScratch.TestBase package FluentAssertions
+dotnet add test/BookStoreScratch.TestBase package NSubstitute
+dotnet add test/BookStoreScratch.TestBase package Shouldly
+dotnet add test/BookStoreScratch.TestBase package xunit
+dotnet add test/BookStoreScratch.TestBase package xunit.extensibility.execution
+dotnet add test/BookStoreScratch.TestBase package xunit.runner.visualstudio
+dotnet add test/BookStoreScratch.TestBase package Volo.Abp.TestBase
+</code></pre>
+<p>添加 <code>BookStoreScratch.TestBase</code> 專案參考，以及被測試的專案 <code>BookStoreScratch.Domain</code>。</p>
+<pre><code class="language-text">dotnet add test/BookStoreScratch.Domain.Tests reference test/BookStoreScratch.TestBase
+dotnet add test/BookStoreScratch.Domain.Tests reference src/BookStoreScratch.Domain
+</code></pre>
+<p>同樣也需要添加 AbpModule，並且在 <code>BookStoreScratchTestBaseModule</code> 添加 <code>AbpTestBaseModule</code> 依賴。</p>
+<pre><code class="language-text">mkdir -p test/BookStoreScratch.Domain.Tests/BookStoreScratch &amp;&amp; touch &quot;$_&quot;/BookStoreScratchDomainTestModule.cs
+mkdir -p test/BookStoreScratch.TestBase/BookStoreScratch &amp;&amp; touch &quot;$_&quot;/BookStoreScratchTestBaseModule.cs
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchTestBaseModule.cs
+using Volo.Abp;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(
+    typeof(AbpTestBaseModule)
+)]
+public class BookStoreScratchTestBaseModule : AbpModule
+{
+}
+</code></pre>
+<pre><code class="language-text">// BookStoreScratchDomainTestModule.cs
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(
+    typeof(BookStoreScratchTestBaseModule)
+)]
+public class BookStoreScratchDomainTestModule : AbpModule
+{
+}
+</code></pre>
+<p>完成底層後就可以撰寫測試了，首先我們建立 <code>BookManager_Tests</code> 專門用來測試 BookManager。</p>
+<pre><code class="language-text">touch test/BookStoreScratch.Domain.Tests/BookStoreScratch/BookManager_Tests.cs
+</code></pre>
+<pre><code class="language-text">// BookManager_Tests.cs
+using System;
+using FluentAssertions;
+using Xunit;
+
+namespace BookStoreScratch;
+
+public class BookManager_Tests
+{
+    private readonly BookManager _bookManager;
+
+    public BookManager_Tests()
+    {
+        _bookManager = new BookManager();
+    }
+
+    [Fact]
+    public void CreateBook_Should_Create_Book_With_Valid_Inputs()
+    {
+        // Arrange
+        var name = &quot;Test Book&quot;;
+        var bookType = BookType.Adventure;
+        var publishDate = new DateTime(2024, 1, 1);
+        var price = 19.99m;
+    
+        // Act
+        var book = _bookManager.CreateBook(name, bookType, publishDate, price);
+    
+        // Assert
+        book.Should().NotBeNull();
+        book.Name.Should().Be(name);
+        book.BookType.Should().Be(bookType);
+        book.PublishDate.Should().Be(publishDate);
+        book.Price.Should().Be(price);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData(&quot;&quot;)]
+    [InlineData(&quot; &quot;)]
+    public void CreateBook_Should_Throw_ArgumentException_For_Invalid_Name(string invalidName)
+    {
+        // Arrange
+        var bookType = BookType.Adventure;
+        var publishDate = new DateTime(2024, 1, 1);
+        var price = 19.99m;
+
+        // Act
+        Action act = () =&gt; _bookManager.CreateBook(invalidName, bookType, publishDate, price);
+
+        // Assert
+        act.Should().Throw&lt;ArgumentException&gt;().WithMessage(&quot;*name*&quot;);
+    }
+
+    [Fact]
+    public void CreateBook_Should_Throw_ArgumentException_For_Default_BookType()
+    {
+        // Arrange
+        var name = &quot;Test Book&quot;;
+        var bookType = default(BookType);
+        var publishDate = new DateTime(2024, 1, 1);
+        var price = 19.99m;
+
+        // Act
+        Action act = () =&gt; _bookManager.CreateBook(name, bookType, publishDate, price);
+
+        // Assert
+        act.Should().Throw&lt;ArgumentException&gt;().WithMessage(&quot;*bookType*&quot;);
+    }
+
+    [Fact]
+    public void CreateBook_Should_Throw_ArgumentException_For_Default_PublishDate()
+    {
+        // Arrange
+        var name = &quot;Test Book&quot;;
+        var bookType = BookType.Adventure;
+        var publishDate = default(DateTime);
+        var price = 19.99m;
+
+        // Act
+        Action act = () =&gt; _bookManager.CreateBook(name, bookType, publishDate, price);
+
+        // Assert
+        act.Should().Throw&lt;ArgumentException&gt;().WithMessage(&quot;*publishDate*&quot;);
+    }
+
+    [Fact]
+    public void CreateBook_Should_Throw_ArgumentException_For_Negative_Price()
+    {
+        // Arrange
+        var name = &quot;Test Book&quot;;
+        var bookType = BookType.Adventure;
+        var publishDate = new DateTime(2024, 1, 1);
+        var price = -5m;
+
+        // Act
+        Action act = () =&gt; _bookManager.CreateBook(name, bookType, publishDate, price);
+
+        // Assert
+        act.Should().Throw&lt;ArgumentException&gt;().WithMessage(&quot;Price must be greater than or equal to 0.&quot;);
+    }
+}
+</code></pre>
+<p>運行測試後全部成功就代表 Domain 層可以先告一段落，接下來可以開始準備基礎設施層，以及補安裝一些 ABP 常用框架模組。</p>
+<p>本次文章進度 <a href="https://github.com/allengaodev/BookStoreScratch/tree/1.2" target="_blank">Github</a></p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

@@ -7,9 +7,21 @@
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2024 by Allen Gao</rights>
-	<updated>2024-12-12T12:42:46Z</updated>
+	<updated>2024-12-12T15:11:23Z</updated>
 	<logo>https://blog.allengaodev.com/assets/img/101night.avif</logo>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer</id>
+		<title>ABP IO 教學 | 模組化架構入門：領域層級 - Part 2</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2024-12-11T00:00:00Z</updated>
+		<content>False</content>
+		<summary>本篇文章深入解析 ABP.IO 框架的模組化架構進階設計，專注於 Domain Layer 的設計與實作，並詳細介紹如何利用 ABP 提供的 Building Blocks，如 Entity、Domain Service 等，來實現符合 DDD 原則的核心功能。同時，我們將透過建立測試專案驗證 Domain 層的功能完整性，並介紹如何有效運用 ABP 的測試工具提升開發效率。</summary>
+	</entry>
 	<entry>
 		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</id>
 		<title>ABP IO 教學 | 模組化架構入門：設計與實踐 - Part 1</title>
@@ -117,17 +129,5 @@
 		<updated>2024-11-29T00:00:00Z</updated>
 		<content>False</content>
 		<summary>More Effective C# 46.了解如何運用 Expression API(Understand How to Make Use of the Expression API)</summary>
-	</entry>
-	<entry>
-		<id>https://blog.allengaodev.com/posts/more-effective-csharp-45</id>
-		<title>More Effective C# 45.資料驅動(Data-Driven)動態型別使用 DynamicObject 或 IDynamicMetaObjectProvider</title>
-		<author>
-			<name>allengaodev@gmail.com</name>
-		</author>
-		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-45" />
-		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
-		<updated>2024-11-28T00:00:00Z</updated>
-		<content>False</content>
-		<summary>More Effective C# 45.資料驅動(Data-Driven)動態型別使用 DynamicObject 或 IDynamicMetaObjectProvider(Use DynamicObject or IDynamicMetaObjectProvider for Data-Driven Dynamic Types)</summary>
 	</entry>
 </feed>
