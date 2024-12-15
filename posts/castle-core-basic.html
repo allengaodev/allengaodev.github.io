@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x4E86;&#x89E3; Castle Core &#x63D0;&#x4F9B;&#x7684;&#x4E09;&#x5927;&#x529F;&#x80FD;&#xFF1A;Logging&#x3001;DictionaryAdapter &#x8207; DynamicProxy&#xFF0C;&#x5305;&#x542B;&#x529F;&#x80FD;&#x80CC;&#x666F;&#x3001;&#x4F7F;&#x7528;&#x6848;&#x4F8B;&#x53CA;&#x975E;&#x540C;&#x6B65;&#x6514;&#x622A;&#x5668;&#x7684;&#x5BE6;&#x4F5C;&#x65B9;&#x6CD5;&#xFF0C;&#x5B78;&#x7FD2;&#x5BE6;&#x505A; AOP&#x3002;">
+
+  <title>Castle Core &#x6A21;&#x7D44;&#x4ECB;&#x7D39;&#xFF1A;Logging&#x3001;DictionaryAdapter &#x8207; DynamicProxy &#x5BE6;&#x4F5C;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/castle-core-basic'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Castle Core &#x6A21;&#x7D44;&#x4ECB;&#x7D39;&#xFF1A;Logging&#x3001;DictionaryAdapter &#x8207; DynamicProxy &#x5BE6;&#x4F5C;' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/castle-core-basic' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'> Home </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <!-- <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li> -->
+          <li class="nav-item">
+    <a class="nav-link" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/castle-core-basic'>Castle Core &#x6A21;&#x7D44;&#x4ECB;&#x7D39;&#xFF1A;Logging&#x3001;DictionaryAdapter &#x8207; DynamicProxy &#x5BE6;&#x4F5C;</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2024/12/14
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
+                  <a href="/tags/castle" class="badge text-bg-secondary"> Castle</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="castle-core">Castle Core</h2>
+<p><a href="https://github.com/castleproject/Core/tree/master" target="_blank">Castle Core</a>，是 Castle Windsor 團隊開發的核心模組，
+現在這個模組總共提供了三種功能，分別是 <code>Logging</code>、<code>DictionaryAdapter</code>、<code>DynamicProxy</code>。</p>
+<p><br><br></p>
+<hr />
+<h2 id="logging">Logging</h2>
+<p>由於 Castle Core 的 <code>Logging</code> 功能推出的當下微軟還沒有提供類似的日誌功能，所以在早期寫 .net framework 的時候還要安裝額外
+例如 <code>log4net</code>、<code>NLog</code>、<code>Serilog</code> 這種第三方日誌函式庫，不過由於這些函式庫當初並沒有使用共同的抽象方法，導致每套日誌系統都有自己的寫法與設定方式，
+所以當時要切換日誌系統是非常困難的，在這種背景下 Castle Core 的 <code>Logging</code> 功能提供了 ILogger 抽象類型與抽象方法，
+能讓我們在切換日誌系統時更加方便。</p>
+<p>不過這個功能基本上已經被微軟的 <code>Microsoft.Extensions.Logging</code> 官方函式庫取代了，所以 Castle Core 的 <code>Logging</code> 功能我們有基礎的了解就好，
+現在實務上各家的日誌系統都有提供對應 <code>Microsoft.Extensions.Logging</code> 的 Provider 我們直接使用就好了。</p>
+<p><br><br></p>
+<hr />
+<h2 id="dictionaryadapter">DictionaryAdapter</h2>
+<p>這個功能可以建立一個轉接層將弱型別的字典變成強型別，可以用在例如設定檔這種弱型別的資料。</p>
+<p>下面這個範例建立了一個 <code>DictionaryAdapterFactory</code> 並且將 <code>dictionary</code> 與 <code>ISetting</code> 介面建立一個中間層，
+這樣我們就可以直接在執行時期建立強型別的物件。</p>
+<pre><code class="language-text">void Main()
+{
+	var dictionary = new Hashtable();
+	var factory = new DictionaryAdapterFactory();
+	var adapter = factory.GetAdapter&lt;ISetting&gt;(dictionary);
+	dictionary[&quot;Key&quot;] = &quot;123&quot;;
+	Console.WriteLine(adapter.Key);
+	adapter.Key = &quot;456&quot;;
+	Console.WriteLine(adapter.Key);
+}
+
+public interface ISetting
+{
+	string Key { get; set;}
+}
+</code></pre>
+<p>不過 <code>DictionaryAdapter</code> 背後是透過反射的機制來建立物件的，所以真的有需要在執行時期建立強型別的物件才使用這個功能，一般的設定檔功能
+使用微軟官方的 Options Pattern 是比較好的選擇。</p>
+<p><br><br></p>
+<hr />
+<h3 id="dynamicproxy">DynamicProxy</h3>
+<p>這個功能就比較重要了，主要就是為了實現 AOP 才會安裝 Castle Core 這個函式庫，另外有提供 DynamicProxy 功能的函式庫還有 <code>AspectCore</code>。</p>
+<p>DynamicProxy 主要的功能就是建立一個動態的 Proxy，我們能夠透過這個 Proxy 在程式碼的前後安插額外的程式碼，例如要測試一個方法的執行時間，
+我們就可以透過 DynamicProxy 在不修改想要測試的方法的情況下添加測試的程式碼。</p>
+<p>這種類型的功能都是透過攔截的機制在程式碼的執行前後安插額外的程式碼，在 Castle Core 中我們需要透過實做 <code>IInterceptor</code> 介面來做到攔截的效果。</p>
+<p>例如下面這段程式我想要了解執行 <code>SayHello()</code> 方法需要花費多少時間，一般來說就要在呼叫程式碼的地點前後都加上 <code>Stopwatch</code> 並且結束時
+透過 <code>Logger</code> 的方式將結果紀錄到某個日誌系統。</p>
+<pre><code class="language-text">void Main()
+{
+	var stopwatch = new Stopwatch();
+	stopwatch.Start();
+	SayHello();
+	stopwatch.Stop();
+	Console.WriteLine(stopwatch.Elapsed);
+}
+
+public void SayHello()
+{
+	Thread.Sleep(1000);
+}
+</code></pre>
+<p>下面這段程式我們建立了 <code>TimingInterceptor</code>，其中的 <code>invocation.Proceed()</code> 用途就是執行原本的方法，也就是 <code>SayHello()</code> 方法，
+之後透過 <code>ProxyGenerator</code> 的 <code>CreateInterfaceProxyWithTarget</code> 方法將 <code>IHello</code> 介面與 <code>TimingInterceptor</code> 綁定成一個 Proxy，
+這樣原本的 <code>SayHello()</code> 就可以保持乾淨，同時又能擴充額外的功能。</p>
+<pre><code class="language-text">void Main()
+{
+	IHello target = new Hello();
+	ProxyGenerator generator = new ProxyGenerator();
+	var timingInterceptor = new TimingInterceptor();
+	var proxy = generator.CreateInterfaceProxyWithTarget(target, timingInterceptor);
+	proxy.SayHello();
+}
+
+public class Hello : IHello
+{
+	public void SayHello()
+	{
+		Thread.Sleep(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public void SayHello();
+}
+
+public class TimingInterceptor : IInterceptor
+{
+	public void Intercept(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
+		invocation.Proceed();
+		stopwatch.Stop();
+		Console.WriteLine(stopwatch.Elapsed);
+	}
+}
+</code></pre>
+<p>但是 Castle Core 對於攔截非同步方法的寫法與規則並不是很容易了解，所以推薦是使用第三方的 <code>Castle.Core.AsyncInterceptor</code> 函式庫。</p>
+<p>安裝後直接將實做的介面從原本的 <code>IInterceptor</code> 改成 <code>IAsyncInterceptor</code>，需要實做三個方法 <code>InterceptSynchronous</code>、
+<code>InternalInterceptAsynchronous</code>、<code>InternalInterceptAsynchronous&lt;TResult&gt;</code>，代表我們可以在同一個攔截器處理同步與非同步的方法。</p>
+<pre><code class="language-text">void Main()
+{
+	IHello target = new Hello();
+	ProxyGenerator generator = new ProxyGenerator();
+	var asyncTimingInterceptor = new MyAsyncTimingInterceptor();
+	var proxy = generator.CreateInterfaceProxyWithTargetInterface&lt;IHello&gt;(target, asyncTimingInterceptor);
+	proxy.SayHello();
+}
+
+public class Hello : IHello
+{
+	public void SayHello()
+	{
+		Thread.Sleep(1000);
+	}
+
+	public async Task SayHelloAsync()
+	{
+		await Task.Delay(1000);
+	}
+}
+
+public interface IHello
+{
+	public void SayHello();
+	public Task SayHelloAsync();
+}
+
+public class MyAsyncTimingInterceptor : IAsyncInterceptor
+{
+	public void InterceptAsynchronous(IInvocation invocation)
+	{
+		invocation.ReturnValue = InternalInterceptAsynchronous(invocation);
+	}
+
+	public void InterceptAsynchronous&lt;TResult&gt;(IInvocation invocation)
+	{
+		invocation.ReturnValue = InternalInterceptAsynchronous(invocation);
+	}
+
+	public void InterceptSynchronous(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
+		invocation.Proceed();
+		stopwatch.Stop();
+		Console.WriteLine(stopwatch.Elapsed);
+	}
+
+	private async Task InternalInterceptAsynchronous(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
+
+		invocation.Proceed();
+		var task = (Task)invocation.ReturnValue;
+		await task;
+
+		stopwatch.Stop();
+		Console.WriteLine(stopwatch.Elapsed);
+	}
+
+	private async Task&lt;TResult&gt; InternalInterceptAsynchronous&lt;TResult&gt;(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
+
+		invocation.Proceed();
+		var task = (Task&lt;TResult&gt;)invocation.ReturnValue;
+		TResult result = await task;
+
+		stopwatch.Stop();
+		Console.WriteLine(stopwatch.Elapsed);
+		
+		return result;
+	}
+}
+</code></pre>
+<p>上面這種寫法會產生許多相同的程式碼可以選擇重構，或者是繼承另外一個類別 <code>ProcessingAsyncInterceptor&lt;TState&gt;</code>。</p>
+<p>可以看到繼承 <code>ProcessingAsyncInterceptor&lt;TState&gt;</code> 類別後就只需要處理 <code>StartingInvocation</code> 與 <code>CompletedInvocation</code>，
+分別是呼叫前執行與呼叫後執行，就不用分成同步與非同步多種版本了。</p>
+<pre><code class="language-text">void Main()
+{
+	IHello target = new Hello();
+	ProxyGenerator generator = new ProxyGenerator();
+	var asyncTimingInterceptor = new MyAsyncTimingInterceptor();
+	var proxy = generator.CreateInterfaceProxyWithTargetInterface&lt;IHello&gt;(target, asyncTimingInterceptor);
+	proxy.SayHelloAsync();
+}
+
+
+public class Hello : IHello
+{
+	public void SayHello()
+	{
+		Thread.Sleep(1000);
+	}
+
+	public async Task SayHelloAsync()
+	{
+		await Task.Delay(1000);
+	}
+}
+
+public interface IHello
+{
+	public void SayHello();
+	public Task SayHelloAsync();
+}
+
+public class MyAsyncTimingInterceptor : ProcessingAsyncInterceptor&lt;Stopwatch&gt;
+{
+	protected override Stopwatch StartingInvocation(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
+		return stopwatch;
+	}
+
+	protected override void CompletedInvocation(IInvocation invocation, Stopwatch state)
+	{
+		state.Stop();
+		Console.WriteLine(state.Elapsed);
+	}
+}
+</code></pre>
+<p>像是這種測試時間但攔截器因為很常用，所以這個函式庫其實有內建時間的攔截器，這樣我們就不用在自己實做了。</p>
+<p>下面就是直接繼承了函式庫提供的 <code>AsyncTimingInterceptor</code>，這樣我們只要處理呼叫前與呼叫後的日誌紀錄，就不用自己處理計時器了。</p>
+<pre><code class="language-text">public class MyAsyncTimingInterceptor : AsyncTimingInterceptor
+{
+	protected override void StartingTiming(IInvocation invocation)
+	{
+		Console.WriteLine($&quot;{invocation.Method.Name}:StartingTiming&quot;);
+	}
+
+	protected override void CompletedTiming(IInvocation invocation, Stopwatch stopwatch)
+	{
+		Console.WriteLine($&quot;{invocation.Method.Name}:CompletedTiming:{stopwatch.Elapsed:g}&quot;);
+	}
+}
+</code></pre>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/castle-core-basic'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>

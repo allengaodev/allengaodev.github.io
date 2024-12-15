@@ -110,6 +110,19 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/04/20
+    </a>
+
+  </p>
+
+<p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -137,21 +150,6 @@
 閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-manager">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/15
-    </a>
-
-  </p>
-
-<p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
-但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 設計就是會將商業邏輯與存取邏輯分開<br>
-所以今天我們來看看 Identity 中常用的 Manager</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/page/46" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -171,7 +169,7 @@
               <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
               <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
               <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
-              <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (20)</a>
+              <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (21)</a>
               <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
               <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
               <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
