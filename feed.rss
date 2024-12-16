@@ -6,8 +6,19 @@
 		<description>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</description>
 		<copyright>© 2024 by Allen Gao</copyright>
 		<managingEditor>allengaodev@gmail.com</managingEditor>
-		<pubDate>Sun, 15 Dec 2024 17:39:03 GMT</pubDate>
-		<lastBuildDate>Sun, 15 Dec 2024 17:39:03 GMT</lastBuildDate>
+		<pubDate>Mon, 16 Dec 2024 15:01:20 GMT</pubDate>
+		<lastBuildDate>Mon, 16 Dec 2024 15:01:20 GMT</lastBuildDate>
+		<item>
+			<title>Castle Core 與 Autofac 整合應用</title>
+			<link>https://blog.allengaodev.com/posts/castle-core-with-autofac</link>
+			<description>學習如何使用 Castle Core 的 DynamicProxy 功能搭配 Autofac IOC 容器，簡化 AOP 實作流程，包含安裝步驟、服務註冊與攔截器整合的範例教學。</description>
+			<author>allengaodev@gmail.com</author>
+			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
+			<guid>https://blog.allengaodev.com/posts/castle-core-with-autofac</guid>
+			<pubDate>Sun, 15 Dec 2024 00:00:00 GMT</pubDate>
+			<content:encoded>False</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
 		<item>
 			<title>Castle Core 模組介紹：Logging、DictionaryAdapter 與 DynamicProxy 實作</title>
 			<link>https://blog.allengaodev.com/posts/castle-core-basic</link>
@@ -103,17 +114,6 @@
 			<author>allengaodev@gmail.com</author>
 			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-48</guid>
-			<pubDate>Sat, 30 Nov 2024 00:00:00 GMT</pubDate>
-			<content:encoded>False</content:encoded>
-			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
-		</item>
-		<item>
-			<title>More Effective C# 47.在公開的API中減少動態物件的使用</title>
-			<link>https://blog.allengaodev.com/posts/more-effective-csharp-47</link>
-			<description>More Effective C# 47.在公開的API中減少動態物件的使用(Minimize Dynamic Objects in Public APIs)</description>
-			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
-			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-47</guid>
 			<pubDate>Sat, 30 Nov 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
 			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>

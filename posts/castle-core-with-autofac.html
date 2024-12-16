@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://giscus.app" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5B78;&#x7FD2;&#x5982;&#x4F55;&#x4F7F;&#x7528; Castle Core &#x7684; DynamicProxy &#x529F;&#x80FD;&#x642D;&#x914D; Autofac IOC &#x5BB9;&#x5668;&#xFF0C;&#x7C21;&#x5316; AOP &#x5BE6;&#x4F5C;&#x6D41;&#x7A0B;&#xFF0C;&#x5305;&#x542B;&#x5B89;&#x88DD;&#x6B65;&#x9A5F;&#x3001;&#x670D;&#x52D9;&#x8A3B;&#x518A;&#x8207;&#x6514;&#x622A;&#x5668;&#x6574;&#x5408;&#x7684;&#x7BC4;&#x4F8B;&#x6559;&#x5B78;&#x3002;">
+
+  <title>Castle Core &#x8207; Autofac &#x6574;&#x5408;&#x61C9;&#x7528;</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/castle-core-with-autofac'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='Castle Core &#x8207; Autofac &#x6574;&#x5408;&#x61C9;&#x7528;' />
+    <meta property="og:image" content='/assets/img/101night.avif' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/castle-core-with-autofac' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
+  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
+  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
+  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Google tag (gtag.js)-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href='/'> Home </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <!-- <li class="nav-item">
+            <span class="nav-link">
+              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
+                <input type="submit" hidden />
+              </form>
+            </span>
+          </li> -->
+          <li class="nav-item">
+    <a class="nav-link" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url(&quot;/assets/img/101night.avif&quot;)">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/castle-core-with-autofac'>Castle Core &#x8207; Autofac &#x6574;&#x5408;&#x61C9;&#x7528;</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2024/12/15
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
+                  <a href="/tags/castle" class="badge text-bg-secondary"> Castle</a>
+                  <a href="/tags/autofac" class="badge text-bg-secondary"> Autofac</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div id="content" class="col-md-12">
+        <h2 id="castle-core-with-autofac">Castle Core With Autofac</h2>
+<p>在上一篇介紹 <a href="https://blog.allengaodev.com/posts/castle-core-basic" target="_blank">Castle Core 基礎的文章</a>，中有介紹到
+安裝 Castle Core 的主要目的就是為了它的 <code>DynamicProxy</code> 來實做 AOP 的功能。</p>
+<p>但是這種手動建立 <code>ProxyGenerator</code> 與使用 <code>CreateInterfaceProxyWithTarget</code> 綁定介面的方式在實務上不用這麼麻煩，
+通常會在額外搭配 IOC 容器以達到更流暢的使用體驗，例如 AspectCore 這套函式庫也有跟各個 IOC 容器進行整合，比較常用的有
+<code>AspectCore.Extensions.DependencyInjection</code> 與 <code>AspectCore.Extensions.Autofac</code>。</p>
+<p>Castle Core 也有提供類似的整合函式庫，第一種就是直接使用 Castle 團隊開發的 IOC 容器叫做 <a href="https://github.com/castleproject/Windsor" target="_blank">Castle Windsor</a>，
+但它也是比較古老的專案，在微軟官方的 IOC 容器推出前就已經存在。</p>
+<p>另一種就是使用 <code>Autofac</code> 這套 IOC 容器與 <code>Autofac</code> 官方提供的額外函式庫 <code>Autofac.Extras.DynamicProxy</code>，它內部就是使用了
+Castle Core 專案來做到 DynamicProxy 的功能，在實務上建議是安裝 <code>Autofac.Extensions.DependencyInjection</code> 函式庫，
+因為它是根據 <code>Microsoft.Extensions.DependencyInjection</code> 定義的抽象介面所建立出來的。</p>
+<h2 id="section">安裝函式庫與實做</h2>
+<p>所以接下來只要安裝這兩個函式庫即可整合 <code>Autofac</code> IOC 容器與 <code>Castle Core</code> 的 DynamicProxy 功能。</p>
+<pre><code class="language-text">dotnet add package Autofac.Extensions.DependencyInjection
+dotnet add package Autofac.Extras.DynamicProxy
+</code></pre>
+<p>呼叫的方式也很簡單，就是在註冊服務的時候記得呼叫 <code>EnableInterfaceInterceptors</code> 擴充方法，它背後會對這個介面進行標記，之後只需要
+在實做類別使用 <code>InterceptAttribute</code> 說明要使用的攔截器即可。</p>
+<p>另一種綁定方式就是透過 <code>InterceptedBy</code> 擴充方法直接與攔截器進行綁定就不用使用 <code>InterceptAttribute</code> 了。</p>
+<pre><code class="language-text">void Main()
+{
+	var builder = new ContainerBuilder();
+	
+	builder.RegisterType&lt;Hello&gt;()
+		.As&lt;IHello&gt;()
+		//.InterceptedBy(typeof(TimingInterceptor))
+		.EnableInterfaceInterceptors();
+		
+	builder.Register(c =&gt; new TimingInterceptor());
+	var container = builder.Build();
+	var service = container.Resolve&lt;IHello&gt;();
+	service.SayHello();
+}
+
+public class TimingInterceptor : IInterceptor
+{
+	public void Intercept(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
+		invocation.Proceed();
+		stopwatch.Stop();
+		Console.WriteLine(stopwatch.Elapsed);
+	}
+}
+
+[Intercept(typeof(TimingInterceptor))]
+public class Hello : IHello
+{
+	public void SayHello()
+	{
+		Thread.Sleep(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public void SayHello();
+}
+</code></pre>
+<p>最後就可以使用 Resolve 方法從 IOC 容器中取得需要的服務，<code>Autofac</code> 背後就會自行處理 <code>new ProxyGenerator()</code> 與
+<code>CreateInterfaceProxyWithTarget</code> 這些邏輯了。</p>
+<p>自行建立 <code>ProxyGenerator</code> 不建議每次都創建新的 <code>ProxyGenerator</code>，最好是將它定義成靜態的否則會消耗許多記憶體容量，
+使用 <code>Autofac.Extras.DynamicProxy</code> 的另一個好處就是我們不需要關注這些小細節，只需要專心實做商業邏輯就好。</p>
+
+
+        
+
+      </div>
+    </div>
+  <div id="comments-container" class="row">
+    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/castle-core-with-autofac'></div>
+ <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+
+<script src="https://giscus.app/client.js"
+        data-repo='allengaodev/allengaodev.github.io'
+        data-repo-id='R_kgDOI6sF8g'
+        data-category-id='DIC_kwDOI6sF8s4CUbuw'
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
+  
+
+  
+
+</body>
+
+</html>
