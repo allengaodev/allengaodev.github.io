@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5F9E;&#x96F6;&#x958B;&#x59CB;">
+    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5F9E;&#x96F6;&#x958B;&#x59CB;&#x4F7F;&#x7528; Postgres &#x8207; Dapper &#x5BA2;&#x88FD; IUserStore">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5F9E;&#x96F6;&#x958B;&#x59CB;</title>
 
@@ -96,6 +96,9 @@
                 2023/04/13
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/20
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -120,111 +123,167 @@
 </code></pre>
 <p>就可以產生一個能夠進行註冊與登入的簡易網站，這樣雖然可以快速產生一個可以用的專案，
 假如我想要在 User 表加入自定義的欄位，或者客製化授權方面的邏輯，那就必須調整一下樣板</p>
-<p>首先我們看看一般的 <code>webapp</code> 樣板建立的專案(WebApp2)，與我們剛剛建立的 WebApp1 進行比較，觀察 dotnet 額外幫我們新增了什麼程式碼</p>
+<p>首先我們看看原始沒有包含授權功能的樣板 <code>webapp</code> 建立的專案(WebApp2)，與我們剛剛建立有包含授權功能的 <code>WebApp1</code> 專案進行比較，觀察 dotnet 額外新增了什麼程式碼</p>
 <pre><code class="language-text">dotnet new webapp -o WebApp2
 </code></pre>
-<p>發現多參考了幾個 package</p>
+<p>發現額外參考了幾個 package</p>
 <ul>
-<li>Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore //開發時期使用，可以顯示詳細錯誤頁面</li>
-<li>Microsoft.AspNetCore.Identity.EntityFrameworkCore //Identity 可以經由 EFCore 保存資料到資料庫</li>
-<li>Microsoft.AspNetCore.Identity.UI //Identity 提供的預設 Razor 頁面</li>
-<li>Microsoft.EntityFrameworkCore.SqlServer //EFCore SQLServer Package</li>
-<li>Microsoft.EntityFrameworkCore.Tools //開發時期使用，Code First 相關功能</li>
+<li>Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore // 顯示與資料庫遷移相關的錯誤，開發時期使用</li>
+<li>Microsoft.AspNetCore.Identity.EntityFrameworkCore // 內部包含 IdentityDbContext 用來存取 Identity 資料表</li>
+<li>Microsoft.AspNetCore.Identity.UI // 預設 Identity cshtml 登入、登出頁面</li>
+<li>Microsoft.EntityFrameworkCore.SQLServer //EFCore SQLServer Provider</li>
+<li>Microsoft.EntityFrameworkCore.Tools //更新和更改資料庫架構與管理遷移腳本，開發時期使用</li>
 </ul>
-<p>並且新增了一個 ApplicationDbContext 以及產生相對應的 Migrations
-與UI相關頁面多了 _LoginPartial.cshtml 確認目前登入狀態並產生相對應的 Header</p>
+<p>並且生成了專案獨立的 DbContext <code>ApplicationDbContext</code> 內部繼承了 <code>IdentityDbContext</code> 以及產生資料庫 Migrations</p>
+<p>頁面新增 _LoginPartial.cshtml 並添加到目前 _Layout 內，右上角會根據登入狀態顯示登入登出按鈕或是帳號管理。</p>
 <p>最後在 <code>Program.cs</code> 中多了一段與 Identity 相關的程式碼</p>
 <pre><code class="language-text">builder.Services.AddDefaultIdentity&lt;IdentityUser&gt;(options =&gt; options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;();
 </code></pre>
-<p>從以上的資訊可以得知，系統預設產生的樣板會直接依賴 <code>EFCore</code> 與 <code>Razor</code> 這兩個主要功能，那就會產生幾個疑問</p>
+<hr />
+<p>從上一段整理的資訊能夠得知，使用系統預設樣板就會直接依賴 <code>EFCore</code> 與 <code>Razor</code> 這兩個主要模組，那就會產生幾個疑問</p>
 <ol>
 <li>如果今天專案不想使用 EFCore 只想使用 Dapper 或者乾脆不使用 ORM 有沒有辦法實現?</li>
 <li>如果團隊沒有人會 Razor 語法或者不想使用 Razor 那該怎麼辦?</li>
 </ol>
-<p>要處理以上的需求那就只能客製化出自己的 ASP.NET Core Identity 與撰寫 Controller 提供資料給前端團隊使用</p>
-<p>首先我們將之前的資訊刪除一些不需要的東西，那就是刪除 EFCore 相關模組與移除 Razor 相關模組
-有問題的是 <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> 這個 package，這邊可以看看 nuget 檢查這個 package 的相關依賴
-得知這個 package 是建立在 <code>Microsoft.Extensions.Identity.Stores</code> 這個 package 之上，所以我們可以改成依賴這個模組</p>
-<p>接下來就只剩下 <code>Program.cs</code> 的相關設定了，其他 DBContext 與 Razor 都可以遺除了</p>
-<p>這邊直接新增一個乾淨的 webapi 專案來進行測試，添加新的 Package</p>
+<p>如果有這類的需求那就只能客製化自己的 ASP.NET Core Identity 與搭配額外的 Controller 提供資料給前端團隊對接
+這邊直接建立一個乾淨的 webapi 專案來進行開發並添加新的 Package</p>
 <pre><code class="language-text">dotnet new webapi -o IdentityDapper
-dotnet add package Microsoft.Extensions.Identity.Stores --version 7.0.5
+dotnet add package Microsoft.Extensions.Identity.Stores --version 9.0.8
 </code></pre>
-<p>在 <code>Program.cs</code> 新增以下程式碼</p>
+<p>由於 <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> 這個 package 是微軟官方唯一提供的 Provider，
+所以你也可以自行去安裝第三方的 Provider 省去自行開發的時間，這個範例選擇自行開發。</p>
+<p>仔細看過 <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code> 的相關依賴後
+得知這個 package 是建立在 <code>Microsoft.Extensions.Identity.Stores</code> 這個 package 之上，所以我們直接將它添加道專案即可。</p>
+<p>接下來在 <code>Program.cs</code> 新增以下程式碼</p>
 <pre><code class="language-text">builder.Services.AddIdentityCore&lt;IdentityUser&gt;(options =&gt; options.SignIn.RequireConfirmedAccount = true);
 </code></pre>
-<p>在繼續之前這邊有三個類似的方法經常出現 <code>AddDefaultIdentity&lt;TUser&gt;</code>,<code>AddIdentity&lt;TUser, TRole&gt;</code>,<code>AddIdentityCore&lt;TUser&gt;</code></p>
+<p>這邊有三個類似的擴充方法經常出現 <code>AddIdentityCore&lt;TUser&gt;</code>,<code>AddDefaultIdentity&lt;TUser&gt;</code>,<code>AddIdentity&lt;TUser, TRole&gt;</code></p>
 <ul>
+<li>AddIdentityCore <a href="https://github.com/dotnet/aspnetcore/blob/bec278eabea54f63da15e10e654bdfa4168a2479/src/Identity/Extensions.Core/src/IdentityServiceCollectionExtensions.cs#L33" target="_blank">Github</a></li>
 <li>AddDefaultIdentity <a href="https://github.com/dotnet/aspnetcore/blob/bec278eabea54f63da15e10e654bdfa4168a2479/src/Identity/UI/src/IdentityServiceCollectionUIExtensions.cs#L39" target="_blank">Github</a></li>
 <li>AddIdentity <a href="https://github.com/dotnet/aspnetcore/blob/68ae6b0d8aa2f4a0ff189d5cedc741e32cc643d2/src/Identity/Core/src/IdentityServiceCollectionExtensions.cs#L40" target="_blank">Github</a></li>
-<li>AddIdentityCore <a href="https://github.com/dotnet/aspnetcore/blob/bec278eabea54f63da15e10e654bdfa4168a2479/src/Identity/Extensions.Core/src/IdentityServiceCollectionExtensions.cs#L33" target="_blank">Github</a></li>
 </ul>
-<p>AddDefaultIdentity 內部也是使用 AddIdentityCore 方法並且額外使用 AddDefaultUI 與 AddDefaultTokenProviders 方法
-AddIdentity 會直接註冊大部分實用的服務例如 cookie 與 2fa 與 role
-AddIdentityCore 只會註冊一些核心的功能，客製化程度比較高可以案自己的需求註冊功能</p>
+<p><code>AddIdentityCore</code> 只會註冊核心的功能，如果需要高度客製化可以安裝它並案自己的需求註冊功能。
+<code>AddDefaultIdentity</code> 內部也會使用 AddIdentityCore 擴充方法並且額外呼叫 AddDefaultUI 與 AddDefaultTokenProviders 擴充方法，註冊
+UI 與一些常用的 TokenProviders。
+<code>AddIdentity</code> 會直接註冊大部分實用的服務例如 cookie 與 2fa 與 role</p>
 <pre><code class="language-text"># AddIdentity
+public static IdentityBuilder AddIdentity&lt;TUser, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRole&gt;(
+    this IServiceCollection services,
+    Action&lt;IdentityOptions&gt; setupAction)
+    where TUser : class
+    where TRole : class
+{
+    // Services used by identity
+    services.AddAuthentication(options =&gt;
+    {
+        options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    })
+    .AddCookie(IdentityConstants.ApplicationScheme, o =&gt;
+    {
+        o.LoginPath = new PathString(&quot;/Account/Login&quot;);
+        o.Events = new CookieAuthenticationEvents
+        {
+            OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
+        };
+    })
+    .AddCookie(IdentityConstants.ExternalScheme, o =&gt;
+    {
+        o.Cookie.Name = IdentityConstants.ExternalScheme;
+        o.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    })
+    .AddCookie(IdentityConstants.TwoFactorRememberMeScheme, o =&gt;
+    {
+        o.Cookie.Name = IdentityConstants.TwoFactorRememberMeScheme;
+        o.Events = new CookieAuthenticationEvents
+        {
+            OnValidatePrincipal = SecurityStampValidator.ValidateAsync&lt;ITwoFactorSecurityStampValidator&gt;
+        };
+    })
+    .AddCookie(IdentityConstants.TwoFactorUserIdScheme, o =&gt;
+    {
+        o.Cookie.Name = IdentityConstants.TwoFactorUserIdScheme;
+        o.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToReturnUrl = _ =&gt; Task.CompletedTask
+        };
+        o.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    });
 
-...
+    // Hosting doesn't add IHttpContextAccessor by default
+    services.AddHttpContextAccessor();
+    // Identity services
+    services.TryAddScoped&lt;IUserValidator&lt;TUser&gt;, UserValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IPasswordValidator&lt;TUser&gt;, PasswordValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IPasswordHasher&lt;TUser&gt;, PasswordHasher&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;ILookupNormalizer, UpperInvariantLookupNormalizer&gt;();
+    services.TryAddScoped&lt;IRoleValidator&lt;TRole&gt;, RoleValidator&lt;TRole&gt;&gt;();
+    // No interface for the error describer so we can add errors without rev'ing the interface
+    services.TryAddScoped&lt;IdentityErrorDescriber&gt;();
+    services.TryAddScoped&lt;ISecurityStampValidator, SecurityStampValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;ITwoFactorSecurityStampValidator, TwoFactorSecurityStampValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IUserClaimsPrincipalFactory&lt;TUser&gt;, UserClaimsPrincipalFactory&lt;TUser, TRole&gt;&gt;();
+    services.TryAddScoped&lt;IUserConfirmation&lt;TUser&gt;, DefaultUserConfirmation&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;UserManager&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;SignInManager&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;RoleManager&lt;TRole&gt;&gt;();
 
-// Identity services
-services.TryAddScoped&lt;IUserValidator&lt;TUser&gt;, UserValidator&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;IPasswordValidator&lt;TUser&gt;, PasswordValidator&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;IPasswordHasher&lt;TUser&gt;, PasswordHasher&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;ILookupNormalizer, UpperInvariantLookupNormalizer&gt;();
-services.TryAddScoped&lt;IRoleValidator&lt;TRole&gt;, RoleValidator&lt;TRole&gt;&gt;();
-// No interface for the error describer so we can add errors without rev'ing the interface
-services.TryAddScoped&lt;IdentityErrorDescriber&gt;();
-services.TryAddScoped&lt;ISecurityStampValidator, SecurityStampValidator&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;ITwoFactorSecurityStampValidator, TwoFactorSecurityStampValidator&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;IUserClaimsPrincipalFactory&lt;TUser&gt;, UserClaimsPrincipalFactory&lt;TUser, TRole&gt;&gt;();
-services.TryAddScoped&lt;IUserConfirmation&lt;TUser&gt;, DefaultUserConfirmation&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;UserManager&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;SignInManager&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;RoleManager&lt;TRole&gt;&gt;();
+    if (setupAction != null)
+    {
+        services.Configure(setupAction);
+    }
 
-...
-
+    return new IdentityBuilder(typeof(TUser), typeof(TRole), services);
+}
 </code></pre>
-<pre><code class="language-text"># AddIdentityCore
+<pre><code class="language-text">#IdentityServiceCollectionExtensions
+public static IdentityBuilder AddIdentityCore&lt;TUser&gt;(this IServiceCollection services, Action&lt;IdentityOptions&gt; setupAction)
+    where TUser : class
+{
+    // Services identity depends on
+    services.AddOptions().AddLogging();
 
-...
+    // Services used by identity
+    services.TryAddScoped&lt;IUserValidator&lt;TUser&gt;, UserValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IPasswordValidator&lt;TUser&gt;, PasswordValidator&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;IPasswordHasher&lt;TUser&gt;, PasswordHasher&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;ILookupNormalizer, UpperInvariantLookupNormalizer&gt;();
+    services.TryAddScoped&lt;IUserConfirmation&lt;TUser&gt;, DefaultUserConfirmation&lt;TUser&gt;&gt;();
+    
+    // No interface for the error describer so we can add errors without rev'ing the interface
+    services.TryAddScoped&lt;IdentityErrorDescriber&gt;();
+    services.TryAddScoped&lt;IUserClaimsPrincipalFactory&lt;TUser&gt;, UserClaimsPrincipalFactory&lt;TUser&gt;&gt;();
+    services.TryAddScoped&lt;UserManager&lt;TUser&gt;&gt;();
 
-// Services used by identity
-services.TryAddScoped&lt;IUserValidator&lt;TUser&gt;, UserValidator&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;IPasswordValidator&lt;TUser&gt;, PasswordValidator&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;IPasswordHasher&lt;TUser&gt;, PasswordHasher&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;ILookupNormalizer, UpperInvariantLookupNormalizer&gt;();
-services.TryAddScoped&lt;IUserConfirmation&lt;TUser&gt;, DefaultUserConfirmation&lt;TUser&gt;&gt;();
-// No interface for the error describer so we can add errors without rev'ing the interface
-services.TryAddScoped&lt;IdentityErrorDescriber&gt;();
-services.TryAddScoped&lt;IUserClaimsPrincipalFactory&lt;TUser&gt;, UserClaimsPrincipalFactory&lt;TUser&gt;&gt;();
-services.TryAddScoped&lt;UserManager&lt;TUser&gt;&gt;();
+    if (setupAction != null)
+    {
+        services.Configure(setupAction);
+    }
 
-...
-
+    return new IdentityBuilder(typeof(TUser), services);
+}
 </code></pre>
 <p>比較兩段程式碼會發現 AddIdentityCore 有註冊的方法在 AddIdentity 中都有註冊並且多了許多功能，可以按照自己的需求做選擇
-假如不需要這麼多功能可以選擇 AddIdentityCore 在挑選自己要的功能註冊
-如果兩個都不滿意的話可以寫一個自己的方法並且回傳 IdentityBuilder 也可以達成同樣的功能</p>
-<p>回到我們的 API 專案，目前我們只有添加一個 <code>Microsoft.Extensions.Identity.Stores</code> Package 接下來準備設定 <code>Program.cs</code></p>
-<pre><code class="language-text">builder.Services.AddIdentityCore&lt;IdentityUser&gt;(options =&gt; options.SignIn.RequireConfirmedAccount = true)
-</code></pre>
-<p>這邊如果直接將專案運行起來會報錯，根據報錯內容可以得知我們並沒有在 DI 註冊 <code>IUserStore</code> 相關服務
-所以在初始化 <code>UserManager</code> 與 <code>UserClaimsPrincipalFactory</code> 時會發生異常<br />
-在我們可以回到 WebApp1 專案看一下為什麼預設的專案不會有這個問題</p>
+如果兩個都不滿意的話可以寫一個自己的方法並且回傳 IdentityBuilder 也可以達成同樣的需求。</p>
+<hr />
+<p>回到我們的 API 專案，這邊如果直接將專案運行起來會報錯，根據報錯內容可以得知 .NET Core Identity 嘗試建立 <code>UserManager&lt;IdentityUser&gt;</code> 時，
+發現 DI 容器裡並沒有在註冊 <code>IUserStore&lt;IdentityUser&gt;</code> 相關服務。</p>
+<p>我們可以回到 WebApp1 專案看一下為什麼預設的專案不會有這個問題</p>
 <pre><code class="language-text">builder.Services.AddDefaultIdentity&lt;IdentityUser&gt;(options =&gt; options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;();
 </code></pre>
 <p>發現下方還有呼叫另一個方法 <code>AddEntityFrameworkStores</code> <a href="https://github.com/dotnet/aspnetcore/blob/e53379914e7ed68eab66f5dac5c8682ac6f3545e/src/Identity/EntityFrameworkCore/src/IdentityEntityFrameworkBuilderExtensions.cs#L22" target="_blank">Github</a>
-底部有一段程式碼會透過 IdentityDbContext(EFCore) 註冊 &lt;IUserStore, UserOnlyStore&gt;，所以專案有使用 EFCore 的話我們就不用管這個問題</p>
+底部有一段程式碼會透過 IdentityDbContext(EFCore) 註冊 &lt;IUserStore, UserOnlyStore&gt;，所以專案使用 EFCore Provider 的話就不會碰到此問題</p>
 <pre><code class="language-text">services.TryAddScoped(typeof(IUserStore&lt;&gt;).MakeGenericType(userType), userStoreType);
 </code></pre>
-<p>但是我們的專案並沒有使用 EFCore，我們就需要實做一個客制的 IUserStore 並且註冊到 DI 內部，先參考一下微軟官方的文檔 <a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-7.0#customize-the-user-store" target="_blank">Customize the user store</a>
-得知 <code>UserStore</code> 是負責處理程式到資料庫的這一段邏輯，所以我們需要建立一個類型並且實現 <code>IUserStore&lt;TUser&gt;</code> 這個界面(底下有許多可選的界面)的方法，程式才能知道要怎麼得到資料庫的資料<br />
-根據上一段的內容我們得知 <code>AddEntityFrameworkStores</code> 實際上會註冊的類型為 UserOnlyStore，可以參考微軟是怎麼實現的 <a href="https://github.com/dotnet/aspnetcore/blob/bec278eabea54f63da15e10e654bdfa4168a2479/src/Identity/EntityFrameworkCore/src/UserOnlyStore.cs#L69" target="_blank">UserOnlyStore</a></p>
-<p>了解背後邏輯後我們可以來實做看看自己的 UserStore，先建立一個 CustomUserStore 並且實現 IUserStore<IdentityUser> 的所有方法
-這邊因為方法很多就只實做兩個方法 CreateAsync FindByNameAsync</p>
+<p>由於我們的專案並沒有使用 EFCore，我們就需要額外實做 IUserStore 並且註冊到 DI 內部，先參考一下微軟官方的文檔 <a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-7.0#customize-the-user-store" target="_blank">Customize the user store</a>
+得知 <code>UserStore</code> 是負責處理程式到資料庫的這一段邏輯，所以我們需要建立一個類型並且實做 <code>IUserStore&lt;TUser&gt;</code> 這個界面(底下有許多可選的界面)，
+這樣 <code>UserManager</code> 才有辦法知道怎麼存取資料庫中的資料。</p>
+<p>根據上一段的內容我們得知 <code>AddEntityFrameworkStores</code> 實際上會註冊 <code>UserStore</code> 或者 <code>UserOnlyStore</code>，可以參考微軟是怎麼實現的 <a href="https://github.com/dotnet/aspnetcore/blob/bec278eabea54f63da15e10e654bdfa4168a2479/src/Identity/EntityFrameworkCore/src/UserOnlyStore.cs#L69" target="_blank">UserOnlyStore</a></p>
+<p>了解背後邏輯後我們可以來實做看看自己的 UserStore，先建立一個 <code>CustomUserStore</code> 並且準備實做 <code>IUserStore&lt;IdentityUser&gt;</code> 介面的所有方法</p>
 <pre><code class="language-text">public class CustomUserStore : IUserStore&lt;IdentityUser&gt;
 {
     public Task&lt;IdentityResult&gt; CreateAsync(IdentityUser user, CancellationToken cancellationToken)
@@ -240,14 +299,8 @@ services.TryAddScoped&lt;UserManager&lt;TUser&gt;&gt;();
     ...
 }
 </code></pre>
-<p>到這邊就要按照自己的需求來選擇安裝的 Driver 例如:</p>
-<ul>
-<li>MSSQL 可以安裝 <code>Microsoft.Data.SqlClient</code></li>
-<li>PostgreSQL 可以安裝 <code>Npgsql</code></li>
-<li>MySQL 可以安裝 <code>MySqlConnector</code></li>
-<li>想要 ORM 可以額外安裝 <code>Dapper</code></li>
-</ul>
-<p>本專案使用 <code>Npgsql</code> 和 <code>Dapper</code></p>
+<hr />
+<p>接下來安裝 <code>Npgsql</code> 和 <code>Dapper</code> Package</p>
 <pre><code class="language-text">dotnet add package Npgsql
 dotnet add package Dapper
 </code></pre>
@@ -277,7 +330,7 @@ CREATE INDEX EmailIndex ON dbo.AspNetUsers (NormalizedEmail);
 
 CREATE UNIQUE INDEX UserNameIndex ON dbo.AspNetUsers (NormalizedUserName);
 </code></pre>
-<p>完成之後回到 <code>CustomUserStore</code> 準備實做 <code>CreateAsync</code> 與 <code>FindByNameAsync</code> 方法</p>
+<p>完成之後回到 <code>CustomUserStore</code> 準備先實做 <code>CreateAsync</code> 與 <code>FindByNameAsync</code> 方法</p>
 <pre><code class="language-csharp">public async Task&lt;IdentityResult&gt; CreateAsync(IdentityUser user, CancellationToken cancellationToken)
 {
     var connString = _configuration.GetSection(&quot;ConnectionStrings&quot;).GetValue&lt;string&gt;(&quot;DefaultConnection&quot;);
@@ -337,11 +390,10 @@ CREATE UNIQUE INDEX UserNameIndex ON dbo.AspNetUsers (NormalizedUserName);
 </code></pre>
 <p>回到 <code>Program.cs</code> 將 <code>CustomUserStore</code> 註冊到 DI 內
 可以使用擴充方法 <code>AddUserStore</code> 也可以自行註冊</p>
-<pre><code class="language-text">builder.Services.AddIdentityCore&lt;IdentityUser&gt;(options =&gt; 
-        options.SignIn.RequireConfirmedAccount = true)
+<pre><code class="language-text">builder.Services.AddIdentityCore&lt;IdentityUser&gt;(options =&gt;  options.SignIn.RequireConfirmedAccount = true)
     .AddUserStore&lt;CustomUserStore&gt;();
 </code></pre>
-<p>這樣就完成了，我們可以建立一個 Controller 來進行測試</p>
+<p>這樣就完成了，我們可以建立一個 Controller 來方便測試</p>
 <pre><code class="language-text">[ApiController]
 [Route(&quot;[controller]&quot;)]
 public class AccountController : ControllerBase
@@ -364,42 +416,70 @@ public class AccountController : ControllerBase
     }
     
     [HttpGet(Name = &quot;GetUser&quot;)]
-    public async Task&lt;IdentityUser&gt; GetUser()
+    public async Task&lt;IdentityUser?&gt; GetUser()
     {
         var userName = &quot;User1&quot;;
         return await _userStore.FindByNameAsync(userName.ToUpper(),CancellationToken.None);
     }
 }
 </code></pre>
-<p>先 Post <code>http://localhost:5204/Account</code> 建立一個 User
-在 Get <code>http://localhost:5204/Account</code> 讀取第一個 User
-有回傳就代表測試成功了</p>
-<pre><code class="language-text">Response body
+<p>最後完整的 <code>Program.cs</code></p>
+<pre><code class="language-text">using IdentityDapper;
+using Microsoft.AspNetCore.Identity;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+builder.Services.AddIdentityCore&lt;IdentityUser&gt;(options =&gt; options.SignIn.RequireConfirmedAccount = true)
+    .AddUserStore&lt;CustomUserStore&gt;();
+
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-  &quot;id&quot;: &quot;cf2e4770-a25d-4486-bfaa-206412cd38e7&quot;,
-  &quot;userName&quot;: &quot;User1&quot;,
-  &quot;normalizedUserName&quot;: &quot;USER1&quot;,
-  &quot;email&quot;: null,
-  &quot;normalizedEmail&quot;: null,
-  &quot;emailConfirmed&quot;: false,
-  &quot;passwordHash&quot;: null,
-  &quot;securityStamp&quot;: &quot;c57c56b7-7ad5-40f1-8608-2a1f72b98a91&quot;,
-  &quot;concurrencyStamp&quot;: &quot;82661e4f-cccf-4b39-a2f9-10c2a04e8662&quot;,
-  &quot;phoneNumber&quot;: null,
-  &quot;phoneNumberConfirmed&quot;: false,
-  &quot;twoFactorEnabled&quot;: false,
-  &quot;lockoutEnd&quot;: null,
-  &quot;lockoutEnabled&quot;: false,
-  &quot;accessFailedCount&quot;: 0
+    app.MapOpenApi();
+}
+
+app.UseHttpsRedirection();
+
+app.MapControllers();
+
+app.Run();
+</code></pre>
+<p>完成後先 Post <code>https://localhost:7057/Account/CreateUser</code> 建立新 User
+在 Get <code>https://localhost:7057/Account/GetUser</code> 讀取，有回傳就代表測試成功了</p>
+<pre><code class="language-text">{
+    &quot;id&quot;: &quot;45d33c72-012f-4f54-b163-2645b5df9f6c&quot;,
+    &quot;userName&quot;: &quot;User1&quot;,
+    &quot;normalizedUserName&quot;: &quot;USER1&quot;,
+    &quot;email&quot;: null,
+    &quot;normalizedEmail&quot;: null,
+    &quot;emailConfirmed&quot;: false,
+    &quot;passwordHash&quot;: null,
+    &quot;securityStamp&quot;: &quot;738435cc-9b65-4b9f-a327-af3085a617d7&quot;,
+    &quot;concurrencyStamp&quot;: &quot;3b80fea7-416d-4fab-94ee-33cd4ce93ed9&quot;,
+    &quot;phoneNumber&quot;: null,
+    &quot;phoneNumberConfirmed&quot;: false,
+    &quot;twoFactorEnabled&quot;: false,
+    &quot;lockoutEnd&quot;: null,
+    &quot;lockoutEnabled&quot;: false,
+    &quot;accessFailedCount&quot;: 0
 }
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>今天初步了解了 dotnet core identity 的基礎，不過使用 UserStore 的方法雖然可行，但是這樣看起來好像沒什麼意義<br />
-跟自己寫一個倉庫的概念是一樣的根本不需要用到 dotnet core identity，這是因為實務上該使用的是各種的 Manager 方法
-例如要註冊一個會員需要先檢查資料庫有沒有同樣名稱的會員，確認沒有才可以插入到資料庫內或者會員登入之前需要經過許多商業邏輯的檢查
-這些邏輯已經都被包在各種的 Manager 方法內部了，之後的文章會在詳細探討</p>
-<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.0" target="_blank">Github</a></p>
+<p>今天初步了解了 .NET Core Identity 的基礎，不過直接使用 UserStore 的方法雖然可行，但是看起來好像沒什麼意義，
+，根本不需要用到 .NET Core Identity，唯一的好處就是實做 <code>IUserStore</code> 介面可以不用自己想方法名稱。</p>
+<p>這是因為實務上不該直接呼叫 <code>IUserStore</code> 而是該使用的是各種的 Manager 方法，.NET Core Identity 的高階方法都是放在
+<code>UserManager&lt;IdentityUser&gt;</code>、<code>SignInManager&lt;IdentityUser&gt;</code> 這種 Manager 裡面，例如密碼驗證、Claims、角色管理等等。</p>
+<p>所以直接使用 IUserStore，等於你得自己額外處理所有商業邏輯。</p>
+<p>例如要註冊一個會員需要先檢查資料庫有沒有同樣名稱的會員，確認沒有才可以插入到資料庫內或者會員登入之前需要經過許多商業邏輯的檢查
+這些邏輯已經都被包在各種的 Manager 方法內部了，之後的文章會在詳細探討。</p>
 
 
         
@@ -436,7 +516,7 @@ public class AccountController : ControllerBase
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-        <p class="copyright">&#xA9; 2024 by Allen Gao</p>
+        <p class="copyright">&#xA9; 2025 by Allen Gao</p>
 
       </div>
     </div>
