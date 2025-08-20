@@ -115,9 +115,13 @@
       2023/04/20
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-claims-authorization">文章</a>
+中學習了 <code>Claim</code> 與 <code>Policy</code> 的基本知識，會員在新增完 <code>Claim</code> 之後可以搭配我們註冊好的 <code>Policy</code> 就能夠避免不符合規定的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
 </div>
 
 
@@ -128,9 +132,13 @@
       2023/04/17
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-cookie-signin">文章</a>
+中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
 現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
 </div>
 
@@ -142,10 +150,14 @@
       2023/04/16
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
-在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-customizing-basic">文章</a>
+我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
+在上一篇的文章中有稍微提到 <code>SignInManager</code> 如名稱所示，我們可以猜到這個 Manager 是負責處理登入這部份的商業邏輯
 閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
 </div>
 
@@ -157,11 +169,15 @@
       2023/04/15
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
-但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 設計就是會將商業邏輯與存取邏輯分開<br>
-所以今天我們來看看 Identity 中常用的 Manager</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-manager" target="_blank">文章</a>中
+實做了 .NET Core Identity 提供的 <code>IUserStore</code> 介面，用來存取資料庫中的資料，
+但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 當初的設計就是將商業邏輯與底層存取功能分開，
+所以我們不該直接使用 <code>IUserStore</code> 而是該使用的是各種的 Manager 方法。</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
 </div>
 
 
@@ -173,7 +189,7 @@
     </a>
 
       <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/20
+        2025/08/19
       </a>
   </p>
 

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;">
+    <meta name="description" content="5.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</title>
 
@@ -96,6 +96,9 @@
                 2023/04/20
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/20
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,46 +117,159 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="net-core-identity-policy-customize">.NET Core Identity Policy Customize</h2>
-<p>在上一篇文章中學習了何謂 <code>Claim</code> 與 <code>Policy</code> 會員在新增完 <code>Claim</code> 之後可以利用我們事先註冊好的 <code>Policy</code> 能夠避免無權限的使用者呼叫機密的 API</p>
-<p>但是在進階的場景，例如：年齡限制或者檢查使用者的性別等需要另外對 <code>Claim</code> 內容進行分辨的邏輯，就需要建立客製化的 <code>Policy</code></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-claims-authorization">文章</a>
+中學習了 <code>Claim</code> 與 <code>Policy</code> 的基本知識，會員在新增完 <code>Claim</code> 之後可以搭配我們註冊好的 <code>Policy</code> 就能夠避免不符合規定的使用者呼叫機密的 API</p>
+<p>但是在進階的場景，例如：年齡限制或者檢查使用者的性別等需要另外對 <code>Claim</code> 內容進行分辨的邏輯，就需要建立客製化的 <code>Policy</code> Provider</p>
 <p>要客製化 <code>Policy</code> 我們先看看官方的範例 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/samples/CustomPolicyProvider" target="_blank">Github</a><br />
-在 <code>Authorization</code> 有建立了四個 <code>Class</code></p>
+在 <code>Authorization</code> 有建立了四個類別</p>
 <ul>
 <li><code>MinimumAgeAuthorizationHandler.cs</code></li>
 <li><code>MinimumAgeAuthorizeAttribute.cs</code></li>
 <li><code>MinimumAgePolicyProvider.cs</code></li>
 <li><code>MinimumAgeRequirement.cs</code></li>
 </ul>
-<p>並且註冊了 <code>MinimumAgePolicyProvider</code> 和 <code>MinimumAgeAuthorizationHandler</code> 生命週期為 <code>Singleton</code></p>
-<pre><code class="language-text">AddSingleton&lt;IAuthorizationPolicyProvider, MinimumAgePolicyProvider&gt;();
-AddSingleton&lt;IAuthorizationHandler, MinimumAgeAuthorizationHandler&gt;();
-</code></pre>
-<p>根據註釋的內容可以得知註冊 <code>MinimumAgePolicyProvider</code> 是用來取代預設注入的 <code>DefaultAuthorizationPolicyProvider</code><br />
-<code>PolicyProvider</code> 會根據傳入的 <code>Policy</code> 名稱註冊相對應的 <code>Policy</code> 到系統內</p>
-<p><code>MinimumAgeAuthorizationHandler</code> 則是負責處理此次授權請求為成功或失敗，並且繼承 <code>AuthorizationHandler&lt;MinimumAgeRequirement&gt;</code>
-當有 API 需要檢查 <code>Policy</code> 有要求檢查 <code>MinimumAgeRequirement</code> 就會來調用 <code>MinimumAgeAuthorizationHandler</code></p>
-<p><code>MinimumAgeAuthorizeAttribute</code> 則是用來設定客製化的授權標籤，可有可無</p>
-<p>接下來我們可以試著建立自己的 <code>Policy</code></p>
-<pre><code class="language-text">mkdir Permissions &amp;&amp; cd $_
-touch MinimumAgeAuthorizationHandler.cs
-touch MinimumAgePolicyProvider.cs
-touch MinimumAgeRequirement.cs
-</code></pre>
-<p>照流程來看首先 <code>MinimumAgePolicyProvider</code> 會收到一個 <code>PolicyName</code> 我們需要註冊一個 <code>Policy</code> 到系統內，我們在上一篇文章有學到如何註冊 <code>Policy</code></p>
-<pre><code class="language-text">//Program.cs
-builder.Services.AddAuthorization(option =&gt;
+<p>首先定義一個新類別實做 <code>IAuthorizationRequirement</code> 介面，之後在使用上只允許傳入 int 代表年齡</p>
+<pre><code class="language-csharp">internal class MinimumAgeRequirement : IAuthorizationRequirement
 {
-    option.AddPolicy(&quot;birthday&quot;, builder =&gt;
-    {
-        builder
-            .RequireAuthenticatedUser()
-            .AddAuthenticationSchemes(IdentityConstants.ApplicationScheme)
-            .RequireClaim(ClaimTypes.DateOfBirth);
-    });
-});
+    public int Age { get; private set; }
+
+    public MinimumAgeRequirement(int age) { Age = age; }
+}
 </code></pre>
-<p>我們也可以手動進行註冊不需要在額外建立 <code>MinimumAgePolicyProvider</code>，這邊我們直接建立一個 <code>Policy</code> 名稱為 <code>MinimumAge18</code><br />
-這邊呼叫 <code>AddRequirements</code> 方法新增一個 <code>MinimumAgeRequirement</code> 傳入一個 <code>Int</code>
+<p>根據下方註釋的內容可以得知 .Net 只允許註冊一個 provider <code>MinimumAgePolicyProvider</code> 所以我們在客製化 provider 的時候要額外提供
+Fallback 的 provider，也就是說現在新的 <code>MinimumAgePolicyProvider</code> 已經取代掉 <code>DefaultAuthorizationPolicyProvider</code> 了，
+所以未來需要特定 <code>Policy</code> 檢查的流程都會跑 <code>MinimumAgePolicyProvider</code> 的 <code>GetPolicyAsync</code>方法。</p>
+<p>目前只有 policyName 為 <code>MinimumAge</code> 時才會進行年齡檢查</p>
+<pre><code class="language-csharp">internal class MinimumAgePolicyProvider : IAuthorizationPolicyProvider
+{
+    const string POLICY_PREFIX = &quot;MinimumAge&quot;;
+    public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
+
+    public MinimumAgePolicyProvider(IOptions&lt;AuthorizationOptions&gt; options)
+    {
+        // ASP.NET Core only uses one authorization policy provider, so if the custom implementation
+        // doesn't handle all policies (including default policies, etc.) it should fall back to an
+        // alternate provider.
+        //
+        // In this sample, a default authorization policy provider (constructed with options from the 
+        // dependency injection container) is used if this custom provider isn't able to handle a given
+        // policy name.
+        //
+        // If a custom policy provider is able to handle all expected policy names then, of course, this
+        // fallback pattern is unnecessary.
+        FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
+    }
+
+    public Task&lt;AuthorizationPolicy&gt; GetDefaultPolicyAsync() =&gt; FallbackPolicyProvider.GetDefaultPolicyAsync();
+
+    public Task&lt;AuthorizationPolicy&gt; GetFallbackPolicyAsync() =&gt; FallbackPolicyProvider.GetFallbackPolicyAsync();
+
+    // Policies are looked up by string name, so expect 'parameters' (like age)
+    // to be embedded in the policy names. This is abstracted away from developers
+    // by the more strongly-typed attributes derived from AuthorizeAttribute
+    // (like [MinimumAgeAuthorize] in this sample)
+    public Task&lt;AuthorizationPolicy&gt; GetPolicyAsync(string policyName)
+    {
+        if (policyName.StartsWith(POLICY_PREFIX, StringComparison.OrdinalIgnoreCase) &amp;&amp;
+            int.TryParse(policyName.Substring(POLICY_PREFIX.Length), out var age))
+        {
+            var policy = new AuthorizationPolicyBuilder();
+            policy.AddRequirements(new MinimumAgeRequirement(age));
+            return Task.FromResult(policy.Build());
+        }
+
+        // If the policy name doesn't match the format expected by this policy provider,
+        // try the fallback provider. If no fallback provider is used, this would return 
+        // Task.FromResult&lt;AuthorizationPolicy&gt;(null) instead.
+        return FallbackPolicyProvider.GetPolicyAsync(policyName);
+    }
+}
+</code></pre>
+<p>根據目前掌握的資訊可以得知 Policy 是靠名稱識別的，所以當我們要帶入參數的時候通常會把參數放在 Policy 名稱裡，例如
+<code>MinimumAge18</code>、<code>MinimumAge21</code>用來表示不同的年齡限制，這時候就可以透過 Attribute 來避免這個問題，
+加入 <code>MinimumAgeAuthorizeAttribute</code> 之後就可以改成 <code>MinimumAgeAuthorize(21)</code> 能讓開發者使用上更方便</p>
+<pre><code class="language-csharp">internal class MinimumAgeAuthorizeAttribute : AuthorizeAttribute
+{
+    const string POLICY_PREFIX = &quot;MinimumAge&quot;;
+
+    public MinimumAgeAuthorizeAttribute(int age) =&gt; Age = age;
+
+    // Get or set the Age property by manipulating the underlying Policy property
+    public int Age
+    {
+        get
+        {
+            if (int.TryParse(Policy.AsSpan(POLICY_PREFIX.Length), out var age))
+            {
+                return age;
+            }
+            return default(int);
+        }
+        set
+        {
+            Policy = $&quot;{POLICY_PREFIX}{value}&quot;;
+        }
+    }
+}
+</code></pre>
+<p>最後是關鍵的 Handler，在上面的 <code>MinimumAgePolicyProvider</code> 運行中會將 <code>MinimumAgeRequirement</code> 添加到 <code>AuthorizationPolicyBuilder</code> 中，
+<code>MinimumAgeAuthorizationHandler</code> 繼承了 <code>AuthorizationHandler&lt;MinimumAgeRequirement&gt;</code> 所以它只會專門處理 MinimumAgeRequirement</p>
+<p>接下來讀取會員的 <code>ClaimTypes.DateOfBirth</code> 取得目前會員的生日，並且只有 <code>age &gt;= requirement.Age</code> 才會回傳成功</p>
+<pre><code class="language-csharp">internal class MinimumAgeAuthorizationHandler : AuthorizationHandler&lt;MinimumAgeRequirement&gt;
+{
+    private readonly ILogger&lt;MinimumAgeAuthorizationHandler&gt; _logger;
+
+    public MinimumAgeAuthorizationHandler(ILogger&lt;MinimumAgeAuthorizationHandler&gt; logger)
+    {
+        _logger = logger;
+    }
+
+    // Check whether a given MinimumAgeRequirement is satisfied or not for a particular context
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, MinimumAgeRequirement requirement)
+    {
+        // Log as a warning so that it's very clear in sample output which authorization policies
+        // (and requirements/handlers) are in use
+        _logger.LogWarning(&quot;Evaluating authorization requirement for age &gt;= {age}&quot;, requirement.Age);
+
+        // Check the user's age
+        var dateOfBirthClaim = context.User.FindFirst(c =&gt; c.Type == ClaimTypes.DateOfBirth);
+        if (dateOfBirthClaim != null)
+        {
+            // If the user has a date of birth claim, check their age
+            var dateOfBirth = Convert.ToDateTime(dateOfBirthClaim.Value, CultureInfo.InvariantCulture);
+            var age = DateTime.Now.Year - dateOfBirth.Year;
+            if (dateOfBirth &gt; DateTime.Now.AddYears(-age))
+            {
+                // Adjust age if the user hasn't had a birthday yet this year
+                age--;
+            }
+
+            // If the user meets the age criterion, mark the authorization requirement succeeded
+            if (age &gt;= requirement.Age)
+            {
+                _logger.LogInformation(&quot;Minimum age authorization requirement {age} satisfied&quot;, requirement.Age);
+                context.Succeed(requirement);
+            }
+            else
+            {
+                _logger.LogInformation(&quot;Current user's DateOfBirth claim ({dateOfBirth}) does not satisfy the minimum age authorization requirement {age}&quot;,
+                    dateOfBirthClaim.Value,
+                    requirement.Age);
+            }
+        }
+        else
+        {
+            _logger.LogInformation(&quot;No DateOfBirth claim present&quot;);
+        }
+
+        return Task.CompletedTask;
+    }
+}
+</code></pre>
+<hr />
+<p>接下來我們可以試著建立自己的 <code>Policy</code>，
+首先手動進行註冊不要額外建立 <code>MinimumAgePolicyProvider</code>，也就是直接註冊一個 <code>Policy</code> 名稱為 <code>MinimumAge18</code>，<br />
+這邊呼叫 <code>AddRequirements</code> 方法新增一個 <code>MinimumAgeRequirement</code> 傳入一個 <code>Int</code> 數值，
 我們之後要建立的 <code>MinimumAgeAuthorizationHandler</code> 會接收這個 <code>Requirements</code> 之後進行處理</p>
 <pre><code class="language-text">//Program.cs
 option.AddPolicy(&quot;MinimumAge18&quot;, builder =&gt;
@@ -176,11 +292,11 @@ public class MinimumAgeAuthorizationHandler : AuthorizationHandler&lt;MinimumAge
         }
 
         DateTime dateOfBirth =Convert.ToDateTime(context.User?.FindFirst(c =&gt; c.Type == ClaimTypes.DateOfBirth)?.Value);
-        
+
         int age = DateTime.Today.Year - dateOfBirth.Year;
         if (dateOfBirth &gt; DateTime.Today.AddYears(-age)) age--;
 
-        if (age &gt; requirement.MinimumAge)
+        if (age &gt; requirement.Age)
         {
             context.Succeed(requirement);
         }
@@ -189,17 +305,22 @@ public class MinimumAgeAuthorizationHandler : AuthorizationHandler&lt;MinimumAge
     }
 }
 </code></pre>
+<p>最後註冊 <code>MinimumAgeAuthorizationHandler</code> 到系統中</p>
 <pre><code class="language-text">//Program.cs
 builder.Services.AddSingleton&lt;IAuthorizationHandler, MinimumAgeAuthorizationHandler&gt;();
 </code></pre>
-<p>這樣基本上就可以用了我們到 <code>WeatherForecastController</code> 進行測試</p>
-<pre><code class="language-text">[Authorize(Policy = &quot;MinimumAge18&quot;)]
-public class WeatherForecastController : ControllerBase
+<p>這種寫法就是最簡易的，下一步到 <code>AccountController</code> 進行測試</p>
+<pre><code class="language-text">[Authorize(policy: &quot;MinimumAge18&quot;)]
+[HttpGet(&quot;GetUser&quot;)]
+public async Task&lt;IdentityUser?&gt; GetUser(string userName)
+{
+    return await _userManager.FindByNameAsync(userName);
+}
 </code></pre>
-<p>我們明確指定說 <code>Policy</code> 要使用 <code>MinimumAge18</code>，使用者需要大於 18 歲 API 才會回傳資料</p>
+<p>這裡明確指定說 <code>Policy</code> 要使用 <code>MinimumAge18</code>，使用者需要大於 18 歲 API 才會回傳資料</p>
 <hr />
 <p>不過這樣使用起來體驗不是很好，我們另外建立 <code>MinimumAgePolicyProvider</code> 與 <code>MinimumAgeAuthorizeAttribute</code> 使用起來會比較方便</p>
-<p>這裡建立了一個新標籤可以傳入一個 <code>Int</code> 因為繼承 <code>AuthorizeAttribute</code> 所以我們可以簡化寫法<br />
+<p>這裡建立了一個 <code>MinimumAgeAuthorizeAttribute</code> 並改成傳入一個 <code>Int</code>，
 原本是<code>[Authorize(Policy = &quot;MinimumAge18&quot;)]</code> 現在可以改成 <code>[MinimumAgeAuthorize(18)]</code> 可讀性比較高</p>
 <pre><code class="language-text">//MinimumAgeAuthorizeAttribute.cs
 public class MinimumAgeAuthorizeAttribute : AuthorizeAttribute
@@ -232,7 +353,7 @@ public class MinimumAgeAuthorizeAttribute : AuthorizeAttribute
 <p>根據 <code>MinimumAgeAuthorizeAttribute</code> 的內容，我們會跟系統要求一個 <code>MinimumAge18</code> 的 <code>Policy</code><br />
 <code>MinimumAgePolicyProvider</code> 會將數字 18 分離出來，最後添加<code>MinimumAgeRequirement(18)</code></p>
 <pre><code class="language-text">//MinimumAgePolicyProvider.cs
-internal class MinimumAgePolicyProvider : IAuthorizationPolicyProvider
+public class MinimumAgePolicyProvider : IAuthorizationPolicyProvider
 {
     const string POLICY_PREFIX = &quot;MinimumAge&quot;;
 
@@ -267,12 +388,15 @@ builder.Services.AddSingleton&lt;IAuthorizationHandler, MinimumAgeAuthorizationH
 </code></pre>
 <p>最後我們到 <code>WeatherForecastController</code> 改用我們剛剛建立的標籤，意思明確許多並且也能達到同樣的結果</p>
 <pre><code class="language-text">[MinimumAgeAuthorize(18)]
-public class WeatherForecastController : ControllerBase
+[HttpGet(&quot;GetUser&quot;)]
+public async Task&lt;IdentityUser?&gt; GetUser(string userName)
+{
+    return await _userManager.FindByNameAsync(userName);
+}
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>今天學習了如何客製化自己的授權邏輯，在某些框架中的授權系統也是使用相同的邏輯來建立出一套複雜的授權系統</p>
-<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.4" target="_blank">Github</a></p>
 
 
         
