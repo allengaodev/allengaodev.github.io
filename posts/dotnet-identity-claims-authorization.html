@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;">
+    <meta name="description" content="4.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</title>
 
@@ -96,6 +96,9 @@
                 2023/04/17
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/20
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,16 +117,9 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="net-core-identity-authorization">.NET Core Identity Authorization</h2>
-<p>在上一篇的文章中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-cookie-signin">文章</a>
+中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
 現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>
-<p>不過我們沒有在專案設定授權相關的功能，那為什麼我們可以在我們專案直接使用 <code>[Authorize]</code> 標籤？<br />
-首先看到底下 <code>WebApplicationBuilder</code> 底下有使用 <code>UseAuthorization</code> 方法，這個是專案建立就有的設定<br />
-在 <code>UseAuthorization</code> 方法裡面有一段特殊的邏輯，會去 DI 檢查是否有注入這個服務 <code>AuthorizationPolicyMarkerService</code> <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authorization/Policy/src/AuthorizationAppBuilderExtensions.cs#L40" target="_blank">Github</a></p>
-<p>這個服務 <code>AuthorizationPolicyMarkerService</code> 很特殊是專門用來檢查的，服務裡面沒有任何內容 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authorization/Policy/src/AuthorizationPolicyMarkerService.cs" target="_blank">Github</a><br />
-目前只有在使用 <code>AddAuthorization</code> 才會註冊這個服務，所以這個服務是用來確保在系統在註冊 <code>AuthorizationMiddleware</code> 之前，強制檢查有沒有先呼叫 <code>AddAuthorization</code> 方法
-不然直接註冊 Middleware 可以會造成錯誤</p>
-<p>不過在我們專案中並沒有呼叫 <code>AddAuthorization</code> 方法，怎麼專案沒有報錯呢？
-是因為我們開頭有使用 <code>AddControllers</code> 方法，此方法內部已經幫我們使用 <code>AddAuthorization</code> 方法，所以我們才有辦法在不用設定的前提下直接使用 <code>[Authorize]</code> 標籤來保護我們的 API</p>
 <p>直接使用 <code>[Authorize]</code> 標籤雖然可以達成我們的需求但是功能比較單一只能進行二分法，也就是只能分成有登入跟沒登入兩種狀態
 要進行更複雜的授權之前那就需要先了解什麼是 <code>Claim</code> 與 <code>Policy</code></p>
 <hr />
@@ -132,10 +128,10 @@
 不過在 .NET Core 中我們可以利用 Claim 的特性來直接實踐這樣的功能，首先我們先到 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Core/src/IUserClaimStore.cs" target="_blank">Github</a> 上看看原始碼<br />
 跟我們之前學習到的 <code>IUserStore</code>界面與 <code>IUserPasswordStore</code> 密碼相關功能的界面類似<br />
 今天我們要看的是 <code>IUserClaimStore</code> 界面，從名稱也可以猜到這是與 Claim 相關的功能界面</p>
-<p>我們選一個 <code>AddClaimsAsync</code> 方法來查看，要使用這個方法需要輸入一個 <code>IdentityUser</code> 與輸入列舉的 <code>Claim</code></p>
+<p>我們選一個 <code>AddClaimsAsync</code> 方法來查看，要使用這個方法需要輸入一個 <code>IdentityUser</code> 與輸入 <code>Claims</code></p>
 <pre><code class="language-text">Task AddClaimsAsync(TUser user, IEnumerable&lt;Claim&gt; claims, CancellationToken cancellationToken);
 </code></pre>
-<p>Claim 內部提供了許多 Constructor，其中最簡單的方式就是輸入兩個 String，分別代表Key:Value</p>
+<p>Claim 類別內部提供了許多 Constructor，其中最簡單的方式就是輸入兩個 String，分別代表Key:Value</p>
 <pre><code class="language-text">public Claim(string type, string value)
 </code></pre>
 <p>拿開頭的生日作為例子，我們可以建立一個生日的 Claim 來紀錄這個會員的生日</p>
@@ -147,8 +143,8 @@
 <pre><code class="language-text">new Claim(ClaimTypes.DateOfBirth, &quot;1995-01-01&quot;, ClaimValueTypes.Date);
 </code></pre>
 <p>有了 Claim 之後現在需要搞懂 <code>AddClaimsAsync</code> 內部是如何把 Claim 跟傳入的 User 連結在一起的
-這邊先參考 EFCore 是怎麼實做的，專案直接使用 EFCore 的可以跳過這一步驟 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/EntityFrameworkCore/src/UserStore.cs#L427" target="_blank">Github</a>
-了解到會先利用我們傳入的 user 與 claim 建立出一個新的類型 TUserClaim</p>
+這邊先參考 EFCore 是怎麼實做的，專案直接使用 EFCore 的可以跳過這一步驟 <a href="https://github.com/dotnet/aspnetcore/blob/177c938deb9f9ef5593d42401682c3ae6feca2d8/src/Identity/Extensions.Stores/src/UserStoreBase.cs#L67" target="_blank">Github</a>
+了解到會先利用我們傳入的 user 取出 <code>UserId</code> 與 claim 建立出一個新的類型 TUserClaim</p>
 <pre><code class="language-text">//UserStoreBase.cs
 protected virtual TUserClaim CreateUserClaim(TUser user, Claim claim)
 {
@@ -164,8 +160,8 @@ public virtual void InitializeFromClaim(Claim claim)
     ClaimValue = claim.Value;
 }
 </code></pre>
-<p>正如我們一直在使用的 <code>IdentityUser</code> Class 這個泛型的 <code>TUserClaim</code> 會繼承另一個預設的 <code>IdentityUserClaim</code> Class，我們先來看看他的內容 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Stores/src/IdentityUserClaim.cs" target="_blank">Github</a><br />
-簡化來看這個 Class 只有四個 Property， 並且會與 <code>IdentityUser</code> 的 Id 關聯</p>
+<p>預設是直接使用 <code>IdentityUserClaim</code> 類別，我們先來看看他的內容 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Stores/src/IdentityUserClaim.cs" target="_blank">Github</a><br />
+簡化來看這個 Class 只有四個 Property， 並且會與 <code>IdentityUser</code> 的 UserId 關聯</p>
 <pre><code class="language-text">int Id
 TKey UserId
 string? ClaimType
@@ -185,10 +181,143 @@ string? ClaimValue
 CREATE INDEX IX_AspNetUserClaims_UserId ON dbo.AspNetUserClaims (UserId);
 </code></pre>
 <p>並且到 <code>CustomUserStore</code> 實做新界面 <code>IUserClaimStore&lt;IdentityUser&gt;</code></p>
-<pre><code class="language-text">Task&lt;IList&lt;Claim&gt;&gt; GetClaimsAsync(TUser user, CancellationToken cancellationToken);
-Task AddClaimsAsync(TUser user, IEnumerable&lt;Claim&gt; claims, CancellationToken cancellationToken);
+<pre><code class="language-text">public async Task&lt;IList&lt;Claim&gt;&gt; GetClaimsAsync(IdentityUser user, CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), $&quot;Parameter {nameof(user)} cannot be null.&quot;);
+    }
+
+    var connString = _configuration.GetSection(&quot;ConnectionStrings&quot;).GetValue&lt;string&gt;(&quot;DefaultConnection&quot;);
+    await using var conn = new NpgsqlConnection(connString);
+    await conn.OpenAsync();
+
+    await using (var sqlConnection = conn)
+    {
+        var command = &quot;SELECT * &quot; +
+                      $&quot;FROM dbo.AspNetUserClaims &quot; +
+                      &quot;WHERE UserId = &#64;UserId;&quot;;
+
+        return (
+                await sqlConnection.QueryAsync&lt;IdentityUserClaim&lt;string&gt;&gt;(command, new { UserId = user.Id })
+            )
+            .Select(e =&gt; new Claim(e.ClaimType, e.ClaimValue))
+            .ToList();
+    }
+}
+
+public async Task AddClaimsAsync(IdentityUser user, IEnumerable&lt;Claim&gt; claims, CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), $&quot;Parameter {nameof(user)} cannot be null.&quot;);
+    }
+
+    if (claims == null)
+    {
+        throw new ArgumentNullException(nameof(claims), $&quot;Parameter {nameof(user)} cannot be null.&quot;);
+    }
+
+    var connString = _configuration.GetSection(&quot;ConnectionStrings&quot;).GetValue&lt;string&gt;(&quot;DefaultConnection&quot;);
+    await using var conn = new NpgsqlConnection(connString);
+    await conn.OpenAsync();
+
+    await using (var sqlConnection = conn)
+    {
+        foreach (var claim in claims)
+        {
+            var insertClaimsCommand = $&quot;INSERT INTO dbo.AspNetUserClaims (UserId, ClaimType, ClaimValue) &quot; +
+                                      &quot;VALUES (&#64;UserId, &#64;ClaimType, &#64;ClaimValue);&quot;;
+
+            await sqlConnection.ExecuteAsync(insertClaimsCommand, new
+            {
+                UserId = user.Id,
+                ClaimType = claim.Type,
+                ClaimValue = claim.Value
+            });
+        }
+    }
+}
 </code></pre>
-<p>最後到 <code>AccountController</code> 新增幾個 controller，負責幫 user 添加新的 claim 與列出 user 擁有的 claim</p>
+<p>因為 <code>AddClaimsAsync</code> 最後會更新會員所以我們也將之前沒實做的 <code>UpdateAsync</code> 也補上</p>
+<pre><code class="language-csharp">public async Task&lt;IdentityResult&gt; UpdateAsync(IdentityUser user, CancellationToken cancellationToken)
+{
+    cancellationToken.ThrowIfCancellationRequested();
+    if (user == null)
+    {
+        throw new ArgumentNullException(nameof(user), $&quot;Parameter {nameof(user)} cannot be null.&quot;);
+    }
+
+    user.ConcurrencyStamp = Guid.NewGuid().ToString();
+
+    var connString = _configuration.GetSection(&quot;ConnectionStrings&quot;).GetValue&lt;string&gt;(&quot;DefaultConnection&quot;);
+    await using var conn = new NpgsqlConnection(connString);
+    await conn.OpenAsync();
+
+    await using (var sqlConnection = conn)
+    {
+        var updateUserCommand =
+            $&quot;UPDATE dbo.AspNetUsers &quot; +
+            &quot;SET UserName = &#64;UserName, NormalizedUserName = &#64;NormalizedUserName, Email = &#64;Email, NormalizedEmail = &#64;NormalizedEmail, EmailConfirmed = &#64;EmailConfirmed, &quot; +
+            &quot;PasswordHash = &#64;PasswordHash, SecurityStamp = &#64;SecurityStamp, ConcurrencyStamp = &#64;ConcurrencyStamp, PhoneNumber = &#64;PhoneNumber, &quot; +
+            &quot;PhoneNumberConfirmed = &#64;PhoneNumberConfirmed, TwoFactorEnabled = &#64;TwoFactorEnabled, LockoutEnd = &#64;LockoutEnd, LockoutEnabled = &#64;LockoutEnabled, &quot; +
+            &quot;AccessFailedCount = &#64;AccessFailedCount &quot; +
+            &quot;WHERE Id = &#64;Id;&quot;;
+
+        await using var transaction = await sqlConnection.BeginTransactionAsync();
+        await sqlConnection.ExecuteAsync(updateUserCommand, new
+        {
+            user.UserName,
+            user.NormalizedUserName,
+            user.Email,
+            user.NormalizedEmail,
+            user.EmailConfirmed,
+            user.PasswordHash,
+            user.SecurityStamp,
+            user.ConcurrencyStamp,
+            user.PhoneNumber,
+            user.PhoneNumberConfirmed,
+            user.TwoFactorEnabled,
+            user.LockoutEnd,
+            user.LockoutEnabled,
+            user.AccessFailedCount,
+            user.Id
+        }, transaction);
+
+        try
+        {
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            try
+            {
+                await transaction.RollbackAsync();
+            }
+            catch
+            {
+                return IdentityResult.Failed(new IdentityError
+                {
+                    Code = nameof(UpdateAsync),
+                    Description =
+                        $&quot;User with email {user.Email} could not be updated. Operation could not be rolled back.&quot;
+                });
+            }
+
+            return IdentityResult.Failed(new IdentityError
+            {
+                Code = nameof(UpdateAsync),
+                Description = $&quot;User with email {user.Email} could not be updated. Operation was rolled back.&quot;
+            });
+        }
+    }
+
+    return IdentityResult.Success;
+}
+</code></pre>
+<p>最後回到 <code>AccountController</code> 新增幾個 controller，負責幫 user 添加新的 claim 與列出 user 擁有的 claim</p>
 <pre><code class="language-text">HttpGet(template: &quot;~/addClaim&quot;, Name = &quot;AddClaim&quot;)]
 public async Task&lt;IdentityResult&gt; AddClaim()
 {
@@ -218,20 +347,34 @@ public string ListHttpContextClaim()
     return JsonSerializer.Serialize(simpleClaims);
 }
 </code></pre>
-<p>完成之後我們需要先使用 <code>AddClaim</code> 方法內部會利用 <code>UserManager</code> 的 <code>AddClaimAsync</code> 方法會幫 User1 添加新的 Claim
-添加之後使用 <code>ListClaim</code> 方法內部會利用 <code>UserManager</code> 的 <code>GetClaimsAsync</code> 列出 User1 擁有的 Claim
-比較特別的是 <code>ListHttpContextClaim</code> 方法，內部會利用 HttpContext 取得目前登入 User 身上的 Claim，這是因為使用 signInManager 登入時內部會幫忙把 Claim 添加回 HttpContext</p>
+<p>完成之後我們需要先呼叫 <code>AddClaim</code> 方法，它內部會利用 <code>UserManager</code> 的 <code>AddClaimAsync</code> 方法會幫 User 添加上新的 Claim</p>
+<p>添加之後使用 <code>ListClaim</code> 方法，內部利用 <code>UserManager</code> 的 <code>GetClaimsAsync</code> 列出 User 擁有的 Claim，下面回傳的 type
+<code>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth</code> 就是規範的生日類型</p>
+<pre><code class="language-text">[
+    {
+        &quot;issuer&quot;: &quot;LOCAL AUTHORITY&quot;,
+        &quot;originalIssuer&quot;: &quot;LOCAL AUTHORITY&quot;,
+        &quot;properties&quot;: {},
+        &quot;subject&quot;: null,
+        &quot;type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth&quot;,
+        &quot;value&quot;: &quot;1995-01-01&quot;,
+        &quot;valueType&quot;: &quot;http://www.w3.org/2001/XMLSchema#string&quot;
+    }
+]
+</code></pre>
+<p>比較特別的是 <code>ListHttpContextClaim</code> 方法，內部會利用 HttpContext 取得目前登入 User 身上的 Claim，
+這是因為使用 signInManager 登入時內部會幫忙把 Claim 添加回 HttpContext，這樣我們就不用每次檢查權限時連回資料庫</p>
 <pre><code class="language-text">[
   {
     &quot;claim&quot;: {
       &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier&quot;,
-      &quot;Value&quot;: &quot;14da945b-0a45-4240-947b-606b480fc6c2&quot;
+      &quot;Value&quot;: &quot;5ad20e10-554d-45c4-842a-30e6ba4f65d7&quot;
     }
   },
   {
     &quot;claim&quot;: {
       &quot;Type&quot;: &quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name&quot;,
-      &quot;Value&quot;: &quot;User1&quot;
+      &quot;Value&quot;: &quot;user3&quot;
     }
   },
   {
@@ -250,14 +393,14 @@ public string ListHttpContextClaim()
 </code></pre>
 <hr />
 <h2 id="policy">Policy</h2>
-<p>有了 Claim 之後並不能夠給授權系統使用我們還需要搭配 Policy 才能使用
-Policy 主要是一組限制規則，例如我們可以建立一個 Policy 要求好幾個規則</p>
+<p>Claim 只是用來綁定會員相關的資料，要在授權過程中驗證這些資料還需要搭配 Policy 才能使用，
+Policy 主要是多個規則所組成，例如我們可以建立一個 Policy 要求符合下面這幾個規則</p>
 <ul>
 <li>會員需要通過驗證</li>
 <li>驗證的規則限定為 Cookie 驗證</li>
 <li>需要擁有 <code>DateOfBirth</code> Claim</li>
 </ul>
-<p>回到 Program 註冊新的 Policy</p>
+<p>回到 <code>Program.cs</code> 註冊新的 Policy</p>
 <pre><code class="language-text">builder.Services.AddAuthorization(option =&gt;
 {
     option.AddPolicy(&quot;birthday&quot;, builder =&gt;
@@ -269,17 +412,18 @@ Policy 主要是一組限制規則，例如我們可以建立一個 Policy 要�
     });
 });
 </code></pre>
-<p>完成後我們就能夠使用 <code>[Authorize]</code> 標籤指定要使用的 Policy 就會要求 Controller 需要符合我們的規則</p>
+<p>完成後我們就能夠使用 <code>[Authorize]</code> 標籤指定要使用的 Policy 就會要求 GetUser 需要符合我們的規則</p>
 <pre><code class="language-text">[Authorize(policy: &quot;birthday&quot;)]
-[ApiController]
-[Route(&quot;[controller]&quot;)]
-public class WeatherForecastController : ControllerBase
+[HttpGet(&quot;GetUser&quot;)]
+public async Task&lt;IdentityUser?&gt; GetUser(string userName)
+{
+    return await _userManager.FindByNameAsync(userName);
+}
 </code></pre>
-<p>如果條件都符合的話 API 才能正常回傳，否則會回傳 404</p>
+<p>如果目前登入的會員所有條件都符合的話 API 才能正常回傳，否則會回傳錯誤</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>今天學習到了更進階的授權規則，Claim 這個概念之後在使用 JWT 時會常常提到，之後的文章會在討論</p>
-<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.3" target="_blank">Github</a></p>
+<p>今天學習到了更進階的授權規則，Claim 這個概念之後在使用 JWT 時會常常提到，之後的文章詳細討論</p>
 
 
         

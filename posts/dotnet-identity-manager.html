@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;">
+    <meta name="description" content="2.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</title>
 
@@ -96,6 +96,9 @@
                 2023/04/15
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/20
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,21 +117,23 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="net-core-identity-manager">.NET Core Identity Manager</h2>
-<p>在上一篇的文章中我們學習到了 .NET Core Identity 中底層的組件 Store，負責取得 Database 資料的操作邏輯
-但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 設計就是會將商業邏輯與存取邏輯分開<br />
-所以今天我們來看看 Identity 中常用的 Manager</p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-manager" target="_blank">文章</a>中
+實做了 .NET Core Identity 提供的 <code>IUserStore</code> 介面，用來存取資料庫中的資料，
+但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 當初的設計就是將商業邏輯與底層存取功能分開，
+所以我們不該直接使用 <code>IUserStore</code> 而是該使用的是各種的 Manager 方法。</p>
+<p>我們來看看 Identity 中常用的 Manager:</p>
 <ul>
 <li>SignInManager</li>
 <li>UserManager</li>
 <li>RoleManager</li>
 </ul>
 <p>首先我們先看看 <code>UserManager</code> 的原始碼 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Extensions.Core/src/UserManager.cs" target="_blank">Github</a>
-會發現 <code>UserManager</code> 之中有注入 <code>IUserStore&lt;TUser&gt;</code>，代表它跟我們上一篇文章建立的 Controller 一樣有能力透過 Store 去存取資料庫的資料
-同樣發現也有兩個方法 <code>CreateAsync</code> <code>FindByNameAsync</code>，在上一篇的文章中有建立一個 <code>AccountController</code> 並且注入 IUserStore<IdentityUser>
-然後使用 <code>_userStore</code> 存取資料，但是發現這樣離現實中的應用還很遠，我們要在新增會員前做其他額外的檢查確認無誤後才可以安心的插入資料<br />
-一般來說沒有使用 .NET Core Identity 就必須自己實踐這一段的商業邏輯，不過沒有經驗的開發人員可能會寫出有漏洞的程式碼<br />
-畢竟是整個系統之中最重要的認證與授權的，這時我們就可以直接使用 .NET Core Identity 幫我們準備的 UserManager 即可獲得一段穩固的程式邏輯</p>
-<p>我們先來看看 <code>FindByNameAsync</code> 方法 <a href="https://github.com/dotnet/aspnetcore/blob/8968058c9e5fdfdd1242426a03dc80609997edab/src/Identity/Extensions.Core/src/UserManager.cs#L528" target="_blank">Github</a></p>
+會發現 <code>UserManager</code> 之中有注入 <code>IUserStore&lt;TUser&gt;</code>，在上一篇的文章中建立一個 <code>AccountController</code> 並且註冊了 <code>IUserStore&lt;IdentityUser&gt;</code> 介面，
+然後使用 <code>_userStore</code> 存取資料。</p>
+<p>但是在實務中，我們應該要在新增會員前做其他額外的檢查，例如確認帳號是否已經存在、密碼是否符合要求等等，需要額外確認後才插入到資料中，<br />
+沒有使用 .NET Core Identity 就必須自己實踐這一段的商業邏輯，由於認證與授權是整個系統之中最重要也最基本的功能，
+並且沒有經驗的開發人員也可能會寫出有漏洞的程式碼，這時就可以直接使用 .NET Core Identity 中的 <code>UserManager</code> 準備的商業邏輯。</p>
+<p>我們先來看看 <code>FindByNameAsync</code> 方法 <a href="https://github.com/dotnet/aspnetcore/blob/b008470392a1ce4fc93dd437344bb78699e3685d/src/Identity/Extensions.Core/src/UserManager.cs#L594" target="_blank">Github</a></p>
 <pre><code class="language-csharp">public virtual async Task&lt;TUser?&gt; FindByNameAsync(string userName)
 {
     ThrowIfDisposed();
@@ -140,8 +145,8 @@
     // Need to potentially check all keys
     if (user == null &amp;&amp; Options.Stores.ProtectPersonalData)
     {
-        var keyRing = _services.GetService&lt;ILookupProtectorKeyRing&gt;();
-        var protector = _services.GetService&lt;ILookupProtector&gt;();
+        var keyRing = ServiceProvider.GetService&lt;ILookupProtectorKeyRing&gt;();
+        var protector = ServiceProvider.GetService&lt;ILookupProtector&gt;();
         if (keyRing != null &amp;&amp; protector != null)
         {
             foreach (var key in keyRing.GetAllKeyIds())
@@ -158,24 +163,15 @@
     return user;
 }
 </code></pre>
-<p>會發現這段 <code>FindByNameAsync</code> 方法會利用輸入的會員名稱進行搜尋並且內部會多了額外的檢查邏輯</p>
+<p>會發現 <code>UserManager</code> 的 <code>FindByNameAsync</code> 方法會除了將輸入的會員名稱進行搜尋還額外新增了其它檢查邏輯</p>
 <ol>
-<li>檢查目前這個實例是否已經被標注 _disposed = true</li>
-<li>檢查傳入的 userName 是否為空</li>
+<li>檢查傳入的 userName 是否為空，空值就拋出錯誤</li>
 <li>將 userName 正規化 (透過注入的 ILookupNormalizer 決定要全部轉成大寫或全部小寫)</li>
-<li>透過 Store 的 <code>FindByNameAsync</code> 方法取得 User (會使用自己建立的 <code>CustomUserStore</code> 的 <code>FindByNameAsync</code>)</li>
-<li>確認系統有沒有開啟 ProtectPersonalData，如果有的話要先去 KeyRing 取得密鑰在對 userName 進行加密後查詢 (因為資料庫的 userName 是加密過的直接用明文查詢會查不到)</li>
+<li>透過 Store 的 <code>FindByNameAsync</code> 方法取得 User (會使用之前建立的 <code>CustomUserStore</code> 的 <code>FindByNameAsync</code> 方法)</li>
+<li>確認系統有沒有開啟 ProtectPersonalData 加密，如果有的話要先去 KeyRing 取得密鑰在對 userName 進行加密後查詢 (因為資料庫的 userName 是加密過的直接用明文查詢會查不到)</li>
 <li>回傳查到的 User 或 Null</li>
 </ol>
-<p>了解 Store 與 manager 的差別之後回到我們的專案對 Controller 進行改寫，額外註入 <code>UserManager</code></p>
-<pre><code class="language-csharp">[HttpGet(Name = &quot;GetUser&quot;)]
-public async Task&lt;IdentityUser&gt; GetUser()
-{
-    var userName = &quot;User1&quot;;
-    return await _userManager.FindByNameAsync(userName);
-}
-</code></pre>
-<p>另外來看一下 <code>UserManager</code> 的 <code>CreateAsync</code> 方法</p>
+<p>另外看一下 <code>CreateAsync</code> 方法</p>
 <pre><code class="language-csharp">public virtual async Task&lt;IdentityResult&gt; CreateAsync(TUser user)
 {
     ThrowIfDisposed();
@@ -196,14 +192,14 @@ public async Task&lt;IdentityUser&gt; GetUser()
 }
 </code></pre>
 <ol>
-<li>檢查目前這個實例是否已經被標注 _disposed = true</li>
 <li>如果 Store 有實現 IUserSecurityStampStore 界面就利用 store 的 SetSecurityStampAsync 方法更新 User 的 SecurityStamp</li>
 <li>呼叫 ValidateUserAsync 方法，內部會根據註冊的 UserValidators 進行基本的帳號不重複檢查或 Email不重複檢查</li>
 <li>檢查系統設定是否有開啟 UserLockout(登入錯誤次數過多自動鎖定)</li>
 <li>利用 Store 的 SetNormalizedUserNameAsync 方法更新 User 的 NormalizedUserName</li>
 <li>如果 Store 有實現 IUserEmailStore 界面就利用 store 的 SetNormalizedEmailAsync 方法更新 User 的 NormalizedEmail</li>
 </ol>
-<p><code>CreateAsync</code> 跟 <code>FindByNameAsync</code> 相比之下額外利用幾個 Store 方法，目前還沒有實現所以需要先回到 <code>CustomUserStore</code> 實現這幾個方法</p>
+<hr />
+<p>看玩 <code>CreateAsync</code> 跟 <code>FindByNameAsync</code> 它們的內部商業邏輯後發現還有幾個 Store 方法目前還沒有實做所以需要先回到 <code>CustomUserStore</code> 實做這幾個方法</p>
 <ul>
 <li>GetUserIdAsync</li>
 <li>GetUserNameAsync</li>
@@ -243,35 +239,52 @@ public Task SetNormalizedUserNameAsync(
     return Task.CompletedTask;
 }
 </code></pre>
-<p>完成之後回到 Controller 修改 CreateUser 方法</p>
-<pre><code class="language-csharp">[HttpPost(Name = &quot;CreateUser&quot;)]
-public async Task&lt;IdentityResult&gt; CreateUser()
+<p>完成之後準備修改 <code>AccountController</code>，從原本的 <code>IUserStore</code> 改成註冊 <code>UserManager</code>，因為 UserManager 內部會自行處理帳號大小寫問題
+所以自己就不用額外處理了。</p>
+<pre><code class="language-csharp">[ApiController]
+[Route(&quot;[controller]&quot;)]
+public class AccountController : ControllerBase
 {
-    var userName = &quot;User1&quot;;
-    var identityUser = new IdentityUser(userName);
-    return await _userManager.CreateAsync(identityUser);
+    private readonly UserManager&lt;IdentityUser&gt; _userManager;
+    public AccountController(UserManager&lt;IdentityUser&gt; userManager)
+    {
+        _userManager = userManager;
+    }
+
+    [HttpPost(&quot;CreateUser&quot;)]
+    public async Task&lt;IdentityResult&gt; CreateUser(string userName)
+    {
+        var identityUser = new IdentityUser(userName);
+        return await _userManager.CreateAsync(identityUser);
+    }
+
+    [HttpGet(&quot;GetUser&quot;)]
+    public async Task&lt;IdentityUser?&gt; GetUser(string userName)
+    {
+        return await _userManager.FindByNameAsync(userName);
+    }
 }
 </code></pre>
-<p>接下來就可以進行測試了，先 Post <code>http://localhost:5204/Account</code> 建立一個新的會員，這邊因為沒有實現 IUserSecurityStampStore 與 IUserEmailStore
-所以會略過這部份的設定，不過 NormalizedUserName 還是會進行賦值，建立完成後在 Get <code>http://localhost:5204/Account</code> 取得資料庫的會員，發現 NormalizedUserName 有確實更新到資料庫內</p>
-<p>如果再次 Post <code>http://localhost:5204/Account</code> 會回傳錯誤結果提示 Username 重複了</p>
+<p>接下來就可以進行測試，先 Post <code>https://localhost:7057/Account/CreateUser?userName=user2</code> 建立一個新的會員 <code>user2</code>，
+由於沒有實現 IUserSecurityStampStore 與 IUserEmailStore 所以會略過這部份的設定。</p>
+<p>建立完成後 Get <code>https://localhost:7057/Account/GetUser?userName=user2</code> 取得資料庫的會員，發現 NormalizedUserName 有確實更新到資料庫內</p>
+<p>如果再次 Post <code>https://localhost:7057/Account/CreateUser?userName=user2</code> 會回傳錯誤結果提示 Username 重複了</p>
 <pre><code class="language-text">{
   &quot;succeeded&quot;: false,
   &quot;errors&quot;: [
     {
       &quot;code&quot;: &quot;DuplicateUserName&quot;,
-      &quot;description&quot;: &quot;Username 'User1' is already taken.&quot;
+      &quot;description&quot;: &quot;Username 'user2' is already taken.&quot;
     }
   ]
 }
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>今天學習了 UserManager 內部的邏輯並且成功改寫我們的 AccountController 將原本的 UserStore 改成 UserManager<br />
-這樣就多了許多保護邏輯讓我們的 Api 不用太多的修改就能有一組可以的邏輯可以使用，但如果還是覺得預設的 UserManager 方法不夠用
+<p>今天學習了 UserManager 中 <code>CreateAsync</code> 跟 <code>FindByNameAsync</code> 內部的邏輯並且成功改寫我們的 AccountController 將原本的 UserStore 改成註冊 UserManager<br />
+這樣就多了許多保護邏輯讓我們的 Api 不用寫額外的程式就能有可靠的商業邏輯可以使用，但如果還是覺得預設的 UserManager 方法不夠用
 我們可以建立另一個 Class 繼承 UserManager， 因為原本的方法都是 virtual 所以可以輕易的用 override 對方法進行改寫加入自己的商業邏輯，客製化程度相當高<br />
-關於 .NET Core Identity 還有許多的功能之後的文章會再進行討論</p>
-<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.1" target="_blank">Github</a></p>
+關於 .NET Core Identity 還有許多的功能之後的文章會再進行討論。</p>
 
 
         

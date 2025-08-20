@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Cookie SignIn">
+    <meta name="description" content="3.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Cookie SignIn">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</title>
 
@@ -96,6 +96,9 @@
                 2023/04/16
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/20
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,20 +117,21 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="net-core-identity-cookie-signin">.NET Core Identity Cookie SignIn</h2>
-<p>至今為止我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
-在上一篇的文章中有提到 <code>SignInManager</code> 如名稱所示，我們可以輕易猜到這個 Manager 是負責處理登入這部份的邏輯
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-customizing-basic">文章</a>
+我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
+在上一篇的文章中有稍微提到 <code>SignInManager</code> 如名稱所示，我們可以猜到這個 Manager 是負責處理登入這部份的商業邏輯
 閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>
 <p>至於該怎麼使用可以先參考 <code>Microsoft.AspNetCore.Identity.UI</code> 這個 Package 之前有提到裡面有預設的 Razor 頁面可以直接供我們參考 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/UI/src/Areas/Identity/Pages/V5/Account/Login.cshtml.cs#L120" target="_blank">Github</a>
 此 Login 頁面中的 <code>OnPostAsync</code> 方法，會在我們按下 Button 後執行</p>
 <ol>
-<li>使用 <code>SignInManager.GetExternalAuthenticationSchemesAsync</code> 檢查系統之中使否有設定第三方登入(Google)</li>
+<li>使用 <code>SignInManager.GetExternalAuthenticationSchemesAsync</code> 檢查系統之中使否有設定第三方登入(Google)，有的話就在底下顯示按鈕</li>
 <li>使用 <code>SignInManager.PasswordSignInAsync</code> 輸入帳號密碼登入</li>
 <li>檢查登入回傳結果與是否有開啟二次驗證</li>
 <li>轉跳回原網址</li>
 </ol>
-<p>得知了 <code>AuthenticationSchemes</code> 這個概念，與<code>SignInManager</code>不只支援一般的帳號密碼登入同時也支援第三方登入
+<p>得知了 <code>SignInManager</code> 不只支援一般的帳號密碼登入同時也支援第三方登入，
 那目前的任務就是查看微軟官方提供了多少種登入方式給我們直接使用，我們可以在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面找到
-發現微軟提供了 <code>Cookies</code>、<code>JwtBearer</code> 等常用的驗證方式，與 Google、Twitter、Facebook之類的外部登入驗證</p>
+發現微軟提供了 <code>Cookies</code>、<code>JwtBearer</code> 等常用的驗證方式，與 Google、Twitter、Facebook 等等外部登入驗證。</p>
 <p>那麼該怎麼告訴系統我們想要使用 <code>Cookies</code> 進行驗證呢？
 先參考 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication/Cookies/samples/CookieSample" target="_blank">Github</a> 上的 Sample 學習一下該如何進行註冊</p>
 <ol>
@@ -135,19 +139,22 @@
 <li>使用 <code>AddCookie</code> 方法設定 Cookie 的過期時間與更新規則</li>
 <li>使用 <code>UseAuthentication</code> 方法指定流程需要使用 AuthenticationMiddleware</li>
 </ol>
-<p>學習後回到我們自己創的專案上手動註冊看看</p>
+<hr />
+<p>學習後回到我們自己的專案上手動註冊試試，為了方便測試這裡把 <code>RequireConfirmedAccount</code> 移除了，否則就需要實做 <code>IUserEmailStore&lt;IdentityUser&gt;</code>
+介面。</p>
 <pre><code class="language-text">builder.Services
     .AddAuthentication()
     .AddCookie(IdentityConstants.ApplicationScheme,options =&gt;
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
     });
-    
+
 builder.Services.AddIdentityCore&lt;IdentityUser&gt;()
     .AddUserStore&lt;CustomUserStore&gt;()
     .AddSignInManager&lt;SignInManager&lt;IdentityUser&gt;&gt;();
     
 app.UseAuthentication();
+app.UseAuthorization();
 </code></pre>
 <p>在 <code>AccountController</code> 添加新方法</p>
 <pre><code class="language-text">[HttpPost(template: &quot;~/signin&quot;, Name = &quot;SignIn&quot;)]
@@ -160,7 +167,7 @@ public async Task&lt;SignInResult&gt; SignIn(string userName, string password)
         false);
 }
 </code></pre>
-<p>在測試之前需要在我們的 <code>CustomUserStore</code> 實現 <code>IUserPasswordStore</code> 界面，使用 EFCore 可以跳過這步驟</p>
+<p>在測試之前需要在我們的 <code>CustomUserStore</code> 實現 <code>IUserPasswordStore</code> 界面，因為 <code>SignInManager</code> 內部需要設定密碼 Hash，使用 EFCore 可以跳過這步驟</p>
 <pre><code class="language-text">public Task SetPasswordHashAsync(IdentityUser user, string? passwordHash, CancellationToken cancellationToken)
 {
     cancellationToken.ThrowIfCancellationRequested();
@@ -196,36 +203,35 @@ public Task&lt;bool&gt; HasPasswordAsync(IdentityUser user, CancellationToken ca
     return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
 }
 </code></pre>
-<p>新增完 CustomStore 之後需要重新建立 User，因為我們之前並沒有實現 <code>IUserPasswordStore</code> 界面，所以 User 並沒有密碼</p>
-<pre><code class="language-text">[HttpPost(Name = &quot;CreateUser&quot;)]
-public async Task&lt;IdentityResult&gt; CreateUser()
+<p>由於之前建立的 User 都是沒有密碼的，所以回到 <code>AccountController</code> 在註冊時加上密碼參數。</p>
+<pre><code class="language-text">[HttpPost(&quot;CreateUser&quot;)]
+public async Task&lt;IdentityResult&gt; CreateUser(string userName, string password)
 {
-    var userName = &quot;User1&quot;;
     var identityUser = new IdentityUser(userName);
-    return await _userManager.CreateAsync(identityUser, &quot;1q2w3E*&quot;);
+    return await _userManager.CreateAsync(identityUser, password);
 }
 </code></pre>
-<p>之後查詢 User 會發現 <code>passwordHash</code> 會自動對密碼加密</p>
-<pre><code class="language-text">Response body
-{
-  &quot;id&quot;: &quot;d319d7eb-140a-4958-bb0a-cd619b400942&quot;,
-  &quot;userName&quot;: &quot;User1&quot;,
-  &quot;normalizedUserName&quot;: &quot;USER1&quot;,
-  &quot;email&quot;: null,
-  &quot;normalizedEmail&quot;: null,
-  &quot;emailConfirmed&quot;: false,
-  &quot;passwordHash&quot;: &quot;AQAAAAIAAYagAAAAEKEMP1C8dEb0bw19IUkDjNDnLB3ZhE2ByhWIrLIDV1RraByQ+JPRG0+nrhNiVCCPzg==&quot;,
-  &quot;securityStamp&quot;: &quot;0a442f54-5f5f-48df-8a3b-9da39621a565&quot;,
-  &quot;concurrencyStamp&quot;: &quot;0929275f-0180-44f9-9946-6a104e44d90c&quot;,
-  &quot;phoneNumber&quot;: null,
-  &quot;phoneNumberConfirmed&quot;: false,
-  &quot;twoFactorEnabled&quot;: false,
-  &quot;lockoutEnd&quot;: null,
-  &quot;lockoutEnabled&quot;: false,
-  &quot;accessFailedCount&quot;: 0
+<p>接下來 Post <code>https://localhost:7057/Account/CreateUser?userName=user3&amp;password=1q2w3E*</code> 建立 <code>user3</code> 會員</p>
+<p>查詢會發現 <code>passwordHash</code> 會在 <code>UserManager.CreateAsync</code> 執行的時候幫你設定好</p>
+<pre><code class="language-text">{
+    &quot;id&quot;: &quot;5ad20e10-554d-45c4-842a-30e6ba4f65d7&quot;,
+    &quot;userName&quot;: &quot;user3&quot;,
+    &quot;normalizedUserName&quot;: &quot;USER3&quot;,
+    &quot;email&quot;: null,
+    &quot;normalizedEmail&quot;: null,
+    &quot;emailConfirmed&quot;: false,
+    &quot;passwordHash&quot;: &quot;AQAAAAIAAYagAAAAEH0wEDNdxTqAnamzFKBRjW1fXrJxDeRMQnDnFVdcnoffz/uoeodhXosLAcFQtqRFGw==&quot;,
+    &quot;securityStamp&quot;: &quot;c22286d1-d45d-44fa-a76b-159771fe5d09&quot;,
+    &quot;concurrencyStamp&quot;: &quot;31c7bd93-4877-4fd6-aa6d-d839700817cf&quot;,
+    &quot;phoneNumber&quot;: null,
+    &quot;phoneNumberConfirmed&quot;: false,
+    &quot;twoFactorEnabled&quot;: false,
+    &quot;lockoutEnd&quot;: null,
+    &quot;lockoutEnabled&quot;: false,
+    &quot;accessFailedCount&quot;: 0
 }
 </code></pre>
-<p>完成之後使用我們新的 API 並且輸入帳號密碼，執行後會回傳以下內容</p>
+<p>完成之後 Post 新的 API <code>https://localhost:7057/Account/SignIn?userName=user3&amp;password=1q2w3E*</code> 進行登入，執行後會回傳以下內容</p>
 <pre><code class="language-text">Response body
 {
   &quot;succeeded&quot;: true,
@@ -235,18 +241,20 @@ public async Task&lt;IdentityResult&gt; CreateUser()
 }
 </code></pre>
 <p>看到 &quot;succeeded&quot;: true 就代表登入成功了，此時可以檢查瀏覽器的 Cookie<br />
-域名底下會發現多了一個 Cookie <code>.AspNetCore.Identity.Application</code>
-我們在 <code>WeatherForecastController</code> 新增驗證，需要登入才可以使用此API</p>
+localhost 域名底下會發現多了一個 Cookie <code>.AspNetCore.Identity.Application</code>，這個 Cookie 就是 dotnet 預設的登入 Cookie 名稱</p>
+<p>我們在 <code>GetUser</code> 方法新增驗證，代表需要登入才能取得會員詳細資訊</p>
 <pre><code class="language-text">[Authorize]
-[ApiController]
-[Route(&quot;[controller]&quot;)]
-public class WeatherForecastController : ControllerBase
+[HttpGet(&quot;GetUser&quot;)]
+public async Task&lt;IdentityUser?&gt; GetUser(string userName)
+{
+    return await _userManager.FindByNameAsync(userName);
+}
 </code></pre>
+<p>會發現沒登入直接呼叫會回傳錯誤，只有先登入後呼叫查詢才會正常回傳資訊</p>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>今天學習了 <code>SignInManager</code> 與使用 Cookie 來進行登入驗證，並且知道微軟已經內建提供了許多登入方式(Schema)
-之後的文章會繼續試試看 JWT 或者第三方登入</p>
-<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.2" target="_blank">Github</a></p>
+之後的文章會繼續試試看 JWT 或者第三方登入。</p>
 
 
         
