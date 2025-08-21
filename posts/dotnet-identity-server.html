@@ -96,6 +96,9 @@
                 2023/05/03
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/21
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -116,24 +119,26 @@
         <h2 id="identity-server">Identity Server</h2>
 <p>在上一篇文章有提到要建立自己的 OIDC 伺服器，今天就來看看在 .NET 生態系中經常使用到的 <code>Identity Server</code>
 這篇文章使用的是 <code>Duende.IdentityServer</code> 可以在測試及與開發時免費使用</p>
-<pre><code class="language-text">dotnet new install Duende.IdentityServer.Templates
+<pre><code class="language-text">dotnet new install Duende.Templates
 
 將安裝下列範本套件:
-   Duende.IdentityServer.Templates
+   Duende.Templates
 
-Duende.IdentityServer.Templates (版本 6.2.0) 已安裝，將會以 最新版本 取代。
-Duende.IdentityServer.Templates::6.2.0 已成功解除安裝。
-成功: Duende.IdentityServer.Templates::6.2.0 已安裝下列範本:
-範本名稱                                                    簡短名稱  語言  標記
-----------------------------------------------------------  --------  ----  ------------------
-Duende BFF with JavaScript                                  bffjs     [C#]  Web/IdentityServer
-Duende IdentityServer Empty                                 isempty   [C#]  Web/IdentityServer
-Duende IdentityServer Quickstart UI (UI assets only)        isui      [C#]  Web/IdentityServer
-Duende IdentityServer with ASP.NET Core Identity            isaspid   [C#]  Web/IdentityServer
-Duende IdentityServer with Entity Framework Stores          isef      [C#]  Web/IdentityServer
-Duende IdentityServer with In-Memory Stores and Test Users  isinmem   [C#]  Web/IdentityServer
+成功: Duende.Templates::1.1.1 已安裝下列範本:
+範本名稱                                                    簡短名稱              語言  標記
+----------------------------------------------------------  --------------------  ----  -------------------------
+Duende BFF Host using a Remote API                          duende-bff-remoteapi  [C#]  Web/Duende/BFF
+Duende BFF using a Local API                                duende-bff-localapi   [C#]  Web/Duende/BFF
+Duende BFF with Blazor autorender                           duende-bff-blazor     [C#]  Web/Duende/BFF
+Duende IdentityServer                                       duende-is             [C#]  Web/Duende/IdentityServer
+Duende IdentityServer Empty                                 duende-is-empty       [C#]  Web/Duende/IdentityServer
+Duende IdentityServer Quickstart UI (UI assets only)        duende-is-ui          [C#]  Web/IdentityServer
+Duende IdentityServer Web Client                            duende-webclient      [C#]  Web/Duende/IdentityServer
+Duende IdentityServer with ASP.NET Core Identity            duende-is-aspid       [C#]  Web/Duende/IdentityServer
+Duende IdentityServer with Entity Framework Stores          duende-is-ef          [C#]  Web/Duende/IdentityServer
+Duende IdentityServer with In-Memory Stores and Test Users  duende-is-inmem       [C#]  Web/Duende/IdentityServer
 </code></pre>
-<p target="_blank">接下來我們就照著官方文檔來過一遍 [Doc]https://docs.duendesoftware.com/identityserver/v6/quickstarts/1_client_credentials/)
+<p>接下來我們就照著官方文檔來過一遍 <a href="https://docs.duendesoftware.com/identityserver/quickstarts/1-client-credentials" target="_blank">Doc</a>
 先建立一個 <code>Duende IdentityServer Empty</code> 範本專案並添加到方案內，簡短名稱為 <code>isempty</code></p>
 <pre><code class="language-text">mkdir quickstart
 cd quickstart
@@ -141,7 +146,7 @@ mkdir src
 dotnet new sln -n Quickstart
 
 cd src
-dotnet new isempty -n IdentityServer
+dotnet new duende-is-empty -n IdentityServer
 
 cd ..
 dotnet sln add ./src/IdentityServer/IdentityServer.csproj
@@ -149,22 +154,21 @@ dotnet sln add ./src/IdentityServer/IdentityServer.csproj
 <p>建立完成後打開方案來看看樣板自動建立了什麼東西，這邊列出幾項比較特別的</p>
 <ul>
 <li>IdentityServer 專案安裝了 <code>Duende.IdentityServer</code> Nuget Package</li>
-<li>專案啟動網址預設為 <code>https://localhost:5001</code></li>
 <li><code>Program.cs</code> 內部的設定移動到 <code>HostingExtensions.cs</code> 類似之前的 <code>Startup.cs</code></li>
-<li>呼叫 <code>AddIdentityServer</code> 方法註冊要用到的 Services 到 IServiceCollection</li>
-<li>呼叫 <code>UseIdentityServer</code> 方法註冊要用到的 Middleware 到 IApplicationBuilder</li>
+<li>呼叫 <code>AddIdentityServer</code> 方法註冊要用到的 Services</li>
+<li>呼叫 <code>UseIdentityServer</code> 方法註冊要用到的 Middleware</li>
 <li>新增了一個 static class <code>Config.cs</code> 裡面有三個預設的 Property <code>IdentityResources</code> <code>ApiScopes</code> <code>Clients</code> 在設定 IServiceCollection 會來讀取這些設定值</li>
 </ul>
 <hr />
 <h2 id="oidc-discovery-documents">OIDC Discovery Documents</h2>
 <p>在開始寫程式之前先重新了解一下我們之前專案 <code>IdentityDapper</code> 的登入流程</p>
 <ol>
-<li>呼叫後端 <code>ExternalSignin</code> 方法會執行 HttpContext Challenge 方法並帶著設定的 ClientId和Scope(openid 和 email)與一些設定產生 Google 網址</li>
-<li>瀏覽器將轉跳到我們生成的 Google 授權服務器網址</li>
+<li>呼叫後端 <code>LoginGoogle</code> 方法會執行 Challenge 方法並帶著的 ClientId 和 Scope(openid 和 email) 與一些設定產生 Google 網址</li>
+<li>瀏覽器轉跳到我們生成的 Google 授權服務器網址</li>
 <li>我們會在瀏覽器看到授權頁面如果我們同意就按下確認授權</li>
 <li>Google 授權服務器會帶著 Code 並且轉跳回後端網址</li>
 <li>後端帶著 Code 去 Google Token服務器取得 Access Token 與 ID Token</li>
-<li>轉跳回 <code>ExternalLoginCallback</code> 方法</li>
+<li>轉跳回 <code>GoogleResponse</code> 方法</li>
 </ol>
 <p>首先第一個問題是我們的程式是怎麼知道要去那一台伺服器的，明明當初註冊的時候沒有進行設定也不像之前提到 OAuth 時微軟有幫忙建立 <code>GoogleOptions</code> 來紀錄這些資訊</p>
 <pre><code class="language-text">public GoogleOptions()
@@ -189,10 +193,9 @@ public static readonly string AuthorizationEndpoint = &quot;https://accounts.goo
 public static readonly string TokenEndpoint = &quot;https://oauth2.googleapis.com/token&quot;;
 public static readonly string UserInformationEndpoint = &quot;https://www.googleapis.com/oauth2/v2/userinfo&quot;;
 </code></pre>
-<p>我們現在改註冊的是 OIDC 所以並沒有這些資料，之前有提到 OIDC 只是建立在 OAuth 之上的封裝並且建立了許多規範要大家遵守
-所以針對這個問題 OIDC 也有提出相對應的規範，我們先查看一下當初設定的網址 Authority <code>https://accounts.google.com</code></p>
-<p>這個規範叫做 Discovery Documents 所有符合規範的服務必須提供一個 Endpoint 並且回傳一個 json 設定值用來提供之後驗證流程使用
-要使用這個 Endpoint 我們只需要在網址後面加上 <code>/.well-known/openid-configuration</code> 就能看到相關設定
+<p>我們現在改用 OIDC 方式進行註冊所以並沒有這些資料，之前有提到 OIDC 只是建立在 OAuth 之上的封裝並且建立了許多規範要大家遵守，
+這個規範叫做 Discovery Documents 所有符合規範的服務必須提供一個 Endpoint 並且回傳一個 json 設定值用來提供之後驗證流程使用，
+預設的 Endpoint 路徑是 <code>/.well-known/openid-configuration</code>，
 以 google 為例，我們需要呼叫 <code>https://accounts.google.com/.well-known/openid-configuration</code> 就會回傳以下內容</p>
 <pre><code class="language-text">{
   &quot;issuer&quot;: &quot;https://accounts.google.com&quot;,
@@ -260,13 +263,10 @@ public static readonly string UserInformationEndpoint = &quot;https://www.google
 </code></pre>
 <p>Github 的網址為</p>
 <pre><code class="language-text">https://token.actions.githubusercontent.com/.well-known/openid-configuration
-```'
-
-- - -
-接下來回到我們的專案直接將運行專案並且在瀏覽器輸入 `https://localhost:5001/.well-known/openid-configuration` 看看我們的設定檔有什麼內容
-
-``` text
-{
+</code></pre>
+<hr />
+<p>接下來回到我們的專案直接將運行專案並且在瀏覽器輸入 <code>https://localhost:5001/.well-known/openid-configuration</code> 看看我們的設定檔有什麼內容</p>
+<pre><code class="language-text">{
   &quot;issuer&quot;: &quot;https://localhost:5001&quot;,
   &quot;jwks_uri&quot;: &quot;https://localhost:5001/.well-known/openid-configuration/jwks&quot;,
   &quot;authorization_endpoint&quot;: &quot;https://localhost:5001/connect/authorize&quot;,
@@ -348,7 +348,7 @@ public static readonly string UserInformationEndpoint = &quot;https://www.google
 }
 </code></pre>
 <p>了解基礎知識後我們來進行實做，在我們使用 Google 登入時第一步就是申請一組 <code>ClientId</code> 與 <code>ClientSecrets</code>
-並且新增一組 Scope <code>api1</code> 讓使用者知道我們有什麼服務可以使用，例如在 Google 的 scopes_supported 就有提供 email 可以讓我們申請使用
+並且新增一組 Scope <code>api1</code> 讓使用者知道我們有什麼服務可以使用，例如在 Google 的 scopes_supported 就有提供 email 可以讓我們申請使用，
 不過申請是每個人都可以申請，但是可不可以使用是另一回事所以我們同時在 Client 設定 AllowedScopes 允許這組 ClientId 可以使用 <code>api1</code> 這個服務</p>
 <p>到 <code>Config.cs</code> 新增一組 Client 與 ApiScopes
 ClientId 為 client
@@ -388,27 +388,31 @@ cd ..
 dotnet sln add ./src/Api/Api.csproj
 </code></pre>
 <p>此 API 需要安裝 JwtBearer Package，不使用 cookie</p>
-<pre><code class="language-text">dotnet add ./Api/Api.csproj package Microsoft.AspNetCore.Authentication.JwtBearer
+<pre><code class="language-text">dotnet add ./src/Api/Api.csproj package Microsoft.AspNetCore.Authentication.JwtBearer
 </code></pre>
-<p>到 <code>program.cs</code> 設定 JWT 登入流程</p>
-<pre><code class="language-text">builder.Services.AddAuthentication(&quot;Bearer&quot;)
-    .AddJwtBearer(&quot;Bearer&quot;, options =&gt;
+<p>到 <code>program.cs</code> 設定 JWT 登入流程，並新增新的路由 <code>identity</code></p>
+<pre><code class="language-text">builder.Services.AddAuthentication()
+    .AddJwtBearer(options =&gt;
     {
         options.Authority = &quot;https://localhost:5001&quot;;
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false
-        };
+        options.TokenValidationParameters.ValidateAudience = false;
     });
+    
+builder.Services.AddAuthorization();
+    
+app.MapGet(&quot;identity&quot;, (ClaimsPrincipal user) =&gt; user.Claims.Select(c =&gt; new { c.Type, c.Value }))
+    .RequireAuthorization();
+    
+app.UseAuthentication();
+app.UseAuthorization();
 </code></pre>
 <p>最後建立一個新的 console 專案用來模擬前端請求</p>
 <pre><code class="language-text">dotnet new console -n Client
 cd ..
 dotnet sln add ./src/Client/Client.csproj
 </code></pre>
-<p>安裝 <code>IdentityModel</code> 用來請求新的Token</p>
-<pre><code class="language-text">dotnet add ./src/Client/Client.csproj package IdentityModel
+<p>安裝 <code>Duende.IdentityModel</code> 用來請求新的Token</p>
+<pre><code class="language-text">dotnet add ./src/Client/Client.csproj package Duende.IdentityModel
 </code></pre>
 <p>接下來修改 <code>Program.cs</code> 我們的 console 專案，我們需要先去 IdentityServer 登入取得一組 JWT Token 才可以訪問保護的 API</p>
 <pre><code class="language-text">var client = new HttpClient();
@@ -439,7 +443,7 @@ Console.WriteLine(tokenResponse.AccessToken);
 var apiClient = new HttpClient();
 apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-var response = await apiClient.GetAsync(&quot;https://localhost:6001/identity&quot;);
+var response = await apiClient.GetAsync(&quot;https://localhost:7169/identity&quot;);
 if (!response.IsSuccessStatusCode)
 {
     Console.WriteLine(response.StatusCode);
@@ -494,8 +498,7 @@ i5reHJPeEOMvghvH-Z9LBDRA9WsVf-CDml74fKNHziArYFdopoBHrY8oeVzZlCGtjDfEbnVI82AXVCjD
 <hr />
 <h2 id="summary">Summary</h2>
 <p>今天學習了 Identity Server 最基礎的用法，之後只要統一使用 Identity Server 發行認證 Token，
-我們就可以拿著這個 Token 到處去訪問 API 了，並不需要每個 API 都建立一套授權系統</p>
-<p>完整程式可以到官方Github查看 <a href="https://github.com/DuendeSoftware/Samples/tree/main/IdentityServer/v6/Quickstarts/1_ClientCredentials" target="_blank">Github</a></p>
+我們就可以拿著這個 Token 到處去訪問 API 了，並不需要每個 API 都建立一套授權系統。</p>
 
 
         

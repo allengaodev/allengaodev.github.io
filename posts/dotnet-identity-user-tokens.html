@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens">
+    <meta name="description" content="8.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens</title>
 
@@ -96,6 +96,9 @@
                 2023/04/28
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/21
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -115,7 +118,7 @@
       <div id="content" class="col-md-12">
         <h2 id="net-core-identity-aspnetusertokens">.NET Core Identity AspNetUserTokens</h2>
 <p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
-分別使用到 SignInManager 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>
+分別使用到 <code>SignInManager</code> 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>
 <p>查看原始碼之後發現這兩個方法底層都會使用 SignInOrTwoFactorAsync 方法<br />
 方法內部在執行登入邏輯之前需要先確認帳號是否有開啟二次驗證或者強制跳過二次驗證邏輯</p>
 <p>今天就來看看 .Net Identity 內部是如何實做二次驗證的
@@ -189,7 +192,6 @@ public static IdentityBuilder AddDefaultTokenProviders(this IdentityBuilder buil
 
 builder.Services.AddIdentityCore&lt;IdentityUser&gt;()
     .AddUserStore&lt;CustomUserStore&gt;()
-    .AddSignInManager&lt;SignInManager&lt;IdentityUser&gt;&gt;();
     .AddSignInManager&lt;SignInManager&lt;IdentityUser&gt;&gt;()
     .AddTokenProvider&lt;AuthenticatorTokenProvider&lt;IdentityUser&gt;&gt;(TokenOptions.DefaultAuthenticatorProvider);
 </code></pre>
@@ -286,7 +288,6 @@ requiresTwoFactor 為 true 這時需要彈出輸入頁面給使用者輸入六�
 <h2 id="summary">Summary</h2>
 <p>今天了解了如何使用內建的 2FA 方法，我們也可以使用其他內建的方法例如手機驗證碼與Email 驗證碼
 同樣也會把資料保存在 AspNetUserTokens 這個表，我們可以按照這個邏輯實踐出自己的方法</p>
-<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/releases/tag/1.7" target="_blank">Github</a></p>
 
 
         
