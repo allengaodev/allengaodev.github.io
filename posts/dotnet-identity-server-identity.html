@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server With ASP.NET Core Identity">
+    <meta name="description" content="4.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server With ASP.NET Core Identity">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server With ASP.NET Core Identity</title>
 
@@ -96,6 +96,9 @@
                 2023/05/09
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/22
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,20 +117,25 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="identity-server-with-asp.net-core-identity">Identity Server With ASP.NET Core Identity</h2>
-<p>到目前為止 Identity Server 基礎部份都學習過了最後只剩下會員的添加與管理方式，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
-本系列一開始就有討論過了有需要的可以回去看看</p>
-<p>要在 IdentityServer 使用 ASP.NET Core Identity 可以使用預設的範本 <code>isaspid</code> 來建立專案</p>
+<p>到目前為止 Identity Server 基礎部份都學習過了，但是還缺少會員的添加與管理方式，由於我們之前使用 TestUsers 寫死兩個會員資料，
+在實務中還是要動態新增會員的方式，這時候就可以加入 ASP.NET Core Identity 功能，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
+本系列一開始有討論過了有需要的可以回去看看</p>
+<p>要在 IdentityServer 使用 ASP.NET Core Identity 可以使用預設的範本 <code>duende-is-aspid</code> 來建立專案</p>
 <pre><code class="language-text">範本名稱                                                    簡短名稱  語言  標記
-----------------------------------------------------------  --------  ----  ------------------
-Duende BFF with JavaScript                                  bffjs     [C#]  Web/IdentityServer
-Duende IdentityServer Empty                                 isempty   [C#]  Web/IdentityServer
-Duende IdentityServer Quickstart UI (UI assets only)        isui      [C#]  Web/IdentityServer
-Duende IdentityServer with ASP.NET Core Identity            isaspid   [C#]  Web/IdentityServer
-Duende IdentityServer with Entity Framework Stores          isef      [C#]  Web/IdentityServer
-Duende IdentityServer with In-Memory Stores and Test Users  isinmem   [C#]  Web/IdentityServer
+----------------------------------------------------------  --------------------  ----  -------------------------
+Duende BFF Host using a Remote API                          duende-bff-remoteapi  [C#]  Web/Duende/BFF
+Duende BFF using a Local API                                duende-bff-localapi   [C#]  Web/Duende/BFF
+Duende BFF with Blazor autorender                           duende-bff-blazor     [C#]  Web/Duende/BFF
+Duende IdentityServer                                       duende-is             [C#]  Web/Duende/IdentityServer
+Duende IdentityServer Empty                                 duende-is-empty       [C#]  Web/Duende/IdentityServer
+Duende IdentityServer Quickstart UI (UI assets only)        duende-is-ui          [C#]  Web/IdentityServer
+Duende IdentityServer Web Client                            duende-webclient      [C#]  Web/Duende/IdentityServer
+Duende IdentityServer with ASP.NET Core Identity            duende-is-aspid       [C#]  Web/Duende/IdentityServer
+Duende IdentityServer with Entity Framework Stores          duende-is-ef          [C#]  Web/Duende/IdentityServer
+Duende IdentityServer with In-Memory Stores and Test Users  duende-is-inmem       [C#]  Web/Duende/IdentityServer
 </code></pre>
 <p>先建立一個新專案來看看跟我們目前的專案有什麼區別</p>
-<pre><code class="language-text">dotnet new isaspid -n IdentityServerAspNetIdentity
+<pre><code class="language-text">dotnet new duende-is-aspid -n IdentityServerAspNetIdentity
 cd ..
 dotnet sln add ./src/IdentityServerAspNetIdentity/IdentityServerAspNetIdentity.csproj
 </code></pre>
@@ -160,7 +168,9 @@ public class AppIdentityDbContext : IdentityDbContext&lt;IdentityUser&gt;
 }
 </code></pre>
 <p>將 AppIdentityDbContext 註冊到系統內，並且將 <code>AddTestUsers</code> 替換成 <code>AddAspNetIdentity</code></p>
-<pre><code class="language-text">builder.Services.AddDbContext&lt;AppIdentityDbContext&gt;(options =&gt;
+<pre><code class="language-text">const string connectionIdentity = &#64;&quot;User ID=postgres;Password=myPassw0rd;Host=localhost;Port=5432;Database=IdentityServerIdentity;Pooling=false;&quot;;
+
+builder.Services.AddDbContext&lt;AppIdentityDbContext&gt;(options =&gt;
     options.UseNpgsql(connectionIdentity));
 
 builder.Services.AddIdentity&lt;IdentityUser, IdentityRole&gt;()
