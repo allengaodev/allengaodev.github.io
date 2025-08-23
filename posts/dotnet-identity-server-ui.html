@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI">
+    <meta name="description" content="2.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</title>
 
@@ -96,6 +96,9 @@
                 2023/05/05
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/22
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,22 +117,23 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="identity-server-ui">Identity Server UI</h2>
-<p>在上一篇的文章我們跟著 Identity Server 的官方教學照做了一遍，不過用起來跟 Google 好像不太一樣
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-server" target="_blank">文章</a>中
+我們跟著 Identity Server 的官方教學做了一遍，不過用起來跟 Google 好像不太一樣
 我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>
 <p>因為我們昨天建立的專案為最基礎的專案，所以並沒有把一些 UI 添加進來今天就來試試看幫我們的專案添加 UI</p>
 <p>轉跳到 IdentityServer 專案並且運行命令</p>
 <pre><code class="language-text">cd .\IdentityServer\
-dotnet new isui
+dotnet new duende-is-ui
 </code></pre>
 <p><code>dotnet new isui</code> 只會幫忙添加一些 Razor 頁面以及 css js，並不會建立一個獨立專案
 想要一口氣建立 UI 以及 Server 可以改用以下命令</p>
-<pre><code class="language-text">dotnet new isinmem
+<pre><code class="language-text">dotnet new duende-is-inmem
 </code></pre>
-<p><code>dotnet new isui</code>  運行完成後會在專案底下發現多了兩個資料夾</p>
+<p>運行完成後會在專案底下發現多了兩個資料夾</p>
 <pre><code class="language-text">Pages
 wwwroot
 </code></pre>
-<p>緊接著開啟 <code>HostingExtensions.cs</code> 檔案會發現有幾個之前就存在的註釋
+<p>接著開啟 <code>HostingExtensions.cs</code> 檔案會發現有幾個之前就存在的註釋
 因為 IdentityServer 已經預留好了所以我們這邊只需要將註釋解除即可</p>
 <pre><code class="language-text">// uncomment if you want to add a UI
 builder.Services.AddRazorPages();
@@ -142,8 +146,7 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages().RequireAuthorization();
 </code></pre>
-<p>為了使用 Razor Pages 模板這些都是必要的方法
-MapRazorPages().RequireAuthorization() 方法代表所有 Razor 頁面都需要權限</p>
+<p><code>MapRazorPages().RequireAuthorization()</code> 方法代表所有 Razor 頁面都需要權限</p>
 <hr />
 <h2 id="scope">Scope</h2>
 <p>接下來修改 <code>Config.cs</code> 需要在 IdentityResources 添加新的 Resource</p>
@@ -288,6 +291,7 @@ dotnet sln add ./src/WebClient/WebClient.csproj
 <li><a href="https://blog.allengaodev.com/posts/dotnet-identity-oauth-oidc" target="_blank">oidc</a></li>
 <li><a href="https://blog.allengaodev.com/posts/dotnet-identity-user-logins" target="_blank">user-logins</a></li>
 </ul>
+<p>注意目前並沒有整合 .NET Identity 所以並不需要 IdentityConstants.ExternalScheme 保存三方登入結果</p>
 <pre><code class="language-text">JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddAuthentication(options =&gt;
@@ -314,7 +318,7 @@ builder.Services.AddAuthentication(options =&gt;
 </code></pre>
 <pre><code class="language-text">app.UseAuthentication();
 app.UseAuthorization();
-app.MapRazorPages().RequireAuthorization();;
+app.MapRazorPages().RequireAuthorization();
 </code></pre>
 <p>這邊我們將每個頁面都設定需要權限才能觀看，如果我們打開任何一個頁面會先檢查瀏覽器 Cookie DefaultScheme 看看存不存在
 之後發起 Challenge 也就是這裡設定的 <code>IdentityServerOidc</code> 並且運行 HandleChallengeAsync 將我們的頁面轉跳到 IdentityServer</p>
@@ -356,7 +360,7 @@ app.MapRazorPages().RequireAuthorization();;
 {
     public IActionResult OnGet()
     {
-        return SignOut(&quot;Cookies&quot;, &quot;oidc&quot;);
+        return SignOut(IdentityConstants.ApplicationScheme);
     }
 }
 </code></pre>

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
-    <meta name="description" content="&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;">
+    <meta name="description" content="6.&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;">
 
   <title>&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</title>
 
@@ -96,6 +96,9 @@
                 2023/04/22
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/08/21
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -121,8 +124,8 @@
 <p>接下來在我們專案開啟 UserSecrets 功能,並且添加我們剛剛保存的 Id 跟 Secret</p>
 <pre><code class="language-text">dotnet user-secrets init
 
-dotnet user-secrets set &quot;Authentication:Google:ClientId&quot; &quot;&lt;client-id&gt;&quot;
-dotnet user-secrets set &quot;Authentication:Google:ClientSecret&quot; &quot;&lt;client-secret&gt;&quot;
+dotnet user-secrets set &quot;Authentication:Google:ClientId&quot; &quot;4346799237-028mod96vlqp2lub7e096kjj8jfq273k.apps.googleusercontent.com&quot;
+dotnet user-secrets set &quot;Authentication:Google:ClientSecret&quot; &quot;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&quot;
 </code></pre>
 <p>完成後回到我們的專案添加新的 Google Package</p>
 <pre><code class="language-text">dotnet add package Microsoft.AspNetCore.Authentication.Google
@@ -130,17 +133,19 @@ dotnet user-secrets set &quot;Authentication:Google:ClientSecret&quot; &quot;&lt
 <p>並且到 <code>Program.cs</code> 加入新的 Google 驗證</p>
 <pre><code class="language-text">builder.Services
     .AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddCookie(IdentityConstants.ApplicationScheme,options =&gt;
+    .AddCookie(IdentityConstants.ApplicationScheme, options =&gt;
     {
-        options.ExpireTimeSpan = TimeSpan.FromSeconds(10);
-    }).AddGoogle(IdentityConstants.ExternalScheme,o =&gt;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        options.SlidingExpiration = true;
+    })
+    .AddGoogle(IdentityConstants.ExternalScheme, o =&gt;
     {
-        o.ClientId = configuration[&quot;Authentication:Google:ClientId&quot;];
-        o.ClientSecret = configuration[&quot;Authentication:Google:ClientSecret&quot;];
-    });;
+        o.ClientId = builder.Configuration[&quot;Authentication:Google:ClientId&quot;]!;
+        o.ClientSecret = builder.Configuration[&quot;Authentication:Google:ClientSecret&quot;]!;
+    });
 </code></pre>
 <p>最後到 <code>AccountController.cs</code> 新增一個 Controller</p>
-<pre><code class="language-text">[HttpGet(template: &quot;~/externalSignin&quot;, Name = &quot;ExternalSignin&quot;)]
+<pre><code class="language-text">[HttpGet(&quot;ExternalSignin&quot;)]
 public async Task ExternalSignin()
 {
     await HttpContext.ChallengeAsync(IdentityConstants.ExternalScheme,
@@ -171,10 +176,11 @@ public async Task ExternalSignin()
 這段流程中最重要的是 Google 會傳給你 AccessToken 也叫做 Authentication Code，程式接收到之後會再拿這組 AccessToken 去請求 Google 的資源伺服器
 最後 Google 資源伺服器驗證成功之後才會給我們使用者的私人資料</p>
 <p>到此我們可以得知上面第一個請求 <code>https://accounts.google.com/o/oauth2/v2/auth</code> 是去跟驗證伺服器要一個臨時的通行證，因為有設定 scope
-所以這個通行證的使用範圍會受到限制，並且會請問使用者允不允許提供這些資料給我們的網站，得到允許之後 Google 會帶著 AccessToken 發起我們網站設定的路徑請求
-也就是上面第二個請求 <code>https://localhost:7011/signin-google</code> 因為 AccessToken 只有要求查看 <code>openid profile email</code> 這三個內容並且
-使用者只同意我們網站查看這三份資料的內容，我們最後到資源伺服器也只能拿到三份資料的內容最後 OAuthCreatingTicketContext 會根據資源伺服器給我們的資料
-建立出一個 ClaimsPrincipal 也可以理解成 User 並且設定到 HttpContext 內部，我們就可以認定使用者是登入成功了</p>
+所以這個通行證的使用範圍會受到限制，並且會詢問使用者允不允許提供這些資料給我們的網站，得到允許之後 Google 會帶著 AccessToken 發起我們網站設定的路徑請求
+也就是上面第二個請求 <code>https://localhost:7011/signin-google</code> 。</p>
+<p>因為 AccessToken 只要求查看 <code>openid profile email</code> 這三個內容並且使用者只同意我們網站查看這三份資料的內容，
+我們最後到資源伺服器也只能拿到三份資料的內容最後 OAuthCreatingTicketContext 會根據資源伺服器給我們的資料
+建立出一個 ClaimsPrincipal 也可以理解成 User 並且設定到 HttpContext 內部，我們就可以認定使用者是登入成功了。</p>
 <p>可以使用之前建立的方法來取得 HttpContext 目前登入 User 的 Claim 來驗證看看 <code>https://localhost:7011/listHttpContextClaim</code></p>
 <pre><code class="language-text">[
   {
@@ -214,7 +220,6 @@ public async Task ExternalSignin()
 <p>今天學習了如何使用 OAuth2 來取得外部使用者的資料，不過有一個問題是這個外部使用者跟我們當初呼叫 CreateUser 建立的使用者不太一樣
 因為他並沒有添加到資料庫內部，所以之後有些權限相關的問題可能會造成困擾例如之前建立的年齡驗證，我們的外部使用者因為沒有在資料庫建立 IdentityUser
 所以並沒有辦法添加生日的 Claims，這個問題會在之後解決</p>
-<p>今天的進度 <a href="https://github.com/allengaodev/IdentityDapper/tree/1.5" target="_blank">Github</a></p>
 
 
         
