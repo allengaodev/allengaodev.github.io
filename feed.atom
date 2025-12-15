@@ -7,7 +7,7 @@
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2025 by Allen Gao</rights>
-	<updated>2025-08-22T08:51:32Z</updated>
+	<updated>2025-12-15T10:07:55Z</updated>
 	<logo>https://blog.allengaodev.com/assets/img/101night.avif</logo>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
 	<entry>
@@ -30,7 +30,7 @@
 		</author>
 		<link href="https://blog.allengaodev.com/posts/castle-core-basic" />
 		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
-		<updated>2024-12-14T00:00:00Z</updated>
+		<updated>2025-12-15T00:00:00Z</updated>
 		<content>False</content>
 		<summary>了解 Castle Core 提供的三大功能：Logging、DictionaryAdapter 與 DynamicProxy，包含功能背景、使用案例及非同步攔截器的實作方法，學習實做 AOP。</summary>
 	</entry>

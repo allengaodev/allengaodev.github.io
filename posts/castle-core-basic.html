@@ -96,6 +96,9 @@
                 2024/12/14
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/12/15
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -115,21 +118,19 @@
         <h2 id="castle-core">Castle Core</h2>
 <p><a href="https://github.com/castleproject/Core/tree/master" target="_blank">Castle Core</a>，是 Castle Windsor 團隊開發的核心模組，
 現在這個模組總共提供了三種功能，分別是 <code>Logging</code>、<code>DictionaryAdapter</code>、<code>DynamicProxy</code>。</p>
-<p><br><br></p>
 <hr />
 <h2 id="logging">Logging</h2>
-<p>由於 Castle Core 的 <code>Logging</code> 功能推出的當下微軟還沒有提供類似的日誌功能，所以在早期寫 .net framework 的時候還要安裝額外
-例如 <code>log4net</code>、<code>NLog</code>、<code>Serilog</code> 這種第三方日誌函式庫，不過由於這些函式庫當初並沒有使用共同的抽象方法，導致每套日誌系統都有自己的寫法與設定方式，
-所以當時要切換日誌系統是非常困難的，在這種背景下 Castle Core 的 <code>Logging</code> 功能提供了 ILogger 抽象類型與抽象方法，
-能讓我們在切換日誌系統時更加方便。</p>
+<p>由於 Castle Core 推出 <code>Logging</code> 功能時微軟尚未提供統一的日誌抽象函式庫 <code>Microsoft.Extensions.Logging</code>，
+因為每套日誌系統都有自己的寫法與設定方式，所以 <code>Logging</code> 功能提供了 ILogger 抽象類型與抽象方法，
+讓 <code>log4net</code>、<code>NLog</code>、<code>Serilog</code> 第三方日誌函式庫參考，能讓我們在切換日誌系統時更加方便。</p>
 <p>不過這個功能基本上已經被微軟的 <code>Microsoft.Extensions.Logging</code> 官方函式庫取代了，所以 Castle Core 的 <code>Logging</code> 功能我們有基礎的了解就好，
-現在實務上各家的日誌系統都有提供對應 <code>Microsoft.Extensions.Logging</code> 的 Provider 我們直接使用就好了。</p>
-<p><br><br></p>
+目前主流的日誌函式庫都已提供對應的 Provider，能直接整合到 <code>Microsoft.Extensions.Logging</code>，因此實務上通常直接採用即可。</p>
 <hr />
 <h2 id="dictionaryadapter">DictionaryAdapter</h2>
-<p>這個功能可以建立一個轉接層將弱型別的字典變成強型別，可以用在例如設定檔這種弱型別的資料。</p>
-<p>下面這個範例建立了一個 <code>DictionaryAdapterFactory</code> 並且將 <code>dictionary</code> 與 <code>ISetting</code> 介面建立一個中間層，
-這樣我們就可以直接在執行時期建立強型別的物件。</p>
+<p>DictionaryAdapter 的用途是建立一層轉接機制，將原本弱型別的字典結構對應成強型別介面，
+讓我們可以用物件屬性的方式來存取資料。這個功能適合用在動態結構、事前無法定義型別的資料。</p>
+<p>下面這個範例透過 <code>DictionaryAdapterFactory</code> 將一個 <code>Hashtable</code> 與 <code>ISetting</code> 介面建立關聯，
+這樣我們就可以直接在執行時期建立強型別的物件，不需要自行做型別轉換。</p>
 <pre><code class="language-text">void Main()
 {
 	var dictionary = new Hashtable();
@@ -137,7 +138,7 @@
 	var adapter = factory.GetAdapter&lt;ISetting&gt;(dictionary);
 	dictionary[&quot;Key&quot;] = &quot;123&quot;;
 	Console.WriteLine(adapter.Key);
-	adapter.Key = &quot;456&quot;;
+	adapter.Key = &quot;456&quot;; //直接透過屬性存取
 	Console.WriteLine(adapter.Key);
 }
 
@@ -146,15 +147,15 @@ public interface ISetting
 	string Key { get; set;}
 }
 </code></pre>
-<p>不過 <code>DictionaryAdapter</code> 背後是透過反射的機制來建立物件的，所以真的有需要在執行時期建立強型別的物件才使用這個功能，一般的設定檔功能
-使用微軟官方的 Options Pattern 是比較好的選擇。</p>
-<p><br><br></p>
+<p>不過 <code>DictionaryAdapter</code> 背後是透過反射的機制來建立物件的，因此在效能與型別安全性上都有一定的成本。
+若只是一般的設定管理，可以使用微軟官方的 Options Pattern 也可以將設定檔對應成強型別是比較好的選擇。</p>
 <hr />
 <h3 id="dynamicproxy">DynamicProxy</h3>
-<p>這個功能就比較重要了，主要就是為了實現 AOP 才會安裝 Castle Core 這個函式庫，另外有提供 DynamicProxy 功能的函式庫還有 <code>AspectCore</code>。</p>
-<p>DynamicProxy 主要的功能就是建立一個動態的 Proxy，我們能夠透過這個 Proxy 在程式碼的前後安插額外的程式碼，例如要測試一個方法的執行時間，
-我們就可以透過 DynamicProxy 在不修改想要測試的方法的情況下添加測試的程式碼。</p>
-<p>這種類型的功能都是透過攔截的機制在程式碼的執行前後安插額外的程式碼，在 Castle Core 中我們需要透過實做 <code>IInterceptor</code> 介面來做到攔截的效果。</p>
+<p>DynamicProxy 是 Castle Core 中最常被使用的功能，目的就是實現 AOP (Aspect-Oriented Programming，面向切面程式設計)，
+透過動態產生 Proxy 物件，我們能夠透過這個 Proxy 在程式碼的前後安插額外的程式碼，且不需要修改原本的業務程式碼。</p>
+<p>核心概念是用 Proxy 將目標物件包裹在內部，並且在方法呼叫時進行攔截，所以像是效能量測、日誌紀錄、例外處理，
+這種幾乎每個方法都需要的功能抽取出來，集中放在攔截器中統一管理，最大的優點就是讓商業邏輯與輔助程式碼分開獨立存放，讓程式碼保持乾淨整潔增加可讀性。</p>
+<p>在 Castle Core 的 DynamicProxy 中我們需要透過實做 <code>IInterceptor</code> 介面來做到攔截的效果。</p>
 <p>例如下面這段程式我想要了解執行 <code>SayHello()</code> 方法需要花費多少時間，一般來說就要在呼叫程式碼的地點前後都加上 <code>Stopwatch</code> 並且結束時
 透過 <code>Logger</code> 的方式將結果紀錄到某個日誌系統。</p>
 <pre><code class="language-text">void Main()
@@ -171,7 +172,7 @@ public void SayHello()
 	Thread.Sleep(1000);
 }
 </code></pre>
-<p>下面這段程式我們建立了 <code>TimingInterceptor</code>，其中的 <code>invocation.Proceed()</code> 用途就是執行原本的方法，也就是 <code>SayHello()</code> 方法，
+<p>下面這段程式我們建立了 <code>TimingInterceptor</code>，其中的 <code>invocation.Proceed()</code> 用途就是執行原本的目標方法，也就是 <code>SayHello()</code>，
 之後透過 <code>ProxyGenerator</code> 的 <code>CreateInterfaceProxyWithTarget</code> 方法將 <code>IHello</code> 介面與 <code>TimingInterceptor</code> 綁定成一個 Proxy，
 這樣原本的 <code>SayHello()</code> 就可以保持乾淨，同時又能擴充額外的功能。</p>
 <pre><code class="language-text">void Main()
@@ -179,7 +180,11 @@ public void SayHello()
 	IHello target = new Hello();
 	ProxyGenerator generator = new ProxyGenerator();
 	var timingInterceptor = new TimingInterceptor();
-	var proxy = generator.CreateInterfaceProxyWithTarget(target, timingInterceptor);
+	
+	// 建立 Proxy 將 Hello 類別內的方法包裹在 timingInterceptor 之中
+	var proxy = generator.CreateInterfaceProxyWithTarget(target, timingInterceptor); 
+	
+	// 透過 Proxy 執行方法
 	proxy.SayHello();
 }
 
@@ -203,22 +208,112 @@ public class TimingInterceptor : IInterceptor
 	{
 		var stopwatch = new Stopwatch();
 		stopwatch.Start();
+		invocation.Proceed(); // 開始執行 SayHello 方法
+		stopwatch.Stop();
+		Console.WriteLine(stopwatch.Elapsed);
+	}
+}
+</code></pre>
+<hr />
+<h3 id="section">攔截非同步方法與問題</h3>
+<p>由於非同步程式碼會立即返回，所以原本的計時攔截器會直接結束，所以想要攔截非同步方法需要額外的操作，下方的程式碼就是直接攔截非同步方法。</p>
+<pre><code class="language-text">async Task Main()
+{
+	IHello target = new Hello();
+	ProxyGenerator generator = new ProxyGenerator();
+	var timingInterceptor = new TimingInterceptor();
+	var proxy = generator.CreateInterfaceProxyWithTarget(target, timingInterceptor);
+	await proxy.SayHelloAsync();
+}
+
+public class Hello : IHello
+{
+	public async Task SayHelloAsync()
+	{
+		await Task.Delay(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public Task SayHelloAsync();
+}
+
+public class TimingInterceptor : IInterceptor
+{
+	public void Intercept(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
 		invocation.Proceed();
 		stopwatch.Stop();
 		Console.WriteLine(stopwatch.Elapsed);
 	}
 }
 </code></pre>
-<p>但是 Castle Core 對於攔截非同步方法的寫法與規則並不是很容易了解，所以推薦是使用第三方的 <code>Castle.Core.AsyncInterceptor</code> 函式庫。</p>
-<p>安裝後直接將實做的介面從原本的 <code>IInterceptor</code> 改成 <code>IAsyncInterceptor</code>，需要實做三個方法 <code>InterceptSynchronous</code>、
-<code>InternalInterceptAsynchronous</code>、<code>InternalInterceptAsynchronous&lt;TResult&gt;</code>，代表我們可以在同一個攔截器處理同步與非同步的方法。</p>
-<pre><code class="language-text">void Main()
+<p>因此在攔截非同步方法時建議將回傳的 Task 傳入到 invocation.ReturnValue，</p>
+<p>當執行到 <code>invocation.Proceed()</code> 時會將 <code>SayHelloAsync()</code> 方法回傳的 Task 設定到 invocation.ReturnValue 當中，
+接下來透過 (Task)invocation.ReturnValue 將 Task 取出來並等待完成。</p>
+<pre><code class="language-text">async Task Main()
+{
+	IHello target = new Hello();
+	ProxyGenerator generator = new ProxyGenerator();
+	var timingInterceptor = new TimingInterceptor();
+	var proxy = generator.CreateInterfaceProxyWithTarget(target, timingInterceptor);
+	await proxy.SayHelloAsync();
+}
+
+public class Hello : IHello
+{
+	public async Task SayHelloAsync()
+	{
+		await Task.Delay(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public Task SayHelloAsync();
+}
+
+public class TimingInterceptor : IInterceptor
+{
+	public void Intercept(IInvocation invocation)
+	{
+		invocation.ReturnValue = InterceptAsync(invocation);
+	}
+
+	private async Task InterceptAsync(IInvocation invocation)
+	{
+		var stopwatch = Stopwatch.StartNew();
+		invocation.Proceed(); // 將 SayHelloAsync Task 設定到 invocation.ReturnValue 中
+
+		var task = (Task)invocation.ReturnValue; // 將 Task 取出
+		await task.ConfigureAwait(false); // 等待 Task 完成
+
+		stopwatch.Stop();
+		Console.WriteLine($&quot;Elapsed: {stopwatch.Elapsed}&quot;);
+	}
+}
+</code></pre>
+<hr />
+<h3 id="section-1">第三方攔截非同步方法函式庫</h3>
+<p>從前面的範例可以看出，攔截非同步方法其實並不簡單，尤其是對於不熟悉 Task 與非同步流程的工程師，很難正確處理返回值與 await 的執行順序。
+因此攔截非同步方法推薦使用第三方的 <code>Castle.Core.AsyncInterceptor</code> 函式庫，可以簡化開發難度並避免錯誤。</p>
+<p>安裝後直接將實做的介面從原本的 <code>IInterceptor</code> 改成 <code>IAsyncInterceptor</code>，需要實做三個方法
+<code>InterceptSynchronous</code>
+<code>InternalInterceptAsynchronous</code>
+<code>InternalInterceptAsynchronous&lt;TResult&gt;</code>
+代表我們可以在同一個攔截器處理同步與非同步的方法，這種寫法與我們自行實做攔截器類似但將非同步與同步方法分開比較整潔。</p>
+<pre><code class="language-text">async Task Main()
 {
 	IHello target = new Hello();
 	ProxyGenerator generator = new ProxyGenerator();
 	var asyncTimingInterceptor = new MyAsyncTimingInterceptor();
 	var proxy = generator.CreateInterfaceProxyWithTargetInterface&lt;IHello&gt;(target, asyncTimingInterceptor);
-	proxy.SayHello();
+	await proxy.SayHelloAsync();
 }
 
 public class Hello : IHello
@@ -226,11 +321,13 @@ public class Hello : IHello
 	public void SayHello()
 	{
 		Thread.Sleep(1000);
+		Console.WriteLine(&quot;Hello&quot;);
 	}
 
 	public async Task SayHelloAsync()
 	{
 		await Task.Delay(1000);
+		Console.WriteLine(&quot;Hello&quot;);
 	}
 }
 
@@ -285,34 +382,92 @@ public class MyAsyncTimingInterceptor : IAsyncInterceptor
 
 		stopwatch.Stop();
 		Console.WriteLine(stopwatch.Elapsed);
-		
+
 		return result;
 	}
 }
 </code></pre>
-<p>上面這種寫法會產生許多相同的程式碼可以選擇重構，或者是繼承另外一個類別 <code>ProcessingAsyncInterceptor&lt;TState&gt;</code>。</p>
-<p>可以看到繼承 <code>ProcessingAsyncInterceptor&lt;TState&gt;</code> 類別後就只需要處理 <code>StartingInvocation</code> 與 <code>CompletedInvocation</code>，
-分別是呼叫前執行與呼叫後執行，就不用分成同步與非同步多種版本了。</p>
-<pre><code class="language-text">void Main()
+<p>第二種方式則是透過繼承 <code>AsyncInterceptorBase</code> 類別，內部其實也是實做 <code>IAsyncInterceptor</code> 介面，
+可以省下處理 invocation.ReturnValue 的步驟。</p>
+<p>另外 AsyncInterceptorBase 會在內部將同步方法包裝成 Task，所以不用寫同步攔截方法可以共用非同步攔截方法，
+內部會將同步攔截方法轉換成非同步模式，可以避免傳統 ASP.NET 直接呼叫 Task.Wait() 或 Task.Result 所造成的 Deadlock。</p>
+<p>但是同步方法在內部仍會透過 <code>Task.Run(() =&gt; task).GetAwaiter().GetResult();</code> 等待結過，因此過程仍然是 Blocking，
+只是以較安全的方式進行同步等待。</p>
+<p>使用時要注意不要在呼叫 proceed 前 await 非同步操作，否則會出現 thread starvation 和 deadlocking。</p>
+<pre><code class="language-text">async Task Main()
 {
 	IHello target = new Hello();
 	ProxyGenerator generator = new ProxyGenerator();
 	var asyncTimingInterceptor = new MyAsyncTimingInterceptor();
 	var proxy = generator.CreateInterfaceProxyWithTargetInterface&lt;IHello&gt;(target, asyncTimingInterceptor);
-	proxy.SayHelloAsync();
+	await proxy.SayHelloAsync();
 }
-
 
 public class Hello : IHello
 {
 	public void SayHello()
 	{
 		Thread.Sleep(1000);
+		Console.WriteLine(&quot;Hello&quot;);
 	}
 
 	public async Task SayHelloAsync()
 	{
 		await Task.Delay(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public void SayHello();
+	public Task SayHelloAsync();
+}
+
+public class MyAsyncTimingInterceptor : AsyncInterceptorBase
+{
+	protected override async Task InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func&lt;IInvocation, IInvocationProceedInfo, Task&gt; proceed)
+	{
+		var stopwatch = Stopwatch.StartNew();
+		await proceed(invocation, proceedInfo).ConfigureAwait(false);
+		stopwatch.Stop();
+		Console.WriteLine($&quot;Elapsed: {stopwatch.Elapsed}&quot;);
+	}
+
+	protected override async Task&lt;TResult&gt; InterceptAsync&lt;TResult&gt;(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func&lt;IInvocation, IInvocationProceedInfo, Task&lt;TResult&gt;&gt; proceed)
+	{
+		var stopwatch = Stopwatch.StartNew();
+		var result = await proceed(invocation, proceedInfo).ConfigureAwait(false);
+		stopwatch.Stop();
+		Console.WriteLine($&quot;Elapsed: {stopwatch.Elapsed}&quot;);
+		return result;
+	}
+}
+</code></pre>
+<p>第三種方式繼承類別 <code>ProcessingAsyncInterceptor&lt;TState&gt;</code>，是這三種方式中最簡單並且最安全的方式。</p>
+<p>可以看到繼承 <code>ProcessingAsyncInterceptor&lt;TState&gt;</code> 類別後就只需要處理 <code>StartingInvocation</code> 與 <code>CompletedInvocation</code>，
+分別代表呼叫前執行與呼叫後執行，並且把之前需要注意的細節隱藏起來讓不用我們自己處理，注意此類別不會將同步方法轉換成非同步。</p>
+<pre><code class="language-text">async Task Main()
+{
+	IHello target = new Hello();
+	ProxyGenerator generator = new ProxyGenerator();
+	var asyncTimingInterceptor = new MyAsyncTimingInterceptor();
+	var proxy = generator.CreateInterfaceProxyWithTargetInterface&lt;IHello&gt;(target, asyncTimingInterceptor);
+	await proxy.SayHelloAsync();
+}
+
+public class Hello : IHello
+{
+	public void SayHello()
+	{
+		Thread.Sleep(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+
+	public async Task SayHelloAsync()
+	{
+		await Task.Delay(1000);
+		Console.WriteLine(&quot;Hello&quot;);
 	}
 }
 
@@ -326,7 +481,7 @@ public class MyAsyncTimingInterceptor : ProcessingAsyncInterceptor&lt;Stopwatch&
 {
 	protected override Stopwatch StartingInvocation(IInvocation invocation)
 	{
-		var stopwatch = new Stopwatch();
+		var stopwatch = Stopwatch.StartNew();
 		stopwatch.Start();
 		return stopwatch;
 	}
@@ -338,9 +493,39 @@ public class MyAsyncTimingInterceptor : ProcessingAsyncInterceptor&lt;Stopwatch&
 	}
 }
 </code></pre>
-<p>像是這種測試時間但攔截器因為很常用，所以這個函式庫其實有內建時間的攔截器，這樣我們就不用在自己實做了。</p>
+<p>另外這種測試時間攔截器因為很常用，所以函式庫有內建時間的攔截器，這樣我們就不用在自己實做了。</p>
 <p>下面就是直接繼承了函式庫提供的 <code>AsyncTimingInterceptor</code>，這樣我們只要處理呼叫前與呼叫後的日誌紀錄，就不用自己處理計時器了。</p>
-<pre><code class="language-text">public class MyAsyncTimingInterceptor : AsyncTimingInterceptor
+<pre><code class="language-text">async Task Main()
+{
+	IHello target = new Hello();
+	ProxyGenerator generator = new ProxyGenerator();
+	var asyncTimingInterceptor = new MyAsyncTimingInterceptor();
+	var proxy = generator.CreateInterfaceProxyWithTargetInterface&lt;IHello&gt;(target, asyncTimingInterceptor);
+	await proxy.SayHelloAsync();
+}
+
+public class Hello : IHello
+{
+	public void SayHello()
+	{
+		Thread.Sleep(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+
+	public async Task SayHelloAsync()
+	{
+		await Task.Delay(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public void SayHello();
+	public Task SayHelloAsync();
+}
+
+public class MyAsyncTimingInterceptor : AsyncTimingInterceptor
 {
 	protected override void StartingTiming(IInvocation invocation)
 	{
