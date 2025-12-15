@@ -96,6 +96,9 @@
                 2024/12/15
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/12/15
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,31 +117,76 @@
     <div class="row">
       <div id="content" class="col-md-12">
         <h2 id="castle-core-with-autofac">Castle Core With Autofac</h2>
-<p>在上一篇介紹 <a href="https://blog.allengaodev.com/posts/castle-core-basic" target="_blank">Castle Core 基礎的文章</a>，中有介紹到
-安裝 Castle Core 的主要目的就是為了它的 <code>DynamicProxy</code> 來實做 AOP 的功能。</p>
-<p>但是這種手動建立 <code>ProxyGenerator</code> 與使用 <code>CreateInterfaceProxyWithTarget</code> 綁定介面的方式在實務上不用這麼麻煩，
-通常會在額外搭配 IOC 容器以達到更流暢的使用體驗，例如 AspectCore 這套函式庫也有跟各個 IOC 容器進行整合，比較常用的有
-<code>AspectCore.Extensions.DependencyInjection</code> 與 <code>AspectCore.Extensions.Autofac</code>。</p>
-<p>Castle Core 也有提供類似的整合函式庫，第一種就是直接使用 Castle 團隊開發的 IOC 容器叫做 <a href="https://github.com/castleproject/Windsor" target="_blank">Castle Windsor</a>，
+<p>在上一篇 <a href="https://blog.allengaodev.com/posts/castle-core-basic" target="_blank">Castle Core 基礎教學</a> 中，我們介紹了如何使用 DynamicProxy 實作 AOP 功能。</p>
+<p>不過，手動建立 <code>ProxyGenerator</code> 並使用 <code>CreateInterfaceProxyWithTarget</code> 進行介面綁定，
+實務上相對繁瑣。所以通常會搭配 IOC 容器，讓 AOP 整合更順暢。</p>
+<p>目前常見的方案：</p>
+<ol>
+<li><p>Castle Windsor
+使用 Castle 團隊開發的 IOC 容器叫做 <a href="https://github.com/castleproject/Windsor" target="_blank">Castle Windsor</a>，
 但它也是比較古老的專案，在微軟官方的 IOC 容器推出前就已經存在。</p>
-<p>另一種就是使用 <code>Autofac</code> 這套 IOC 容器與 <code>Autofac</code> 官方提供的額外函式庫 <code>Autofac.Extras.DynamicProxy</code>，它內部就是使用了
-Castle Core 專案來做到 DynamicProxy 的功能，在實務上建議是安裝 <code>Autofac.Extensions.DependencyInjection</code> 函式庫，
-因為它是根據 <code>Microsoft.Extensions.DependencyInjection</code> 定義的抽象介面所建立出來的。</p>
+</li>
+<li><p>Castle Core With Autofac
+使用 Autofac 搭配官方擴充庫 <a href="https://github.com/autofac/Autofac.Extras.DynamicProxy" target="_blank">Autofac.Extras.DynamicProxy</a>，
+底層使用 Castle Core 來實現 DynamicProxy 功能。
+建議配合 Autofac.Extensions.DependencyInjection 使用，與 Microsoft DI 抽象介面兼容。</p>
+</li>
+</ol>
 <h2 id="section">安裝函式庫與實做</h2>
 <p>所以接下來只要安裝這兩個函式庫即可整合 <code>Autofac</code> IOC 容器與 <code>Castle Core</code> 的 DynamicProxy 功能。</p>
 <pre><code class="language-text">dotnet add package Autofac.Extensions.DependencyInjection
 dotnet add package Autofac.Extras.DynamicProxy
 </code></pre>
-<p>呼叫的方式也很簡單，就是在註冊服務的時候記得呼叫 <code>EnableInterfaceInterceptors</code> 擴充方法，它背後會對這個介面進行標記，之後只需要
-在實做類別使用 <code>InterceptAttribute</code> 說明要使用的攔截器即可。</p>
-<p>另一種綁定方式就是透過 <code>InterceptedBy</code> 擴充方法直接與攔截器進行綁定就不用使用 <code>InterceptAttribute</code> 了。</p>
+<p>使用 EnableInterfaceInterceptors() 註冊介面攔截器，並可透過兩種方式綁定攔截器：
+一種是透過 <code>InterceptedBy</code> 方法直接在服務註冊時，指定特定介面與攔截器進行綁定。</p>
+<pre><code class="language-text">void Main()
+{
+	var builder = new ContainerBuilder();
+
+	builder.RegisterType&lt;Hello&gt;()
+		.As&lt;IHello&gt;()
+		.InterceptedBy(typeof(TimingInterceptor))
+		.EnableInterfaceInterceptors();
+
+	builder.Register(c =&gt; new TimingInterceptor());
+	var container = builder.Build();
+	var service = container.Resolve&lt;IHello&gt;();
+	service.SayHello();
+}
+
+public class TimingInterceptor : IInterceptor
+{
+	public void Intercept(IInvocation invocation)
+	{
+		var stopwatch = new Stopwatch();
+		stopwatch.Start();
+		invocation.Proceed();
+		stopwatch.Stop();
+		Console.WriteLine(stopwatch.Elapsed);
+	}
+}
+
+public class Hello : IHello
+{
+	public void SayHello()
+	{
+		Thread.Sleep(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public void SayHello();
+}
+</code></pre>
+<p>另一種使用 <code>InterceptAttribute</code> 直接在需要的方法加上屬性與要使用的攔截器即可。</p>
 <pre><code class="language-text">void Main()
 {
 	var builder = new ContainerBuilder();
 	
 	builder.RegisterType&lt;Hello&gt;()
 		.As&lt;IHello&gt;()
-		//.InterceptedBy(typeof(TimingInterceptor))
 		.EnableInterfaceInterceptors();
 		
 	builder.Register(c =&gt; new TimingInterceptor());
@@ -174,10 +222,74 @@ public interface IHello
 	public void SayHello();
 }
 </code></pre>
-<p>最後就可以使用 Resolve 方法從 IOC 容器中取得需要的服務，<code>Autofac</code> 背後就會自行處理 <code>new ProxyGenerator()</code> 與
-<code>CreateInterfaceProxyWithTarget</code> 這些邏輯了。</p>
-<p>自行建立 <code>ProxyGenerator</code> 不建議每次都創建新的 <code>ProxyGenerator</code>，最好是將它定義成靜態的否則會消耗許多記憶體容量，
-使用 <code>Autofac.Extras.DynamicProxy</code> 的另一個好處就是我們不需要關注這些小細節，只需要專心實做商業邏輯就好。</p>
+<p>透過 <code>Autofac.Extras.DynamicProxy</code>，我們不需要每次手動建立 ProxyGenerator，也不用擔心記憶體消耗問題，
+只需專注於商業邏輯與攔截器實作，容器會自動處理代理生成與介面綁定。</p>
+<hr />
+<p>接下來也加入 <code>Castle.Core.AsyncInterceptor</code> 函式庫用來攔截非同步方法。</p>
+<pre><code class="language-text">dotnet add package Autofac.Extensions.DependencyInjection
+dotnet add package Autofac.Extras.DynamicProxy
+dotnet add package Castle.Core.AsyncInterceptor
+</code></pre>
+<p>由於 <code>Autofac.Extras.DynamicProxy</code> 只看得懂 <code>IInterceptor</code> 介面，上一篇文章寫的非同步攔截器都是實做 <code>IAsyncInterceptor</code> 介面，
+所以直接註冊會導致在執行階段發生型別轉換錯誤，因此必須額外加入一層轉接將基於 <code>IAsyncInterceptor</code> 介面的攔截器轉換成 <code>IInterceptor</code> 介面的攔截器。</p>
+<p><code>Castle.Core.AsyncInterceptor</code> 提供了 <code>AsyncDeterminationInterceptor</code> 類別，它本身是一個轉接器且能自動判斷該使用同步或非同步的攔截方法，
+透過它，我們可以將一個實作 <code>IAsyncInterceptor</code> 的攔截器包裝成  <code>IInterceptor</code>，從而與 <code>Autofac.Extras.DynamicProxy</code> 整合在一起。</p>
+<p>透過 <code>RegisterAssemblyTypes</code> 將目前 Assembly 的類別與 <code>MyTimingInterceptor</code> 綁定在一起，這樣就能做到全局 AOP 的效果。</p>
+<pre><code class="language-text">async Task Main()
+{
+	var builder = new ContainerBuilder();
+
+	builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+				.AsImplementedInterfaces()
+				.InstancePerLifetimeScope()
+				.EnableInterfaceInterceptors()
+				//.InterceptedBy(typeof(MyAsyncTimingInterceptor)); // 直接綁定非同步攔截器會產生轉型錯誤
+				.InterceptedBy(typeof(MyTimingInterceptor));
+
+	builder.RegisterType&lt;MyTimingInterceptor&gt;();
+	builder.RegisterType&lt;MyAsyncTimingInterceptor&gt;();
+
+	var container = builder.Build();
+	var service = container.Resolve&lt;IHello&gt;();
+	await service.SayHelloAsync();
+}
+
+// 轉換成基於 `IInterceptor` 介面的攔截器，內部會自動將流程轉到 MyAsyncTimingInterceptor 處理。
+public class MyTimingInterceptor : AsyncDeterminationInterceptor
+{
+	public MyTimingInterceptor(MyAsyncTimingInterceptor interceptor)
+		: base(interceptor)
+	{
+	}
+}
+
+public class MyAsyncTimingInterceptor : AsyncTimingInterceptor
+{
+	protected override void StartingTiming(IInvocation invocation)
+	{
+		Console.WriteLine($&quot;{invocation.Method.Name}:StartingTiming&quot;);
+	}
+
+	protected override void CompletedTiming(IInvocation invocation, Stopwatch stopwatch)
+	{
+		Console.WriteLine($&quot;{invocation.Method.Name}:CompletedTiming:{stopwatch.Elapsed:g}&quot;);
+	}
+}
+
+public class Hello : IHello
+{
+	public async Task SayHelloAsync()
+	{
+		await Task.Delay(1000);
+		Console.WriteLine(&quot;Hello&quot;);
+	}
+}
+
+public interface IHello
+{
+	public Task SayHelloAsync();
+}
+</code></pre>
 
 
         
