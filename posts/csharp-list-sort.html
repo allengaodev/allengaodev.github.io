@@ -96,6 +96,9 @@
                 2023/03/06
               </a>
 
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/12/15
+                </a>
             </p>
               <div class="mt-3">
                   <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet</a>
@@ -114,34 +117,107 @@
       <div id="content" class="col-md-12">
         <h2 id="net-sort">.Net Sort</h2>
 <p>今天來複習一下 .Net 中排序的各種用法，首先是最簡單的由小到大排序</p>
-<p>使用 Sort 方法可以直接將資料做正向排序，Sort 方法沒有回傳值會直接對原始資料進行排序</p>
+<p>使用 Sort 方法可以直接將資料做正向排序，由於 Generic List 集合是屬於可變集合，因此 <code>Sort</code> 方法呼叫後會直接修改 <code>myList</code> 內容。</p>
 <pre><code class="language-csharp">var myList = new List&lt;int&gt;() { 1, 7, 4, 2, 6, 3 };
 myList.Sort();
 </code></pre>
-<p>使用 OrderBy 擴充方法需要搭配 Lambda 表達式，並且回傳的是 IEnumerable 需要再做一次轉型，並且賦值回原變數</p>
-<pre><code class="language-csharp">var myList = new List&lt;int&gt;() { 1, 7, 4, 2, 6, 3 };
-myList = myList.OrderBy(x =&gt; x).ToList();
+<p>另外 Immutable List 集合是屬於不可變集合，因此 <code>Sort</code> 方法不會修改原集合，而是回傳一個新的 ImmutableList 物件，因此需要重新指派。</p>
+<pre><code class="language-csharp">var myList = ImmutableList.Create(1, 7, 4, 2, 6, 3);
+myList = myList.Sort();
 </code></pre>
-<p>反向排序也很簡單，可以先呼叫 Sort 方法，之後在呼叫一次 Reverse 方法</p>
+<p>反向排序也很簡單，可以先呼叫 Sort 方法，之後在呼叫一次 Reverse 方法，可讀性會比較高。
+也可以直接傳入客製的比較器，能夠做到一步倒序。</p>
 <pre><code class="language-csharp">var myList = new List&lt;int&gt;() { 1, 7, 4, 2, 6, 3 };
 myList.Sort();
 myList.Reverse();
-</code></pre>
-<p>OrderBy 也有專門用來反向排序的擴充方法 OrderByDescending</p>
-<pre><code class="language-csharp">var myList = new List&lt;int&gt;() { 1, 7, 4, 2, 6, 3 };
-myList = myList.OrderByDescending(x =&gt; x).ToList();
+
+var myList = new List&lt;int&gt;() { 1, 7, 4, 2, 6, 3 };
+myList.Sort((a, b) =&gt; b.CompareTo(a));
 </code></pre>
 <hr />
-<p>接下來討論一下字串方面的排序
-這邊準備了一個 List String 一樣使用 Sort 方法進行排序<br />
-但是要注意 String 的 排序預設會根據電腦的 CultureInfo 不同而有所變化，並不是預設使用 ASCII 進行排序<br />
-所以 csharp 有提供了一組 Class StringComparer 讓我們選擇該怎麼樣排序
-這邊 StringComparer.Ordinal 就代表按照 ASCII 進行排序</p>
-<pre><code class="language-csharp">var words = new List&lt;string&gt;(){ &quot;i&quot;, &quot;love&quot;, &quot;csharp&quot;, &quot;i&quot;, &quot;love&quot;, &quot;sorting&quot; };
-words.Sort(StringComparer.Ordinal);
-Console.WriteLine(words);
+<h2 id="linq-lambda-expression-and-linq-query-expression">LINQ Lambda Expression And LINQ Query Expression</h2>
+<p>使用 Lambda 表達式的 <code>OrderBy</code>、<code>ThenBy</code>、<code>OrderByDescending</code>、<code>ThenByDescending</code>擴充方法，
+不直接修改原集合，而是回傳 <code>OrderedEnumerable</code> 集合，特性是擁有 <code>Lazy</code> 特性，代表只有在 enumerate 結果的時候才會真正進行排序。</p>
+<pre><code class="language-csharp">void Main()
+{
+	var users = new List&lt;User&gt;()
+	{
+		new User(&quot;Charlie&quot;, 31),
+		new User(&quot;Bob&quot;, 35),
+		new User(&quot;Eve&quot;, 34),
+		new User(&quot;David&quot;, 24),
+		new User(&quot;Alice&quot;, 24)
+	};
 
-List&lt;String&gt; (6 items)•••
+	// 先按照 Age 排，再按照 Name 排
+	var orderUser = users
+		.OrderBy(p =&gt; p.Age)
+		.ThenBy(p =&gt; p.Name);
+
+	// 先按照 Age 倒序排，再按照 Name 倒序排
+	var orderUser1 = users
+		.OrderByDescending(p =&gt; p.Age)
+		.ThenByDescending(p =&gt; p.Name);
+
+    // 因為有 Lazy 特性，所以需要增加下面這兩行正式取值，否則就不會做任何事情。
+	Console.WriteLine($&quot;{orderUser.First().Name} ({orderUser.First().Age})&quot;);
+	Console.WriteLine($&quot;{orderUser1.First().Name} ({orderUser1.First().Age})&quot;);
+}
+
+public record User(string Name, int Age);
+</code></pre>
+<p>另外也可以使用 Query 表達式，在一些複雜的排序場合下可讀性會比較高</p>
+<pre><code class="language-text">void Main()
+{
+	var users = new List&lt;User&gt;()
+	{
+		new User(&quot;Charlie&quot;, 31),
+		new User(&quot;Bob&quot;, 35),
+		new User(&quot;Eve&quot;, 34),
+		new User(&quot;David&quot;, 24),
+		new User(&quot;Alice&quot;, 24)
+	};
+
+	// 先按照 Age 排，再按照 Name 排
+	var orderUser = from p in users
+					orderby p.Age, p.Name
+					select p;
+
+	// 先按照 Age 倒序排，再按照 Name 倒序排
+	var orderUser1 = from p in users
+					 orderby p.Age descending, p.Name descending
+					 select p;
+
+	// 因為有 Lazy 特性，所以需要增加下面這兩行正式取值，否則就不會做任何事情。
+	Console.WriteLine($&quot;{orderUser.First().Name} ({orderUser.First().Age})&quot;);
+	Console.WriteLine($&quot;{orderUser1.First().Name} ({orderUser1.First().Age})&quot;);
+}
+
+public record User(string Name, int Age);
+</code></pre>
+<hr />
+<h2 id="string-sort">String Sort</h2>
+<p>在 C# 中排序字串時，同樣可以使用 <code>Sort()</code> 方法，需要注意的是，預設排序會依照系統的 CultureInfo 進行，並不一定是 ASCII 排序。</p>
+<p>因此 C# 提供了 <code>StringComparer</code> 類別，能讓我們統一控制不同文化排序方式，例如:</p>
+<ol>
+<li>StringComparer.Ordinal：按 ASCII 值排序，與文化無關。</li>
+<li>StringComparer.OrdinalIgnoreCase：按 ASCII 排序，忽略大小寫。</li>
+<li>StringComparer.CurrentCulture：根據目前系統文化排序。</li>
+<li>StringComparer.CurrentCultureIgnoreCase：根據目前系統文化排序，忽略大小寫。</li>
+<li>StringComparer.InvariantCulture：根據固定文化排序，不參考系統文化。</li>
+<li>StringComparer.InvariantCultureIgnoreCase：根據固定文化排序，不參考系統文化，忽略大小寫。</li>
+</ol>
+<pre><code class="language-csharp">void Main()
+{
+	var words = new List&lt;string&gt;() { &quot;i&quot;, &quot;love&quot;, &quot;csharp&quot;, &quot;i&quot;, &quot;love&quot;, &quot;sorting&quot; };
+	words.Sort(StringComparer.Ordinal);
+	foreach (var element in words)
+	{
+		Console.WriteLine(element);
+	}
+}
+
+// 輸出
 csharp
 i
 i
@@ -151,11 +227,17 @@ sorting
 </code></pre>
 <p>我們這邊再把第一個 love 改成大寫形式，在進行排序會發現大寫的 Love 變到第一位了，這是因為大寫的 <code>L</code> 為 76 小寫的 <code>c</code> 為 99
 所以這時就會把 Love 拉到第一位</p>
-<pre><code class="language-csharp">var words = new List&lt;string&gt;(){ &quot;i&quot;, &quot;Love&quot;, &quot;csharp&quot;, &quot;i&quot;, &quot;love&quot;, &quot;sorting&quot;};
-words.Sort(StringComparer.Ordinal);
-Console.WriteLine(words);
+<pre><code class="language-csharp">void Main()
+{
+	var words = new List&lt;string&gt;(){ &quot;i&quot;, &quot;Love&quot;, &quot;csharp&quot;, &quot;i&quot;, &quot;love&quot;, &quot;sorting&quot;};
+	words.Sort(StringComparer.Ordinal);
+	foreach (var element in words)
+	{
+		Console.WriteLine(element);
+	}
+}
 
-List&lt;String&gt; (6 items)•••
+// 輸出
 Love
 csharp
 i
@@ -164,82 +246,62 @@ love
 sorting
 </code></pre>
 <p>當然也可使用 StringComparer.OrdinalIgnoreCase 也是以 ASCII 為基礎但是會忽略掉大小寫</p>
-<pre><code class="language-csharp">var words = new List&lt;string&gt;(){ &quot;i&quot;, &quot;Love&quot;, &quot;csharp&quot;, &quot;i&quot;, &quot;love&quot;, &quot;sorting&quot;};
-words.Sort(StringComparer.OrdinalIgnoreCase);
-Console.WriteLine(words);
-
-List&lt;String&gt; (6 items)•••
-csharp
-i
-i
-Love
-love
-sorting
-</code></pre>
-<hr />
-<p>最後是多條件排序，這個在 SQL 常用到，例如先按照姓來排序在對名作排序就是很常出現的例子
-這邊我使用上面字串的資料創建一個字典資料</p>
-<pre><code class="language-csharp">var words = new List&lt;string&gt;() { &quot;love&quot;, &quot;i&quot;, &quot;csharp&quot;, &quot;love&quot;, &quot;i&quot;, &quot;sorting&quot;, &quot;sorting&quot;, &quot;sorting&quot; };
-var dict = new Dictionary&lt;string, int&gt;();
-
-foreach (var word in words)
+<pre><code class="language-csharp">void Main()
 {
-	if (!dict.ContainsKey(word)) dict.Add(word, 1);
-	else dict[word]++;	
+	var words = new List&lt;string&gt;() { &quot;i&quot;, &quot;love&quot;, &quot;csharp&quot;, &quot;i&quot;, &quot;love&quot;, &quot;sorting&quot; };
+	words.Sort(StringComparer.OrdinalIgnoreCase);
+	foreach (var element in words)
+	{
+		Console.WriteLine(element);
+	}
 }
-	
-Console.WriteLine(dict);
 
-Dictionary&lt;String,Int32&gt; (4 items)•••
-Key	Value
-love	2
-i	2
-csharp	1
-sorting	3
-</code></pre>
-<p>現在我們需要將頻率最高的兩個詞挑選出來，如果頻率一樣就按照 ASCII 排序
-我們可以直接判斷出正確答案為 sorting 次數為三 和 i 次數為二<br />
-這樣的需求我們也可以在 .Net 利用排序來達成，首先先對字典的 Value 做排序</p>
-<pre><code class="language-csharp">dict = dict
-.OrderByDescending(x =&gt; x.Value)
-.ToDictionary(x =&gt; x.Key, y =&gt; y.Value);
-
-Console.WriteLine(dict);
-
-sorting	3
-love	2
-i	2
-csharp	1
-</code></pre>
-<p>這時只要再對字典的KEY做一次排序就會得到結果了，這邊只要是做二次排序可以直接在 OrderByDescending 後面再接 ThenBy<br />
-最後在將拿出字典中最上方兩個字串值，即可獲得我們目標的資料</p>
-<pre><code class="language-csharp">dict = dict
-.OrderByDescending(x =&gt; x.Value)
-.ThenBy(x =&gt; x.Key, StringComparer.Ordinal)
-.ToDictionary(x =&gt; x.Key, y =&gt; y.Value)
-.Take(2).Select(x =&gt; x.Key).ToList();
-
-Console.WriteLine(dict);
-
-sorting
-i
-</code></pre>
-<p>也可以使用另一種寫法，可以先將字典的 Key 值建立成一個清單，不過這個清單還是未排序過得資料，我們可以在拿個這個清單去參考字典的資料進行排序</p>
-<pre><code class="language-csharp">var result= new List&lt;string&gt;(dict.Keys);
-Console.WriteLine(result);
-
-love
-i
+// 輸出
 csharp
+i
+i
+love
+love
 sorting
-</code></pre>
-<p>這邊會先拿出兩個清單的元素之後去字典比比看 value 值是不是一樣<br />
-如果一樣就比較字母順序，如果不一樣就比較誰數字大</p>
-<pre><code class="language-csharp">result.Sort((a, b) =&gt; dict[a] == dict[b] ? a.CompareTo(b) : freqMap[b].CompareTo(freqMap[a]));
 </code></pre>
 <hr />
-<h2 id="summary">Summary</h2>
-<p>今天學習了幾個排序常用的方法，須特別注意字串排序的部份，邏輯與數值排序不一樣並且 .Net 提供了多種寫法，可以挑選自己習慣的語法來使用</p>
+<p>使用多條件排序(單字出現頻率 + ASCII) 搭配 LINQ，最後挑選前兩名。</p>
+<pre><code class="language-text">void Main()
+{
+	var words = new List&lt;string&gt; { &quot;love&quot;, &quot;i&quot;, &quot;csharp&quot;, &quot;love&quot;, &quot;i&quot;, &quot;sorting&quot;, &quot;sorting&quot;, &quot;sorting&quot; };
+
+	// 統計每個單字的出現頻率
+	var freqMap = words
+		.GroupBy(w =&gt; w)
+		.ToDictionary(g =&gt; g.Key, g =&gt; g.Count());
+
+	// 多條件排序：先依頻率再依 ASCII 字母排序
+	var topTwo = freqMap
+		.OrderByDescending(kv =&gt; kv.Value)             // 依頻率排序
+		.ThenBy(kv =&gt; kv.Key, StringComparer.Ordinal)  // 頻率相同時依 ASCII 排序
+		.Take(2)                                       // 取前兩名
+		.Select(kv =&gt; kv.Key)                          // 只取 Key
+		.ToList();
+
+	// 輸出結果
+	topTwo.ForEach(Console.WriteLine);
+}
+</code></pre>
+<hr />
+<p>在 .Net 10 提供了 CompareOptions 讓建立比較器更加容易，例如 <code>CompareOptions.NumericOrdering</code>，
+適合用來排序文字中帶有數字的資料。</p>
+<pre><code class="language-text">void Main()
+{
+	var words = new List&lt;string&gt; { &quot;file2&quot;, &quot;file1&quot;, &quot;file4&quot;, &quot;file3&quot;};
+
+	var comparer = StringComparer.Create(
+        CultureInfo.InvariantCulture,
+        CompareOptions.NumericOrdering);
+	
+	var sorted = words.OrderBy(x =&gt; x, comparer);
+	sorted.ToList().ForEach(Console.WriteLine);
+}
+</code></pre>
 
 
         
