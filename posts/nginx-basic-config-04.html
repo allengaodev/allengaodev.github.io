@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -108,10 +105,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03" target="_blank">文章</a>中，實做了多種 HTTP 負載均衡的分配方法，
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03" target="_blank">文章</a>中，實做了多種 HTTP 負載均衡的分配方法，
 在這幾篇的文章中只有修改 <code>/etc/nginx/http.d/default.conf</code> 這個檔案，那為什麼 Nginx 知道要到這個目錄底下讀取 <code>default.conf</code> 呢？</p>
 <p>要解答這個問題就要先了解 <code>nginx.conf</code> 這個設定檔還有 <code>include</code> 這個指令了。</p>
 <hr />
@@ -266,10 +264,10 @@ Context:	any
 <code>http</code> 這個作用環境底下。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-basic-config-04'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -291,7 +289,8 @@ Context:	any
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -314,6 +313,10 @@ Context:	any
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

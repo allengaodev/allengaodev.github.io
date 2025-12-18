@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法都是以 closure(閉包)為討論主軸，並討論背後轉換的原理以及為什麼在使用 closure 的時候可能會導致記憶體流失的問題。
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法都是以 closure(閉包)為討論主軸，並討論背後轉換的原理以及為什麼在使用 closure 的時候可能會導致記憶體流失的問題。
 首先 closure 這個名詞很常在 javascript 中討論以及只使用到， closure 是一種能讓內部方法取得外部變數的一種寫法，
 例如以下範例中的 <code>counter</code> 變數明明作用範圍是在 Main 底下，但是我們透過 lambda 把 delegate 當成參數傳給 <code>Generate</code> 方法，
 之後在最內部的執行範圍竟然可以操作不同作用範圍的 <code>counter</code> 變數。</p>
@@ -374,10 +372,10 @@ private static void DoSomethingInBackground()
 有隱藏的類別成員，原本的區域變數也可以照流程釋放。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-41'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -399,7 +397,8 @@ private static void DoSomethingInBackground()
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -422,6 +421,10 @@ private static void DoSomethingInBackground()
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -113,10 +110,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="net-core-identity-aspnetuserlogins">.NET Core Identity AspNetUserLogins</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="net-core-identity-aspnetuserlogins">.NET Core Identity AspNetUserLogins</h2>
 <p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
 所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>
 <p>開始寫程式之前我們先了解一下 .NET Core Identity 內建的 Class <code>IdentityUserLogin</code><br />
@@ -311,10 +309,10 @@ public async Task&lt;IActionResult&gt; GoogleResponse(string returnUrl = &quot;/
 並不會用 Google 登入就建立一個或用 Facebook 登入就建立一個，或者整個網站只支援一個外部登入方式。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dotnet-identity-user-logins'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -336,7 +334,8 @@ public async Task&lt;IActionResult&gt; GoogleResponse(string returnUrl = &quot;/
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -359,6 +358,10 @@ public async Task&lt;IActionResult&gt; GoogleResponse(string returnUrl = &quot;/
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

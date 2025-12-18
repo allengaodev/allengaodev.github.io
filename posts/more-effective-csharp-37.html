@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法解釋 Task 背後的執行緒管理機制與手動建立執行緒對效能的影響。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法解釋 Task 背後的執行緒管理機制與手動建立執行緒對效能的影響。</p>
 <p>由於寫出來的應用程式會運作在各式各樣的機器上，所以你很難在程式設計階段就直接決定可以使用多少執行緒數量，
 所以手動建立執行緒會碰到最大的問題就是很難最佳化應用程式執行緒總數量。</p>
 <p>所以就有了 Thread Pool 這個概念，讓它自行管理最適合的執行緒總數量，如果同時要求過多的執行緒，Thread Pool 會要求應用程式排隊等待，
@@ -233,10 +231,10 @@ private static double ManualThreads(int numThreads)
 <p>由於手動建立執行緒與透過 Thread Pool 取得執行緒在現代的 C# 已經沒必要使用，除非有特殊的應用場景否則平常使用 Task 就能滿足需求。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-37'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -258,7 +256,8 @@ private static double ManualThreads(int numThreads)
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -281,6 +280,10 @@ private static double ManualThreads(int numThreads)
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

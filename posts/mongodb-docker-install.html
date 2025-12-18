@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -110,10 +107,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="docker-mongodb">Docker MongoDB</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="docker-mongodb">Docker MongoDB</h2>
 <p>最近在學習 MongoDB 的基礎，需要快速建立出一個練習環境，因為只會輸入練習用的資料所以資料不需要持久化因此這次使用 Docker 來建立我們的環境<br />
 首先看看 MongoDB 的官方安裝<a href="https://www.mongodb.com/docs/manual/tutorial/install-mongodb-community-with-docker/" target="_blank">文檔</a>
 這邊官方文檔是使用 <code>mongodb/mongodb-community-server</code> 這個 image ，此 image 是由 mongodb 官方負責維護的<br />
@@ -270,10 +268,10 @@ services:
 最後建立一個 docker-compose.yml 方便我們之後可以快速的建立出一個完整的測試環境出來</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/mongodb-docker-install'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -295,7 +293,8 @@ services:
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -318,6 +317,10 @@ services:
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法建議只在介面上定義必要的功能，剩下需要的功能新增在這個介面上的擴充方法就好。
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法建議只在介面上定義必要的功能，剩下需要的功能新增在這個介面上的擴充方法就好。
 例如 <code>System.Linq.Enumerable</code> 就是個很好的例子，它幫 <code>IEnumerable&lt;T&gt;</code> 介面定義了許多常用的擴充方法，例如 Where、OrderBy、ThenBy。</p>
 <p>像下面這段程式碼就是幫 <code>IComparable</code> 建立了一組擴充方法這樣在使用的時候可以提升可讀性。</p>
 <pre><code class="language-text">public static class Comparable
@@ -170,10 +168,10 @@ public static class FooExtensions
 這樣不僅可以讓實做介面的使用者少寫一些程式碼，也能讓使用介面的人使用我們寫的擴充方法。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-27'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -195,7 +193,8 @@ public static class FooExtensions
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -218,6 +217,10 @@ public static class FooExtensions
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法是做法 32 的延伸說明，主要在說明把函式當成參數來傳遞所帶來的好處。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法是做法 32 的延伸說明，主要在說明把函式當成參數來傳遞所帶來的好處。</p>
 <p>首先提出一個沒有使用 Function Parameters 設計的範例，我們在做法 32 有提到使用 Function Parameters 的關鍵是把實做的邏輯由我們
 轉交給使用者自行決定這點跟 DIP 原則有點類似，所以如果微軟沒有設計出 Predicate 這幾個 <code>delegate</code> 的概念，那勢必就只能通過介面來
 翻轉職責，也就是會變成下面這樣子非常冗長。</p>
@@ -198,10 +196,10 @@ public static IEnumerable&lt;T&gt; CreateSequence&lt;T&gt;(int numberOfElements,
 但是我們撰寫程式碼的時候需要花費額外的功夫，當然使用抽象或是介面也是一種好方法，可以按照實際情況搭配使用。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-34'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -223,7 +221,8 @@ public static IEnumerable&lt;T&gt; CreateSequence&lt;T&gt;(int numberOfElements,
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -246,6 +245,10 @@ public static IEnumerable&lt;T&gt; CreateSequence&lt;T&gt;(int numberOfElements,
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

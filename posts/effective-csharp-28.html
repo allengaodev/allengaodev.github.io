@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法提到了一個新的名詞叫做 <code>Constructed	Types</code> 也叫做 <code>Constructed Generic Type</code>。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法提到了一個新的名詞叫做 <code>Constructed	Types</code> 也叫做 <code>Constructed Generic Type</code>。</p>
 <p>A constructed generic type, or constructed type, is the result of specifying types for the generic type parameters of a generic type definition.</p>
 <p>也就是定義完 Type Parameters 的 Generic Type 也就是跟之前提到的 close generic type 是一樣的意思。</p>
 <p>在上一個做法 27 建議是幫介面定義一組擴充方法，也就是在 <code>IEnumerable&lt;T&gt;</code> 定義多種擴充方法，但其實還有專門為特定類型定義的
@@ -144,10 +142,10 @@
 <p>這個做法可以說是做法 27 的補充說明，還是透過擴充方法的方式來幫泛型介面增加功能性，不過可以另外幫特定的類型實做擴充方法，讓我們的泛型介面的功能更加豐富。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-28'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -169,7 +167,8 @@
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -192,6 +191,10 @@
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

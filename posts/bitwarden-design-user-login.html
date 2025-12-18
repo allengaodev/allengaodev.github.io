@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -108,10 +105,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="bitwarden">Bitwarden 會員系統登入流程</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="bitwarden">Bitwarden 會員系統登入流程</h2>
 <p>在之前的文章中我們已經了解 Bitwarden 的註冊與加密流程，現在我們加密帳號資料已經安全的保存在 Bitwarden 雲端上了，
 接下來我們來看看 Bitwarden 是如何進行登入流程。</p>
 <hr />
@@ -253,10 +251,10 @@ refresh_token: 9107543241B025D81800FC45D91B3BD7605879F53E6BEBBFC564673C4B471A57
 以至於密碼遺失。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/bitwarden-design-user-login'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -278,7 +276,8 @@ refresh_token: 9107543241B025D81800FC45D91B3BD7605879F53E6BEBBFC564673C4B471A57
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -301,6 +300,10 @@ refresh_token: 9107543241B025D81800FC45D91B3BD7605879F53E6BEBBFC564673C4B471A57
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

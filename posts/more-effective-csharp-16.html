@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法是以前 Effective C# <a href="https://blog.allengaodev.com/posts/effective-csharp-07" target="_blank">做法 7</a>、<a href="https://blog.allengaodev.com/posts/effective-csharp-08" target="_blank">做法 8</a>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法是以前 Effective C# <a href="https://blog.allengaodev.com/posts/effective-csharp-07" target="_blank">做法 7</a>、<a href="https://blog.allengaodev.com/posts/effective-csharp-08" target="_blank">做法 8</a>
 的延伸討論，主要是解說 .NET 事件模式的設計與使用它的好處。</p>
 <p>假設我有一個紀錄日誌的類別叫做 <code>Logger</code>，他的工作是負責把訊息發送給事件的訂閱者，我們可以使用 <code>AddMsg</code> 方法添加日誌並使用
 <code>Invoke</code> 方法把自訂的事件參數 <code>LoggerEventArgs</code> 發送給事件的訂閱者，注意 <code>?.Invoke</code> 這個寫法是新的線程安全的寫法。</p>
@@ -339,10 +337,10 @@ private sealed class ListEntry
 由於發起事件的時候不管有沒有訂閱者都能正常運行，使用這個模式可以很方便的解除發佈者跟訂閱者之間的耦合。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-16'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -364,7 +362,8 @@ private sealed class ListEntry
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -387,6 +386,10 @@ private sealed class ListEntry
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -113,10 +110,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="net-core-identity-policy-customize">.NET Core Identity Policy Customize</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="net-core-identity-policy-customize">.NET Core Identity Policy Customize</h2>
 <p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-claims-authorization">文章</a>
 中學習了 <code>Claim</code> 與 <code>Policy</code> 的基本知識，會員在新增完 <code>Claim</code> 之後可以搭配我們註冊好的 <code>Policy</code> 就能夠避免不符合規定的使用者呼叫機密的 API</p>
 <p>但是在進階的場景，例如：年齡限制或者檢查使用者的性別等需要另外對 <code>Claim</code> 內容進行分辨的邏輯，就需要建立客製化的 <code>Policy</code> Provider</p>
@@ -399,10 +397,10 @@ public async Task&lt;IdentityUser?&gt; GetUser(string userName)
 <p>今天學習了如何客製化自己的授權邏輯，在某些框架中的授權系統也是使用相同的邏輯來建立出一套複雜的授權系統</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dotnet-identity-policy-customize'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -424,7 +422,8 @@ public async Task&lt;IdentityUser?&gt; GetUser(string userName)
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -447,6 +446,10 @@ public async Task&lt;IdentityUser?&gt; GetUser(string userName)
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法講解了死鎖是怎麼造成的並且該怎麼做才能避免死鎖。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法講解了死鎖是怎麼造成的並且該怎麼做才能避免死鎖。</p>
 <p>當一條執行緒 A 在等待執行緒 B 完成工作，這時執行緒 B 也同時在等待執行緒 A 完成工作，這種情況就會造成死鎖，
 不過除此之外還有其他可能會造成死鎖，那就是在 lock 範圍內加入了許多不相干的程式碼，假如它們牽涉到另一條執行緒，那也是有可能造成死鎖的。</p>
 <p>假設下面這段程式碼是一個 WinForm 程式，我們在做法 39 有提到過要更新 UI 必須使用當初建立 UI 的執行緒才允許更新，所以才要透過
@@ -168,10 +166,10 @@ public class WorkerClass
 <p>這個做法的關鍵就是要縮小 lock 的鎖定範圍，並且在處理事件的時候要額外注意，因為很容易觸發意料之外的邏輯導致死鎖。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-42'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -193,7 +191,8 @@ public class WorkerClass
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -216,6 +215,10 @@ public class WorkerClass
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

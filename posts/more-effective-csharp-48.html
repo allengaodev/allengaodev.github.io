@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法在提醒開發者在搜尋解答的過程中不要只看評分最好和曝光率高的留言，其它留言的解法也可能是更完美的。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法在提醒開發者在搜尋解答的過程中不要只看評分最好和曝光率高的留言，其它留言的解法也可能是更完美的。</p>
 <p>對於一個熱門的程式語言討論社群會碰到一個問題，那就是很難把新的功能推廣給更多人知道並使用，每次 C# 推出新版本都會引入非常多的新功能，
 這些功能有些是用來改善過往寫法的缺點，例如 <code>?.invoke</code> 或字串插值的寫法，但並不是每一間公司都會馬上更新專案的版本，
 所以就會有很多開發者還在使用舊的寫法，雖然舊的寫法不代表應該棄用，但是新的功能通常更簡潔且安全。</p>
@@ -128,10 +126,10 @@
 還有要在舊的問題補充說明現在有更好的解法，並附上更好的解決方案的連結。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-48'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -153,7 +151,8 @@
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -176,6 +175,10 @@
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

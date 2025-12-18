@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -108,10 +105,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="rabbitmq-rpc">RabbitMQ RPC</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="rabbitmq-rpc">RabbitMQ RPC</h2>
 <p>今天是 RabbitMQ 基礎用法的最後一篇，之前在討論非同步任務了解到我們可以建立一個 <code>Queue</code> 並且背後建立多個 <code>Worker</code> 來分散執行的任務，這種模式有一個問題
 那就是任務執行完成後發送信息的人沒有辦法知道任務已經完成或者是任務失敗等其他狀況，發送人還需要主動的去確認任務是否已經完成，例如一個報表導出的任務當你按下按鈕後
 會發送一個信息任務到 <code>Queue</code> 中並且由 <code>Worker</code> 來執行任務，這時發送人可能就去操作網站其他功能了甚至也有忘記自己有發送報表導出的任務，之後當你回來查看結果時
@@ -292,10 +290,10 @@ Press [enter] to exit.
 <p>今天的進度 <a href="https://github.com/allengaodev/RabbitMQTutorial/tree/1.5" target="_blank">Github</a></p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/rabbitmq-basic-rpc'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -317,7 +315,8 @@ Press [enter] to exit.
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -340,6 +339,10 @@ Press [enter] to exit.
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

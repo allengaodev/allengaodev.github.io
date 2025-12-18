@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>在做法 39 有提到 <code>Strong exception guarantee</code> 這個概念，這個做法會對三種保證進行詳細說明。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>在做法 39 有提到 <code>Strong exception guarantee</code> 這個概念，這個做法會對三種保證進行詳細說明。</p>
 <p>以下是三種保證與它們各自的定義。</p>
 <ol>
 <li>No-throw guarantee: 保證你寫的方法不會拋出例外錯誤，也是約束最強的一種設計，一但方法內部有錯誤產生需要馬上進行內部處理，不能讓外部的使用者發覺。</li>
@@ -234,10 +232,10 @@ public class Envelope : IList&lt;PayrollData&gt;
 <p>最後就是使用備份來替換原始數據的方式要注意參考型別所會導致的問題。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-48'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -259,7 +257,8 @@ public class Envelope : IList&lt;PayrollData&gt;
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -282,6 +281,10 @@ public class Envelope : IList&lt;PayrollData&gt;
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
 當編譯器看到 <code>var</code> 關鍵字時會參考 <code>=</code> 右側的運算式，背後宣告這個區域變數的型別，可以省掉我們自行判斷宣告型別的流程。</p>
 <p>第二個好處是能避免變數被錯誤宣告為不正確的型別。常見的問題就是 <code>IEnumerable&lt;T&gt;</code> 和 <code>IQueryable&lt;T&gt;</code> 轉換錯誤導致的性能問題。</p>
 <p>當我們使用 <code>EFCore</code> 搭配 <code>LINQ</code> 來存取資料庫數據時，會使用到<code>LINQ to Objects</code> 與 <code>LINQ to SQL</code> 來篩選或排序我們想要的資料。</p>
@@ -169,10 +167,10 @@ Declared Type: Decimal, Value: 166
 </ol>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-01'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -194,7 +192,8 @@ Declared Type: Decimal, Value: 166
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -217,6 +216,10 @@ Declared Type: Decimal, Value: 166
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

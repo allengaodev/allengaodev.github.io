@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法在討論 Value Types 和 Reference Types 兩種型別中複製與傳遞的差異性與它們的使用場合。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法在討論 Value Types 和 Reference Types 兩種型別中複製與傳遞的差異性與它們的使用場合。</p>
 <p>當我們要建立新的型別時，第一件要做的事就是挑選 <code>class</code> 或是 <code>struct</code>，如果選錯的話之後要修改會大大影響使用到這個型別的使用者。</p>
 <p>首先看看這個例子，這裡 MyData 型別使用 <code>struct</code> 建立，所以它是個 Value Types，並且透過 Foo 方法將物件進行回傳，最終會將回傳的物件完整複製一份到 <code>v</code> 區域變數內，
 這也是 Value Types 的特性。</p>
@@ -235,10 +233,10 @@ C cThing = new C();
 那應該選擇 Reference Types 比較不會出錯。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-04'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -260,7 +258,8 @@ C cThing = new C();
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -283,6 +282,10 @@ C cThing = new C();
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

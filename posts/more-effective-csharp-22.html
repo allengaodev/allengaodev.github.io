@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法提供了幾條建議可以讓你寫的多載 API 能夠更加實用以及清楚。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法提供了幾條建議可以讓你寫的多載 API 能夠更加實用以及清楚。</p>
 <p>在之前的做法有提到編譯器在選擇最適當的方法有一連串的步驟，所以最好不要增加判斷的變數不然會造成編譯器判斷失誤。</p>
 <p>例如這個類別透過多載建立了兩個方法名稱為 Add 的方法，理論上它們要做的事情應該相同但實際上卻沒有，這就會導致誤會，
 這種時候就不應該使用多載，反而要提供更明確的名稱例如 <code>AddToList</code> 與 <code>AddToEachValue</code>。</p>
@@ -247,10 +245,10 @@ public static class Utilities
 過多的方法只會產生複雜度，並沒有增強可用性。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-22'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -272,7 +270,8 @@ public static class Utilities
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -295,6 +294,10 @@ public static class Utilities
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

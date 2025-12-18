@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法建議使用 synchronization primitives 之前應該要想清楚，不要整個應用程式都是同步化的語法，最後造成死鎖的機率增加。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法建議使用 synchronization primitives 之前應該要想清楚，不要整個應用程式都是同步化的語法，最後造成死鎖的機率增加。</p>
 <p>我們寫程式可以透過 private 宣告一個成員，讓這個成員只能在某個特定區域才可以修改狀態，同時也能避免修改這個成員狀態的程式碼散落到
 應用程式的各個角落，在處理並行程式碼也要有類似概念來限制提供同步處理的物件。</p>
 <p>在上個做法有提到 <code>lock(this)</code> 這個寫法是很不好的，相同概念的寫法還有 <code>lock(typeof(MyType))</code>，它們的問題都是公開的範圍太大。
@@ -202,10 +200,10 @@ public static void StaticMethod()
 這樣可以加快程式運行的效率，也可以降低死鎖的風險。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-41'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -227,7 +225,8 @@ public static void StaticMethod()
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -250,6 +249,10 @@ public static void StaticMethod()
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

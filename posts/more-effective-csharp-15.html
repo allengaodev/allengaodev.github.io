@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法延伸做法 14 的內容，主要在討論 Abstract Method、Virtual Method 與 Interface 之間的差異。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法延伸做法 14 的內容，主要在討論 Abstract Method、Virtual Method 與 Interface 之間的差異。</p>
 <p>下面是一個常見的抽象類別包含了一個 abstract 方法與 virtual 方法，它們的差異也很明顯，abstract 方法不需要提供實做但是強制要求
 衍生類別必須提供實做細節，virtual 方法則是提供實做細節但不強制衍生類別提供新的細節。</p>
 <p>如果你在 abstract 方法加上大括號那編譯器會馬上提示錯誤，同樣道理如果在 virtual 方法不加上大括號也會把上提示錯誤。</p>
@@ -388,10 +386,10 @@ public class MyDerivedClass : MyClass, IMessage
 或者是像最後一個寫法另外提供 virtual 方法給之後衍生類別實做細節。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-15'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -413,7 +411,8 @@ public class MyDerivedClass : MyClass, IMessage
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -436,6 +435,10 @@ public class MyDerivedClass : MyClass, IMessage
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

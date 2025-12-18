@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法警告不要宣告 <code>virtual event</code> 因為在衍生類別覆寫 event 可能會導致意料外的問題。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法警告不要宣告 <code>virtual event</code> 因為在衍生類別覆寫 event 可能會導致意料外的問題。</p>
 <p>在做法 16 有提到宣告事件時背後會產生 <code>add</code> 與 <code>remove</code> 存取子以及一個 private backing field 供事件使用，這就代表當衍生類別覆寫事件的時候
 因為 private 存取範圍導致 backing field 無法被存取，最後基底類別的事件無法正確觸發衍生類的事件。</p>
 <p>例如下面這段程式碼在衍生類別 <code>WorkerEngineDerived</code> 覆寫了 <code>OnProgress</code> 事件，這會產生兩個 private backing field 一個在基底類別一個在衍生類別，
@@ -268,10 +266,10 @@ public void SendConsoleLogger(object sender, WorkerEventArgs args)
 不要宣告成 <code>virtual</code> 其實才是最好的。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-21'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -293,7 +291,8 @@ public void SendConsoleLogger(object sender, WorkerEventArgs args)
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -316,6 +315,10 @@ public void SendConsoleLogger(object sender, WorkerEventArgs args)
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

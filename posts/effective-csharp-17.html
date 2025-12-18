@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>在前幾個做法都有提到 IDisposable 的相關概念，這個做法就是在討論如何寫出標準的 Dispose 模式。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>在前幾個做法都有提到 IDisposable 的相關概念，這個做法就是在討論如何寫出標準的 Dispose 模式。</p>
 <p>之前也有提到實做 <code>IDisposable</code> 介面時使用者需要自行注意釋放的時機，因此最方便的做法就是搭配 <code>using</code> 這樣內部程式碼結束後會自動呼叫
 <code>Dispose</code> 方法，為了避免使用者忘記釋放掉記憶體或不知道要使用 <code>using</code> 來釋放，我們在實做的時候可以選擇將 <code>finalizer</code> 與 <code>IDisposable</code> 結合起來的寫法
 ，這樣即可以手動釋放也可以避免使用者忘記的情況發生。</p>
@@ -223,10 +221,10 @@ Finalize queue 裡面了。</p>
 上面提到的建議都寫在 <code>SafeHandle</code> 裡面了，所以實務上其實也可以從 <code>SafeHandle</code> 衍生出自己的類別這樣可以省事不少。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-17'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -248,7 +246,8 @@ Finalize queue 裡面了。</p>
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -271,6 +270,10 @@ Finalize queue 裡面了。</p>
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 
