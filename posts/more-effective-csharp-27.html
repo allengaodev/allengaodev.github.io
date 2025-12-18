@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法在講解 async 背後的運作機制，以及建議改用 async 來處理非同步相關的工作。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法在講解 async 背後的運作機制，以及建議改用 async 來處理非同步相關的工作。</p>
 <p>從古至今 C# 提供了多種非同步的寫法，例如: <code>APM</code>、<code>EAP</code>、<code>TAP</code> 每種寫法都有它的特色，不過為了使用上的方便，現在建議只使用
 最新的 <code>TAP</code> 模式以及它的語法糖 <code>async</code>、<code>await</code>，也就是以任務為基礎的開發方式。</p>
 <p>舊有的 <code>APM</code> 要求開發者要提供一個 <code>Begin</code> 與 <code>End</code> 方法來代表非同步工作的開始與結束，
@@ -357,10 +355,10 @@ private sealed class &lt;MyDelay&gt;d__1 : IAsyncStateMachine
 主要需要記得的關鍵就是狀態機以及中斷恢復的功能，還有同時產生多個錯誤處理需要自行解讀 AggregateException。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-27'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -382,7 +380,8 @@ private sealed class &lt;MyDelay&gt;d__1 : IAsyncStateMachine
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -405,6 +404,10 @@ private sealed class &lt;MyDelay&gt;d__1 : IAsyncStateMachine
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

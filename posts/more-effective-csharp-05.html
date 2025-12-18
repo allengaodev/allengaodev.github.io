@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法在建議處理 Value Types 相關的型別時因為預設初始化為 0，所以要確保為 0 的時候型別要能正常運作或者是有效的狀態。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法在建議處理 Value Types 相關的型別時因為預設初始化為 0，所以要確保為 0 的時候型別要能正常運作或者是有效的狀態。</p>
 <p>在 .net 中預設的初始化就是將物件設定為 0，所以只能夠把 0 當成你的型別中的有效預設值，像是在 <code>DecompressionMethods</code> 這個 enum 中
 0 就代表 <code>None</code>，也能發現它是從 0 開始編號的。</p>
 <pre><code class="language-text">void Main()
@@ -220,10 +218,10 @@ public struct LogMessage
 全部為 0 當成預設的情況，並要注意使用 FlagsAttribute 的時候一定要設定 0 用來代表沒有任何 flags 的意思。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-05'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -245,7 +243,8 @@ public struct LogMessage
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -268,6 +267,10 @@ public struct LogMessage
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

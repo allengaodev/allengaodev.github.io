@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法介紹了 C# 中 Task 提供了 IProgress 與 CancellationToken 可以用來實做進度條與取消任務等功能。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法介紹了 C# 中 Task 提供了 IProgress 與 CancellationToken 可以用來實做進度條與取消任務等功能。</p>
 <p>雖然我們可以幫非同步 API 新增取消的機制，但並不是每一種功能底層機制都支援取消功能，所以不應該把幫每個非同步 API 都加上能夠取消的多載版本。
 同樣的問題在新增回報進度功能也一樣，你的非同步工作應該要有可以劃分階段並提供進度資訊的設計，否則不應該加上能夠回報進度的多載版本。</p>
 <p>假設你寫了一個計算薪資的 API 內部包含了五個步驟，你就可以在每個步驟都額外實做回報進度的多載版本，也可以在第一二三步驟加上取消的多載版本，
@@ -323,10 +321,10 @@ public async Task RunPayroll(DateTime payrollPeriod, CancellationToken cancelati
 <p>這個做法介紹 Task 能夠支援任務取消與回報進度的功能，可以按照自己的需求評估是否需要實做。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-33'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -348,7 +346,8 @@ public async Task RunPayroll(DateTime payrollPeriod, CancellationToken cancelati
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -371,6 +370,10 @@ public async Task RunPayroll(DateTime payrollPeriod, CancellationToken cancelati
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

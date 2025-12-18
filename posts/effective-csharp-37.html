@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>在做法 29 與做法 33 提到的 <code>Lazy Evaluation</code> 在這個做法又提到了一次，不過這次有提出相對的概念也就是 <code>Eager Evaluation</code>。
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>在做法 29 與做法 33 提到的 <code>Lazy Evaluation</code> 在這個做法又提到了一次，不過這次有提出相對的概念也就是 <code>Eager Evaluation</code>。
 首先還是複習一下 <code>Lazy Evaluation</code> 的運作邏輯，下面這一段程式碼建立了一個 <code>Iterator Methods</code> Generate，當我們呼叫靜態方法
 LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會產生不同的三個 DateTime.Now。</p>
 <pre><code class="language-text">void Main()
@@ -233,10 +231,10 @@ sequence2.Dump();
 將數據值保存到記憶體內，除非真的很確定需要 <code>Eager Evaluation</code> 的特性否則優先使用 <code>Lazy Evaluation</code>。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-37'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -258,7 +256,8 @@ sequence2.Dump();
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -281,6 +280,10 @@ sequence2.Dump();
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

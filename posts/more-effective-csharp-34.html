@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法主要在介紹使用 ValueTask 與 ValueTask<T> 好處與使用的時機。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法主要在介紹使用 ValueTask 與 ValueTask<T> 好處與使用的時機。</p>
 <p>到目前為止我們寫的非同步方法的回傳值基本上都是 <code>Task</code> 或是 <code>Task&lt;T&gt;</code>，但在某些時刻 Task 型別可能會造成性能瓶頸，例如在 loop
 每次迴圈都建立新的 <code>Task</code>，就會導致大量的 heap allocate，同時也會增加 GC 回收的次數與壓力。</p>
 <p>由於新版本的 C# 沒有 async 強迫一定要用 <code>Task</code> 或 <code>Task&lt;T&gt;</code> 做為回傳值，現在只要物件有提供 <code>GetAwaiter</code> 方法並
@@ -189,10 +187,10 @@ public async Task&lt;IEnumerable&lt;WeatherData&gt;&gt; RetrieveHistoricalData()
 除非真的測量到 allocate memory 真的是性能瓶頸才改用 <code>ValueTask</code>。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-34'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -214,7 +212,8 @@ public async Task&lt;IEnumerable&lt;WeatherData&gt;&gt; RetrieveHistoricalData()
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -237,6 +236,10 @@ public async Task&lt;IEnumerable&lt;WeatherData&gt;&gt; RetrieveHistoricalData()
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法在講解 WinForm 與 WPF 中該如何處理跨執行緒操作，並了解如何正確處理 UI 控件的執行緒。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法在講解 WinForm 與 WPF 中該如何處理跨執行緒操作，並了解如何正確處理 UI 控件的執行緒。</p>
 <p>Windows Controls 是基於 COM Single-Threaded Apartment(STA)模型，要求所有對控件的操作必須和建立控件的執行緒相同。</p>
 <p>下面這段 WinForm 程式碼建立了一個按鈕與文字輸入框，在按鈕中的程式碼建立新的 <code>Task</code> 想要將修改文字的任務轉移到另一個執行緒上，
 但是當你按下按鈕後會拋出錯誤訊息 <code>System.InvalidOperationException: '跨執行緒作業無效: 存取控制項 'textBox1' 時所使用的執行緒與建立控制項的執行緒不同。</code>，
@@ -196,10 +194,10 @@ private void ShowText()
 與背後邏輯。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-39'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -221,7 +219,8 @@ private void ShowText()
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -244,6 +243,10 @@ private void ShowText()
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

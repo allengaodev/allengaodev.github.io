@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法在說明將方法轉成平行化內部發生例外錯誤後該如何處理。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法在說明將方法轉成平行化內部發生例外錯誤後該如何處理。</p>
 <p>在平行作業執行的過程中，如果一個子執行緒發生錯誤，那麼該執行緒可能會被直接中止，並且由於 Exceptions 沒辦法跨執行緒所以這個 Exceptions
 也沒有辦法拋出到主執行緒的 AggregateException 當中，也就代表呼叫的執行緒沒辦法做出相對應的處理。</p>
 <p>另外一個可能性是使用超過一個平行運算，結果會導致多個 AggregateExceptions 嵌套在一起增加處理難度，例如下面就需要透過
@@ -228,10 +226,10 @@ catch (AggregateException ex)
 還有只能捕捉 AggregateException。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-36'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -253,7 +251,8 @@ catch (AggregateException ex)
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -276,6 +275,10 @@ catch (AggregateException ex)
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

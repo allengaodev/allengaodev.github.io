@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>在上一個做法提到 <code>Tuple</code> 與 <code>anonymous types</code> 兩種定義輕量型別的方式，但是要把這些型別作為方法的參數、回傳、屬性則需要使用一些特別的技巧。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>在上一個做法提到 <code>Tuple</code> 與 <code>anonymous types</code> 兩種定義輕量型別的方式，但是要把這些型別作為方法的參數、回傳、屬性則需要使用一些特別的技巧。</p>
 <p>以 <code>Tuple</code> 為例，我們只需要定義 <code>Tuple</code> 的 <code>shape</code> 就可以很輕鬆地把一個 <code>Tuples</code> 當成方法的回傳型別，可以直接把回傳的 <code>Tuple</code> 指派給擁有相同格式的變數，
 也可以使用 <code>deconstruction</code> 把值指派給不同格式的變數。</p>
 <pre><code class="language-text">void Main()
@@ -251,10 +249,10 @@ public static IEnumerable&lt;TResult&gt; Map&lt;TSource, TResult&gt;(
 <p>這個做法提供了幾個技巧讓我們能夠將匿名函式當成是引數來傳遞，我們可以使用 lambda 搭配泛型方法也可以使用泛型與高階函式做到更複雜的功能。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-08'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -276,7 +274,8 @@ public static IEnumerable&lt;TResult&gt; Map&lt;TSource, TResult&gt;(
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -299,6 +298,10 @@ public static IEnumerable&lt;TResult&gt; Map&lt;TSource, TResult&gt;(
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

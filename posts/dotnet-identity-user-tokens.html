@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -113,10 +110,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="net-core-identity-aspnetusertokens">.NET Core Identity AspNetUserTokens</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="net-core-identity-aspnetusertokens">.NET Core Identity AspNetUserTokens</h2>
 <p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
 分別使用到 <code>SignInManager</code> 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>
 <p>查看原始碼之後發現這兩個方法底層都會使用 SignInOrTwoFactorAsync 方法<br />
@@ -290,10 +288,10 @@ requiresTwoFactor 為 true 這時需要彈出輸入頁面給使用者輸入六�
 同樣也會把資料保存在 AspNetUserTokens 這個表，我們可以按照這個邏輯實踐出自己的方法</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dotnet-identity-user-tokens'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -315,7 +313,8 @@ requiresTwoFactor 為 true 這時需要彈出輸入頁面給使用者輸入六�
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -338,6 +337,10 @@ requiresTwoFactor 為 true 這時需要彈出輸入頁面給使用者輸入六�
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

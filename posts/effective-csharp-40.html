@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>本做法提到了 <code>Declarative code</code> 與  <code>Imperative code</code> 兩種程式碼風格，還有提前與延遲執行推薦的使用情況。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>本做法提到了 <code>Declarative code</code> 與  <code>Imperative code</code> 兩種程式碼風格，還有提前與延遲執行推薦的使用情況。</p>
 <p>採用 <code>Imperative code</code> 的寫法，內部的會根據你的命令先將資料準備好後再進行運算，例如下面這段程式碼需要傳入三個參數，
 在命令式的風格下需要由上到下把 <code>Method1</code>、<code>Method2</code>、<code>Method3</code> 的值先求出來後才會調用 <code>DoStuff()</code> 方法。</p>
 <pre><code class="language-text">var answer = DoStuff(Method1(),
@@ -142,10 +140,10 @@ var answer = DoStuff(() =&gt; cache,
 如果在很判斷的場合可以先試著傳遞方法本身就好，因為它平常就是延遲執行也可以馬上變成提前執行非常靈活。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-40'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -167,7 +165,8 @@ var answer = DoStuff(() =&gt; cache,
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -190,6 +189,10 @@ var answer = DoStuff(() =&gt; cache,
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

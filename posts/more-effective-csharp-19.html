@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法建議不要在衍生類別多載基底類別存在的方法，因為會造成誤會以及使用上的困擾。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法建議不要在衍生類別多載基底類別存在的方法，因為會造成誤會以及使用上的困擾。</p>
 <p>由於基底類別的開發者與衍生類別的開發者可能為不同人，可能會有某些熱門方法名稱大家都很愛用，導致在衍生類別寫出改變基底行為的多載方法，
 這個問題跟以前提到的使用 new 宣告新方法類似，因為它是透過隱藏基底方法而不是覆寫方法，所以結果就是使用時可能會與預期的不同。</p>
 <p>多載的解析規則是相當複雜的，它的目的是從多的候選方法中挑選出我們需要的那個方法，牽涉到的因素很多就有可能會挑選到錯誤的方法，可能的因素如以下:</p>
@@ -202,10 +200,10 @@ public class Tiger : Animal
 <p>這個做法解釋了為何不要在衍生類別多載基底類別存在的方法，並且解釋多載解析的判斷因素，改用不一樣的名稱可以從根本杜絕這個問題。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-19'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -227,7 +225,8 @@ public class Tiger : Animal
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -250,6 +249,10 @@ public class Tiger : Animal
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

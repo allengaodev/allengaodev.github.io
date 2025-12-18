@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法比較像做法 29 的延伸，主軸還是在講 <code>Iterator Methods</code> 但提到了更詳細的好處，還有另一個好處是
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法比較像做法 29 的延伸，主軸還是在講 <code>Iterator Methods</code> 但提到了更詳細的好處，還有另一個好處是
 可以把多個 <code>Iterator Methods</code> 拼接起來的特性，這個特性在做法後半段會提到。</p>
 <p>在做法 29 也有提到使用 <code>yield return</code> 並且回傳值是 <code>IEnumerable</code> 或 <code>IEnumerable&lt;T&gt;</code> 就是一個 <code>Iterator Methods</code>。</p>
 <p>因為做法 29 的例子比較簡單，這個做法有提出一個現實更常碰到的問題就是集合處理，例如傳入一個 <code>IEnumerable&lt;T&gt;</code> 參數透過我們的寫的方法處理
@@ -216,10 +214,10 @@ Number returned from Unique: 49
 很容易串聯起來，並且閱讀起來也非常易懂。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-31'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -241,7 +239,8 @@ Number returned from Unique: 49
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -264,6 +263,10 @@ Number returned from Unique: 49
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

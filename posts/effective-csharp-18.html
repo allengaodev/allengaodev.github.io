@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>接下來的幾個做法都會與泛型相關，這個做法建議了泛型中使用約束的幾個方式，首先複習一下泛型的基礎知識與名詞。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>接下來的幾個做法都會與泛型相關，這個做法建議了泛型中使用約束的幾個方式，首先複習一下泛型的基礎知識與名詞。</p>
 <hr />
 <h2 id="open-close-generic-type-type-parameter">開放 &amp; 封閉泛型類型(open &amp; close generic type) &amp; 類型參數(type parameter)</h2>
 <p>下面這段程式碼是一個常見的泛型 Class 寫法，可以輸入一個類型參數(type parameter) <code>TValue</code>，
@@ -229,10 +227,10 @@ List&lt;MyStruct&gt; values = new List&lt;MyStruct&gt;();
 並且可以大量減少檢查的邏輯，但並不是增加越多約束越好還是要視情況來添加約束。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/effective-csharp-18'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -254,7 +252,8 @@ List&lt;MyStruct&gt; values = new List&lt;MyStruct&gt;();
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -277,6 +276,10 @@ List&lt;MyStruct&gt; values = new List&lt;MyStruct&gt;();
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

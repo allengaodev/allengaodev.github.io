@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法討論了 C# 中物件相等性的問題，以及兩個物件是怎麼判定為相等背後的原理。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法討論了 C# 中物件相等性的問題，以及兩個物件是怎麼判定為相等背後的原理。</p>
 <p>當你建立了一個新的型別同時也要想清楚對於這個型別來說什麼是相等的，C# 提供了四個方法能夠決定兩個不同的物件是否相同。</p>
 <pre><code class="language-text">public static bool ReferenceEquals (object left, object right);
 public static bool Equals (object left, object right);
@@ -315,10 +313,10 @@ Console.WriteLine(StructuralComparisons.StructuralEqualityComparer.Equals(list1,
 ，以及在 <code>value type</code> 中因為效能的問題建議要覆寫 <code>Equals()</code> 方法與 <code>==</code> 運算子，並且做好也同時實做 <code>IEquatable&lt;T&gt;</code> 介面。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-09'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -340,7 +338,8 @@ Console.WriteLine(StructuralComparisons.StructuralEqualityComparer.Equals(list1,
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -363,6 +362,10 @@ Console.WriteLine(StructuralComparisons.StructuralEqualityComparer.Equals(list1,
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

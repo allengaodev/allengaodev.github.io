@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法提到同步方法與非同步方法根本上的行為差異，所以不要寫出混用這兩種方法的程式碼。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法提到同步方法與非同步方法根本上的行為差異，所以不要寫出混用這兩種方法的程式碼。</p>
 <p>一個帶有 async 定義的非同步方法就代表這個方法可能在完成所有工作之前就回傳，回傳的任務物件可能處於 <code>TaskStatus</code> 這個 Enum 中的一個狀態，
 async 定義的非同步方法也可能代表這個指定的任務需要更多的時間才能完成，所以呼叫者為了避免浪費時間，建議是在等待期間同時執行其他工作。</p>
 <p>一個同步方法則是執行時會阻塞呼叫者的操作，因為他們是共用同一個資源，直到完成所有工作。</p>
@@ -187,10 +185,10 @@ public Task&lt;double&gt; ComputeValueAsync()
 應該要把這個決定權交給呼叫者自行決定比較好。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-29'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -212,7 +210,8 @@ public Task&lt;double&gt; ComputeValueAsync()
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -235,6 +234,10 @@ public Task&lt;double&gt; ComputeValueAsync()
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

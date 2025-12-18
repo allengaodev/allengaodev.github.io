@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <p>這個做法說明了匿名型別的使用方式，以及怎麼使用 <code>Tuples</code> 來建立匿名型別和背後的原理。</p>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>這個做法說明了匿名型別的使用方式，以及怎麼使用 <code>Tuples</code> 來建立匿名型別和背後的原理。</p>
 <p>在 C# 中我們建立型別有許多選擇例如 <code>class</code>、<code>struct</code>、<code>tuple</code>、<code>anonymous types</code>，並不是一定要從 <code>class</code> 與 <code>struct</code> 二選一。
 如果今天要處理的問題更加簡單，那麼就可以改用 <code>tuple</code> 或 <code>anonymous types</code> 節省開發時間。</p>
 <p>首先要建立一個匿名型別非常簡單，只需要在大括號之間定義欄位即可。</p>
@@ -268,10 +266,10 @@ static T Transform&lt;T&gt;(T element, Func&lt;T, T&gt; transformFunc)
 如果想要當成中繼結果使用建議使用 <code>anonymous types</code>，如果需要可改變值的型別則使用 <code>tuple</code>。</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/more-effective-csharp-07'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -293,7 +291,8 @@ static T Transform&lt;T&gt;(T element, Func&lt;T, T&gt; transformFunc)
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -316,6 +315,10 @@ static T Transform&lt;T&gt;(T element, Func&lt;T, T&gt; transformFunc)
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

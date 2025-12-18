@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="docker-attach-vs-exec">Docker Attach vs Exec</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="docker-attach-vs-exec">Docker Attach vs Exec</h2>
 <p>之前在進入 Container 內部時經常使用到 <code>docker attach &lt;ContainerId&gt;</code> 這個命令，不過 Docker 還有提供另一個命令 <code>docker exec</code><br />
 <code>docker exec</code> 顧名思義就是在 container 內部運行一段命令，我們可以在 Host 環境底下直接將命令傳送給 container 內部<br />
 交由 container 內部的系統來運行，所以範用性比起 <code>docker attach</code> 更加的廣泛，今天要來比較這兩個命令的區別</p>
@@ -196,10 +194,10 @@ UBUNTU_CODENAME=jammy
 之後可以按照自己的需求來選擇要使用那一個命令</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dca-attach-exec'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -221,7 +219,8 @@ UBUNTU_CODENAME=jammy
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -244,6 +243,10 @@ UBUNTU_CODENAME=jammy
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 

@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
@@ -34,10 +35,6 @@
   <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
   <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
   <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
-
-  <!-- Google tag (gtag.js)-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
   
 
@@ -109,10 +106,11 @@
 
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        <h2 id="docker-network-host-mode">Docker Network Host Mode</h2>
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="docker-network-host-mode">Docker Network Host Mode</h2>
 <p>在上一篇文章中: <a href="https://blog.allengaodev.com/posts/dca-network-bridge" target="_blank">Docker Certified Associate(DCA)認證考試學習- Docker Network Bridge Mode</a>
 學習到了 Docker Network 中最常使用的 Bridge Mode，今天要來試試看 Host Mode 有什麼不同</p>
 <p>先看看 Host 的<a href="https://docs.docker.com/network/host/" target="_blank">文檔</a> ， 按照文檔的說法使用 Host 模式的 container 會直直接使用 Host 主機的網路<br />
@@ -178,10 +176,10 @@ $ docker network inspect host
 因為不像Bridge模式網路區段有分開，再加上本機如果已經佔用很多端口這時啟用 Host模式常用的 port 會很容易衝突，使用者需要自行而外注意這個問題</p>
 
 
-        
+          
 
+        </div>
       </div>
-    </div>
   <div id="comments-container" class="row">
     <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/dca-network-host'></div>
  <script src="https://static.like.co/sdk/v1/button.js"></script> -->
@@ -203,7 +201,8 @@ $ docker network inspect host
 </script>
 
   </div>
-  </div>
+    </div>
+  </main>
 
   <hr>
 
@@ -226,6 +225,10 @@ $ docker network inspect host
   
 
   
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
+  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
 
 </body>
 
