@@ -550,10 +550,35 @@ i5reHJPeEOMvghvH-Z9LBDRA9WsVf-CDml74fKNHziArYFdopoBHrY8oeVzZlCGtjDfEbnVI82AXVCjD
 
   
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99"></script>
-  <script> function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-EBB8LGKD99"); </script>
+  <!-- Optimized GTM loading -->
+  <script>
+    (function() {
+      // minimal dataLayer init
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
 
+      function loadGTM() {
+        if (window.__gtmLoaded) return;
+        window.__gtmLoaded = true;
+
+        const s = document.createElement("script");
+        s.async = true;
+        s.src = `https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99`;
+        document.head.appendChild(s);
+      }
+
+      // trigger load on first interaction or after idle timeout
+      const trigger = () => loadGTM();
+      ["scroll", "pointerdown", "keydown"].forEach(evt =>
+        window.addEventListener(evt, trigger, { once: true, passive: true })
+      );
+
+      if ("requestIdleCallback" in window)
+        requestIdleCallback(loadGTM, { timeout: 5000 });
+      else
+        setTimeout(loadGTM, 5000);
+    })();
+  </script>
 </body>
 
 </html>
