@@ -6,8 +6,19 @@
 		<description>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</description>
 		<copyright>© 2025 by Allen Gao</copyright>
 		<managingEditor>allengaodev@gmail.com</managingEditor>
-		<pubDate>Tue, 16 Dec 2025 10:27:14 GMT</pubDate>
-		<lastBuildDate>Tue, 16 Dec 2025 10:27:14 GMT</lastBuildDate>
+		<pubDate>Thu, 18 Dec 2025 09:48:44 GMT</pubDate>
+		<lastBuildDate>Thu, 18 Dec 2025 09:48:44 GMT</lastBuildDate>
+		<item>
+			<title>ABP IO 架構分析 – AOP 攔截器</title>
+			<link>https://blog.allengaodev.com/posts/abp-io-interceptors</link>
+			<description>解析 ABP.IO 的 AOP 攔截器設計，說明 ABP 如何透過 Castle Core 與 Autofac 實現非同步攔截流程，並以 UnitOfWorkInterceptor 為例，完整拆解攔截器註冊、轉接層設計與實際請求執行順序，協助理解 ABP AOP 的整體運作原理。</description>
+			<author>allengaodev@gmail.com</author>
+			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
+			<guid>https://blog.allengaodev.com/posts/abp-io-interceptors</guid>
+			<pubDate>Thu, 18 Dec 2025 00:00:00 GMT</pubDate>
+			<content:encoded>False</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
 		<item>
 			<title>Castle Core 與 Autofac 整合應用</title>
 			<link>https://blog.allengaodev.com/posts/castle-core-with-autofac</link>
@@ -103,17 +114,6 @@
 			<author>allengaodev@gmail.com</author>
 			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-49</guid>
-			<pubDate>Sat, 30 Nov 2024 00:00:00 GMT</pubDate>
-			<content:encoded>False</content:encoded>
-			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
-		</item>
-		<item>
-			<title>More Effective C# 48.尋求最好的答案，而不是最受歡迎的答案</title>
-			<link>https://blog.allengaodev.com/posts/more-effective-csharp-48</link>
-			<description>More Effective C# 48.尋求最好的答案，而不是最受歡迎的答案(Seek the best answer, not the most popular answer)</description>
-			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
-			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-48</guid>
 			<pubDate>Sat, 30 Nov 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
 			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>

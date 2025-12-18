@@ -110,6 +110,19 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-28">More Effective C# 28.&#x6C38;&#x9060;&#x4E0D;&#x8981;&#x5BEB; async void &#x65B9;&#x6CD5;</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/11/21
+    </a>
+
+  </p>
+
+<p>這個做法提出幾個理由讓你知道寫 async void 方法是不好的，所以應該要避免這樣寫非同步方法。</p>    <p class="small"><a href="/posts/more-effective-csharp-28">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/more-effective-csharp-27">More Effective C# 27.&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;&#x4F7F;&#x7528; Async &#x65B9;&#x6CD5;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -133,19 +146,6 @@
 
 <p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
 例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>    <p class="small"><a href="/posts/more-effective-csharp-26">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-25">More Effective C# 25.Array &#x5F15;&#x6578;&#x9650;&#x5236;&#x53EA;&#x4F7F;&#x7528; params &#x9663;&#x5217;</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/18
-    </a>
-
-  </p>
-
-<p>這個做法提出使用陣列做為參數可能會引發某些問題，並且建議改用 params 陣列。</p>    <p class="small"><a href="/posts/more-effective-csharp-25">Read more...</a></p>
 </div>
 
   <div>
