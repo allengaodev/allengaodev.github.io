@@ -391,6 +391,15 @@ ENV則是會影響到container內的環境變數，所以可以用來指定目�
         s.async = true;
         s.src = `https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99`;
         document.head.appendChild(s);
+
+        // 初始化 gtag
+        s.onload = () => {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-EBB8LGKD99', { 'send_page_view': false }); // 禁用自動 pageview
+        };
       }
 
       // trigger load on first interaction or after idle timeout

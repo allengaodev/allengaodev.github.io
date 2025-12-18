@@ -246,6 +246,15 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
         s.async = true;
         s.src = `https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99`;
         document.head.appendChild(s);
+
+        // 初始化 gtag
+        s.onload = () => {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-EBB8LGKD99', { 'send_page_view': false }); // 禁用自動 pageview
+        };
       }
 
       // trigger load on first interaction or after idle timeout
