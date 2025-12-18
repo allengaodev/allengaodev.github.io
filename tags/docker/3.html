@@ -202,40 +202,34 @@
 
   <!-- Optimized GTM loading -->
   <script>
-    (function() {
-      // minimal dataLayer init
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
 
-      function loadGTM() {
-        if (window.__gtmLoaded) return;
-        window.__gtmLoaded = true;
+    gtag('js', new Date());
+    gtag('config', 'G-EBB8LGKD99');
+
+    (function() {
+      function loadLib() {
+        // 防止重複載入
+        if (window.__gtagLoaded) return;
+        window.__gtagLoaded = true;
 
         const s = document.createElement("script");
         s.async = true;
-        s.src = `https://www.googletagmanager.com/gtag/js?id=G-EBB8LGKD99`;
+        s.src = "https://blog.allengaodev.com/tms1/gtag/js";
         document.head.appendChild(s);
-
-        // 初始化 gtag
-        s.onload = () => {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', 'G-EBB8LGKD99', { 'send_page_view': false }); // 禁用自動 pageview
-        };
       }
 
-      // trigger load on first interaction or after idle timeout
-      const trigger = () => loadGTM();
+      const trigger = () => loadLib();
       ["scroll", "pointerdown", "keydown"].forEach(evt =>
         window.addEventListener(evt, trigger, { once: true, passive: true })
       );
 
-      if ("requestIdleCallback" in window)
-        requestIdleCallback(loadGTM, { timeout: 5000 });
-      else
-        setTimeout(loadGTM, 5000);
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(loadLib, { timeout: 5000 });
+      } else {
+        setTimeout(loadLib, 5000);
+      }
     })();
   </script>
 </body>
