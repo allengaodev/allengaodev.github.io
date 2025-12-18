@@ -110,6 +110,23 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-user-logins">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/04/26
+    </a>
+
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/21
+      </a>
+  </p>
+
+<p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
+所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-external-provider-google">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -140,24 +157,6 @@
 
 <p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-claims-authorization">文章</a>
 中學習了 <code>Claim</code> 與 <code>Policy</code> 的基本知識，會員在新增完 <code>Claim</code> 之後可以搭配我們註冊好的 <code>Policy</code> 就能夠避免不符合規定的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/17
-    </a>
-
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/20
-      </a>
-  </p>
-
-<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-cookie-signin">文章</a>
-中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
-現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
 </div>
 
   <div>

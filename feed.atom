@@ -7,9 +7,21 @@
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2025 by Allen Gao</rights>
-	<updated>2025-12-16T10:27:14Z</updated>
+	<updated>2025-12-18T09:48:44Z</updated>
 	<logo>https://blog.allengaodev.com/assets/img/101night.avif</logo>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-interceptors</id>
+		<title>ABP IO 架構分析 – AOP 攔截器</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-interceptors" />
+		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
+		<updated>2025-12-18T00:00:00Z</updated>
+		<content>False</content>
+		<summary>解析 ABP.IO 的 AOP 攔截器設計，說明 ABP 如何透過 Castle Core 與 Autofac 實現非同步攔截流程，並以 UnitOfWorkInterceptor 為例，完整拆解攔截器註冊、轉接層設計與實際請求執行順序，協助理解 ABP AOP 的整體運作原理。</summary>
+	</entry>
 	<entry>
 		<id>https://blog.allengaodev.com/posts/castle-core-with-autofac</id>
 		<title>Castle Core 與 Autofac 整合應用</title>
@@ -117,17 +129,5 @@
 		<updated>2024-11-30T00:00:00Z</updated>
 		<content>False</content>
 		<summary>More Effective C# 49.參與規格及程式碼的訂定(Participate in Specs and Code)</summary>
-	</entry>
-	<entry>
-		<id>https://blog.allengaodev.com/posts/more-effective-csharp-48</id>
-		<title>More Effective C# 48.尋求最好的答案，而不是最受歡迎的答案</title>
-		<author>
-			<name>allengaodev@gmail.com</name>
-		</author>
-		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-48" />
-		<link rel="enclosure" type="image" href="https://blog.allengaodev.com/assets/img/101night.avif" />
-		<updated>2024-11-30T00:00:00Z</updated>
-		<content>False</content>
-		<summary>More Effective C# 48.尋求最好的答案，而不是最受歡迎的答案(Seek the best answer, not the most popular answer)</summary>
 	</entry>
 </feed>
