@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
-  <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog.css'/>
 
     <meta name="description" content="&#x672C;&#x7BC7;&#x6587;&#x7AE0;&#x6DF1;&#x5165;&#x89E3;&#x6790; ABP.IO &#x6846;&#x67B6;&#x7684;&#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x9032;&#x968E;&#x8A2D;&#x8A08;&#xFF0C;&#x5C08;&#x6CE8;&#x65BC; Domain Layer &#x7684;&#x8A2D;&#x8A08;&#x8207;&#x5BE6;&#x4F5C;&#xFF0C;&#x4E26;&#x8A73;&#x7D30;&#x4ECB;&#x7D39;&#x5982;&#x4F55;&#x5229;&#x7528; ABP &#x63D0;&#x4F9B;&#x7684; Building Blocks&#xFF0C;&#x5982; Entity&#x3001;Domain Service &#x7B49;&#xFF0C;&#x4F86;&#x5BE6;&#x73FE;&#x7B26;&#x5408; DDD &#x539F;&#x5247;&#x7684;&#x6838;&#x5FC3;&#x529F;&#x80FD;&#x3002;&#x540C;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x900F;&#x904E;&#x5EFA;&#x7ACB;&#x6E2C;&#x8A66;&#x5C08;&#x6848;&#x9A57;&#x8B49; Domain &#x5C64;&#x7684;&#x529F;&#x80FD;&#x5B8C;&#x6574;&#x6027;&#xFF0C;&#x4E26;&#x4ECB;&#x7D39;&#x5982;&#x4F55;&#x6709;&#x6548;&#x904B;&#x7528; ABP &#x7684;&#x6E2C;&#x8A66;&#x5DE5;&#x5177;&#x63D0;&#x5347;&#x958B;&#x767C;&#x6548;&#x7387;&#x3002;">
@@ -481,23 +480,46 @@ public class BookManager_Tests
         </div>
       </div>
   <div id="comments-container" class="row">
-    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer'></div>
- <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+    <div id="giscus-container"></div>
 
-<script src="https://giscus.app/client.js"
-        data-repo='allengaodev/allengaodev.github.io'
-        data-repo-id='R_kgDOI6sF8g'
-        data-category-id='DIC_kwDOI6sF8s4CUbuw'
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script>
+  let giscusLoaded = false;
+  function loadGiscus() {
+    if (giscusLoaded) return;
+    giscusLoaded = true;
+
+    let datarepo = 'allengaodev/allengaodev.github.io'
+    let datarepoid='R_kgDOI6sF8g'
+    let datacategoryid='DIC_kwDOI6sF8s4CUbuw'
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', datarepo);
+    script.setAttribute('data-repo-id', datarepoid);
+    script.setAttribute('data-category-id', datacategoryid);
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", "light");
+    script.setAttribute("data-lang", "en");
+    script.async = true;
+    document.getElementById("giscus-container").appendChild(script);
+  }
+
+  // 檢查是否滾動到最底部
+  function checkScrollBottom() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 2) {
+      loadGiscus();
+      window.removeEventListener("scroll", checkScrollBottom);
+    }
+  }
+
+  // 等待滾動結束
+  setTimeout(() => {
+    checkScrollBottom();
+    window.addEventListener("scroll", checkScrollBottom);
+  }, 500); // 0.5秒後檢查
 </script>
 
   </div>

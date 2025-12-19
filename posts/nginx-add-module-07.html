@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
-  <link rel="preconnect" href="https://giscus.app" crossorigin>
   <link rel="preload" as="style" href='/scss/clean-blog.css'/>
 
     <meta name="description" content="&#x6E2C;&#x8A66;&#x5728;&#x7DE8;&#x8B6F;&#x524D;&#x6DFB;&#x52A0;&#x7B2C;&#x4E09;&#x65B9;&#x7684; nginx &#x6A21;&#x7D44; echo-nginx-module&#x3002;">
@@ -223,23 +222,46 @@ hello, world!20240807
         </div>
       </div>
   <div id="comments-container" class="row">
-    <!--<div class="likecoin-embed likecoin-button" data-liker-id="allengaodev" data-href='https://blog.allengaodev.com/posts/nginx-add-module-07'></div>
- <script src="https://static.like.co/sdk/v1/button.js"></script> -->
+    <div id="giscus-container"></div>
 
-<script src="https://giscus.app/client.js"
-        data-repo='allengaodev/allengaodev.github.io'
-        data-repo-id='R_kgDOI6sF8g'
-        data-category-id='DIC_kwDOI6sF8s4CUbuw'
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script>
+  let giscusLoaded = false;
+  function loadGiscus() {
+    if (giscusLoaded) return;
+    giscusLoaded = true;
+
+    let datarepo = 'allengaodev/allengaodev.github.io'
+    let datarepoid='R_kgDOI6sF8g'
+    let datacategoryid='DIC_kwDOI6sF8s4CUbuw'
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', datarepo);
+    script.setAttribute('data-repo-id', datarepoid);
+    script.setAttribute('data-category-id', datacategoryid);
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", "light");
+    script.setAttribute("data-lang", "en");
+    script.async = true;
+    document.getElementById("giscus-container").appendChild(script);
+  }
+
+  // 檢查是否滾動到最底部
+  function checkScrollBottom() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 2) {
+      loadGiscus();
+      window.removeEventListener("scroll", checkScrollBottom);
+    }
+  }
+
+  // 等待滾動結束
+  setTimeout(() => {
+    checkScrollBottom();
+    window.addEventListener("scroll", checkScrollBottom);
+  }, 500); // 0.5秒後檢查
 </script>
 
   </div>
