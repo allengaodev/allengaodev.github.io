@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -99,9 +91,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -115,6 +107,7 @@
   </p>
 
 <p>本文章對書中 50 個做法進行總整理，以及對每個做法做出簡短總結，方便日後查看。</p>    <p class="small"><a href="/posts/more-effective-csharp-summary">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -128,6 +121,7 @@
   </p>
 
 <p>這個做法介紹 Roslyn Analyzers 並且說明它可以用來自動化程式碼規範分析，提升程式碼的質量。</p>    <p class="small"><a href="/posts/more-effective-csharp-50">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -141,6 +135,7 @@
   </p>
 
 <p>這個做法說明現在 C# 已經是開源狀態，應該要鼓勵更多開發者參與並協助演進。</p>    <p class="small"><a href="/posts/more-effective-csharp-49">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -154,6 +149,7 @@
   </p>
 
 <p>這個做法在提醒開發者在搜尋解答的過程中不要只看評分最好和曝光率高的留言，其它留言的解法也可能是更完美的。</p>    <p class="small"><a href="/posts/more-effective-csharp-48">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -167,6 +163,7 @@
   </p>
 
 <p>這個做法說明最好避免在任何公開的方法使用 dynamic 物件來避免蔓延，還有建議限制 dynamic 的使用範圍避免它把所有的物件變成動態物件。</p>    <p class="small"><a href="/posts/more-effective-csharp-47">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -180,6 +177,7 @@
   </p>
 
 <p>這個做法介紹該如何使用 Expression API 以及 Expression Trees 的相關概念。</p>    <p class="small"><a href="/posts/more-effective-csharp-46">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -193,6 +191,7 @@
   </p>
 
 <p>這個做法在說明如何使用 <code>DynamicObject</code> 與 <code>IDynamicMetaObjectProvider</code> 做到在執行時期建立出一個新的型別。</p>    <p class="small"><a href="/posts/more-effective-csharp-45">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -206,6 +205,7 @@
   </p>
 
 <p>這個做法在說明泛型方法的限制與能夠利用 <code>dynamic</code> 動態類型來彌補這些限制。</p>    <p class="small"><a href="/posts/more-effective-csharp-44">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -219,6 +219,7 @@
   </p>
 
 <p>這個做法比較動態類型與靜態類型各自的優勢，還有介紹如何使用 dynamic 將物件宣告成動態物件。</p>    <p class="small"><a href="/posts/more-effective-csharp-43">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -232,6 +233,7 @@
   </p>
 
 <p>這個做法講解了死鎖是怎麼造成的並且該怎麼做才能避免死鎖。</p>    <p class="small"><a href="/posts/more-effective-csharp-42">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -243,30 +245,6 @@
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>

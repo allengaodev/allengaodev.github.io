@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -100,9 +92,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -118,6 +110,7 @@
 <p>在上一篇的文章中: <a href="https://blog.allengaodev.com/posts/dca-volume" target="_blank">Docker Certified Associate(DCA)認證考試學習- VOLUME</a><br>
 我們學到了該怎麼在 Docker 中建立並且使用一個 volume ，今天要來學習另一種創建 volume 的方式<br>
 Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關功能</p>    <p class="small"><a href="/posts/dca-volume-cli">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -135,6 +128,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 但是有一個問題是此如果將 container 刪除，那麼在我們剛剛在可讀寫層所作的變更會一起被刪除掉<br>
 所以像是讀寫資料庫這種需求，如果資料沒辦法持久保存那顯然是會造成很大的問題<br>
 這時最簡易的作法可以在 Dockerfile 之內使用 VOLUME 指令</p>    <p class="small"><a href="/posts/dca-volume">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -149,6 +143,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 
 <p>在這篇文章<a href="https://blog.allengaodev.com/posts/dca-imagelayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Image Layer</a>當中有提到一個Dockerfile的規則<br>
 當使用<code>RUN</code>, <code>COPY</code>, <code>ADD</code>任意一個指令，Docker就會幫我們創建一個layers</p>    <p class="small"><a href="/posts/dca-image-multi-stage-builds">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -163,6 +158,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 
 <p>在Dockerfile中WORKDIR也是相當常用的指令<br>
 首先來看看<a href="https://docs.docker.com/engine/reference/builder/#workdir" target="_blank">WORKDIR文檔</a></p>    <p class="small"><a href="/posts/dca-workdir-user">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -176,6 +172,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
   </p>
 
 <p>在之前這篇文章最後: <a href="https://blog.allengaodev.com/posts/dca-context" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Context</a></p>    <p class="small"><a href="/posts/dca-expose-port">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -189,6 +186,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
   </p>
 
 <p>在前幾篇的文章中: <a href="https://blog.allengaodev.com/posts/dca-dockerfile" target="_blank">Docker Certified Associate(DCA)認證考試學習-Dockerfile</a></p>    <p class="small"><a href="/posts/dca-cmd-entrypoint-difference">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -203,6 +201,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 
 <p>今天來學習一下Dockerfile中ADD與COPY的區別，這兩個指令從字面上看意思非常相近所以很常搞混<br>
 先來看一下<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#add-or-copy" target="_blank">Docker最佳實踐</a></p>    <p class="small"><a href="/posts/dca-dockerfileaddorcopy">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -216,6 +215,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
   </p>
 
 <p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-containerlayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker可讀寫層</a></p>    <p class="small"><a href="/posts/dca-imagelayer">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -229,6 +229,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
   </p>
 
 <p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-imagebasic" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker Images</a></p>    <p class="small"><a href="/posts/dca-containerlayer">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -243,6 +244,7 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
 
 <p>今天要來學習 ENV 的使用方法<br>
 照慣例先看一下<a href="https://docs.docker.com/engine/reference/builder/#env" target="_blank">ENV文檔</a></p>    <p class="small"><a href="/posts/dca-arg-env">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -255,30 +257,6 @@ Docker 有提供一組 Volume Cil 讓我們可以手動來操作 volume 相關�
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>

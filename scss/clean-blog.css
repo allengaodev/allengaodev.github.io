@@ -2640,7 +2640,7 @@ header.masthead .image-attribution { position: absolute; left: auto; right: 1rem
 
 header.masthead .image-attribution p { margin: 0; padding: 0; }
 
-@media (min-width: 992px) { #mainNav.fixed-top { text-shadow: 0 0 4px rgba(0, 0, 0, 0.8); }
+@media (min-width: 992px) { #mainNav.fixed-top { text-shadow: none; }
   #mainNav.is-fixed { top: -71px; border-bottom: 1px solid rgba(108, 117, 125, 0.9); text-shadow: none; }
   #mainNav .navbar-nav { align-items: center; } }
 

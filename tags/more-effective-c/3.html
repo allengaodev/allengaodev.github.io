@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -100,9 +92,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -116,6 +108,7 @@
   </p>
 
 <p>這個做法主要在講解 context、context-free、context-aware 的概念，以及 ConfigureAwait 背後的原理。</p>    <p class="small"><a href="/posts/more-effective-csharp-31">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -129,6 +122,7 @@
   </p>
 
 <p>這個做法講解非同步方法在某些情況下要避免新增執行緒以及避免 Context Switches 來提升程式性能。</p>    <p class="small"><a href="/posts/more-effective-csharp-30">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -142,6 +136,7 @@
   </p>
 
 <p>這個做法提到同步方法與非同步方法根本上的行為差異，所以不要寫出混用這兩種方法的程式碼。</p>    <p class="small"><a href="/posts/more-effective-csharp-29">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -155,6 +150,7 @@
   </p>
 
 <p>這個做法提出幾個理由讓你知道寫 async void 方法是不好的，所以應該要避免這樣寫非同步方法。</p>    <p class="small"><a href="/posts/more-effective-csharp-28">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -168,6 +164,7 @@
   </p>
 
 <p>這個做法在講解 async 背後的運作機制，以及建議改用 async 來處理非同步相關的工作。</p>    <p class="small"><a href="/posts/more-effective-csharp-27">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -182,6 +179,7 @@
 
 <p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
 例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>    <p class="small"><a href="/posts/more-effective-csharp-26">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -195,6 +193,7 @@
   </p>
 
 <p>這個做法提出使用陣列做為參數可能會引發某些問題，並且建議改用 params 陣列。</p>    <p class="small"><a href="/posts/more-effective-csharp-25">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -208,6 +207,7 @@
   </p>
 
 <p>這個做法建議不要實做 <code>ICloneable</code> 介面，還有 <code>Deep Copy</code> 和 <code>Shallow Copy</code> 的概念。</p>    <p class="small"><a href="/posts/more-effective-csharp-24">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -221,6 +221,7 @@
   </p>
 
 <p>這個做法講解了 <code>Partial Classes</code> 與 <code>Partial Methods</code> 建議的使用場景與背後原理。</p>    <p class="small"><a href="/posts/more-effective-csharp-23">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -234,6 +235,7 @@
   </p>
 
 <p>這個做法提供了幾條建議可以讓你寫的多載 API 能夠更加實用以及清楚。</p>    <p class="small"><a href="/posts/more-effective-csharp-22">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -246,30 +248,6 @@
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>

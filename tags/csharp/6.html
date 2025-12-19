@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -100,9 +92,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -117,6 +109,7 @@
 
 <p>這個做法建議不要使用 <code>public field</code> 的寫法而是改用 <code>automatically implemented properties</code>，
 或者自己在屬性撰寫 <code>get</code>、<code>set</code> 存取子來存取 <code>private field</code>。</p>    <p class="small"><a href="/posts/more-effective-csharp-01">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -130,6 +123,7 @@
   </p>
 
 <p>本文章對書中 50 個做法進行總整理，以及對每個做法做出簡短總結，方便日後查看。</p>    <p class="small"><a href="/posts/effective-csharp-summary">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -143,6 +137,7 @@
   </p>
 
 <p>這個做法在對做法 49 的 Exception Filters 進行補充以及它的特性。</p>    <p class="small"><a href="/posts/effective-csharp-50">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -156,6 +151,7 @@
   </p>
 
 <p>這個做法說明了 Exception Filters 與 when 子句的使用方式，還有與舊的判斷語句寫法進行比較。</p>    <p class="small"><a href="/posts/effective-csharp-49">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -169,6 +165,7 @@
   </p>
 
 <p>在做法 39 有提到 <code>Strong exception guarantee</code> 這個概念，這個做法會對三種保證進行詳細說明。</p>    <p class="small"><a href="/posts/effective-csharp-48">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -182,6 +179,7 @@
   </p>
 
 <p>這個做法提出建立你自己客製的 Exception 能夠比直接用預設類別帶來更多詳細的錯誤資訊。</p>    <p class="small"><a href="/posts/effective-csharp-47">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -195,6 +193,7 @@
   </p>
 
 <p>這個做法在之前也提到過很多次了，就是要用 using 或是 try/final 來確保資源一定能正確釋放掉。</p>    <p class="small"><a href="/posts/effective-csharp-46">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -208,6 +207,7 @@
   </p>
 
 <p>這個做法提到什麼情況適合使用 Exceptions 以及相較之下使用 Error Code 所會帶來的問題點。</p>    <p class="small"><a href="/posts/effective-csharp-45">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -221,6 +221,7 @@
   </p>
 
 <p>這個做法在解說 closure 把區域變數提升為成內部成員時，又被其他程式碼修改所導致的問題。</p>    <p class="small"><a href="/posts/effective-csharp-44">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -234,6 +235,7 @@
   </p>
 
 <p>這個做法在介紹 LINQ 中 Single、First、Last、SingleOrDefault、FirstOrDefault、LastOrDefault 這幾個擴充方法。</p>    <p class="small"><a href="/posts/effective-csharp-43">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -246,30 +248,6 @@
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>

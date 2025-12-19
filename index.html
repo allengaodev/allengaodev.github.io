@@ -48,29 +48,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -117,6 +109,7 @@
 
 <p>ABP 大量採用 AOP 設計將橫切關注點抽離到攔截器中，保持程式碼乾淨且易於維護。
 底層利用 Castle Core 整合 Autofac 實現 AOP，但 ABP 為了避免直接依賴第三方函式庫，額外封裝了一層抽象，以便未來擴充。</p>    <p class="small"><a href="/posts/abp-io-interceptors">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -133,6 +126,7 @@
   </p>
 
 <p>在上一篇 <a href="https://blog.allengaodev.com/posts/castle-core-basic" target="_blank">Castle Core 基礎教學</a> 中，我們介紹了如何使用 DynamicProxy 實作 AOP 功能。</p>    <p class="small"><a href="/posts/castle-core-with-autofac">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -150,6 +144,7 @@
 
 <p><a href="https://github.com/castleproject/Core/tree/master" target="_blank">Castle Core</a>，是 Castle Windsor 團隊開發的核心模組，
 現在這個模組總共提供了三種功能，分別是 <code>Logging</code>、<code>DictionaryAdapter</code>、<code>DynamicProxy</code>。</p>    <p class="small"><a href="/posts/castle-core-basic">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -165,16 +160,16 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-              <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-              <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-              <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-              <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-              <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-              <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-              <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-              <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
+              <a href="/tags/csharp" class="badge text-dark"> CSharp (118)</a>
+              <a href="/tags/more-effective-c" class="badge text-dark"> More Effective C# (51)</a>
+              <a href="/tags/effective-c" class="badge text-dark"> Effective C# (51)</a>
+              <a href="/tags/dca" class="badge text-dark"> DCA (26)</a>
+              <a href="/tags/dotnet" class="badge text-dark"> Dotnet (22)</a>
+              <a href="/tags/docker" class="badge text-dark"> Docker (22)</a>
+              <a href="/tags/identity" class="badge text-dark"> Identity (13)</a>
+              <a href="/tags/nginx" class="badge text-dark"> Nginx (8)</a>
+              <a href="/tags/docker-compose" class="badge text-dark"> Docker Compose (8)</a>
+              <a href="/tags/rabbitmq" class="badge text-dark"> RabbitMQ (6)</a>
             <div class="mt-3">
               <div class="float-sm-end">
                 <a class="btn btn-sm btn-primary" href='/tags' role="button">All Tags <i class="fas fa-angle-double-right"></i></a>

@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -100,9 +92,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -122,6 +114,7 @@
 我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
 在上一篇的文章中有稍微提到 <code>SignInManager</code> 如名稱所示，我們可以猜到這個 Manager 是負責處理登入這部份的商業邏輯
 閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -141,6 +134,7 @@
 實做了 .NET Core Identity 提供的 <code>IUserStore</code> 介面，用來存取資料庫中的資料，
 但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 當初的設計就是將商業邏輯與底層存取功能分開，
 所以我們不該直接使用 <code>IUserStore</code> 而是該使用的是各種的 Manager 方法。</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -158,6 +152,7 @@
 
 <p>在開發新專案時，身份驗證和授權通常為第一個實做的功能，在 dotnet 生態系中微軟官方會推薦你使用 ASP.NET Core Identity 來實踐
 大部分的文章只會要你使用 Visual Studio 直接勾選使用樣板，或是直接給你一段命令直接產生專案</p>    <p class="small"><a href="/posts/dotnet-identity-customizing-basic">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -169,30 +164,6 @@
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>

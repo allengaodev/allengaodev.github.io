@@ -48,29 +48,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -121,6 +113,7 @@
 
 <p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
 所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -138,6 +131,7 @@
 
 <p>今天來學習如何在 .Net 中使用第三方登入, 我們之前在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面了解
 微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>    <p class="small"><a href="/posts/dotnet-identity-external-provider-google">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -155,6 +149,7 @@
 
 <p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-claims-authorization">文章</a>
 中學習了 <code>Claim</code> 與 <code>Policy</code> 的基本知識，會員在新增完 <code>Claim</code> 之後可以搭配我們註冊好的 <code>Policy</code> 就能夠避免不符合規定的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -171,16 +166,16 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-              <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-              <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-              <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-              <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-              <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-              <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-              <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-              <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
+              <a href="/tags/csharp" class="badge text-dark"> CSharp (118)</a>
+              <a href="/tags/more-effective-c" class="badge text-dark"> More Effective C# (51)</a>
+              <a href="/tags/effective-c" class="badge text-dark"> Effective C# (51)</a>
+              <a href="/tags/dca" class="badge text-dark"> DCA (26)</a>
+              <a href="/tags/dotnet" class="badge text-dark"> Dotnet (22)</a>
+              <a href="/tags/docker" class="badge text-dark"> Docker (22)</a>
+              <a href="/tags/identity" class="badge text-dark"> Identity (13)</a>
+              <a href="/tags/nginx" class="badge text-dark"> Nginx (8)</a>
+              <a href="/tags/docker-compose" class="badge text-dark"> Docker Compose (8)</a>
+              <a href="/tags/rabbitmq" class="badge text-dark"> RabbitMQ (6)</a>
             <div class="mt-3">
               <div class="float-sm-end">
                 <a class="btn btn-sm btn-primary" href='/tags' role="button">All Tags <i class="fas fa-angle-double-right"></i></a>

@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -100,9 +92,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -116,6 +108,7 @@
   </p>
 
 <p>這個做法在介紹 IEnumerable 與 IQueryable 兩者背後的運作機制，這兩個類型在前幾個做法經常提到，它們專注的方面與運作的效率也差很多。</p>    <p class="small"><a href="/posts/effective-csharp-42">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -132,6 +125,7 @@
 首先 closure 這個名詞很常在 javascript 中討論以及只使用到， closure 是一種能讓內部方法取得外部變數的一種寫法，
 例如以下範例中的 <code>counter</code> 變數明明作用範圍是在 Main 底下，但是我們透過 lambda 把 delegate 當成參數傳給 <code>Generate</code> 方法，
 之後在最內部的執行範圍竟然可以操作不同作用範圍的 <code>counter</code> 變數。</p>    <p class="small"><a href="/posts/effective-csharp-41">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -145,6 +139,7 @@
   </p>
 
 <p>本做法提到了 <code>Declarative code</code> 與  <code>Imperative code</code> 兩種程式碼風格，還有提前與延遲執行推薦的使用情況。</p>    <p class="small"><a href="/posts/effective-csharp-40">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -158,6 +153,7 @@
   </p>
 
 <p>這個做法建議不要在 Func 與 Action 的執行過程中拋出 Exceptions，因為這會導致物件狀態難以還原回原狀態的情況發生。</p>    <p class="small"><a href="/posts/effective-csharp-39">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -171,6 +167,7 @@
   </p>
 
 <p>這個做法是與寫法相關，建議是用 <code>Lazy Evaluation</code> 的延遲特性來處理需要共用邏輯的場合而不是寫一個方法把共用邏輯放進去。</p>    <p class="small"><a href="/posts/effective-csharp-38">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -186,6 +183,7 @@
 <p>在做法 29 與做法 33 提到的 <code>Lazy Evaluation</code> 在這個做法又提到了一次，不過這次有提出相對的概念也就是 <code>Eager Evaluation</code>。
 首先還是複習一下 <code>Lazy Evaluation</code> 的運作邏輯，下面這一段程式碼建立了一個 <code>Iterator Methods</code> Generate，當我們呼叫靜態方法
 LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會產生不同的三個 DateTime.Now。</p>    <p class="small"><a href="/posts/effective-csharp-37">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -199,6 +197,7 @@ LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會
   </p>
 
 <p>這個做法算是做法 30 的詳細說明版本，主要在把 Query Expressions 背後的機制說明一下與它轉換的過程。</p>    <p class="small"><a href="/posts/effective-csharp-36">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -212,6 +211,7 @@ LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會
   </p>
 
 <p>這個做法在討論多載這個特性與多載擴充方法是非常不好的。</p>    <p class="small"><a href="/posts/effective-csharp-35">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -225,6 +225,7 @@ LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會
   </p>
 
 <p>這個做法是做法 32 的延伸說明，主要在說明把函式當成參數來傳遞所帶來的好處。</p>    <p class="small"><a href="/posts/effective-csharp-34">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -239,6 +240,7 @@ LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會
 
 <p>這個做法也是繼續在對 <code>Iterator Methods</code> 與 <code>yield return</code> 進行延伸討論，這次是在對 <code>Lazy Evaluation</code> 特性進行更詳細的說明，
 還有不使用 <code>Iterator Methods</code> 可能會導致轉換問題。</p>    <p class="small"><a href="/posts/effective-csharp-33">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -251,30 +253,6 @@ LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>
