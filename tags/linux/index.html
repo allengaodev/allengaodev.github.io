@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
   <link rel="preconnect" href="https://giscus.app" crossorigin>
-  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
 
   <title>Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</title>
@@ -29,11 +28,12 @@
   <link rel="icon" href='/favicon.svg'>
 
   <!-- Styles for this template (also includes Bootstrap) -->
-  <link href='/scss/clean-blog-min.css' rel="stylesheet">
-  <script async src='/vendor/quicklink/js/quicklink.umd.js' onload="quicklink.listen();"></script>
-  <script async src='/vendor/prismjs/js/prism-core.min.js'></script>
-  <script async src='/vendor/prismjs/js/prism-autoloader.min.js'></script>
-  <link href='/vendor/prismjs/css/prism.min.css' rel="stylesheet" media="print" onload="this.media='all'">
+  <link href='/scss/clean-blog.css' rel="stylesheet">
+
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script async src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js" onload="quicklink.listen();"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'">
 
   
 
@@ -42,10 +42,10 @@
 
 </head>
 
-<body>
+<body style="background-color: #F5F1E6">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
     <a class="navbar-brand" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,28 +150,28 @@
 
       </div>
       <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-secondary"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-secondary"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-secondary"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-secondary"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-secondary"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-secondary"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-secondary"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-secondary"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-secondary"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-secondary"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-secondary"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-secondary"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-secondary"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-secondary"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-secondary"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-secondary"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-secondary"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-secondary"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-secondary"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-secondary"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-secondary"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-secondary"> Azure (1)</a>
+          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
+          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
+          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
+          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
+          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
+          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
+          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
+          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
+          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
+          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
+          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
+          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
+          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
+          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
+          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
+          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
+          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
+          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
+          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
+          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
+          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
+          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>
@@ -199,7 +199,7 @@
 
 
   <!-- Scripts -->
-  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min1.js'></script>
+  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
   <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
   
 
