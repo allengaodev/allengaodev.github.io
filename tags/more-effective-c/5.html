@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -100,9 +92,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -116,6 +108,7 @@
   </p>
 
 <p>這個做法在說明 <code>implicit</code> 與 <code>explicit</code> operator 在轉型中的應用場景與可能會導致錯誤發生時很難找到問題。</p>    <p class="small"><a href="/posts/more-effective-csharp-11">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -129,6 +122,7 @@
   </p>
 
 <p>這個做法在解釋為什麼覆寫 Equal 方法的時候同時要覆寫 GetHashCode 方法。</p>    <p class="small"><a href="/posts/more-effective-csharp-10">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -142,6 +136,7 @@
   </p>
 
 <p>這個做法討論了 C# 中物件相等性的問題，以及兩個物件是怎麼判定為相等背後的原理。</p>    <p class="small"><a href="/posts/more-effective-csharp-09">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -155,6 +150,7 @@
   </p>
 
 <p>在上一個做法提到 <code>Tuple</code> 與 <code>anonymous types</code> 兩種定義輕量型別的方式，但是要把這些型別作為方法的參數、回傳、屬性則需要使用一些特別的技巧。</p>    <p class="small"><a href="/posts/more-effective-csharp-08">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -168,6 +164,7 @@
   </p>
 
 <p>這個做法說明了匿名型別的使用方式，以及怎麼使用 <code>Tuples</code> 來建立匿名型別和背後的原理。</p>    <p class="small"><a href="/posts/more-effective-csharp-07">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -181,6 +178,7 @@
   </p>
 
 <p>這個做法說明了屬性跟欄位兩者容易搞混的部分，並且要預期使用者會把屬性當成欄位來使用，所以屬性不能做出太複雜最好和欄位的功能差不多。</p>    <p class="small"><a href="/posts/more-effective-csharp-06">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -194,6 +192,7 @@
   </p>
 
 <p>這個做法在建議處理 Value Types 相關的型別時因為預設初始化為 0，所以要確保為 0 的時候型別要能正常運作或者是有效的狀態。</p>    <p class="small"><a href="/posts/more-effective-csharp-05">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -207,6 +206,7 @@
   </p>
 
 <p>這個做法在討論 Value Types 和 Reference Types 兩種型別中複製與傳遞的差異性與它們的使用場合。</p>    <p class="small"><a href="/posts/more-effective-csharp-04">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -220,6 +220,7 @@
   </p>
 
 <p>這個做法說明了 <code>immutable types</code> 與讓類別或結構擁有 <code>immutability</code> 特性的好處與案例。</p>    <p class="small"><a href="/posts/more-effective-csharp-03">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -234,6 +235,7 @@
 
 <p>這個做法提到了 <code>Implicit Properties</code> 但實際上就是上一個做法提到的 <code>automatically implemented properties</code>，
 並且對 <code>Implicit Properties</code> 進行詳細描述。</p>    <p class="small"><a href="/posts/more-effective-csharp-02">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -246,30 +248,6 @@
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>

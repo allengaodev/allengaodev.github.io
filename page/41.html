@@ -48,29 +48,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -120,6 +112,7 @@
 讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
 因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
 但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -135,6 +128,7 @@
 <p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
 資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
 設定檔這方面的問題。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-configuration">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -151,6 +145,7 @@
 那就是任務執行完成後發送信息的人沒有辦法知道任務已經完成或者是任務失敗等其他狀況，發送人還需要主動的去確認任務是否已經完成，例如一個報表導出的任務當你按下按鈕後
 會發送一個信息任務到 <code>Queue</code> 中並且由 <code>Worker</code> 來執行任務，這時發送人可能就去操作網站其他功能了甚至也有忘記自己有發送報表導出的任務，之後當你回來查看結果時
 最好的情況是報表已經導出完成可以直接下載，也有可能早就任務失敗或者卡住此時你又必須重新發送一次任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-rpc">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -167,16 +162,16 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-              <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-              <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-              <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-              <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-              <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-              <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-              <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-              <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
+              <a href="/tags/csharp" class="badge text-dark"> CSharp (118)</a>
+              <a href="/tags/more-effective-c" class="badge text-dark"> More Effective C# (51)</a>
+              <a href="/tags/effective-c" class="badge text-dark"> Effective C# (51)</a>
+              <a href="/tags/dca" class="badge text-dark"> DCA (26)</a>
+              <a href="/tags/dotnet" class="badge text-dark"> Dotnet (22)</a>
+              <a href="/tags/docker" class="badge text-dark"> Docker (22)</a>
+              <a href="/tags/identity" class="badge text-dark"> Identity (13)</a>
+              <a href="/tags/nginx" class="badge text-dark"> Nginx (8)</a>
+              <a href="/tags/docker-compose" class="badge text-dark"> Docker Compose (8)</a>
+              <a href="/tags/rabbitmq" class="badge text-dark"> RabbitMQ (6)</a>
             <div class="mt-3">
               <div class="float-sm-end">
                 <a class="btn btn-sm btn-primary" href='/tags' role="button">All Tags <i class="fas fa-angle-double-right"></i></a>

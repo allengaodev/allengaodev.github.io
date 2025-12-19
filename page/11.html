@@ -48,29 +48,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -117,6 +109,7 @@
   </p>
 
 <p>這個做法提出幾個理由讓你知道寫 async void 方法是不好的，所以應該要避免這樣寫非同步方法。</p>    <p class="small"><a href="/posts/more-effective-csharp-28">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -130,6 +123,7 @@
   </p>
 
 <p>這個做法在講解 async 背後的運作機制，以及建議改用 async 來處理非同步相關的工作。</p>    <p class="small"><a href="/posts/more-effective-csharp-27">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -144,6 +138,7 @@
 
 <p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
 例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>    <p class="small"><a href="/posts/more-effective-csharp-26">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -160,16 +155,16 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-              <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-              <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-              <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-              <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-              <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-              <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-              <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-              <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
+              <a href="/tags/csharp" class="badge text-dark"> CSharp (118)</a>
+              <a href="/tags/more-effective-c" class="badge text-dark"> More Effective C# (51)</a>
+              <a href="/tags/effective-c" class="badge text-dark"> Effective C# (51)</a>
+              <a href="/tags/dca" class="badge text-dark"> DCA (26)</a>
+              <a href="/tags/dotnet" class="badge text-dark"> Dotnet (22)</a>
+              <a href="/tags/docker" class="badge text-dark"> Docker (22)</a>
+              <a href="/tags/identity" class="badge text-dark"> Identity (13)</a>
+              <a href="/tags/nginx" class="badge text-dark"> Nginx (8)</a>
+              <a href="/tags/docker-compose" class="badge text-dark"> Docker Compose (8)</a>
+              <a href="/tags/rabbitmq" class="badge text-dark"> RabbitMQ (6)</a>
             <div class="mt-3">
               <div class="float-sm-end">
                 <a class="btn btn-sm btn-primary" href='/tags' role="button">All Tags <i class="fas fa-angle-double-right"></i></a>

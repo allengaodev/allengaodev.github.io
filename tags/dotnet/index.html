@@ -47,29 +47,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -99,9 +91,9 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-            <div class="container-sm-height">
-    <div class="row row-sm-height">
-      <div class="col-md-6 right-border col-sm-height">
+            <div class="container-md-height">
+    <div class="row row-md-height">
+      <div class="col-md-height">
         
 
 
@@ -118,6 +110,7 @@
   </p>
 
 <p>在上一篇 <a href="https://blog.allengaodev.com/posts/castle-core-basic" target="_blank">Castle Core 基礎教學</a> 中，我們介紹了如何使用 DynamicProxy 實作 AOP 功能。</p>    <p class="small"><a href="/posts/castle-core-with-autofac">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -135,6 +128,7 @@
 
 <p><a href="https://github.com/castleproject/Core/tree/master" target="_blank">Castle Core</a>，是 Castle Windsor 團隊開發的核心模組，
 現在這個模組總共提供了三種功能，分別是 <code>Logging</code>、<code>DictionaryAdapter</code>、<code>DynamicProxy</code>。</p>    <p class="small"><a href="/posts/castle-core-basic">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -149,6 +143,7 @@
 
 <p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
 但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -164,6 +159,7 @@
 <p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
 可能被外漏出去會造成很大的問題，因此 Dotnet 提供了 <code>Microsoft.Extensions.Configuration.UserSecrets</code>
 這個 Package 給我們使用。</p>    <p class="small"><a href="/posts/dotnet-usersecrets-with-configuration">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -180,6 +176,7 @@
 讀取 <code>appsettings.json</code> 中的設定值，不過目前是採用字典搭配 <code>Key</code> 值得方式來取回值有點不太方便而且有輸入錯誤的可能性，
 因此我們可以先將設定值解析到一個專用的 Class 上在註冊到 DI 容器內，這樣之後就可以使用強型別方式來取值了，這也是昨天有提到
 但沒有詳談的 Package <code>Microsoft.Extensions.Configuration.Binder</code> 背後會做的工作。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-ioptions">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -195,6 +192,7 @@
 <p>我們知道在 Dotnet 中有提供 <code>appsettings.json</code> 讓我們可以存放一些會變動的設定值，例如我們可以在 <code>appsettings.json</code> 設定
 資料庫的連線字串之後就可以根據環境來選擇要連線到哪一個資料庫，今天來看一下跟 <code>appsettings.json</code> 相關的原始碼來學習 Dotnet 是怎麼處理
 設定檔這方面的問題。</p>    <p class="small"><a href="/posts/dotnet-appsettings-with-configuration">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -213,6 +211,7 @@
 <p>到目前為止 Identity Server 基礎部份都學習過了，但是還缺少會員的添加與管理方式，由於我們之前使用 TestUsers 寫死兩個會員資料，
 在實務中還是要動態新增會員的方式，這時候就可以加入 ASP.NET Core Identity 功能，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
 本系列一開始有討論過了有需要的可以回去看看</p>    <p class="small"><a href="/posts/dotnet-identity-server-identity">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -230,6 +229,7 @@
 
 <p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-server-ui" target="_blank">文章</a>中
 已經成功架設了 Identity Server 服務與 UI 但是目前資料都是保存在記憶體內，今天來看看該怎麼把資料利用 EFCore 保存到任意資料庫內</p>    <p class="small"><a href="/posts/dotnet-identity-server-efcore">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -248,6 +248,7 @@
 <p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-server" target="_blank">文章</a>中
 我們跟著 Identity Server 的官方教學做了一遍，不過用起來跟 Google 好像不太一樣
 我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>    <p class="small"><a href="/posts/dotnet-identity-server-ui">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -266,6 +267,7 @@
 <p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-oauth-oidc" target="_blank">文章</a>
 有提到要建立自己的 OIDC 伺服器，今天就來看看在 .NET 生態系中經常使用到的 <code>Identity Server</code>
 這篇文章使用的是 <code>Duende.IdentityServer</code> 可以在測試及與開發時免費使用</p>    <p class="small"><a href="/posts/dotnet-identity-server">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -277,30 +279,6 @@
     <div class="clearfix"></div>
   </div>
 
-      </div>
-      <div class="col-md-4 mt-4 mt-md-0 col-sm-height">
-          <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-          <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-          <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-          <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-          <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-          <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-          <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-          <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-          <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-          <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
-          <a href="/tags/bitwarden" class="badge text-bg-light"> Bitwarden (4)</a>
-          <a href="/tags/statiq" class="badge text-bg-light"> Statiq (4)</a>
-          <a href="/tags/abp" class="badge text-bg-light"> ABP (3)</a>
-          <a href="/tags/castle" class="badge text-bg-light"> Castle (3)</a>
-          <a href="/tags/linux" class="badge text-bg-light"> Linux (3)</a>
-          <a href="/tags/autofac" class="badge text-bg-light"> Autofac (2)</a>
-          <a href="/tags/sql" class="badge text-bg-light"> SQL (2)</a>
-          <a href="/tags/effective-sql" class="badge text-bg-light"> Effective SQL (2)</a>
-          <a href="/tags/security" class="badge text-bg-light"> Security (2)</a>
-          <a href="/tags/mongodb" class="badge text-bg-light"> MongoDB (2)</a>
-          <a href="/tags/orleans" class="badge text-bg-light"> Orleans (1)</a>
-          <a href="/tags/azure" class="badge text-bg-light"> Azure (1)</a>
       </div>
     </div>
   </div>

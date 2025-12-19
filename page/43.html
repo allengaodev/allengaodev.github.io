@@ -48,29 +48,21 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
-    <a class="navbar-brand" href='/'> Home </a>
+    <a class="navbar-brand text-dark" href='/'> Home </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
       <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item">
-            <span class="nav-link">
-              <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search-query-nav">
-                <input type="submit" hidden />
-              </form>
-            </span>
-          </li> -->
           <li class="nav-item">
-    <a class="nav-link" href="/search">Search</a>
+    <a class="nav-link text-dark" href="/search">Search</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/posts">Posts</a>
+    <a class="nav-link text-dark" href="/posts">Posts</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/tags">Tags</a>
+    <a class="nav-link text-dark" href="/tags">Tags</a>
   </li>
 
       </ul>
@@ -119,6 +111,7 @@
 <p>在上一篇文章內容中了解到我們能將信息傳送到 RabbitMQ 中，之後有人需要時才會把信息轉交給他，如果沒有人需要則會繼續存放在 RabbitMQ 內繼續等待接收。
 這些操作在 RabbitMQ 當中有各自的專有名詞，首先是傳送到信息 RabbitMQ 中的系統通常稱為 <code>producer</code> 與需要取得 RabbitMQ 中信息的系統稱為 <code>consumer</code>
 和 RabbitMQ 將信息保存的地方稱為 <code>Queue</code>。</p>    <p class="small"><a href="/posts/rabbitmq-basic-asynchronous-task-and-persistent">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -133,6 +126,7 @@
 
 <p>這個系列會重新複習 .NET 中 RabbitMQ 的使用方式，首先我們使用 docker 建立測試 RabbitMQ 測試環境，需要注意 image 有兩個版本一種是自帶管理界面與另一種沒有界面的版本，
 這次使用的 image 是 <code>rabbitmq:3.11-management</code> 是有界面的版本，RabbitMQ管理界面預設使用的 port 為 <code>15672</code> RabbitMQ 服務為 <code>5672</code>。</p>    <p class="small"><a href="/posts/rabbitmq-basic-decouple">Read more...</a></p>
+    <hr>
 </div>
 
 
@@ -147,6 +141,7 @@
 
 <p>在之前的文章中我們已經了解 Bitwarden 的註冊與加密流程，現在我們加密帳號資料已經安全的保存在 Bitwarden 雲端上了，
 接下來我們來看看 Bitwarden 是如何進行登入流程。</p>    <p class="small"><a href="/posts/bitwarden-design-user-login">Read more...</a></p>
+    <hr>
 </div>
 
   <div>
@@ -163,16 +158,16 @@
     <div class="col-md-4 mt-4 mt-md-0 col-sm-height sidebar">
           <div>
             <h3>Tags</h3>
-              <a href="/tags/csharp" class="badge text-bg-light"> CSharp (118)</a>
-              <a href="/tags/more-effective-c" class="badge text-bg-light"> More Effective C# (51)</a>
-              <a href="/tags/effective-c" class="badge text-bg-light"> Effective C# (51)</a>
-              <a href="/tags/dca" class="badge text-bg-light"> DCA (26)</a>
-              <a href="/tags/dotnet" class="badge text-bg-light"> Dotnet (22)</a>
-              <a href="/tags/docker" class="badge text-bg-light"> Docker (22)</a>
-              <a href="/tags/identity" class="badge text-bg-light"> Identity (13)</a>
-              <a href="/tags/nginx" class="badge text-bg-light"> Nginx (8)</a>
-              <a href="/tags/docker-compose" class="badge text-bg-light"> Docker Compose (8)</a>
-              <a href="/tags/rabbitmq" class="badge text-bg-light"> RabbitMQ (6)</a>
+              <a href="/tags/csharp" class="badge text-dark"> CSharp (118)</a>
+              <a href="/tags/more-effective-c" class="badge text-dark"> More Effective C# (51)</a>
+              <a href="/tags/effective-c" class="badge text-dark"> Effective C# (51)</a>
+              <a href="/tags/dca" class="badge text-dark"> DCA (26)</a>
+              <a href="/tags/dotnet" class="badge text-dark"> Dotnet (22)</a>
+              <a href="/tags/docker" class="badge text-dark"> Docker (22)</a>
+              <a href="/tags/identity" class="badge text-dark"> Identity (13)</a>
+              <a href="/tags/nginx" class="badge text-dark"> Nginx (8)</a>
+              <a href="/tags/docker-compose" class="badge text-dark"> Docker Compose (8)</a>
+              <a href="/tags/rabbitmq" class="badge text-dark"> RabbitMQ (6)</a>
             <div class="mt-3">
               <div class="float-sm-end">
                 <a class="btn btn-sm btn-primary" href='/tags' role="button">All Tags <i class="fas fa-angle-double-right"></i></a>
