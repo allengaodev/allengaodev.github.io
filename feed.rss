@@ -6,14 +6,13 @@
 		<description>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</description>
 		<copyright>© 2025 by Allen Gao</copyright>
 		<managingEditor>allengaodev@gmail.com</managingEditor>
-		<pubDate>Fri, 19 Dec 2025 18:06:27 GMT</pubDate>
-		<lastBuildDate>Fri, 19 Dec 2025 18:06:27 GMT</lastBuildDate>
+		<pubDate>Fri, 19 Dec 2025 18:53:35 GMT</pubDate>
+		<lastBuildDate>Fri, 19 Dec 2025 18:53:35 GMT</lastBuildDate>
 		<item>
 			<title>ABP IO 架構分析 – AOP 攔截器</title>
 			<link>https://blog.allengaodev.com/posts/abp-io-interceptors</link>
 			<description>解析 ABP.IO 的 AOP 攔截器設計，說明 ABP 如何透過 Castle Core 與 Autofac 實現非同步攔截流程，並以 UnitOfWorkInterceptor 為例，完整拆解攔截器註冊、轉接層設計與實際請求執行順序，協助理解 ABP AOP 的整體運作原理。</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/abp-io-interceptors</guid>
 			<pubDate>Thu, 18 Dec 2025 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -24,7 +23,6 @@
 			<link>https://blog.allengaodev.com/posts/castle-core-with-autofac</link>
 			<description>學習如何使用 Castle Core 的 DynamicProxy 功能搭配 Autofac IOC 容器，簡化 AOP 實作流程，包含安裝步驟、服務註冊與攔截器整合的範例教學。</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/castle-core-with-autofac</guid>
 			<pubDate>Mon, 15 Dec 2025 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -35,7 +33,6 @@
 			<link>https://blog.allengaodev.com/posts/castle-core-basic</link>
 			<description>了解 Castle Core 提供的三大功能：Logging、DictionaryAdapter 與 DynamicProxy，包含功能背景、使用案例及非同步攔截器的實作方法，學習實做 AOP。</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/castle-core-basic</guid>
 			<pubDate>Mon, 15 Dec 2025 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -46,7 +43,6 @@
 			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer</link>
 			<description>本篇文章深入解析 ABP.IO 框架的模組化架構進階設計，專注於 Domain Layer 的設計與實作，並詳細介紹如何利用 ABP 提供的 Building Blocks，如 Entity、Domain Service 等，來實現符合 DDD 原則的核心功能。同時，我們將透過建立測試專案驗證 Domain 層的功能完整性，並介紹如何有效運用 ABP 的測試工具提升開發效率。</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer</guid>
 			<pubDate>Wed, 11 Dec 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -57,7 +53,6 @@
 			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</link>
 			<description>本篇文章深入解析 ABP.IO 框架的模組化設計原理，從零開始建立一個全新的模組系統，全面覆蓋分層設計、模組生命週期與 ABP 的依賴管理機制。透過實際範例與詳細步驟，幫助開發者掌握 Domain、Application、Infrastructure 等層級的架構設計，並了解如何運用 ABP 提供的模組化框架來開發高效、可擴展的 .NET 應用程式。初學者能在這篇文章中找到最佳實踐建議。</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</guid>
 			<pubDate>Sun, 08 Dec 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -68,7 +63,6 @@
 			<link>https://blog.allengaodev.com/posts/effective-sql-02</link>
 			<description>Effective SQL 02.消除重複儲存資料 (Eliminate Redundant Storage of Data Items)</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/effective-sql-02</guid>
 			<pubDate>Tue, 03 Dec 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -79,7 +73,6 @@
 			<link>https://blog.allengaodev.com/posts/effective-sql-01</link>
 			<description>Effective SQL 01.確定所有資料表都有主鍵 (Verify That All Tables Have a Primary Key)</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/effective-sql-01</guid>
 			<pubDate>Mon, 02 Dec 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -90,7 +83,6 @@
 			<link>https://blog.allengaodev.com/posts/more-effective-csharp-summary</link>
 			<description>More Effective C# 讀後總結與整理</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-summary</guid>
 			<pubDate>Sun, 01 Dec 2024 12:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -101,7 +93,6 @@
 			<link>https://blog.allengaodev.com/posts/more-effective-csharp-50</link>
 			<description>More Effective C# 50.考慮用分析器自動化慣用法(Consider automating practices with Analyzers)</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-50</guid>
 			<pubDate>Sun, 01 Dec 2024 11:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
@@ -112,7 +103,6 @@
 			<link>https://blog.allengaodev.com/posts/more-effective-csharp-49</link>
 			<description>More Effective C# 49.參與規格及程式碼的訂定(Participate in Specs and Code)</description>
 			<author>allengaodev@gmail.com</author>
-			<enclosure url="https://blog.allengaodev.com/assets/img/101night.avif" length="0" type="image" />
 			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-49</guid>
 			<pubDate>Sat, 30 Nov 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
