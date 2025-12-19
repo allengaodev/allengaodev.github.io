@@ -19,5 +19,5 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
         scrollPos = currentTop;
-    });
-})
+    }, { passive: true });
+});
