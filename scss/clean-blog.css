@@ -2616,7 +2616,7 @@ footer p { margin-top: 0; margin-bottom: 1rem; }
 
 footer .list-inline { margin: 0; padding: 0; }
 
-footer .copyright { color: #6c757d; font-size: 0.875rem; text-align: center; }
+footer .copyright { color: black; font-size: 0.875rem; text-align: center; }
 
 header.masthead.no-image { background-origin: padding-box; background-image: linear-gradient(180deg, #66a0ac 0%, #003a46 100%); }
 
