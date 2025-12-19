@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="preload" as="image" href="/assets/img/101night.avif" fetchpriority="high">
-  <link rel="preload" as="style" href='/scss/clean-blog.css'/>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
 
 
   <title>Gao.Dev - &#x900F;&#x904E;&#x7B46;&#x8A18;&#x548C;&#x6E2C;&#x8A66;&#xFF0C;&#x6DF1;&#x5165; .Net &#x6280;&#x8853;&#x7684;&#x4E16;&#x754C;&#xFF0C;&#x63A2;&#x7D22;&#x6700;&#x65B0;&#x7684;&#x958B;&#x767C;&#x5DE5;&#x5177;&#x548C;&#x6280;&#x80FD;&#x3002;</title>
@@ -28,7 +28,7 @@
   <link rel="icon" href='/favicon.svg'>
 
   <!-- Styles for this template (also includes Bootstrap) -->
-  <link href='/scss/clean-blog.css' rel="stylesheet">
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'">
 
   
@@ -41,14 +41,11 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
+  <nav class="navbar navbar-expand navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
     <a class="navbar-brand text-dark" href='/'> Home </a>
-    <button class="navbar-toggler navbar-toggler-right text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      Menu
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+    <div class="navbar-nav-container" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
           <li class="nav-item">
     <a class="nav-link text-dark" href="/search">Search</a>
@@ -160,7 +157,7 @@
 
 
   <!-- Scripts -->
-  <script async src='/vendor/bootstrap/js/bootstrap.bundle.min.js'></script>
+  <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
   <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
   <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
