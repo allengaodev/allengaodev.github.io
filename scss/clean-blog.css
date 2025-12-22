@@ -2640,10 +2640,13 @@ header.masthead .image-attribution { position: absolute; left: auto; right: 1rem
 
 header.masthead .image-attribution p { margin: 0; padding: 0; }
 
-@media (min-width: 992px) { #mainNav { transition: transform 0.3s ease-in-out, background-color 0.3s; }
-  #mainNav.is-fixed { position: fixed; top: 0; left: 0; right: 0; width: 100%; transform: translateY(-100%); border-bottom: 1px solid rgba(108, 117, 125, 0.9); text-shadow: none; background-color: white; z-index: 1030; }
-  #mainNav.is-fixed.is-visible { transform: translateY(0); }
-  #mainNav .navbar-nav { align-items: center; } }
+#mainNav { transition: transform 0.3s ease-in-out, background-color 0.3s; }
+
+#mainNav.is-fixed { position: fixed; top: 0; left: 0; right: 0; width: 100%; transform: translateY(-100%); border-bottom: 1px solid rgba(108, 117, 125, 0.9); text-shadow: none; background-color: white; z-index: 1030; }
+
+#mainNav.is-fixed.is-visible { transform: translateY(0); }
+
+#mainNav .navbar-nav { align-items: center; }
 
 .post-title { margin-bottom: 0; word-break: break-word; }
 
