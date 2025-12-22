@@ -1,46 +1,38 @@
+let headerHeight = 0;
+
 window.addEventListener('DOMContentLoaded', () => {
   const mainNav = document.getElementById('mainNav');
   if (!mainNav) return;
+
   let lastScrollY = window.scrollY;
-
   let ticking = false;
-  // 只讀一次 layout（安全）
-  let headerHeight = mainNav.offsetHeight;
 
-  function onScroll() {
+  // 使用 ResizeObserver 避免強制重繪 (Forced Reflow)
+  const ro = new ResizeObserver(entries => {
+    console.log(1)
+    headerHeight = entries[0].target.offsetHeight;
+  });
+  ro.observe(mainNav);
+
+  function updateNav() {
     const currentY = window.scrollY;
-    if (currentY < lastScrollY) {
-      // 向上捲動
-      if (currentY > headerHeight) {
-        mainNav.classList.add('is-fixed', 'is-visible');
-      } else {
-        mainNav.classList.remove('is-fixed', 'is-visible');
-      }
-    } else {
-      // 向下捲動
-      mainNav.classList.remove('is-visible');
-      if (currentY > headerHeight) {
-        mainNav.classList.add('is-fixed');
-      } else {
-        mainNav.classList.remove('is-fixed');
-      }
-    }
+    const isScrollingUp = currentY < lastScrollY;
+    const isPastHeader = currentY > headerHeight;
+
+    // 簡潔的邏輯切換
+    mainNav.classList.toggle('is-fixed', isPastHeader);
+    mainNav.classList.toggle('is-visible', isScrollingUp && isPastHeader);
+
     lastScrollY = currentY;
   }
 
   window.addEventListener('scroll', () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        onScroll();
+        updateNav();
         ticking = false;
       });
       ticking = true;
     }
   }, { passive: true });
-
-  // 若有 RWD 或字型載入導致高度變動，重新計算一次
-  window.addEventListener('resize', () => {
-    headerHeight = mainNav.offsetHeight;
-  }, { passive: true });
 });
-
