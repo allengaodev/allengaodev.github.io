@@ -40,7 +40,7 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand navbar-light fixed-top" id="mainNav" style="background-color: #F5F1E6">
+  <nav class="navbar navbar-expand navbar-light" id="mainNav" style="background-color: #F5F1E6">
   <div class="container">
     <a class="navbar-brand text-dark" href='/'> Home </a>
 
@@ -265,7 +265,7 @@ public class AbpUnitOfWorkModule : AbpModule
 因此最終註冊的形式為 <code>AbpAsyncDeterminationInterceptor&lt;UnitOfWorkInterceptor&gt;</code>，
 負責將 <code>IAsyncInterceptor</code> 轉接成 <code>IInterceptor</code>。</li>
 </ul>
-<pre><code class="language-text">private static IRegistrationBuilder&lt;TLimit, TActivatorData, TRegistrationStyle&gt; InvokeRegistrationActions&lt;TLimit, TActivatorData, TRegistrationStyle&gt;(
+<pre><code class="language-csharp">private static IRegistrationBuilder&lt;TLimit, TActivatorData, TRegistrationStyle&gt; InvokeRegistrationActions&lt;TLimit, TActivatorData, TRegistrationStyle&gt;(
         this IRegistrationBuilder&lt;TLimit, TActivatorData, TRegistrationStyle&gt; registrationBuilder,
         ServiceRegistrationActionList registrationActionList,
         Type serviceType,
@@ -334,7 +334,7 @@ private static IRegistrationBuilder&lt;TLimit, TActivatorData, TRegistrationStyl
 <p><code>AbpAsyncDeterminationInterceptor</code> 是 ABP 建立的抽象封裝，繼承的類別是之前提到過的 <code>AsyncDeterminationInterceptor</code> 關鍵類別，
 能夠轉接成 <code>IInterceptor</code> 攔截器。</p>
 <p>這裡將 <code>CastleAsyncAbpInterceptorAdapter&lt;TInterceptor&gt;</code> 將 ABP 攔截器轉接給 Castle：</p>
-<pre><code class="language-text">using Castle.DynamicProxy;
+<pre><code class="language-csharp">using Castle.DynamicProxy;
 using Volo.Abp.DynamicProxy;
 
 namespace Volo.Abp.Castle.DynamicProxy;
@@ -351,7 +351,7 @@ public class AbpAsyncDeterminationInterceptor&lt;TInterceptor&gt; : AsyncDetermi
 </code></pre>
 <p><code>CastleAsyncAbpInterceptorAdapter</code> 則是繼承 <code>AsyncInterceptorBase</code> 類別，我們已經知道它的底層就是 <code>IAsyncInterceptor</code> 介面，
 這個轉接層就是 Castle 攔截器呼叫 ABP Castle 攔截器的地方，也就是開始執行 <code>UnitOfWorkInterceptor</code> 的 <code>InterceptAsync</code> 方法。</p>
-<pre><code class="language-text">using System;
+<pre><code class="language-csharp">using System;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Volo.Abp.DynamicProxy;
@@ -390,7 +390,7 @@ public class CastleAsyncAbpInterceptorAdapter&lt;TInterceptor&gt; : AsyncInterce
 <p>另外 ABP 為了避免直接依賴 Castle Core 的 <code>invocation.Proceed()</code> 方法呼叫原始流程，所以引入了 <code>IAbpMethodInvocation</code> 介面</p>
 <p>透過 <code>CastleAbpMethodInvocationAdapter</code> 類別將原本 Castle Core 的資訊包裝成 ABP 專用的 <code>IAbpMethodInvocation</code> 介面</p>
 <p>因此 <code>UnitOfWorkInterceptor</code> 只需要呼叫 <code>invocation.ProceedAsync()</code> 背後就會透過轉接層呼叫 Castle Core 的 <code>invocation.Proceed()</code>。</p>
-<pre><code class="language-text">using System;
+<pre><code class="language-csharp">using System;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Volo.Abp.DynamicProxy;
@@ -529,10 +529,10 @@ UnitOfWorkInterceptor.InterceptAsync
 
   <!-- Scripts -->
   <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
-  <script async src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
   <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
   <script async src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js" onload="quicklink.listen();"></script>
+  <script defer src='/vendor/startbootstrap-clean-blog/js/scripts.js'></script>
   
 
   
