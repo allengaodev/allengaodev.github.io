@@ -9,9 +9,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 使用 ResizeObserver 避免強制重繪 (Forced Reflow)
   const ro = new ResizeObserver(entries => {
-    console.log(1)
     headerHeight = entries[0].target.offsetHeight;
   });
+
   ro.observe(mainNav);
 
   function updateNav() {
