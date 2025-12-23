@@ -3,6 +3,11 @@ let headerHeight = 0;
 window.addEventListener('DOMContentLoaded', () => {
   const mainNav = document.getElementById('mainNav');
   if (!mainNav) return;
+
+  if (window.quicklink) {
+    quicklink.listen();
+  }
+
   mainNav.style.transition = 'none';
   let lastScrollY = window.scrollY;
   let ticking = false;
@@ -51,3 +56,40 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 });
+
+(function() {
+  // 只在頁面有 <pre><code> 才載入 Prism
+  if (document.querySelector('pre code')) {
+    // 延遲載入 CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css';
+    link.media = 'print'; // 避免阻塞渲染
+    link.onload = () => { link.media = 'all'; };
+    document.head.appendChild(link);
+
+    // 設定 Prism 為手動模式，避免自動 highlight
+    window.Prism = { manual: true };
+
+    // 載入 Prism core
+    const core = document.createElement('script');
+    core.src = 'https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js';
+    core.defer = true;
+    core.onload = () => {
+      // 載入 Autoloader
+      const autoloader = document.createElement('script');
+      autoloader.src = 'https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js';
+      autoloader.defer = true;
+      autoloader.onload = () => {
+        // 設定語言模組來源路徑
+        Prism.plugins.autoloader.languages_path =
+          'https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/';
+
+        // 延遲 highlight
+        requestIdleCallback(() => Prism.highlightAll());
+      };
+      document.body.appendChild(autoloader);
+    };
+    document.body.appendChild(core);
+  }
+})();
