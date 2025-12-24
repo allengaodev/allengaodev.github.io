@@ -29,7 +29,6 @@
 
   <!-- Styles for this template (also includes Bootstrap) -->
   <link href='/scss/clean-blog-min.css' rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'">
 
   
 
@@ -92,6 +91,25 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dotnet-identity-server-ui">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server UI</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/05/05
+    </a>
+
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/22
+      </a>
+  </p>
+
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-server" target="_blank">文章</a>中
+我們跟著 Identity Server 的官方教學做了一遍，不過用起來跟 Google 好像不太一樣
+我們之前使用 Google 外部登時會把我們瀏覽器轉跳到 Google 並且要求我們的同意</p>    <p class="small"><a href="/posts/dotnet-identity-server-ui">Read more...</a></p>
+    <hr>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dotnet-identity-server">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -124,24 +142,6 @@
 
 <p>在前幾篇的文章中我們利用微軟提供的 Package <code>Microsoft.AspNetCore.Authentication.Google</code> 成功實踐了 Google 外部登入
 我們只要在 <code>Program.cs</code> 的 <code>IServiceCollection</code> 呼叫 <code>AddGoogle</code> 方法即可，接下來的流程就交給內建的 SignInManager 處理</p>    <p class="small"><a href="/posts/dotnet-identity-oauth-oidc">Read more...</a></p>
-    <hr>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-user-tokens">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/28
-    </a>
-
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/21
-      </a>
-  </p>
-
-<p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
-分別使用到 <code>SignInManager</code> 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>    <p class="small"><a href="/posts/dotnet-identity-user-tokens">Read more...</a></p>
     <hr>
 </div>
 

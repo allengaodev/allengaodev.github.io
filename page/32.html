@@ -29,7 +29,6 @@
 
   <!-- Styles for this template (also includes Bootstrap) -->
   <link href='/scss/clean-blog-min.css' rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet" media="print" onload="this.media='all'">
 
   
 
@@ -92,6 +91,20 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-17">Effective C# 17.&#x5BE6;&#x4F5C;&#x6A19;&#x6E96;&#x7684; Dispose &#x6A21;&#x5F0F;</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/10/14
+    </a>
+
+  </p>
+
+<p>在前幾個做法都有提到 IDisposable 的相關概念，這個做法就是在討論如何寫出標準的 Dispose 模式。</p>    <p class="small"><a href="/posts/effective-csharp-17">Read more...</a></p>
+    <hr>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-16">Effective C# 16.&#x7D55;&#x4E0D;&#x5728;&#x5EFA;&#x69CB;&#x5143;&#x4E2D;&#x547C;&#x53EB;&#x865B;&#x64EC;&#x51FD;&#x5F0F;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -116,20 +129,6 @@
 
 <p>這個做法提出了建立過多物件會影響效率的概念，雖然我們的系統有 GC 能夠高效的管理記憶體中的物件，
 但清除的效率在快還不如不創建無意義的物件，從根本上解決過度使用 GC 的導致的效率問題。</p>    <p class="small"><a href="/posts/effective-csharp-15">Read more...</a></p>
-    <hr>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-14">Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/10/10
-    </a>
-
-  </p>
-
-<p>在做法 12 提到多個建構函式很容易造成每個建構函式有細微的區別，因此使用 <code>Member Initializers</code> 在宣告時直接賦值以解決這個問題。</p>    <p class="small"><a href="/posts/effective-csharp-14">Read more...</a></p>
     <hr>
 </div>
 
