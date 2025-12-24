@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x672C;&#x7BC7;&#x6559;&#x5B78;&#x6DF1;&#x5165;&#x89E3;&#x6790; ABP.IO Infrastructure Layer &#x7684;&#x8A2D;&#x8A08;&#x8207;&#x5BE6;&#x52D9;&#xFF0C;&#x8AAA;&#x660E;&#x6A21;&#x7D44;&#x5316;&#x8207; DDD &#x67B6;&#x69CB;&#x4E2D;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64;&#x7684;&#x89D2;&#x8272;&#xFF0C;&#x4E26;&#x4EE5; Entity Framework Core &#x5BE6;&#x4F5C; DbContext&#x3001;Repository&#x3001;&#x8CC7;&#x6599;&#x5EAB;&#x9077;&#x79FB;&#x8207; DataSeeder&#xFF0C;&#x793A;&#x7BC4;&#x6A21;&#x7D44;&#x6574;&#x5408;&#x81F3;&#x5BE6;&#x969B;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x7684;&#x5B8C;&#x6574;&#x8CC7;&#x6599;&#x5EAB;&#x6D41;&#x7A0B;&#x3002;">
+
+  <title>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64; - Part 3</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64; - Part 3' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-light" id="mainNav" style="background-color: #F5F1E6">
+  <div class="container">
+    <a class="navbar-brand text-dark" href='/'> Home </a>
+
+    <div class="navbar-nav-container" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link text-dark" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer'>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x57FA;&#x790E;&#x8A2D;&#x65BD;&#x5C64; - Part 3</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2025/12/24
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge bg-white text-dark"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="section">目錄</h2>
+<ul>
+<li><a href="#infrastructure-layer-的角色與責任">Infrastructure Layer 的角色與責任</a></li>
+<li><a href="#abp-中的-ef-core">ABP 中的 EF Core</a></li>
+<li><a href="#infrastructure-layer-設計">Infrastructure Layer 設計</a></li>
+<li><a href="#建立-bookstorescratchdbcontext">建立 BookStoreScratchDbContext</a></li>
+<li><a href="#repository-實作">Repository 實作</a></li>
+<li><a href="#測試專案遷移腳本dataseeder">測試專案、遷移腳本、DataSeeder</a></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<h2 id="infrastructure-layer">Infrastructure Layer 的角色與責任</h2>
+<p>在前篇文章中，我們已經完成了領域層的設計。現在回顧一次各個分層概念：</p>
+<ol>
+<li>Domain Layer(領域層)：包含商業邏輯、Entity、DomainService。</li>
+<li>Application Layer(應用層)：實作 Use Case，不包含商業邏輯細節。</li>
+<li>Infrastructure Layer(基礎設施層)：負責技術實作，例如資料庫、檔案系統。</li>
+<li>Presentation Layer(表現層)：UI 與外部介面(API、MVC、Blazor)。</li>
+</ol>
+<p>基礎設施層本質上是一個外部服務的供應商，它的工作就是支援並滿足上層的需求，所以它只關心「怎麼做」，而不是「為什麼要做」，
+因此不應該在這一層看到任何驗證規則或商業邏輯，這些都應該在 Domain 層。</p>
+<p>例如一個會員系統需要新增會員時，不應該把檢查會員帳號是否存在的邏輯放在基礎設施層，正確要放在領域層或是應用層，
+基礎設施層建議在新增會員失敗後直接拋出插入失敗相關的 Exception 即可。</p>
+<p>同時建議使用 Repository Pattern 建立抽象介面並使用依賴反轉避免直接耦合，這樣只需要透過抽象的倉庫介面就能訪問資料庫。</p>
+<p>不建議直接在領域層或應用層指定特定的資料庫實做，因為模組應該要保持可替換性，所以資料庫的實做選擇應該要留給模組使用者決定，
+假如你直接在模組中已經指定使用 PostgresSQL，那使用你模組的人也只能被迫使用 PostgresSQL，所以在 ABP 中最常見的做法就是模組只依賴
+<code>Volo.Abp.EntityFrameworkCore</code>，把資料庫的選擇權留給使用人。</p>
+<p>在本系列中，我們使用 <code>BookStoreScratch.EntityFrameworkCore</code> 作為 Infrastructure 專案。</p>
+<h2 id="section-2"><br><br></h2>
+<h2 id="abp-ef-core">ABP 中的 EF Core</h2>
+<p>ABP 對 EFCore 做了額外封裝，所以不直接繼承原始的 <code>DbContext</code>，而是繼承 <code>AbpDbContext&lt;T&gt;</code>。</p>
+<p>並且有一點需要特別注意，就是 ABP 中的 <code>AbpDbContext</code> 生命週期是註冊為 Transient，並不是微軟官方建議的 Scope，
+是因為 ABP 自行實做了 Unit Of Work 功能來達到事務的能力，當一個方法標記為 <code>UnitOfWork</code> 時，ABP 會確保整個 API 請求都在一個
+UOW 範圍內，即使請求 <code>AbpDbContext</code> 非常多次，實際上還是共用同一個底層連線與資料庫事務，而不是透過 Scope 的請求週期特性來管理連線與事務。</p>
+<p>ABP 是透過 AOP 設計註冊 UOW 攔截器，所以當有新請求時會自動開啟事務，如果有操作資料庫也會在完成時自動呼叫 <code>CompleteAsync</code>，
+如果只是一般的 CURD 功能通常只需要繼承 ABP 提供的通用倉庫類別 <code>EfCoreRepository</code> 可以少寫很多基礎的程式碼。</p>
+<p>假如只想要純粹使用 EFCore 那只需注入 <code>IDbContextProvider&lt;TDbContext&gt;</code> 並透過 <code>GetDbContext</code> 或 <code>GetDbContextAsync</code> 方法取得連線即可，
+這樣 ABP 的 UOW 攔截器才會透過 <code>UnitOfWorkDbContextProvider</code> 介入管理，才能擁有事務的功能。</p>
+<p>要注意就算是安裝 Dapper，ABP 背後也是走上面提到的取得連線流程才能獲得事務功能，也就是說 Dapper 在 ABP 中並非獨立存在的，而是作為 EF Core 的輔助，
+是直接依賴 <code>DbContext</code> 的，也不建議自行建立 SqlConnection，因為無法與 ABP 的 UOW 狀態同步，除非你打算全部透過 SQL 事務來處理所有功能。</p>
+<h2 id="section-3"><br><br></h2>
+<h2 id="infrastructure-layer-1">Infrastructure Layer 設計</h2>
+<p>整理上兩段的內容列出以下設計重點:</p>
+<ol>
+<li>建立新類別並繼承 <code>AbpDbContext&lt;T&gt;</code> 類別。</li>
+<li>領域層建立抽象的倉庫介面。</li>
+<li>基礎設施層建立新類別繼承 <code>EfCoreRepository</code> 並實做倉庫介面。</li>
+<li>模組不要安裝特定資料庫函式庫</li>
+</ol>
+<p>所以我們的書店會建立以下類別:</p>
+<ol>
+<li><code>BookStoreScratchDbContext</code></li>
+<li><code>IBookStoreScratchEventRepository</code></li>
+<li><code>EfCoreBookStoreScratchRepository</code></li>
+</ol>
+<h2 id="section-4"><br><br></h2>
+<h2 id="bookstorescratchdbcontext">建立 BookStoreScratchDbContext</h2>
+<p>在 <code>BookStoreScratch.EntityFrameworkCore</code> 專案中建立 <code>BookStoreScratchDbContext</code>，並確定繼承 AbpDbContext。
+並且在 <code>OnModelCreating</code> 生命週期設定資料表欄位方便建立遷移腳本，並透過 <code>ConfigureByConvention</code> 方法直接設定常用欄位。</p>
+<pre><code class="language-csharp">using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public class BookStoreScratchDbContext: AbpDbContext&lt;BookStoreScratchDbContext&gt;
+{
+    public DbSet&lt;Book&gt; Books { get; set; }
+
+    public BookStoreScratchDbContext(DbContextOptions&lt;BookStoreScratchDbContext&gt; options) : base(options)
+    {
+    }
+    
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity&lt;Book&gt;(b =&gt;
+        {
+            b.ToTable(&quot;Books&quot;);
+            b.ConfigureByConvention();
+            b.Property(x =&gt; x.Name).IsRequired().HasMaxLength(128);
+        });
+    }
+}
+</code></pre>
+<h2 id="section-5"><br><br></h2>
+<h2 id="repository">Repository 實作</h2>
+<p>在 <code>BookStoreScratch.Domain</code> 專案中建立 <code>IBookStoreScratchEventRepository</code> 介面，這邊能有幾種介面能選擇:</p>
+<ol>
+<li>IRepository: 最基礎的介面，什麼方法都沒有定義。</li>
+<li>IReadOnlyBasicRepository: 繼承 IRepository 介面，有額外定義查詢方法。</li>
+<li>IReadOnlyRepository: 繼承 IReadOnlyBasicRepository 介面，額外增加獲取 <code>IQueryable</code> 的方法。</li>
+<li>IBasicRepository: 繼承 IReadOnlyBasicRepository 介面，有定義更新、插入、刪除方法。</li>
+<li>IRepository(泛型版): 繼承 IReadOnlyRepository 與 IBasicRepository 介面，功能最多的介面。</li>
+</ol>
+<p>實際上只會考慮 <code>IBasicRepository</code> 與 <code>IRepository(泛型版)</code>。
+如果考慮的是快速開發那就繼承 <code>IRepository(泛型版)</code>，差別就是會不會對外傳 <code>IQueryable</code>，由於延遲查詢的特性所以最終發起連線的地方可能會延遲到領域層或應用層才發起查詢，
+導致破壞了基礎設施層的設計意圖，但好處就是開發起來彈性很高。</p>
+<p>如果你的專案想要走的是嚴格的 DDD 設計或是預計要使用的資料庫不支援 <code>IQueryable</code>，那建議實做 <code>IBasicRepository</code>，由於不能對外傳 <code>IQueryable</code>
+所以要求查詢必須在基礎設施層完成，因此可以確保查詢都封裝在基礎設施層並不會擴散到其他層級去，
+缺點就是一段邏輯就要對應一個方法彈性比較差，但是維護起來比較方便並且容易單元測試。</p>
+<p>另外注意模組中的倉庫介面最好只使用 <code>Volo.Abp.Domain.Repositories</code> 底下定義的介面，也就是上面列出的那幾種，不要使用到
+<code>Volo.Abp.Domain.Repositories.EntityFrameworkCore</code> 底下的 <code>IEfCoreRepository</code>，因為會導致領域層直接依賴 EFCore，
+未來如果想要使用 MongoDB 會沒辦法直接轉換。</p>
+<p>我們在專案 <code>BookStoreScratch.Domain</code> 建立新介面 <code>IBookStoreScratchEventRepository</code> 選擇繼承 <code>IBasicRepository</code> 介面，並定義一個根據書名找書的方法介面。</p>
+<pre><code class="language-csharp">using System;
+using Volo.Abp.Domain.Repositories;
+
+namespace BookStoreScratch;
+
+public interface IBookStoreScratchEventRepository : IBasicRepository&lt;Book, Guid&gt;
+{
+    Task&lt;Book?&gt; FindByBookNameAsync(Guid id);
+}
+
+</code></pre>
+<p>切換到 <code>BookStoreScratch.EntityFrameworkCore</code> 專案下，新增倉庫實做 <code>EfCoreBookStoreScratchRepository</code>。
+這裡可以直接實做 <code>IBookStoreScratchEventRepository</code> 介面，但是需要自己實做所有 CRUD 的方法，由於這些功能功能很單純，
+自己實做沒有多大好處，直接繼承 <code>EfCoreRepository</code> 是比較省時省力的選擇。</p>
+<p>繼承類別選擇正確的話只需要實做 <code>FindByBookNameAsync</code> 方法。</p>
+<pre><code class="language-text">using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public class EfCoreBookStoreScratchRepository: EfCoreRepository&lt;BookStoreScratchDbContext, Book, Guid&gt;, IBookStoreScratchEventRepository
+{
+    public EfCoreBookStoreScratchRepository(IDbContextProvider&lt;BookStoreScratchDbContext&gt; dbContextProvider) : base(dbContextProvider)
+    {
+    }
+
+    public async Task&lt;Book?&gt; FindByBookNameAsync(string name)
+    {
+        return await (await GetDbSetAsync())
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x =&gt; x.Name == name);
+    }
+}
+</code></pre>
+<h2 id="section-6"><br><br></h2>
+<h2 id="dataseeder">測試專案、遷移腳本、DataSeeder</h2>
+<p>在一般的應用程式開發流程中，會順便在基礎設施層安裝 <code>Microsoft.EntityFrameworkCore.Tools</code> 初始化遷移腳本，但是我們目前開發的是一個模組，
+要站在使用者的角度看待，由於模組最終要整合在使用者的資料庫或是獨立一個資料庫是由使用者自行決定，因此我們在模組中建立遷移腳本沒有任何意義。</p>
+<p>不過我們可以嘗試建立一個測試專案來測試資料庫流程，這樣做也有另一個好處就是分離模組開發者跟應用程式開發者的工作流程，
+可以先在模組完整測試後在安裝到應用程式內，避免一堆模組互相干擾。</p>
+<p>大部分建立的過程跟第一章建立的 Console 專案一致，由於要透過 DataSeeder 新增預設的資料，因此這裡安裝 <code>Volo.Abp.Autofac</code> 方便使用依賴注入。</p>
+<pre><code class="language-text">dotnet new worker -o app/BookStoreScratch.DbMigrator
+dotnet sln add app/BookStoreScratch.DbMigrator
+rm app/BookStoreScratch.DbMigrator/Worker.cs
+rm app/BookStoreScratch.DbMigrator/Program.cs
+
+dotnet add app/BookStoreScratch.DbMigrator package Volo.Abp.Autofac
+dotnet add app/BookStoreScratch.DbMigrator package Serilog.Extensions.Hosting
+dotnet add app/BookStoreScratch.DbMigrator package Serilog.Extensions.Logging
+dotnet add app/BookStoreScratch.DbMigrator package Serilog.Sinks.Async
+dotnet add app/BookStoreScratch.DbMigrator package Serilog.Sinks.Console
+dotnet add app/BookStoreScratch.DbMigrator package Microsoft.EntityFrameworkCore.Tools
+dotnet add app/BookStoreScratch.DbMigrator package Volo.Abp.EntityFrameworkCore.PostgreSql
+
+dotnet add app/BookStoreScratch.DbMigrator/BookStoreScratch.DbMigrator.csproj reference src/BookStoreScratch.EntityFrameworkCore/BookStoreScratch.EntityFrameworkCore.csproj                                                        
+</code></pre>
+<p>接下來要模擬使用者安裝我們模組的流程，在微服務設計中會把資料分散到多個資料庫中，並不會集中到一個 DBContext 內，
+但在傳統應用中會考慮將所有表集中到使用者自己的 DBContext 內，那就不需要用到我們定義的 <code>BookStoreScratchDbContext</code> 了，
+所以我們要把模型的定義提取出來不要再放在 <code>BookStoreScratchDbContext</code>，以便兼容兩種應用。</p>
+<p>在 <code>BookStoreScratch.EntityFrameworkCore</code> 建立 <code>BookStoreScratchDbContextModelCreatingExtensions</code> 用來放定義模型的擴充方法。</p>
+<pre><code class="language-csharp">using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public static class BookStoreScratchDbContextModelCreatingExtensions
+{
+    public static void ConfigureBookStoreScratch(this ModelBuilder builder)
+    {
+        builder.Entity&lt;Book&gt;(b =&gt;
+        {
+            b.ToTable(&quot;Books&quot;);
+            b.ConfigureByConvention();
+            b.Property(x =&gt; x.Name).IsRequired().HasMaxLength(128);
+        });
+    }
+}
+</code></pre>
+<p>修改 <code>BookStoreScratchDbContext</code> 改用擴充方法定義模型。</p>
+<pre><code class="language-csharp">using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public class BookStoreScratchDbContext : AbpDbContext&lt;BookStoreScratchDbContext&gt;
+{
+    public DbSet&lt;Book&gt; Books { get; set; }
+
+    public BookStoreScratchDbContext(DbContextOptions&lt;BookStoreScratchDbContext&gt; options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.ConfigureBookStoreScratch();
+    }
+}
+</code></pre>
+<p>接下來回到 <code>BookStoreScratch.DbMigrator</code> 專案中，我們將要模擬使用者使用自己 DBContext 的情況。
+建立 <code>UnifiedDbContext</code> 類別，可以看到跟我們自己的 <code>BookStoreScratchDbContext</code> 幾乎一樣，但是實際上會透過模型的擴充方法將所有模型
+都集中到 <code>UnifiedDbContext</code> 內部，類如我們要用 ABP 會員系統就只要呼叫 <code>builder.ConfigureIdentity()</code> 設定模型即可</p>
+<pre><code class="language-text">using BookStoreScratch.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.DbMigrator;
+
+public class UnifiedDbContext : AbpDbContext&lt;UnifiedDbContext&gt;
+{
+    public UnifiedDbContext(DbContextOptions&lt;UnifiedDbContext&gt; options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.ConfigureBookStoreScratch();
+    }
+}
+</code></pre>
+<p>建立 <code>UnifiedDbContextFactory</code>，EFCore 要此類別才能建立或更新遷移腳本</p>
+<pre><code class="language-text">using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+
+namespace BookStoreScratch.DbMigrator;
+
+public class UnifiedDbContextFactory : IDesignTimeDbContextFactory&lt;UnifiedDbContext&gt;
+{
+    public UnifiedDbContext CreateDbContext(string[] args)
+    {
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch(&quot;Npgsql.EnableLegacyTimestampBehavior&quot;, true);
+
+        var configuration = BuildConfiguration();
+
+        var builder = new DbContextOptionsBuilder&lt;UnifiedDbContext&gt;()
+            .UseNpgsql(configuration.GetConnectionString(&quot;Default&quot;));
+
+        return new UnifiedDbContext(builder.Options);
+    }
+
+    private static IConfigurationRoot BuildConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(&quot;appsettings.json&quot;, optional: false);
+
+        return builder.Build();
+    }
+}
+</code></pre>
+<p><code>appsettings.json</code> 新增連線字串</p>
+<pre><code class="language-text">{
+  &quot;Logging&quot;: {
+    &quot;LogLevel&quot;: {
+      &quot;Default&quot;: &quot;Information&quot;,
+      &quot;Microsoft.Hosting.Lifetime&quot;: &quot;Information&quot;
+    }
+  },
+  &quot;ConnectionStrings&quot;: {
+    &quot;Default&quot;: &quot;Host=localhost;Port=5432;Database=BookStoreScratch;User ID=postgres;Password=myPassw0rd;&quot;
+  }
+}
+</code></pre>
+<p>建立遷移腳本並更新資料庫，完成後會看到 <code>Books</code> 資料表建立成功。</p>
+<pre><code class="language-text">dotnet ef migrations add Initial
+dotnet ef database update
+</code></pre>
+<p>接下來準備插入測試資料，可以使用 ABP 的 <code>IDataSeedContributor</code> 介面，ABP 會自動註冊實做 <code>IDataSeedContributor</code> 介面的類別，
+未來只要注入 <code>IDataSeeder</code> 服務就能取得所有 Contributor，非常適合用在模組中，自動新增必要的資料，
+像是 Identity 模組就會註冊一個建立 admin 會員的 Contributor，這樣就算使用者完全不了解 Identity 模組也可以使用預設的 admin 會員。</p>
+<p>在專案 <code>BookStoreScratch.Domain</code> 建立 <code>BookStoreDataSeedContributor</code>，它會在啟動時自動插入一本預設的書，
+另外透過注入 <code>BookManager</code> 建立書籍，這樣能夠共用檢查邏輯。</p>
+<pre><code class="language-text">using System;
+using System.Threading.Tasks;
+using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.MultiTenancy;
+
+namespace BookStoreScratch;
+
+public class BookStoreDataSeedContributor : IDataSeedContributor, ITransientDependency
+{
+    private readonly IRepository&lt;Book, Guid&gt; _bookRepository;
+    private readonly ICurrentTenant _currentTenant;
+    private readonly BookManager _bookManager;
+
+    public BookStoreDataSeedContributor(
+        IRepository&lt;Book, Guid&gt; bookRepository,
+        ICurrentTenant currentTenant,
+        BookManager bookManager)
+    {
+        _bookRepository = bookRepository;
+        _currentTenant = currentTenant;
+        _bookManager = bookManager;
+    }
+
+    public async Task SeedAsync(DataSeedContext context)
+    {
+        using (_currentTenant.Change(context?.TenantId))
+        {
+            var book = _bookManager.CreateBook(
+                &quot;The Hitchhiker's Guide to the Galaxy&quot;,
+                BookType.ScienceFiction,
+                new DateTime(1979, 10, 12),
+                price: 42
+            );
+
+            await _bookRepository.InsertAsync(book);
+        }
+    }
+}
+</code></pre>
+<p>新增 <code>Program.cs</code>，這裡我們將要採用 ABP 另一種啟動方式，首先注入一個 <code>IHostedService</code>
+它的內部會使用工廠模式設定好 Autofac 環境再啟動 Seeder，這種方式不會把服務註冊到 Generic Host 內，等於外層的 Host 是一個空殼，
+真正的 ABP 是透過工廠模式啟動，對於這種工具式的程式比較方便切換環境。</p>
+<pre><code class="language-csharp">using Serilog;
+using Serilog.Events;
+
+namespace BookStoreScratch.DbMigrator;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning)
+            .MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning)
+#if DEBUG
+            .MinimumLevel.Override(&quot;EventHub&quot;, LogEventLevel.Debug)
+#else
+                .MinimumLevel.Override(&quot;EventHub&quot;, LogEventLevel.Information)
+#endif
+            .Enrich.FromLogContext()
+            .WriteTo.Async(c =&gt; c.Console())
+            .CreateLogger();
+
+        await CreateHostBuilder(args).RunConsoleAsync();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =&gt;
+        Host.CreateDefaultBuilder(args)
+            .AddAppSettingsSecretsJson()
+            .ConfigureLogging((context, logging) =&gt; logging.ClearProviders())
+            .ConfigureServices((hostContext, services) =&gt;
+            {
+                services.AddHostedService&lt;DbMigratorHostedService&gt;();
+            });
+}
+</code></pre>
+<p>新增 <code>DbMigratorHostedService</code>，要注意我們用的是工廠模式所以實際的 DI 是保存在 application 的 <code>ServiceProvider</code> 內部，
+並不是 Host 環境，所以使用平常的注入方式會跳出依賴報錯。</p>
+<pre><code class="language-text">using Serilog;
+using Volo.Abp;
+using Volo.Abp.Data;
+
+namespace BookStoreScratch.DbMigrator;
+
+public class DbMigratorHostedService : IHostedService
+{
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
+    private readonly IConfiguration _configuration;
+
+    public DbMigratorHostedService(IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
+    {
+        _hostApplicationLifetime = hostApplicationLifetime;
+        _configuration = configuration;
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        using (var application = await AbpApplicationFactory.CreateAsync&lt;DbMigratorModule&gt;(options =&gt;
+               {
+                   options.Services.ReplaceConfiguration(_configuration);
+                   options.UseAutofac();
+                   options.Services.AddLogging(c =&gt; c.AddSerilog());
+                   options.AddDataMigrationEnvironment();
+               }))
+        {
+            await application.InitializeAsync();
+
+            // 初始完畢可以開始執行程式
+            await application
+                .ServiceProvider
+                .GetRequiredService&lt;IDataSeeder&gt;()
+                .SeedAsync();
+
+            await application.ShutdownAsync();
+
+            _hostApplicationLifetime.StopApplication();
+        }
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
+    }
+}
+</code></pre>
+<p>建立 <code>DbMigratorModule</code> 並依賴基礎設施層與 Autofac 模組，另外我們要模擬使用者的應用程式，所以在這個專案已經決定要使用 PostgreSql，
+因此也要添加依賴並呼叫 <code>UseNpgsql</code> 方法啟動資料庫服務。</p>
+<pre><code class="language-text">using BookStoreScratch.EntityFrameworkCore;
+using Volo.Abp.Autofac;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch.DbMigrator;
+
+[DependsOn(
+    typeof(AbpAutofacModule),
+    typeof(AbpEntityFrameworkCorePostgreSqlModule),
+    typeof(BookStoreScratchEntityFrameworkCoreModule)
+)]
+public class DbMigratorModule : AbpModule
+{
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch(&quot;Npgsql.EnableLegacyTimestampBehavior&quot;, true);
+    }
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure&lt;AbpDbContextOptions&gt;(options =&gt;
+        {
+            options.UseNpgsql();
+        });
+    }
+}
+</code></pre>
+<p>完成後只要啟動程式，到資料庫查詢就會發現有一筆新的資料出現了。</p>
+<p>本次文章進度 <a href="https://github.com/allengaodev/BookStoreScratch/tree/1.3" target="_blank">Github</a></p>
+
+
+          
+
+        </div>
+      </div>
+  <div id="comments-container" class="row">
+    <div id="giscus-container"></div>
+
+<script>
+  let giscusLoaded = false;
+  function loadGiscus() {
+    if (giscusLoaded) return;
+    giscusLoaded = true;
+
+    let datarepo = 'allengaodev/allengaodev.github.io'
+    let datarepoid='R_kgDOI6sF8g'
+    let datacategoryid='DIC_kwDOI6sF8s4CUbuw'
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', datarepo);
+    script.setAttribute('data-repo-id', datarepoid);
+    script.setAttribute('data-category-id', datacategoryid);
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", "light");
+    script.setAttribute("data-lang", "en");
+    script.async = true;
+    document.getElementById("giscus-container").appendChild(script);
+  }
+
+  // 檢查是否滾動到最底部
+  function checkScrollBottom() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 2) {
+      loadGiscus();
+      window.removeEventListener("scroll", checkScrollBottom);
+    }
+  }
+
+  // 等待滾動結束
+  setTimeout(() => {
+    checkScrollBottom();
+    window.addEventListener("scroll", checkScrollBottom);
+  }, 500); // 0.5秒後檢查
+</script>
+
+  </div>
+    </div>
+  </main>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2025 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <script defer src='/vendor/startbootstrap-clean-blog/js/scripts.min.js'></script>
+  
+
+  
+</body>
+
+</html>

@@ -91,6 +91,21 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/effective-csharp-11">Effective C# 11.&#x8A8D;&#x8B58; .NET &#x8CC7;&#x6E90;&#x7BA1;&#x7406;</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2024/10/06
+    </a>
+
+  </p>
+
+<p>本做法討論幾個與 GC 相關的基本知識: <code>Managed</code>、<code>Unmanaged</code>、<code>Finalizer</code>
+GC 能夠幫我們管理 <code>Managed</code> 記憶體讓我們不必關心記憶體洩漏這種記憶體管理的問題，大多數情況讓 GC 自行運作比你自己手動清理做的更好。</p>    <p class="small"><a href="/posts/effective-csharp-11">Read more...</a></p>
+    <hr>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/effective-csharp-10">Effective C# 10.&#x53EA;&#x5C0D;&#x57FA;&#x5E95;&#x985E;&#x5225;&#x66F4;&#x65B0;&#x4F7F;&#x7528; new &#x4FEE;&#x98FE;&#x8A5E;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -115,22 +130,6 @@
 
 <p>這個做法在討論 boxing 與 unboxing 的運作方式與背後理論。
 首先要先複習 <code>Value Type</code> 和 <code>Reference Type</code> 兩者關鍵的區別，<code>Value Type</code> 的複製是 Copy-by-value，<code>Reference Type</code> 的複製是 Copy-by-reference。</p>    <p class="small"><a href="/posts/effective-csharp-09">Read more...</a></p>
-    <hr>
-</div>
-
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-08">Effective C# 08.&#x5C0D;&#x4E8B;&#x4EF6;&#x53EB;&#x7528;&#x4F7F;&#x7528;&#x7A7A;&#x689D;&#x4EF6;&#x904B;&#x7B97;&#x5B50;</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/09/29
-    </a>
-
-  </p>
-
-<p>本做法介紹了 <code>?</code> 運算子的使用方式，與錯誤的使用 event 可能會造成 <code>NullReferenceException</code>。
-首先同樣也複習一下 event 的使用方式，典型的事件用法是在類別或物件發生變動時，告知其他類別或物件或者執行方法，
-通常會有一個發佈者(publisher)與接收者(subscriber)。</p>    <p class="small"><a href="/posts/effective-csharp-08">Read more...</a></p>
     <hr>
 </div>
 
