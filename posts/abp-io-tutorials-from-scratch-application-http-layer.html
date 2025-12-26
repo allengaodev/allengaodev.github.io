@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x672C;&#x7BC7; ABP.IO &#x6559;&#x5B78; Part 4 &#x5C07;&#x6DF1;&#x5165;&#x89E3;&#x6790; &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x4E2D;&#x7684;&#x61C9;&#x7528;&#x5C64;&#xFF08;Application Layer&#xFF09;&#x8207; HTTP &#x5C64;&#xFF08;Http API Layer&#xFF09;&#x3002;&#x5F9E;&#x8077;&#x8CAC;&#x5283;&#x5206;&#x3001;&#x4F9D;&#x8CF4;&#x65B9;&#x5411;&#x5230;&#x5BE6;&#x52D9;&#x5C08;&#x6848;&#x7D50;&#x69CB;&#xFF0C;&#x8AAA;&#x660E;&#x5982;&#x4F55;&#x900F;&#x904E; Application Service &#x627F;&#x8F09;&#x5546;&#x696D;&#x908F;&#x8F2F;&#xFF0C;&#x4E26;&#x7531; HTTP API &#x5C0D;&#x5916;&#x63D0;&#x4F9B; RESTful &#x4ECB;&#x9762;&#x3002;&#x5167;&#x5BB9;&#x540C;&#x6642;&#x6DB5;&#x84CB; DTO &#x8A2D;&#x8A08;&#x3001;&#x6388;&#x6B0A;&#x8207;&#x9A57;&#x8B49;&#x6574;&#x5408;&#x3001;API &#x6A21;&#x7D44;&#x62C6;&#x5206;&#xFF0C;&#x5354;&#x52A9; .NET &#x958B;&#x767C;&#x8005;&#x5728;&#x5BE6;&#x969B;&#x5C08;&#x6848;&#x4E2D;&#x6B63;&#x78BA;&#x843D;&#x5BE6; ABP.IO &#x7684;&#x5206;&#x5C64;&#x8207;&#x6A21;&#x7D44;&#x5316;&#x8A2D;&#x8A08;&#x3002;">
+
+  <title>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x61C9;&#x7528;&#x5C64;&#x8207; HTTP &#x5C64; - Part 4</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x61C9;&#x7528;&#x5C64;&#x8207; HTTP &#x5C64; - Part 4' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-light" id="mainNav" style="background-color: #F5F1E6">
+  <div class="container">
+    <a class="navbar-brand text-dark" href='/'> Home </a>
+
+    <div class="navbar-nav-container" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link text-dark" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer'>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x61C9;&#x7528;&#x5C64;&#x8207; HTTP &#x5C64; - Part 4</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2023/06/16
+              </a>
+
+                <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+                  2025/12/26
+                </a>
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge bg-white text-dark"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <p>今天要來處理應用層(Application Layer)與 HTTP 層(HttpAPI Layer)的實作。</p>
+<p>這兩個層級在概念上，與傳統 MVC 中的 Controller + ViewModel 有些相似，
+但在 DDD 戰術設計中引入了兩個關鍵概念：</p>
+<ol>
+<li>Application Service</li>
+<li>Data Transfer Object(DTO)</li>
+</ol>
+<p><br><br></p>
+<h2 id="section">應用層</h2>
+<p>在第一篇文章中已經提過，應用層位於表現層與領域層之間，負責將多個商業行為組合成一個「可被呼叫的應用操作」。
+以書店範例來說，我們會建立一個 <code>BookAppService</code>，集中處理書籍的新增、修改、查詢與刪除等操作。</p>
+<p><br><br></p>
+<h2 id="http">HTTP 層</h2>
+<p>ABP 額外拆出 HTTP 層的主要目的是避免商業邏輯依賴 MVC 或 Web 技術，因此它主要負責 HTTP Route、HTTP Method 與 HTTP Response 等相關功能，
+這個層級屬於輔助層級並非強制要求建立，也可以將 HTTP 層合併到應用層，讓應用層的 Application Service 處理 HTTP。</p>
+<p><br><br></p>
+<h2 id="dto">DTO 的用處</h2>
+<p>DTO 的概念其實與 MVC 中的 ViewModel 非常接近，主要目的是：</p>
+<ol>
+<li>避免 Entity 直接暴露給外部</li>
+<li>降低層與層之間的耦合</li>
+<li>防止未來 Entity 結構調整時影響 API</li>
+</ol>
+<p>雖然省略 DTO 直接使用 Entity 也是可行，但在實務中，這樣會讓表現層過度依賴底層資料結構，導致後續修改與維護成本提高。</p>
+<p><br><br></p>
+<h2 id="section-1">整體呼叫流程</h2>
+<ol>
+<li>呼叫者透過 HTTP 層知道有對外公開的 API，並呼叫查詢書籍 API</li>
+<li>HTTP 層透過依賴注入呼叫 Application Service(<code>BookAppService</code>)</li>
+<li><code>BookAppService</code> 透過倉庫發送查詢請求給基礎設施層</li>
+<li>基礎設施層將請求發送到資料庫，並把查詢到的 <code>Book</code> 實體回傳給 <code>BookAppService</code></li>
+<li><code>BookAppService</code> 將 <code>Book</code> 實體轉換成 <code>BookDto</code> 並由 HTTP 層回傳給呼叫者</li>
+</ol>
+<h2 id="section-2"><br><br></h2>
+<h2 id="section-3">應用層設計</h2>
+<p>根據 DDD 的設計我們會把應用服務的介面與 DTO 放在 <code>Application.Contracts</code> 專案內部，
+這樣能將具體的服務放在 <code>Application</code> 專案內，並把相關的服務合約單獨放在 <code>Application.Contracts</code> 專案，
+例如有兩個微服務需要溝通，就能透過 <code>Application.Contracts</code> 專案與 ABP 提供的動態代理功能自動幫你在背後做 RPC 非常方便。</p>
+<p>由於 <code>Application.Contracts</code> 並沒有參考 <code>Domain</code> 專案，所以等於禁止我們直接回傳領域模型，因此只能乖乖將結果轉換成 DTO 才能回傳，
+這樣做的好處能避免將領域模型暴露給前端知道。</p>
+<p>首先需要在 <code>Application.Contracts</code> 專案定義 <code>IBookAppService</code> 介面，並且定義好未來需要使用的服務，
+需要注意 ABP 的應用服務介面一定要繼承自 <code>IApplicationService</code> 否則 ABP 沒辦處理動態代理或動態 API 功能，
+通常來說 ABP 有幾個應用服務介面是比較常用的，它們底層也都是繼承 <code>IApplicationService</code>:</p>
+<ol>
+<li>IApplicationService: 空的介面，甚麼方法都沒有定義。</li>
+<li>IReadOnlyAppService: 只有定義讀取方法。</li>
+<li>ICrudAppService: 定義全部常用的 CRUD 方法。</li>
+</ol>
+<p>建議是用在後台相關的應用才使用 <code>ICrudAppService</code> 介面，如果應用服務需要對外公開最好是使用 <code>IApplicationService</code> 介面，
+因為如果使用動態 API 功能，背後會自動產生所有服務的 API，因此使用基礎介面可以避免對外顯示不重要的服務，或者也可以透過 HTTP 層進一步控制對外顯示的服務。</p>
+<hr />
+<p>應用服務常繼承的類別的有以下幾種：</p>
+<ol>
+<li>ApplicationService 基礎的 Class，只有實做基礎的 ABP 功能。</li>
+<li>ReadOnlyAppService 使用預設的讀取方法，可以用在一些報表展示的功能上。</li>
+<li>CrudAppService 預設建立所有 CRUD 方法，一些簡單的後台功能可以直接繼承這個 Class。</li>
+</ol>
+<p>接下來在 <code>Application</code> 專案處理服務實做 <code>BookAppService</code>，實務上可以直接繼承 <code>CrudAppService</code> 類別，概念跟基礎服務層的 <code>EfCoreRepository</code> 差不多，
+都已經定義好常用的 CURD 功能，避免我們浪費時間處理基礎存取功能，這裡為了 DEMO 因此繼承最基本的類別 <code>ApplicationService</code>。</p>
+<hr />
+<p><code>DTO</code> 就有非常多內建類型可以直接繼承例如以下幾個：</p>
+<ol>
+<li>EntityDto: 基礎的 DTO ，只包含 Id 屬性，如果使用者只在乎這筆資料是誰那用這個就夠了。</li>
+<li>PagedResultDto: 添加 TotalCount 屬性，方便前端能處理分頁功能</li>
+<li>AuditedEntityDto: 添加額外的新增、修改屬性，用來顯示常用的審計欄位</li>
+<li>FullAuditedEntityDto: 額外添加刪除屬性，在 admin 權限後台比較常用</li>
+</ol>
+<p>注意 <code>PagedResultDto</code> 的使用方法是 <code>PagedResultDto&lt;BookDto&gt;</code>，它的內部會保存 <code>IReadOnlyList&lt;BookDto&gt;</code> 與 TotalCount 屬性，
+它只是個給前端用的包裝層，並不是給領域實體轉換用的 DTO。</p>
+<h2 id="section-4"><br><br></h2>
+<h2 id="section-5">應用層實做</h2>
+<p>在 <code>BookStoreScratch.Application.Contracts</code> 專案建立一個新的資料夾 <code>Books</code> 並建立 DTO。</p>
+<pre><code class="language-text">using System;
+using Volo.Abp.Application.Dtos;
+
+namespace BookStoreScratch.Books;
+
+public class BookDto : EntityDto&lt;Guid&gt;
+{
+    public string Name { get; set; }
+
+    public BookType BookType { get; set; }
+
+    public DateTime PublishDate { get; set; }
+
+    public decimal Price { get; set; }
+}
+</code></pre>
+<pre><code class="language-text">using System;
+using System.ComponentModel.DataAnnotations;
+using Volo.Abp.Application.Dtos;
+
+namespace BookStoreScratch.Books;
+
+public class CreateUpdateBookDto
+{
+    [Required]
+    [StringLength(128)]
+    public string Name { get; set; }
+
+    [Required]
+    public BookType BookType { get; set; } = BookType.Undefined;
+
+    [Required]
+    [DataType(DataType.Date)]
+    public DateTime PublishDate { get; set; } = DateTime.Now;
+
+    [Required]
+    public decimal Price { get; set; }
+}
+</code></pre>
+<pre><code class="language-text">using Volo.Abp.Application.Dtos;
+
+namespace BookStoreScratch.Books;
+
+public class BookGetListInput : PagedAndSortedResultRequestDto
+{
+    public string? Filter { get; set; }
+}
+</code></pre>
+<p>建立 <code>IBookAppService</code> 介面並繼承 <code>ICrudAppService</code> 界面</p>
+<pre><code class="language-text">using System;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
+
+namespace BookStoreScratch.Books;
+
+public interface IBookAppService
+    : ICrudAppService&lt;
+        BookDto,
+        Guid,
+        BookGetListInput,
+        CreateUpdateBookDto&gt;
+{
+}
+</code></pre>
+<p>到 <code>BookStoreScratch.Application</code> 專案建立資料夾 <code>Books</code> 並實做 <code>IBookAppService</code>，這裡繼承 <code>ApplicationService</code> 所以只有注入基礎的 ABP 服務。</p>
+<pre><code class="language-text">using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
+
+namespace BookStoreScratch.Books;
+
+public class BookAppService: ApplicationService, IBookAppService
+{
+    private readonly IBookStoreScratchRepository _bookStoreScratchRepository;
+    private readonly BookManager _bookManager;
+
+    public BookAppService(IBookStoreScratchRepository bookStoreScratchRepository, BookManager bookManager)
+    {
+        _bookStoreScratchRepository = bookStoreScratchRepository;
+        _bookManager = bookManager;
+    }
+
+    public async Task&lt;BookDto&gt; GetAsync(Guid id)
+    {
+        var book = await _bookStoreScratchRepository.GetAsync(id);
+        return ObjectMapper.Map&lt;Book, BookDto&gt;(book);
+    }
+
+    public async Task&lt;PagedResultDto&lt;BookDto&gt;&gt; GetListAsync(BookGetListInput input)
+    {
+        var books = await _bookStoreScratchRepository.GetPagedAndFilteredListAsync(
+            input.SkipCount,
+            input.MaxResultCount,
+            input.Sorting.IsNullOrEmpty() ? &quot;Id desc&quot; : input.Sorting,
+            input.Filter,
+            includeDetails: true);
+
+        var count = await _bookStoreScratchRepository.GetFilteredCountAsync(input.Filter);
+
+        return new PagedResultDto&lt;BookDto&gt;(count, ObjectMapper.Map&lt;List&lt;Book&gt;, List&lt;BookDto&gt;&gt;(books));
+    }
+
+    public async Task&lt;BookDto&gt; CreateAsync(CreateUpdateBookDto input)
+    {
+        var book = _bookManager.CreateBook(input.Name, input.BookType, input.PublishDate, input.Price);
+        await _bookStoreScratchRepository.InsertAsync(book);
+        return ObjectMapper.Map&lt;Book, BookDto&gt;(book);
+    }
+
+    public async Task&lt;BookDto&gt; UpdateAsync(Guid id, CreateUpdateBookDto input)
+    {
+        var book = await _bookStoreScratchRepository.GetAsync(id);
+
+        book.Name = input.Name;
+        book.BookType = input.BookType;
+        book.PublishDate = input.PublishDate;
+        book.Price = input.Price;
+
+        await _bookStoreScratchRepository.UpdateAsync(book);
+
+        return ObjectMapper.Map&lt;Book, BookDto&gt;(book);
+    }
+
+    public Task DeleteAsync(Guid id)
+    {
+        return _bookStoreScratchRepository.DeleteAsync(id);
+    }
+}
+</code></pre>
+<p>回到領域層修改介面，加上新的分頁用方法，由於我們繼承的是 <code>IBasicRepository</code> 因此應用層沒辦法直接拿到 <code>IQueryable</code>，
+所以要額外定義方法，確保資料傳出應用設施層時已經查詢完畢。</p>
+<pre><code class="language-text">using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Volo.Abp.Domain.Repositories;
+
+namespace BookStoreScratch;
+
+public interface IBookStoreScratchRepository : IBasicRepository&lt;Book, Guid&gt;
+{
+    Task&lt;Book?&gt; FindByBookNameAsync(string name);
+
+    Task&lt;List&lt;Book&gt;&gt; GetPagedAndFilteredListAsync(
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        string filter,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default);
+
+    Task&lt;int&gt; GetFilteredCountAsync(string filter, CancellationToken cancellationToken = default);
+}
+</code></pre>
+<p>到應用設施層添加實做。</p>
+<pre><code class="language-text">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.EntityFrameworkCore;
+
+public class EfCoreBookStoreScratchRepository: EfCoreRepository&lt;BookStoreScratchDbContext, Book, Guid&gt;, IBookStoreScratchRepository
+{
+    public EfCoreBookStoreScratchRepository(IDbContextProvider&lt;BookStoreScratchDbContext&gt; dbContextProvider) : base(dbContextProvider)
+    {
+    }
+
+    public async Task&lt;Book?&gt; FindByBookNameAsync(string name)
+    {
+        return await (await GetDbSetAsync())
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x =&gt; x.Name == name);
+    }
+
+    public async Task&lt;List&lt;Book&gt;&gt; GetPagedAndFilteredListAsync(
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        string filter,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default)
+    {
+        var queryable = (includeDetails ? await WithDetailsAsync() : await GetQueryableAsync());
+
+        queryable = CreateFilteredQuery(queryable, filter)
+            .OrderBy(sorting.IsNullOrEmpty() ? $&quot;{nameof(Book.PublishDate)} desc&quot; : sorting)
+            .Skip(skipCount)
+            .Take(maxResultCount);
+
+        return await queryable.ToListAsync(GetCancellationToken(cancellationToken));
+    }
+
+    public async Task&lt;int&gt; GetFilteredCountAsync(string filter, CancellationToken cancellationToken = default)
+    {
+        var queryable = await GetQueryableAsync();
+        return await CreateFilteredQuery(queryable, filter)
+            .CountAsync(GetCancellationToken(cancellationToken));
+    }
+
+    protected virtual IQueryable&lt;Book&gt; CreateFilteredQuery(
+        IQueryable&lt;Book&gt; queryable,
+        string filter)
+    {
+        var query = queryable
+            .WhereIf(!filter.IsNullOrEmpty(), x =&gt; x.Name.ToLower().Contains(filter.ToLower()));
+
+        return query;
+    }
+}
+</code></pre>
+<p>如果想要跳過這部分可以直接繼承 <code>CrudAppService</code>，全部都用預設的實做。</p>
+<pre><code class="language-text">using System;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Repositories;
+
+namespace BookStoreScratch.Books;
+
+public class BookAppService : 
+    CrudAppService&lt;
+        Book,
+        BookDto,
+        Guid,
+        PagedAndSortedResultRequestDto,
+        CreateUpdateBookDto&gt;,
+    IBookAppService
+{
+    public BookAppService(IRepository&lt;Book, Guid&gt; repository) : base(repository)
+    {
+    }
+}
+</code></pre>
+<h2 id="section-6"><br><br></h2>
+<h2 id="mapper">Mapper 安裝</h2>
+<p>之前在流程說明中有提到需要將領域模型轉換成 DTO 避免模型外洩，這部分就是透過 <code>ObjectMapper.Map</code> 方法達成，這部分是由 <code>ApplicationService</code>
+在背後使用 Lazy 方式取得依賴注入 <code>IObjectMapper</code> 服務，這裡有幾種選擇:</p>
+<ol>
+<li>完全手動映射</li>
+<li>使用 ABP 內建的 <code>DefaultObjectMapper</code></li>
+<li>安裝第三方 AutoMapper 或 Mapperly</li>
+</ol>
+<p>這裡選擇用 ABP <code>DefaultObjectMapper</code> 能夠保持彈性，未來如果想要轉用第三方函式庫也可以直接轉換。</p>
+<p>到 <code>BookStoreScratch.Application</code> 專案底下，可以整合在一個類別內方便處理也可以分開到多個類別。</p>
+<pre><code class="language-text">using Volo.Abp.DependencyInjection;
+using Volo.Abp.ObjectMapping;
+
+namespace BookStoreScratch.Books;
+
+public class BookMapper : IObjectMapper&lt;Book, BookDto&gt;, ITransientDependency
+{
+    public BookDto Map(Book source)
+    {
+        return Map(source, new BookDto());
+    }
+
+    public BookDto Map(Book source, BookDto destination)
+    {
+        destination.Id = source.Id;
+        destination.Name = source.Name;
+        destination.BookType = source.BookType;
+        destination.PublishDate = source.PublishDate;
+        destination.Price = source.Price;
+
+        return destination;
+    }
+}
+
+public class CreateUpdateBookMapper : IObjectMapper&lt;CreateUpdateBookDto, Book&gt;, ITransientDependency
+{
+    public Book Map(CreateUpdateBookDto source)
+    {
+        return new Book(
+            source.Id,
+            source.Name,
+            source.BookType,
+            source.PublishDate,
+            source.Price
+        );
+    }
+
+    public Book Map(CreateUpdateBookDto source, Book destination)
+    {
+        destination.Name = source.Name;
+        destination.BookType = source.BookType;
+        destination.PublishDate = source.PublishDate;
+        destination.Price = source.Price;
+
+        return destination;
+    }
+}
+</code></pre>
+<p>目前會報錯，因為之前將建構子設定成 internal 的原因，所以沒被法在應用層直接新增實體，只能透過 <code>BookManager</code> 新增實體，
+不過之前只是為了演示才這麼做，現在準備重構將相關的檢查直接搬到建構子內部。</p>
+<pre><code class="language-text">using System;
+using Volo.Abp;
+using Volo.Abp.Domain.Entities;
+
+namespace BookStoreScratch;
+
+public class Book : Entity&lt;Guid&gt;
+{
+    public string Name { get; set; }
+
+    public BookType BookType { get; set; }
+
+    public DateTime PublishDate { get; set; }
+
+    public decimal Price { get; set; }
+
+    internal Book() {}
+
+    public Book(
+        Guid id,
+        string name,
+        BookType bookType,
+        DateTime publishDate,
+        decimal price)
+        : base(id)
+    {
+        Check.NotNullOrWhiteSpace(name, nameof(name));
+        Check.NotDefaultOrNull&lt;BookType&gt;(bookType, nameof(bookType));
+        Check.NotDefaultOrNull&lt;DateTime&gt;(publishDate, nameof(publishDate));
+
+        if (price &lt; 0)
+        {
+            throw new ArgumentException(&quot;Price must be greater than or equal to 0.&quot;);
+        }
+
+        Name = name;
+        BookType = bookType;
+        PublishDate = publishDate;
+        Price = price;
+    }
+}
+</code></pre>
+<p>接下來可以選擇重構 <code>BookStoreDataSeedContributor</code>、<code>BookAppService</code>、<code>BookManager_Tests</code>，這裡就不多家贅述。</p>
+<h2 id="section-7"><br><br></h2>
+<h2 id="http-1">HTTP 層實做</h2>
+<p>應用層準備完成後是 HTTP 層，這個專案的主要目的是建立一個對外 Controller 來處理 HTTP 相關的功能。</p>
+<p>我們知道在 Dotnet 中建立 Controller 時需要繼承 ControllerBase，在 ABP 中則是提供了 AbpControllerBase 給我們使用，
+AbpControllerBase 底層其實也是繼承了 ControllerBase 不過額外添加了許多 ABP 建立的功能。</p>
+<p>建立新的 Http 層，名稱為 <code>BookStoreScratch.HttpApi</code></p>
+<pre><code class="language-text">dotnet new classlib -o src/BookStoreScratch.HttpApi
+dotnet sln add src/BookStoreScratch.HttpApi
+mkdir src/BookStoreScratch.HttpApi/BookStoreScratch
+rm src/BookStoreScratch.HttpApi/Class1.cs
+</code></pre>
+<p>修改 csproj，修改 RootNamespace 添加依賴，注意這個層級只需要依賴 <code>Application.Contracts</code>，另外安裝了 <code>Volo.Abp.AspNetCore.Mvc</code> 函式庫，
+它使用的是 <code>Microsoft.NET.Sdk.Razor</code> 並且 ABP 對其進行深度改造將整個 ASP.NET Core MVC 融合到 ABP 框架中，例如最常用的動態 Web API 就在這個函式庫實現。</p>
+<pre><code class="language-text">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net9.0&lt;/TargetFramework&gt;
+    &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+    &lt;RootNamespace /&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&quot;..\BookStoreScratch.Application.Contracts\BookStoreScratch.Application.Contracts.csproj&quot; /&gt;
+    &lt;PackageReference Include=&quot;Volo.Abp.AspNetCore.Mvc&quot; Version=&quot;9.0.1&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre>
+<p>前往 <code>BookStoreScratch.HttpApi</code> 建立一個 <code>BookStoreScratch\Controllers</code> 資料夾並新增一個 <code>BookController</code> 並實做 <code>IBookAppService</code> 界面，
+這段程式主要就是在定義 HTTP Method 與 API Route，定義完成後透過依賴注入取得 BookAppService 並直接把請求轉送給它。</p>
+<pre><code class="language-text">dotnet new class -n BookController -o src\BookStoreScratch.HttpApi\BookStoreScratch\Controllers --project src\BookStoreScratch.HttpApi\BookStoreScratch.HttpApi.csproj                                                              
+</code></pre>
+<pre><code class="language-text">using BookStoreScratch.Books;
+using Microsoft.AspNetCore.Mvc;
+using Volo.Abp;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
+
+namespace BookStoreScratch.Controllers;
+
+[Area(&quot;book&quot;)]
+[RemoteService(Name = &quot;book&quot;)]
+[Route(&quot;api/book&quot;)]
+public class BookController : AbpControllerBase, IBookAppService
+{
+    private readonly IBookAppService _bookAppService;
+
+    public BookController(IBookAppService bookAppService)
+    {
+        _bookAppService = bookAppService;
+    }
+
+    [HttpGet(&quot;{id}&quot;)]
+    public async Task&lt;BookDto&gt; GetAsync(Guid id)
+    {
+        return await _bookAppService.GetAsync(id);
+    }
+
+    [HttpGet]
+    public async Task&lt;PagedResultDto&lt;BookDto&gt;&gt; GetListAsync(BookGetListInput input)
+    {
+        return await _bookAppService.GetListAsync(input);
+    }
+
+    [HttpPost]
+    public async Task&lt;BookDto&gt; CreateAsync(CreateUpdateBookDto input)
+    {
+        return await _bookAppService.CreateAsync(input);
+    }
+
+    [HttpPut(&quot;{id}&quot;)]
+    public async Task&lt;BookDto&gt; UpdateAsync(Guid id, CreateUpdateBookDto input)
+    {
+        return await _bookAppService.UpdateAsync(id, input);
+    }
+
+    [HttpDelete(&quot;{id}&quot;)]
+    public async Task DeleteAsync(Guid id)
+    {
+        await _bookAppService.DeleteAsync(id);
+    }
+}
+</code></pre>
+<p>並且設定 ABP 模組 <code>BookStoreScratchHttpApiModule</code>，這裡需要在 <code>PreConfigureServices</code> 階段確保 MVC 框架正式啟動前把專案的 Assembly 載入，
+避免 Controller 沒有正確讀取。</p>
+<pre><code class="language-text">dotnet new class -n BookStoreScratchHttpApiModule -o src\BookStoreScratch.HttpApi\BookStoreScratch --project src\BookStoreScratch.HttpApi\BookStoreScratch.HttpApi.csproj                                                              
+</code></pre>
+<pre><code class="language-text">using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch;
+
+[DependsOn(
+    typeof(BookStoreScratchApplicationContractsModule),
+    typeof(AbpAspNetCoreMvcModule))]
+public class BookStoreScratchHttpApiModule : AbpModule
+{
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        PreConfigure&lt;IMvcBuilder&gt;(mvcBuilder =&gt;
+        {
+            mvcBuilder.AddApplicationPartIfNotExists(typeof(BookStoreScratchHttpApiModule).Assembly);
+        });
+    }
+}
+</code></pre>
+<p>今天將應用層與 HTTP 層處理完成，基底差不多都已經完成，這個狀態已經可以模組安裝到其他 ABP 專案了，也可以在模組內額外建立 Host 專案，
+方便未來能夠直接轉成微服務。</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/BookStoreScratch/tree/1.4" target="_blank">Github</a></p>
+
+
+          
+
+        </div>
+      </div>
+  <div id="comments-container" class="row">
+    <div id="giscus-container"></div>
+
+<script>
+  let giscusLoaded = false;
+  function loadGiscus() {
+    if (giscusLoaded) return;
+    giscusLoaded = true;
+
+    let datarepo = 'allengaodev/allengaodev.github.io'
+    let datarepoid='R_kgDOI6sF8g'
+    let datacategoryid='DIC_kwDOI6sF8s4CUbuw'
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', datarepo);
+    script.setAttribute('data-repo-id', datarepoid);
+    script.setAttribute('data-category-id', datacategoryid);
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", "light");
+    script.setAttribute("data-lang", "en");
+    script.async = true;
+    document.getElementById("giscus-container").appendChild(script);
+  }
+
+  // 檢查是否滾動到最底部
+  function checkScrollBottom() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 2) {
+      loadGiscus();
+      window.removeEventListener("scroll", checkScrollBottom);
+    }
+  }
+
+  // 等待滾動結束
+  setTimeout(() => {
+    checkScrollBottom();
+    window.addEventListener("scroll", checkScrollBottom);
+  }, 500); // 0.5秒後檢查
+</script>
+
+  </div>
+    </div>
+  </main>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2025 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <script defer src='/vendor/startbootstrap-clean-blog/js/scripts.min.js'></script>
+  
+
+  
+</body>
+
+</html>

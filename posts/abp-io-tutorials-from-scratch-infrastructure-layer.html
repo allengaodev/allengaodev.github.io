@@ -143,7 +143,7 @@ UOW 範圍內，即使請求 <code>AbpDbContext</code> 非常多次，實際上�
 <p>所以我們的書店會建立以下類別:</p>
 <ol>
 <li><code>BookStoreScratchDbContext</code></li>
-<li><code>IBookStoreScratchEventRepository</code></li>
+<li><code>IBookStoreScratchRepository</code></li>
 <li><code>EfCoreBookStoreScratchRepository</code></li>
 </ol>
 <h2 id="section-4"><br><br></h2>
@@ -179,7 +179,7 @@ public class BookStoreScratchDbContext: AbpDbContext&lt;BookStoreScratchDbContex
 </code></pre>
 <h2 id="section-5"><br><br></h2>
 <h2 id="repository">Repository 實作</h2>
-<p>在 <code>BookStoreScratch.Domain</code> 專案中建立 <code>IBookStoreScratchEventRepository</code> 介面，這邊能有幾種介面能選擇:</p>
+<p>在 <code>BookStoreScratch.Domain</code> 專案中建立 <code>IBookStoreScratchRepository</code> 介面，這邊能有幾種介面能選擇:</p>
 <ol>
 <li>IRepository: 最基礎的介面，什麼方法都沒有定義。</li>
 <li>IReadOnlyBasicRepository: 繼承 IRepository 介面，有額外定義查詢方法。</li>
@@ -196,20 +196,20 @@ public class BookStoreScratchDbContext: AbpDbContext&lt;BookStoreScratchDbContex
 <p>另外注意模組中的倉庫介面最好只使用 <code>Volo.Abp.Domain.Repositories</code> 底下定義的介面，也就是上面列出的那幾種，不要使用到
 <code>Volo.Abp.Domain.Repositories.EntityFrameworkCore</code> 底下的 <code>IEfCoreRepository</code>，因為會導致領域層直接依賴 EFCore，
 未來如果想要使用 MongoDB 會沒辦法直接轉換。</p>
-<p>我們在專案 <code>BookStoreScratch.Domain</code> 建立新介面 <code>IBookStoreScratchEventRepository</code> 選擇繼承 <code>IBasicRepository</code> 介面，並定義一個根據書名找書的方法介面。</p>
+<p>我們在專案 <code>BookStoreScratch.Domain</code> 建立新介面 <code>IBookStoreScratchRepository</code> 選擇繼承 <code>IBasicRepository</code> 介面，並定義一個根據書名找書的方法介面。</p>
 <pre><code class="language-csharp">using System;
 using Volo.Abp.Domain.Repositories;
 
 namespace BookStoreScratch;
 
-public interface IBookStoreScratchEventRepository : IBasicRepository&lt;Book, Guid&gt;
+public interface IBookStoreScratchRepository : IBasicRepository&lt;Book, Guid&gt;
 {
     Task&lt;Book?&gt; FindByBookNameAsync(Guid id);
 }
 
 </code></pre>
 <p>切換到 <code>BookStoreScratch.EntityFrameworkCore</code> 專案下，新增倉庫實做 <code>EfCoreBookStoreScratchRepository</code>。
-這裡可以直接實做 <code>IBookStoreScratchEventRepository</code> 介面，但是需要自己實做所有 CRUD 的方法，由於這些功能功能很單純，
+這裡可以直接實做 <code>IBookStoreScratchRepository</code> 介面，但是需要自己實做所有 CRUD 的方法，由於這些功能功能很單純，
 自己實做沒有多大好處，直接繼承 <code>EfCoreRepository</code> 是比較省時省力的選擇。</p>
 <p>繼承類別選擇正確的話只需要實做 <code>FindByBookNameAsync</code> 方法。</p>
 <pre><code class="language-text">using System;
@@ -220,7 +220,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace BookStoreScratch.EntityFrameworkCore;
 
-public class EfCoreBookStoreScratchRepository: EfCoreRepository&lt;BookStoreScratchDbContext, Book, Guid&gt;, IBookStoreScratchEventRepository
+public class EfCoreBookStoreScratchRepository: EfCoreRepository&lt;BookStoreScratchDbContext, Book, Guid&gt;, IBookStoreScratchRepository
 {
     public EfCoreBookStoreScratchRepository(IDbContextProvider&lt;BookStoreScratchDbContext&gt; dbContextProvider) : base(dbContextProvider)
     {
