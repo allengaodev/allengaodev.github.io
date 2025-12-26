@@ -7,8 +7,19 @@
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2025 by Allen Gao</rights>
-	<updated>2025-12-26T12:30:33Z</updated>
+	<updated>2025-12-26T13:07:02Z</updated>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer</id>
+		<title>ABP IO 教學 | 模組化架構入門：應用層與 HTTP 層 - Part 4</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer" />
+		<updated>2025-12-26T00:00:00Z</updated>
+		<content>False</content>
+		<summary>本篇 ABP.IO 教學 Part 4 將深入解析 模組化架構中的應用層（Application Layer）與 HTTP 層（Http API Layer）。從職責劃分、依賴方向到實務專案結構，說明如何透過 Application Service 承載商業邏輯，並由 HTTP API 對外提供 RESTful 介面。內容同時涵蓋 DTO 設計、授權與驗證整合、API 模組拆分，協助 .NET 開發者在實際專案中正確落實 ABP.IO 的分層與模組化設計。</summary>
+	</entry>
 	<entry>
 		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer</id>
 		<title>ABP IO 教學 | 模組化架構入門：基礎設施層 - Part 3</title>
@@ -107,16 +118,5 @@
 		<updated>2024-12-01T12:00:00Z</updated>
 		<content>False</content>
 		<summary>More Effective C# 讀後總結與整理</summary>
-	</entry>
-	<entry>
-		<id>https://blog.allengaodev.com/posts/more-effective-csharp-50</id>
-		<title>More Effective C# 50.考慮用分析器自動化慣用法</title>
-		<author>
-			<name>allengaodev@gmail.com</name>
-		</author>
-		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-50" />
-		<updated>2024-12-01T11:00:00Z</updated>
-		<content>False</content>
-		<summary>More Effective C# 50.考慮用分析器自動化慣用法(Consider automating practices with Analyzers)</summary>
 	</entry>
 </feed>
