@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x6DF1;&#x5165;&#x89E3;&#x6790;&#x5982;&#x4F55;&#x5EFA;&#x7ACB; API Host &#x5C08;&#x6848;&#xFF0C;&#x6574;&#x5408;&#x6A21;&#x7D44;&#x3001;&#x8A2D;&#x5B9A; Web &#x74B0;&#x5883;&#x3001;Swagger &#x8207; PostgreSQL&#xFF0C;&#x4E26;&#x900F;&#x904E; WebApplication &#x555F;&#x52D5;&#x6A21;&#x7D44;&#x3002;">
+
+  <title>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;Host &#x5C64; - Part 5</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;Host &#x5C64; - Part 5' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-light" id="mainNav" style="background-color: #F5F1E6">
+  <div class="container">
+    <a class="navbar-brand text-dark" href='/'> Home </a>
+
+    <div class="navbar-nav-container" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link text-dark" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer'>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;Host &#x5C64; - Part 5</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2025/12/27
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge bg-white text-dark"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="host">Host 層</h2>
+<p>目前模組基礎架構已完成。為了提升擴展性並確保未來能直接轉成微服務，我們需建立一個專屬的 API Host 專案。</p>
+<p>這個 API Host 專案扮演的是模組使用者的角色，所以並不要在這裡寫商業邏輯，應該把它當作指揮中心負責組裝與調動需要的模組，
+另外還需要提供啟動 Web 的工作環境。</p>
+<h2 id="section"><br><br></h2>
+<h2 id="webapplication">WebApplication 啟動</h2>
+<p>由於模組中的 <code>Console</code> 與 <code>DbMigrator</code> 專案採用的是 .NET Generic Host 模式，
+只適合用在 Console 或 Worker 類型專案上，但缺乏 Web 環境所需的 HTTP 管道、Middleware 及路由等基礎設施。
+因此，API Host 專案要改用 <code>WebApplication</code> 模式啟動。</p>
+<p>這部分跟標準的 .NET Web 使用方式一致，透過 <code>WebApplication.CreateBuilder(args)</code> 初始化 Builder 環境，
+接下來調用 ABP 的擴充方法 <code>AddApplicationAsync</code> 掃描模組依賴關係並根據順序註冊所有依賴注入。</p>
+<pre><code class="language-csharp">await builder.AddApplicationAsync&lt;MyProjectHostModule&gt;();
+</code></pre>
+<p>此步驟會啟動模組掃描機制，ABP 會根據 DependsOn 計算模組依賴。接著，
+它會按正確的順序執行各個模組中的 <code>ConfigureServices</code> 方法，自動完成所有 DI 註冊。</p>
+<p>當執行 <code>builder.Build()</code> 取得 <code>WebApplication</code> 實例後，調用：</p>
+<pre><code class="language-csharp">await app.InitializeApplicationAsync();
+</code></pre>
+<p>這個是 ABP 的關鍵。傳統 ASP.NET Core 需要在 Program.cs 手動排定 <code>app.Use...</code> 的順序，
+但在 ABP 會依據模組間的依賴關係，自動決定 Middleware 的掛載順序，並且將原本堆積在 <code>Program.cs</code> 的 Middleware 配置，
+分散到各個模組的 <code>OnApplicationInitialization</code> 生命週期方法中，這樣使用者就不需要關心模組的啟動順序，實現即插即用。</p>
+<h2 id="section-1"><br><br></h2>
+<h2 id="host-1">Host 實做</h2>
+<p>接下來新增 <code>BookStoreScratch.HttpApi.Host</code> 專案</p>
+<pre><code class="language-text">mkdir host
+dotnet new web -o host/BookStoreScratch.HttpApi.Host
+dotnet sln add host/BookStoreScratch.HttpApi.Host
+</code></pre>
+<pre><code class="language-text">dotnet add host/BookStoreScratch.HttpApi.Host package Volo.Abp.Autofac --version 9.0.2
+dotnet add host/BookStoreScratch.HttpApi.Host package Volo.Abp.Swashbuckle --version 9.0.2
+dotnet add host/BookStoreScratch.HttpApi.Host package Volo.Abp.EntityFrameworkCore.PostgreSql --version 9.0.2
+dotnet add host/BookStoreScratch.HttpApi.Host package Serilog.AspNetCore --version 8.0.2
+dotnet add host/BookStoreScratch.HttpApi.Host package Serilog.Sinks.Async --version 2.1.0
+dotnet add host/BookStoreScratch.HttpApi.Host package Serilog.Sinks.Console --version 6.1.1
+dotnet add host/BookStoreScratch.HttpApi.Host package Serilog.Extensions.Logging --version 9.0.2
+
+dotnet add host/BookStoreScratch.HttpApi.Host/BookStoreScratch.HttpApi.Host.csproj reference src/BookStoreScratch.Application/BookStoreScratch.Application.csproj                                                        
+dotnet add host/BookStoreScratch.HttpApi.Host/BookStoreScratch.HttpApi.Host.csproj reference src/BookStoreScratch.EntityFrameworkCore/BookStoreScratch.EntityFrameworkCore.csproj                                                        
+dotnet add host/BookStoreScratch.HttpApi.Host/BookStoreScratch.HttpApi.Host.csproj reference src/BookStoreScratch.HttpApi/BookStoreScratch.HttpApi.csproj                                                        
+</code></pre>
+<p>建立 <code>BookStoreScratchHttpApiHostModule</code> 模組，這裡註冊 <code>Swagger</code> 與 <code>PostgreSQL</code> 與設定必要的 Middleware。</p>
+<pre><code class="language-csharp">using BookStoreScratch.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Volo.Abp;
+using Volo.Abp.Autofac;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.Modularity;
+using Volo.Abp.Swashbuckle;
+
+namespace BookStoreScratch.HttpApi.Host;
+
+[DependsOn(
+    typeof(BookStoreScratchApplicationModule),
+    typeof(BookStoreScratchHttpApiModule),
+    typeof(BookStoreScratchEntityFrameworkCoreModule),
+    typeof(AbpEntityFrameworkCorePostgreSqlModule),
+    typeof(AbpAutofacModule),
+    typeof(AbpSwashbuckleModule)
+)]
+public class BookStoreScratchHttpApiHostModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure&lt;AbpDbContextOptions&gt;(options =&gt;
+        {
+            AppContext.SetSwitch(&quot;Npgsql.EnableLegacyTimestampBehavior&quot;, true);
+            options.UseNpgsql();
+        });
+
+        context.Services.AddAbpSwaggerGen(options =&gt;
+        {
+            options.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo { Title = &quot;EventHubPublic API&quot;, Version = &quot;v1&quot; });
+            options.DocInclusionPredicate((docName, description) =&gt; true);
+            options.CustomSchemaIds(type =&gt; type.FullName);
+        });
+    }
+
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        var app = context.GetApplicationBuilder();
+        var env = context.GetEnvironment();
+
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseSwagger();
+        app.UseAbpSwaggerUI(options =&gt;
+        {
+            options.RoutePrefix = &quot;swagger&quot;;
+            options.DefaultModelsExpandDepth(-1);
+            options.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;Public API&quot;);
+        });
+
+        app.UseConfiguredEndpoints();
+    }
+}
+</code></pre>
+<p>修改 <code>Program.cs</code> 內容，這裡只留下必要的程式。</p>
+<pre><code class="language-csharp">using BookStoreScratch.HttpApi.Host;
+using Serilog;
+using Serilog.Events;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning)
+    .MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning)
+#if DEBUG
+    .MinimumLevel.Override(&quot;EventHub&quot;, LogEventLevel.Debug)
+#else
+    .MinimumLevel.Override(&quot;EventHub&quot;, LogEventLevel.Information)
+#endif
+    .Enrich.FromLogContext()
+    .WriteTo.Async(c =&gt; c.Console())
+    .CreateLogger();
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Host
+    .UseAutofac()
+    .UseSerilog();
+
+await builder.Services.AddApplicationAsync&lt;BookStoreScratchHttpApiHostModule&gt;();
+var webApplication = builder.Build();
+await webApplication.InitializeApplicationAsync();
+await webApplication.RunAsync();
+return 0;
+</code></pre>
+<p>設定 <code>UnifiedDbContext</code>、<code>UnifiedDbContextFactory</code>、<code>appsettings.json</code>，可以直接從之前的 <code>DbMigrator</code> 專案複製。</p>
+<pre><code class="language-csharp">using BookStoreScratch.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+
+namespace BookStoreScratch.HttpApi.Host;
+
+public class UnifiedDbContext : AbpDbContext&lt;UnifiedDbContext&gt;
+{
+    public UnifiedDbContext(DbContextOptions&lt;UnifiedDbContext&gt; options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.ConfigureBookStoreScratch();
+    }
+}
+</code></pre>
+<pre><code class="language-csharp">using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+
+namespace BookStoreScratch.HttpApi.Host;
+
+public class UnifiedDbContextFactory : IDesignTimeDbContextFactory&lt;UnifiedDbContext&gt;
+{
+    public UnifiedDbContext CreateDbContext(string[] args)
+    {
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch(&quot;Npgsql.EnableLegacyTimestampBehavior&quot;, true);
+
+        var configuration = BuildConfiguration();
+
+        var builder = new DbContextOptionsBuilder&lt;UnifiedDbContext&gt;()
+            .UseNpgsql(configuration.GetConnectionString(&quot;Default&quot;));
+
+        return new UnifiedDbContext(builder.Options);
+    }
+
+    private static IConfigurationRoot BuildConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(&quot;appsettings.json&quot;, optional: false);
+
+        return builder.Build();
+    }
+}
+</code></pre>
+<pre><code class="language-text">{
+  &quot;Logging&quot;: {
+    &quot;LogLevel&quot;: {
+      &quot;Default&quot;: &quot;Information&quot;,
+      &quot;Microsoft.Hosting.Lifetime&quot;: &quot;Information&quot;
+    }
+  },
+  &quot;ConnectionStrings&quot;: {
+    &quot;Default&quot;: &quot;Host=localhost;Port=5432;Database=BookStoreScratch;User ID=postgres;Password=myPassw0rd;&quot;
+  }
+}
+</code></pre>
+<p>設定完成後將專案運行起來瀏覽器會開啟 swagger 網址(<code>/swagger/index.html</code>)可以看到我們的 Book Curd 成功顯示</p>
+<ul>
+<li>GET /api/book/</li>
+<li>PUT /api/book/</li>
+<li>DELETE /api/book/</li>
+<li>GET /api/book</li>
+<li>POST /api/book</li>
+</ul>
+<p>先使用 POST /api/book 新增一筆書籍到資料庫內</p>
+<pre><code class="language-text">{
+  &quot;name&quot;: &quot;mybook&quot;,
+  &quot;bookType&quot;: 1,
+  &quot;publishDate&quot;: &quot;2023-07-06&quot;,
+  &quot;price&quot;: 10
+}
+</code></pre>
+<p>成功插入後會映射 BookDto 後回傳，我們透過實體 id 來進行查詢</p>
+<pre><code class="language-text">{
+  &quot;name&quot;: &quot;mybook&quot;,
+  &quot;type&quot;: 1,
+  &quot;publishDate&quot;: &quot;2023-07-06T00:00:00&quot;,
+  &quot;price&quot;: 10,
+  &quot;id&quot;: &quot;767085e2-a2c3-d3f5-c37b-3a0c42d2f44e&quot;
+}
+</code></pre>
+<p>使用 Get 方法可以正常回傳資料 https://localhost:7225/api/book/767085e2-a2c3-d3f5-c37b-3a0c42d2f44e</p>
+<pre><code class="language-text">{
+  &quot;name&quot;: &quot;mybook&quot;,
+  &quot;type&quot;: 1,
+  &quot;publishDate&quot;: &quot;2023-07-06T00:00:00&quot;,
+  &quot;price&quot;: 10,
+  &quot;id&quot;: &quot;767085e2-a2c3-d3f5-c37b-3a0c42d2f44e&quot;
+}
+</code></pre>
+<p>今天的進度 <a href="https://github.com/allengaodev/BookStoreScratch/tree/1.5" target="_blank">Github</a></p>
+
+
+          
+
+        </div>
+      </div>
+  <div id="comments-container" class="row">
+    <div id="giscus-container"></div>
+
+<script>
+  let giscusLoaded = false;
+  function loadGiscus() {
+    if (giscusLoaded) return;
+    giscusLoaded = true;
+
+    let datarepo = 'allengaodev/allengaodev.github.io'
+    let datarepoid='R_kgDOI6sF8g'
+    let datacategoryid='DIC_kwDOI6sF8s4CUbuw'
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', datarepo);
+    script.setAttribute('data-repo-id', datarepoid);
+    script.setAttribute('data-category-id', datacategoryid);
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", "light");
+    script.setAttribute("data-lang", "en");
+    script.async = true;
+    document.getElementById("giscus-container").appendChild(script);
+  }
+
+  // 檢查是否滾動到最底部
+  function checkScrollBottom() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 2) {
+      loadGiscus();
+      window.removeEventListener("scroll", checkScrollBottom);
+    }
+  }
+
+  // 等待滾動結束
+  setTimeout(() => {
+    checkScrollBottom();
+    window.addEventListener("scroll", checkScrollBottom);
+  }, 500); // 0.5秒後檢查
+</script>
+
+  </div>
+    </div>
+  </main>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2025 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <script defer src='/vendor/startbootstrap-clean-blog/js/scripts.min.js'></script>
+  
+
+  
+</body>
+
+</html>
