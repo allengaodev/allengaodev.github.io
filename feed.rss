@@ -6,8 +6,18 @@
 		<description>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</description>
 		<copyright>© 2025 by Allen Gao</copyright>
 		<managingEditor>allengaodev@gmail.com</managingEditor>
-		<pubDate>Fri, 26 Dec 2025 13:07:02 GMT</pubDate>
-		<lastBuildDate>Fri, 26 Dec 2025 13:07:02 GMT</lastBuildDate>
+		<pubDate>Sat, 27 Dec 2025 08:58:04 GMT</pubDate>
+		<lastBuildDate>Sat, 27 Dec 2025 08:58:04 GMT</lastBuildDate>
+		<item>
+			<title>ABP IO 教學 | 模組化架構入門：Host 層 - Part 5</title>
+			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer</link>
+			<description>深入解析如何建立 API Host 專案，整合模組、設定 Web 環境、Swagger 與 PostgreSQL，並透過 WebApplication 啟動模組。</description>
+			<author>allengaodev@gmail.com</author>
+			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer</guid>
+			<pubDate>Sat, 27 Dec 2025 00:00:00 GMT</pubDate>
+			<content:encoded>False</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
 		<item>
 			<title>ABP IO 教學 | 模組化架構入門：應用層與 HTTP 層 - Part 4</title>
 			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer</link>
@@ -95,16 +105,6 @@
 			<author>allengaodev@gmail.com</author>
 			<guid>https://blog.allengaodev.com/posts/effective-sql-01</guid>
 			<pubDate>Mon, 02 Dec 2024 00:00:00 GMT</pubDate>
-			<content:encoded>False</content:encoded>
-			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
-		</item>
-		<item>
-			<title>More Effective C# 讀後總結與整理</title>
-			<link>https://blog.allengaodev.com/posts/more-effective-csharp-summary</link>
-			<description>More Effective C# 讀後總結與整理</description>
-			<author>allengaodev@gmail.com</author>
-			<guid>https://blog.allengaodev.com/posts/more-effective-csharp-summary</guid>
-			<pubDate>Sun, 01 Dec 2024 12:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
 			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
 		</item>

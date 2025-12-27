@@ -7,8 +7,19 @@
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2025 by Allen Gao</rights>
-	<updated>2025-12-26T13:07:02Z</updated>
+	<updated>2025-12-27T08:58:04Z</updated>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer</id>
+		<title>ABP IO 教學 | 模組化架構入門：Host 層 - Part 5</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" />
+		<updated>2025-12-27T00:00:00Z</updated>
+		<content>False</content>
+		<summary>深入解析如何建立 API Host 專案，整合模組、設定 Web 環境、Swagger 與 PostgreSQL，並透過 WebApplication 啟動模組。</summary>
+	</entry>
 	<entry>
 		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer</id>
 		<title>ABP IO 教學 | 模組化架構入門：應用層與 HTTP 層 - Part 4</title>
@@ -107,16 +118,5 @@
 		<updated>2024-12-02T00:00:00Z</updated>
 		<content>False</content>
 		<summary>Effective SQL 01.確定所有資料表都有主鍵 (Verify That All Tables Have a Primary Key)</summary>
-	</entry>
-	<entry>
-		<id>https://blog.allengaodev.com/posts/more-effective-csharp-summary</id>
-		<title>More Effective C# 讀後總結與整理</title>
-		<author>
-			<name>allengaodev@gmail.com</name>
-		</author>
-		<link href="https://blog.allengaodev.com/posts/more-effective-csharp-summary" />
-		<updated>2024-12-01T12:00:00Z</updated>
-		<content>False</content>
-		<summary>More Effective C# 讀後總結與整理</summary>
 	</entry>
 </feed>
