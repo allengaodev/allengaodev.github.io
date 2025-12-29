@@ -6,8 +6,18 @@
 		<description>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</description>
 		<copyright>© 2025 by Allen Gao</copyright>
 		<managingEditor>allengaodev@gmail.com</managingEditor>
-		<pubDate>Sat, 27 Dec 2025 08:58:04 GMT</pubDate>
-		<lastBuildDate>Sat, 27 Dec 2025 08:58:04 GMT</lastBuildDate>
+		<pubDate>Mon, 29 Dec 2025 12:09:46 GMT</pubDate>
+		<lastBuildDate>Mon, 29 Dec 2025 12:09:46 GMT</lastBuildDate>
+		<item>
+			<title>ABP IO 教學 | 模組化架構入門：Http Client - Part 6</title>
+			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client</link>
+			<description>解析 ABP 如何透過攔截器與 Proxy 模式簡化微服務間的通訊，並手把手教學如何配置動態生成 (Dynamic Proxy) 與靜態生成 (Static Proxy)。透過實作 Console 專案模擬遠端調用，讓你掌握 abp generate-proxy 指令與 RemoteServices 配置</description>
+			<author>allengaodev@gmail.com</author>
+			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client</guid>
+			<pubDate>Mon, 29 Dec 2025 00:00:00 GMT</pubDate>
+			<content:encoded>False</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
 		<item>
 			<title>ABP IO 教學 | 模組化架構入門：Host 層 - Part 5</title>
 			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer</link>
@@ -95,16 +105,6 @@
 			<author>allengaodev@gmail.com</author>
 			<guid>https://blog.allengaodev.com/posts/effective-sql-02</guid>
 			<pubDate>Tue, 03 Dec 2024 00:00:00 GMT</pubDate>
-			<content:encoded>False</content:encoded>
-			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
-		</item>
-		<item>
-			<title>Effective SQL 01.確定所有資料表都有主鍵</title>
-			<link>https://blog.allengaodev.com/posts/effective-sql-01</link>
-			<description>Effective SQL 01.確定所有資料表都有主鍵 (Verify That All Tables Have a Primary Key)</description>
-			<author>allengaodev@gmail.com</author>
-			<guid>https://blog.allengaodev.com/posts/effective-sql-01</guid>
-			<pubDate>Mon, 02 Dec 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
 			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
 		</item>
