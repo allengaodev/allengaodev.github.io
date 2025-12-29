@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x89E3;&#x6790; ABP &#x5982;&#x4F55;&#x900F;&#x904E;&#x6514;&#x622A;&#x5668;&#x8207; Proxy &#x6A21;&#x5F0F;&#x7C21;&#x5316;&#x5FAE;&#x670D;&#x52D9;&#x9593;&#x7684;&#x901A;&#x8A0A;&#xFF0C;&#x4E26;&#x624B;&#x628A;&#x624B;&#x6559;&#x5B78;&#x5982;&#x4F55;&#x914D;&#x7F6E;&#x52D5;&#x614B;&#x751F;&#x6210; (Dynamic Proxy) &#x8207;&#x975C;&#x614B;&#x751F;&#x6210; (Static Proxy)&#x3002;&#x900F;&#x904E;&#x5BE6;&#x4F5C; Console &#x5C08;&#x6848;&#x6A21;&#x64EC;&#x9060;&#x7AEF;&#x8ABF;&#x7528;&#xFF0C;&#x8B93;&#x4F60;&#x638C;&#x63E1; abp generate-proxy &#x6307;&#x4EE4;&#x8207; RemoteServices &#x914D;&#x7F6E;">
+
+  <title>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;Http Client - Part 6</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;Http Client - Part 6' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-light" id="mainNav" style="background-color: #F5F1E6">
+  <div class="container">
+    <a class="navbar-brand text-dark" href='/'> Home </a>
+
+    <div class="navbar-nav-container" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link text-dark" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client'>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;Http Client - Part 6</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2025/12/29
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge bg-white text-dark"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="section">目錄</h2>
+<ul>
+<li><a href="#http-client-專案">Http Client 專案</a></li>
+<li><a href="#http-client-原理">Http Client 原理</a></li>
+<li><a href="#動態生成-proxy">動態生成 Proxy</a></li>
+<li><a href="#靜態生成-proxy">靜態生成 Proxy</a></li>
+<li><a href="#http-client-dynamic實做">Http Client Dynamic 實做</a></li>
+<li><a href="#http-client-static-實做">Http Client Static 實做</a></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<h2 id="http-client">Http Client 專案</h2>
+<p>今天要來處理 Http Client 專案，在一般的單體應用中並不是很重要，但是在微服務架構中可以省下手動呼叫內部服務的麻煩。</p>
+<p>假設沒有這個專案，當服務A 需要呼叫服務B 就只能手動寫 <code>HttpClient</code> 並組裝 <code>HttpRequest</code>，這個過程非常繁瑣，
+因此能透過 Http Client 專案將這個流程交給 ABP 處理，我們在使用上就可以像呼叫本地方法一樣，但實際是透過 HTTP 將呼叫送到遠端伺服器。</p>
+<h2 id="section-2"><br><br></h2>
+<h2 id="http-client-1">Http Client 原理</h2>
+<p>Http Client 原理是透過攔截器與 Proxy 來將方法呼叫發送到遠端伺服器，這些功能都包含在 <code>Volo.Abp.Http.Client</code> 函式庫內部，
+產生 Proxy 的方式又分成兩種，動態生成與靜態生成。</p>
+<p>因此在依賴注入取得服務時並不是真實的服務實例而是 Proxy 實例，例如呼叫 <code>await _bookAppService.GetListAsync()</code>，
+現在的 <code>bookAppService</code> 並不是注入我們自己寫的應用服務，而是注入一個 Proxy 服務內部包裝 Http 請求並發送到遠端伺服器，交給真正的應用服務處理。</p>
+<h2 id="section-3"><br><br></h2>
+<h3 id="proxy">動態生成 Proxy</h3>
+<p>在應用程式的 Runtime 時期，利用 <code>ProxyGenerator</code> 憑空產生一個類別。</p>
+<p>使用這種生成方式的優點是只需要寫服務的 <code>Interface</code> 即可，完全不需要任何實作類別，但缺點是啟動時速度較慢，因為要去動態生成 Proxy，
+與額外的攔截器，並且查找錯誤時不太方便，另外最麻煩的是可能會隨著版本變更產生不同的動態 Proxy。</p>
+<h2 id="section-4"><br><br></h2>
+<h3 id="proxy-1">靜態生成 Proxy</h3>
+<p>在程式開發階段就透過專用命令 <code>abp generate-proxy</code> 將 Proxy 類別的內容確定下來，所以可以直接看到 <code>HttpClient</code> 的發送程式碼。</p>
+<p>這種方式不需要額外的攔截器與動態產生 Proxy 的時間，另外可以直接看到真實的 Proxy 程式碼，如果真的有必要可以進行微調，
+但缺點就是每次更新 API 就要呼叫一次命令。</p>
+<h2 id="section-5"><br><br></h2>
+<h2 id="http-client-dynamic">Http Client Dynamic實做</h2>
+<p>首先建立新專案 <code>BookStoreScratch.HttpApi.Client</code></p>
+<pre><code class="language-text">dotnet new classlib -o src/BookStoreScratch.HttpApi.Client
+dotnet sln add src/BookStoreScratch.HttpApi.Client
+mkdir src/BookStoreScratch.HttpApi.Client/BookStoreScratch
+rm src/BookStoreScratch.HttpApi.Client/Class1.cs
+</code></pre>
+<p>安裝必要的函式庫</p>
+<pre><code class="language-text">dotnet add src/BookStoreScratch.HttpApi.Client package Volo.Abp.Http.Client --version 9.0.2
+</code></pre>
+<p>根據上一段提到的原理，我們只需要服務介面即可，不需要真實實例，所以參考 Contract 專案即可</p>
+<pre><code class="language-text">dotnet add src/BookStoreScratch.HttpApi.Client/BookStoreScratch.HttpApi.Client.csproj reference src/BookStoreScratch.Application.Contracts/BookStoreScratch.Application.Contracts.csproj                                                        
+</code></pre>
+<p>建立 <code>BookStoreScratchHttpApiClientModule</code>，這裡呼叫 <code>AddHttpClientProxies</code> 方法，背後會動態產生 Proxy。</p>
+<pre><code class="language-csharp">using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Http.Client;
+using Volo.Abp.Modularity;
+using Volo.Abp.VirtualFileSystem;
+
+namespace BookStoreScratch.HttpApi.Client;
+
+[DependsOn(
+    typeof(BookStoreScratchApplicationContractsModule),
+    typeof(AbpHttpClientModule))]
+public class BookStoreScratchHttpApiClientModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.AddHttpClientProxies(
+            typeof(BookStoreScratchApplicationContractsModule).Assembly,
+            &quot;BookStoreScratch&quot;
+        );
+    }
+}
+</code></pre>
+<p>這樣 <code>HttpApi.Client</code> 就準備完畢，接下來到 <code>BookStoreScratch.Console</code> 專案測試看看，首先修改專案依賴只有 <code>HttpApi.Client</code>，
+並且要安裝 Autofac。</p>
+<pre><code class="language-text">&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Worker&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net9.0&lt;/TargetFramework&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+    &lt;UserSecretsId&gt;dotnet-BookStoreScratch.Console-6bc61e3c-e573-4924-8460-b1ee23f476c6&lt;/UserSecretsId&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;Microsoft.Extensions.Hosting&quot; Version=&quot;9.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Extensions.Hosting&quot; Version=&quot;9.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Extensions.Logging&quot; Version=&quot;9.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Sinks.Async&quot; Version=&quot;2.1.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Sinks.Console&quot; Version=&quot;6.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Volo.Abp.Core&quot; Version=&quot;9.0.2&quot; /&gt;
+    &lt;PackageReference Include=&quot;Volo.Abp.Autofac&quot; Version=&quot;9.0.2&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&quot;..\..\src\BookStoreScratch.HttpApi.Client\BookStoreScratch.HttpApi.Client.csproj&quot; /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>建立 <code>GetBookHostedService</code> HostedService，等到應用程式初始完畢後呼叫服務，要想像這裡模擬的是呼叫者的應用程式，並不是我端的應用。</p>
+<pre><code class="language-csharp">using System.Threading;
+using System.Threading.Tasks;
+using BookStoreScratch.Books;
+using Microsoft.Extensions.Hosting;
+
+namespace BookStoreScratch.Console;
+
+public class GetBookHostedService : IHostedService
+{
+    private readonly IBookAppService _bookService;
+
+    public GetBookHostedService(IBookAppService bookService)
+    {
+        _bookService = bookService;
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        var books = await _bookService.GetListAsync(new BookGetListInput());
+        foreach (var book in books.Items)
+        {
+            System.Console.WriteLine($&quot;[BOOK {book.Id}] Name={book.Name}&quot;);
+        }
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
+    }
+}
+</code></pre>
+<p>建立 <code>BookStoreScratchConsoleModule</code>，由於 <code>AbpHttpClientModule</code> 的依賴已經在我們的模組中定義，所以使用者只需要依賴我們的模組即可</p>
+<pre><code class="language-csharp">using BookStoreScratch.HttpApi.Client;
+using Volo.Abp.Autofac;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch.Console;
+
+[DependsOn(
+    typeof(AbpAutofacModule),
+    typeof(BookStoreScratchHttpApiClientModule)
+)]
+public class BookStoreScratchConsoleModule : AbpModule
+{
+}
+</code></pre>
+<p>接下來修改 <code>Program.cs</code>，確保建立 Autofac 與註冊 <code>GetBookHostedService</code></p>
+<pre><code class="language-csharp">using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
+using Volo.Abp;
+
+namespace BookStoreScratch.Console;
+
+public class Program
+{
+    public static async Task&lt;int&gt; Main(string[] args)
+    {
+        Log.Logger = new LoggerConfiguration()
+#if DEBUG
+            .MinimumLevel.Debug()
+#else
+            .MinimumLevel.Information()
+#endif
+            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .WriteTo.Async(c =&gt; c.Console())
+            .CreateLogger();
+
+        try
+        {
+            Log.Information(&quot;Starting console host.&quot;);
+
+            var builder = Host.CreateApplicationBuilder(args);
+
+            builder.Logging.ClearProviders().AddSerilog();
+            builder.ConfigureContainer(builder.Services.AddAutofacServiceProviderFactory());
+
+            builder.Services.AddHostedService&lt;GetBookHostedService&gt;();
+
+            await builder.Services.AddApplicationAsync&lt;BookStoreScratchConsoleModule&gt;();
+
+            var host = builder.Build();
+
+            await host.InitializeAsync();
+
+            await host.RunAsync();
+
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            if (ex is HostAbortedException)
+            {
+                throw;
+            }
+
+            Log.Fatal(ex, &quot;Host terminated unexpectedly!&quot;);
+            return 1;
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
+    }
+}
+</code></pre>
+<p>最後是配置 <code>appsettings.json</code>，這樣 Proxy 才知道要發送到哪個遠端伺服器，注意如果只有一個遠端服務那服務名稱可以用 <code>Default</code> 就好，
+但如果需要多個遠端服務就需要與 <code>AddHttpClientProxies</code> 設定服務名稱相同 <code>BookStoreScratch</code></p>
+<pre><code class="language-text">{
+  &quot;Logging&quot;: {
+    &quot;LogLevel&quot;: {
+      &quot;Default&quot;: &quot;Information&quot;,
+      &quot;Microsoft.Hosting.Lifetime&quot;: &quot;Information&quot;
+    }
+  },
+  &quot;RemoteServices&quot;: {
+    &quot;Default&quot;: {
+      &quot;BaseUrl&quot;: &quot;http://localhost:5023/&quot;
+    },
+    &quot;BookStoreScratch&quot;: {
+      &quot;BaseUrl&quot;: &quot;http://localhost:5023/&quot;
+    }
+  }
+}
+</code></pre>
+<p>都完成後需要先啟動 <code>HttpApi.Host</code> 專案，才能啟動 <code>Console</code> 專案，否則會出現伺服器錯誤。
+可以在終端機看到確實有發送請求到 <code>localhost:5023/api/book</code> 並顯示兩本書名稱。</p>
+<pre><code class="language-text">[18:17:17 INF] Start processing HTTP request GET http://localhost:5023/api/book?*
+[18:17:17 INF] Sending HTTP request GET http://localhost:5023/api/book?*
+[18:17:17 INF] Received HTTP response headers after 17.7716ms - 200
+[18:17:17 INF] End processing HTTP request after 19.0057ms - 200
+[BOOK 3a1e70fc-43f2-8293-17fa-ae958540e69a] Name=mybook
+[BOOK 3a1e6263-2830-e133-fe08-0c384395f7a2] Name=The Hitchhiker's Guide to the Galaxy
+</code></pre>
+<h2 id="section-6"><br><br></h2>
+<h2 id="http-client-static">Http Client Static 實做</h2>
+<p>建立新專案 <code>BookStoreScratch.HttpApi.Client.Static</code></p>
+<pre><code class="language-text">dotnet new classlib -o src/BookStoreScratch.HttpApi.Client.Static
+dotnet sln add src/BookStoreScratch.HttpApi.Client.Static
+mkdir src/BookStoreScratch.HttpApi.Client.Static/BookStoreScratch/
+rm src/BookStoreScratch.HttpApi.Client.Static/Class1.cs
+</code></pre>
+<p>首先執行 API Host 專案並產生靜態 Proxy，這裡使用 without-contracts 模式，這樣模型可以與 Contract 專案共用避免完全複製。</p>
+<pre><code class="language-text">abp generate-proxy -t csharp -m book -u http://localhost:5023 --without-contracts
+</code></pre>
+<p>會產生三個檔案，關鍵是 <code>[ExposeServices(typeof(IBookAppService), typeof(BookClientProxy))]</code>，將 <code>IBookAppService</code> 依賴注入改成 <code>BookClientProxy</code>，
+以及生成的 generate-proxy.json 檔案，背後就是透過此 json 檔案才知道該怎麼打 API。</p>
+<pre><code class="language-text">Create ClientProxies\BookStoreScratch\Controllers\BookClientProxy.cs
+Create ClientProxies\BookStoreScratch\Controllers\BookClientProxy.Generated.cs
+Create ClientProxies\book-generate-proxy.json
+</code></pre>
+<p>建立 <code>BookStoreScratchHttpApiClientStaticModule</code>，這裡呼叫 <code>AddStaticHttpClientProxies</code> 方法，背後會靜態產生 Proxy，
+注意這裡需要 <code>VirtualFile</code> 模組確保 json 檔案註冊到模組中。</p>
+<pre><code class="language-csharp">using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Http.Client;
+using Volo.Abp.Modularity;
+using Volo.Abp.VirtualFileSystem;
+
+namespace BookStoreScratch.HttpApi.Client.Static;
+
+[DependsOn(
+    typeof(AbpHttpClientModule),
+    typeof(AbpVirtualFileSystemModule),
+    typeof(BookStoreScratchApplicationContractsModule)
+)]
+public class BookStoreScratchHttpApiClientStaticModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.AddStaticHttpClientProxies(
+            typeof(BookStoreScratchApplicationContractsModule).Assembly
+        );
+
+        Configure&lt;AbpVirtualFileSystemOptions&gt;(options =&gt;
+        {
+            options.FileSets.AddEmbedded&lt;BookStoreScratchHttpApiClientStaticModule&gt;();
+        });
+    }
+}
+
+</code></pre>
+<p>最後到 Console 專案修改專案依賴</p>
+<pre><code class="language-text">&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Worker&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net9.0&lt;/TargetFramework&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+    &lt;UserSecretsId&gt;dotnet-BookStoreScratch.Console-6bc61e3c-e573-4924-8460-b1ee23f476c6&lt;/UserSecretsId&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;Microsoft.Extensions.Hosting&quot; Version=&quot;9.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Extensions.Hosting&quot; Version=&quot;9.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Extensions.Logging&quot; Version=&quot;9.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Sinks.Async&quot; Version=&quot;2.1.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Serilog.Sinks.Console&quot; Version=&quot;6.0.0&quot; /&gt;
+    &lt;PackageReference Include=&quot;Volo.Abp.Core&quot; Version=&quot;9.0.2&quot; /&gt;
+    &lt;PackageReference Include=&quot;Volo.Abp.Autofac&quot; Version=&quot;9.0.2&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;ProjectReference Include=&quot;..\..\src\BookStoreScratch.HttpApi.Client.Static\BookStoreScratch.HttpApi.Client.Static.csproj&quot; /&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>並修改 <code>BookStoreScratchConsoleModule</code> 依賴新的靜態專案</p>
+<pre><code class="language-csharp">using BookStoreScratch.HttpApi.Client.Static;
+using Volo.Abp.Autofac;
+using Volo.Abp.Modularity;
+
+namespace BookStoreScratch.Console;
+
+[DependsOn(
+    typeof(AbpAutofacModule),
+    typeof(BookStoreScratchHttpApiClientStaticModule)
+)]
+public class BookStoreScratchConsoleModule : AbpModule
+{
+}
+</code></pre>
+<p>完成後同樣先運行 Http API Host 在運行 Console 同樣能透過靜態模式取得資料</p>
+<pre><code class="language-text">[19:54:38 INF] Start processing HTTP request GET http://localhost:5023/api/book?*
+[19:54:38 INF] Sending HTTP request GET http://localhost:5023/api/book?*
+[19:54:38 INF] Received HTTP response headers after 98.4867ms - 200
+[19:54:38 INF] End processing HTTP request after 118.3049ms - 200
+[BOOK 3a1e70fc-43f2-8293-17fa-ae958540e69a] Name=mybook
+[BOOK 3a1e6263-2830-e133-fe08-0c384395f7a2] Name=The Hitchhiker's Guide to the Galaxy
+</code></pre>
+<p>今天的進度 <a href="https://github.com/allengaodev/BookStoreScratch/tree/1.6" target="_blank">Github</a></p>
+
+
+          
+
+        </div>
+      </div>
+  <div id="comments-container" class="row">
+    <div id="giscus-container"></div>
+
+<script>
+  let giscusLoaded = false;
+  function loadGiscus() {
+    if (giscusLoaded) return;
+    giscusLoaded = true;
+
+    let datarepo = 'allengaodev/allengaodev.github.io'
+    let datarepoid='R_kgDOI6sF8g'
+    let datacategoryid='DIC_kwDOI6sF8s4CUbuw'
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', datarepo);
+    script.setAttribute('data-repo-id', datarepoid);
+    script.setAttribute('data-category-id', datacategoryid);
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", "light");
+    script.setAttribute("data-lang", "en");
+    script.async = true;
+    document.getElementById("giscus-container").appendChild(script);
+  }
+
+  // 檢查是否滾動到最底部
+  function checkScrollBottom() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 2) {
+      loadGiscus();
+      window.removeEventListener("scroll", checkScrollBottom);
+    }
+  }
+
+  // 等待滾動結束
+  setTimeout(() => {
+    checkScrollBottom();
+    window.addEventListener("scroll", checkScrollBottom);
+  }, 500); // 0.5秒後檢查
+</script>
+
+  </div>
+    </div>
+  </main>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2025 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <script defer src='/vendor/startbootstrap-clean-blog/js/scripts.min.js'></script>
+  
+
+  
+</body>
+
+</html>

@@ -7,8 +7,19 @@
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2025 by Allen Gao</rights>
-	<updated>2025-12-27T08:58:04Z</updated>
+	<updated>2025-12-29T12:09:46Z</updated>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client</id>
+		<title>ABP IO 教學 | 模組化架構入門：Http Client - Part 6</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" />
+		<updated>2025-12-29T00:00:00Z</updated>
+		<content>False</content>
+		<summary>解析 ABP 如何透過攔截器與 Proxy 模式簡化微服務間的通訊，並手把手教學如何配置動態生成 (Dynamic Proxy) 與靜態生成 (Static Proxy)。透過實作 Console 專案模擬遠端調用，讓你掌握 abp generate-proxy 指令與 RemoteServices 配置</summary>
+	</entry>
 	<entry>
 		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer</id>
 		<title>ABP IO 教學 | 模組化架構入門：Host 層 - Part 5</title>
@@ -107,16 +118,5 @@
 		<updated>2024-12-03T00:00:00Z</updated>
 		<content>False</content>
 		<summary>Effective SQL 02.消除重複儲存資料 (Eliminate Redundant Storage of Data Items)</summary>
-	</entry>
-	<entry>
-		<id>https://blog.allengaodev.com/posts/effective-sql-01</id>
-		<title>Effective SQL 01.確定所有資料表都有主鍵</title>
-		<author>
-			<name>allengaodev@gmail.com</name>
-		</author>
-		<link href="https://blog.allengaodev.com/posts/effective-sql-01" />
-		<updated>2024-12-02T00:00:00Z</updated>
-		<content>False</content>
-		<summary>Effective SQL 01.確定所有資料表都有主鍵 (Verify That All Tables Have a Primary Key)</summary>
 	</entry>
 </feed>
