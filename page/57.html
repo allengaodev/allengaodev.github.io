@@ -91,6 +91,24 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dca-volume">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- VOLUME</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/02/26
+    </a>
+
+  </p>
+
+<p>在此篇文章中: <a href="https://blog.allengaodev.com/posts/dca-containerlayer" target="_blank">Docker Certified Associate(DCA)認證考試學習-Docker可讀寫層</a><br>
+我們知道 Docker 在建立 container 的時候會在 image layer 上再多加一層可讀寫層<br>
+但是有一個問題是此如果將 container 刪除，那麼在我們剛剛在可讀寫層所作的變更會一起被刪除掉<br>
+所以像是讀寫資料庫這種需求，如果資料沒辦法持久保存那顯然是會造成很大的問題<br>
+這時最簡易的作法可以在 Dockerfile 之內使用 VOLUME 指令</p>    <p class="small"><a href="/posts/dca-volume">Read more...</a></p>
+    <hr>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-image-multi-stage-builds">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-Docker Image Multi-Stage Builds</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -120,21 +138,6 @@
     <hr>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dca-workdir-user">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;-WORKDIR and USER</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/02/23
-    </a>
-
-  </p>
-
-<p>在Dockerfile中WORKDIR也是相當常用的指令<br>
-首先來看看<a href="https://docs.docker.com/engine/reference/builder/#workdir" target="_blank">WORKDIR文檔</a></p>    <p class="small"><a href="/posts/dca-workdir-user">Read more...</a></p>
-    <hr>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/page/56" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -156,9 +159,9 @@
               <a href="/tags/dotnet" class="badge text-dark"> Dotnet (22)</a>
               <a href="/tags/docker" class="badge text-dark"> Docker (22)</a>
               <a href="/tags/identity" class="badge text-dark"> Identity (13)</a>
+              <a href="/tags/abp" class="badge text-dark"> ABP (8)</a>
               <a href="/tags/nginx" class="badge text-dark"> Nginx (8)</a>
               <a href="/tags/docker-compose" class="badge text-dark"> Docker Compose (8)</a>
-              <a href="/tags/abp" class="badge text-dark"> ABP (7)</a>
             <div class="mt-3">
               <div class="float-sm-end">
                 <a class="btn btn-sm btn-primary" href='/tags' role="button">All Tags <i class="fas fa-angle-double-right"></i></a>

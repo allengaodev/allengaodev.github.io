@@ -4,10 +4,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const mainNav = document.getElementById('mainNav');
   if (!mainNav) return;
 
-  if (window.quicklink) {
-    quicklink.listen();
-  }
-
   mainNav.style.transition = 'none';
   let lastScrollY = window.scrollY;
   let ticking = false;
@@ -55,6 +51,18 @@ window.addEventListener('DOMContentLoaded', () => {
       ticking = true;
     }
   }, { passive: true });
+});
+
+window.addEventListener('load', () => {
+  if (window.quicklink) {
+    // 優先使用 requestIdleCallback，在瀏覽器空閒時預抓連結
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => quicklink.listen());
+    } else {
+      // 否則至少延遲一個 frame
+      setTimeout(() => quicklink.listen(), 200);
+    }
+  }
 });
 
 (function() {

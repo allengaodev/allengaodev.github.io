@@ -91,6 +91,22 @@
 
 
 <div class="post-preview">
+  <h2 class="post-title"><a href="/posts/dca-compose-yaml-ports">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Ports</a></h2>
+  <p class="post-meta">
+    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+      2023/03/10
+    </a>
+
+  </p>
+
+<p>今天要來學習如何在 Docker Compose 開放 Port 讓我們可以使用到 container 提供的服務，首先先看一下<a href="https://docs.docker.com/compose/compose-file/#ports" target="_blank">文檔</a><br>
+用法也跟之前類似，之前的作法是需要先在 Dockerfile 設定要開放的 container port， 之後在 <code>docker run</code> 帶入 <code>-p</code> 參數，指定要和哪個 Host port 進行綁定<br>
+在docker compose 中也是要先在 Dockerfile 設定，之後在 docker-compose.yml 中進行設定</p>    <p class="small"><a href="/posts/dca-compose-yaml-ports">Read more...</a></p>
+    <hr>
+</div>
+
+
+<div class="post-preview">
   <h2 class="post-title"><a href="/posts/dca-compose-yaml-volumes">Docker Certified Associate(DCA)&#x8A8D;&#x8B49;&#x8003;&#x8A66;&#x5B78;&#x7FD2;- Docker Compose Yaml Volumes</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
@@ -119,20 +135,6 @@
     <hr>
 </div>
 
-
-<div class="post-preview">
-  <h2 class="post-title"><a href="/posts/csharp-array-compare">Dotnet C# Arrays &#x591A;&#x500B; Array &#x6BD4;&#x8F03;&#x65B9;&#x6CD5;</a></h2>
-  <p class="post-meta">
-    <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/03/07
-    </a>
-
-  </p>
-
-<p>今天碰到了一個問題需要判斷兩個 int array 的值是否相同</p>    <p class="small"><a href="/posts/csharp-array-compare">Read more...</a></p>
-    <hr>
-</div>
-
   <div>
     <div class="float-sm-start">
         <a class="btn btn-primary" href="/page/52" role="button"><i class="fas fa-angle-double-left"></i> Newer</a>
@@ -154,9 +156,9 @@
               <a href="/tags/dotnet" class="badge text-dark"> Dotnet (22)</a>
               <a href="/tags/docker" class="badge text-dark"> Docker (22)</a>
               <a href="/tags/identity" class="badge text-dark"> Identity (13)</a>
+              <a href="/tags/abp" class="badge text-dark"> ABP (8)</a>
               <a href="/tags/nginx" class="badge text-dark"> Nginx (8)</a>
               <a href="/tags/docker-compose" class="badge text-dark"> Docker Compose (8)</a>
-              <a href="/tags/abp" class="badge text-dark"> ABP (7)</a>
             <div class="mt-3">
               <div class="float-sm-end">
                 <a class="btn btn-sm btn-primary" href='/tags' role="button">All Tags <i class="fas fa-angle-double-right"></i></a>
