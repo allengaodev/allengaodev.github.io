@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href='/scss/clean-blog-min.css'/>
+
+    <meta name="description" content="&#x5B78;&#x7FD2;&#x5982;&#x4F55;&#x5C07;&#x958B;&#x767C;&#x5B8C;&#x6210;&#x7684; ABP &#x6A21;&#x7D44;&#x5B89;&#x88DD;&#x81F3;&#x6B63;&#x5F0F;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x3002;&#x624B;&#x52D5;&#x5B89;&#x88DD;&#x6D41;&#x7A0B;&#xFF0C;&#x5F9E;&#x5EFA;&#x7ACB;&#x5C08;&#x6848;&#x3001;&#x6DFB;&#x52A0;&#x5C08;&#x6848;&#x53C3;&#x8003;&#x5230;&#x914D;&#x7F6E; DependsOn &#x4F9D;&#x8CF4;&#xFF1B;&#x4E26;&#x9032;&#x968E;&#x4ECB;&#x7D39;&#x4F7F;&#x7528; ABP CLI &#x81EA;&#x52D5;&#x5B89;&#x88DD;&#x6A21;&#x7D44;&#x7684;&#x6280;&#x5DE7;&#xFF0C;&#x900F;&#x904E;&#x5B9A;&#x7FA9; abppkg &#x8207; abpmdl &#x6A94;&#x6848;&#x5927;&#x5E45;&#x63D0;&#x5347;&#x958B;&#x767C;&#x6548;&#x7387;&#xFF0C;&#x5BE6;&#x73FE;&#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x7684;&#x5FEB;&#x901F;&#x6574;&#x5408;&#x3002;">
+
+  <title>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x5B89;&#x88DD;&#x6A21;&#x7D44; - Part 7</title>
+
+
+  <link rel="canonical" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install'>
+
+      <link type="application/rss+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" title="&#x958B;&#x767C;&#x7A7A;&#x9593;" href="/feed.atom" />
+
+  <meta name="application-name" content='Gao.Dev' />
+  <meta name="msapplication-tooltip" content='Gao.Dev' />
+  <meta name="msapplication-starturl" content='/' />
+  <meta name="google-site-verification" content="aq71qXzppLuXZ8be8mjOwn_zJq317ZSD34yTS4i6y6M" />
+  <meta property="og:title" content='ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x5B89;&#x88DD;&#x6A21;&#x7D44; - Part 7' />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install' />
+
+  <link rel="icon" href='/favicon.svg'>
+
+  <!-- Styles for this template (also includes Bootstrap) -->
+  <link href='/scss/clean-blog-min.css' rel="stylesheet">
+
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-light" id="mainNav" style="background-color: #F5F1E6">
+  <div class="container">
+    <a class="navbar-brand text-dark" href='/'> Home </a>
+
+    <div class="navbar-nav-container" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+    <a class="nav-link text-dark" href="/search">Search</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/posts">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" href="/tags">Tags</a>
+  </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+  <header class="masthead no-image">
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-md-12">
+        <div class='post-heading'>
+          <h1>
+            <a style="color:white" href='https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install'>ABP IO &#x6559;&#x5B78; | &#x6A21;&#x7D44;&#x5316;&#x67B6;&#x69CB;&#x5165;&#x9580;&#xFF1A;&#x5B89;&#x88DD;&#x6A21;&#x7D44; - Part 7</a>
+          </h1>
+            <p class="post-meta">
+              <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
+                2025/12/30
+              </a>
+
+            </p>
+              <div class="mt-3">
+                  <a href="/tags/abp" class="badge bg-white text-dark"> ABP</a>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="container">
+      <div class="row">
+        <div id="content" class="col-md-12">
+          <h2 id="section">文章系列</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" target="_blank"><u>01.模組化架構入門：設計與實踐 - Part 1</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer" target="_blank"><u>02.模組化架構入門：領域層級 - Part 2</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer" target="_blank"><u>03.模組化架構入門：基礎設施層 - Part 3</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer" target="_blank"><u>04.模組化架構入門：應用層與 HTTP 層 - Part 4</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" target="_blank"><u>05.模組化架構入門：Host 層 - Part 5</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" target="_blank"><u>06.模組化架構入門：Http Client - Part 6</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" target="_blank"><u>07.模組化架構入門：安裝模組 - Part 7</u></a></strong></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<h2 id="section-2">目錄</h2>
+<ul>
+  <li><a href="#安裝模組">安裝模組</a></li>
+  <li><a href="#手動安裝模組">手動安裝模組</a></li>
+  <li><a href="#自動安裝模組">自動安裝模組</a></li>
+</ul>
+<h2 id="section-3"><br><br></h2>
+<h2 id="section-4">安裝模組</h2>
+<p>目前模組重要的部分都已經開發完成，接下來要想辦法將模組安裝到正式的應用程式上，這個部分也不困難，因為 ABP 背後會自動判斷模組間的依賴關係，
+所以並不需要擔心模組的加載順序，所以只需添加專案參考與要手動將所有模組加入到 <code>DependsOn</code> 清單就行了。</p>
+<h2 id="section-5"><br><br></h2>
+<h2 id="section-6">手動安裝模組</h2>
+<p>首先建立一個新應用程式 <code>Acme.UniStore</code>，注意這是個應用程式專案，雖然專案的命名方式都相同，但是跟專注於抽象的模組專案不同，
+可以將應用程式專案想像成最終的組裝專案，它主要的工作就是決定各種實做，例如資料庫選擇，以及加載所有關鍵模組組裝成最終應用程式。</p>
+<pre><code class="language-text">abp new Acme.UniStore -dbms PostgreSQL --skip-migrations
+</code></pre>
+<p>這個步驟會將模組加入 Solution Folder 在添加模組過程與後續開發會比較方便。</p>
+<pre><code class="language-text">dotnet sln Acme.UniStore.sln add ../BookStoreScratch/src/BookStoreScratch.Application -s modules/BookStoreScratch/src
+dotnet sln Acme.UniStore.sln add ../BookStoreScratch/src/BookStoreScratch.Application.Contracts -s modules/BookStoreScratch/src
+dotnet sln Acme.UniStore.sln add ../BookStoreScratch/src/BookStoreScratch.Domain -s modules/BookStoreScratch/src
+dotnet sln Acme.UniStore.sln add ../BookStoreScratch/src/BookStoreScratch.Domain.Shared -s modules/BookStoreScratch/src
+dotnet sln Acme.UniStore.sln add ../BookStoreScratch/src/BookStoreScratch.EntityFrameworkCore -s modules/BookStoreScratch/src
+dotnet sln Acme.UniStore.sln add ../BookStoreScratch/src/BookStoreScratch.HttpApi -s modules/BookStoreScratch/src
+dotnet sln Acme.UniStore.sln add ../BookStoreScratch/src/BookStoreScratch.HttpApi.Client -s modules/BookStoreScratch/src
+</code></pre>
+<p>將模組的各個層級依賴添加到對應到應用程式的層級內</p>
+<pre><code class="language-text">dotnet add src/Acme.UniStore.Application/Acme.UniStore.Application.csproj reference ../BookStoreScratch/src/BookStoreScratch.Application/BookStoreScratch.Application.csproj                                                        
+dotnet add src/Acme.UniStore.Application.Contracts/Acme.UniStore.Application.Contracts.csproj reference ../BookStoreScratch/src/BookStoreScratch.Application.Contracts/BookStoreScratch.Application.Contracts.csproj                                                        
+dotnet add src/Acme.UniStore.Domain/Acme.UniStore.Domain.csproj reference ../BookStoreScratch/src/BookStoreScratch.Domain/BookStoreScratch.Domain.csproj                                                        
+dotnet add src/Acme.UniStore.Domain.Shared/Acme.UniStore.Domain.Shared.csproj reference ../BookStoreScratch/src/BookStoreScratch.Domain.Shared/BookStoreScratch.Domain.Shared.csproj                                                        
+dotnet add src/Acme.UniStore.EntityFrameworkCore/Acme.UniStore.EntityFrameworkCore.csproj reference ../BookStoreScratch/src/BookStoreScratch.EntityFrameworkCore/BookStoreScratch.EntityFrameworkCore.csproj                                                        
+dotnet add src/Acme.UniStore.HttpApi/Acme.UniStore.HttpApi.csproj reference ../BookStoreScratch/src/BookStoreScratch.HttpApi/BookStoreScratch.HttpApi.csproj                                                        
+dotnet add src/Acme.UniStore.HttpApi.Client/Acme.UniStore.HttpApi.Client.csproj reference ../BookStoreScratch/src/BookStoreScratch.HttpApi.Client/BookStoreScratch.HttpApi.Client.csproj                                                        
+</code></pre>
+<p><code>UniStoreApplicationModule</code> 添加模組依賴 <code>typeof(BookStoreScratchApplicationModule)</code></p>
+<pre><code class="language-text">using BookStoreScratch;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.Account;
+using Volo.Abp.Identity;
+using Volo.Abp.AutoMapper;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Modularity;
+using Volo.Abp.TenantManagement;
+
+namespace Acme.UniStore;
+
+[DependsOn(
+    typeof(UniStoreDomainModule),
+    typeof(UniStoreApplicationContractsModule),
+    typeof(AbpPermissionManagementApplicationModule),
+    typeof(AbpFeatureManagementApplicationModule),
+    typeof(AbpIdentityApplicationModule),
+    typeof(AbpAccountApplicationModule),
+    typeof(AbpTenantManagementApplicationModule),
+    typeof(AbpSettingManagementApplicationModule),
+    typeof(BookStoreScratchApplicationModule)
+    )]
+public class UniStoreApplicationModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure&lt;AbpAutoMapperOptions&gt;(options =&gt;
+        {
+            options.AddMaps&lt;UniStoreApplicationModule&gt;();
+        });
+    }
+}
+</code></pre>
+<p><code>UniStoreApplicationContractsModule</code> 添加模組依賴 <code>typeof(BookStoreScratchApplicationContractsModule)</code></p>
+<pre><code class="language-text">using BookStoreScratch;
+using Volo.Abp.Account;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
+using Volo.Abp.TenantManagement;
+
+namespace Acme.UniStore;
+
+[DependsOn(
+    typeof(UniStoreDomainSharedModule),
+    typeof(AbpFeatureManagementApplicationContractsModule),
+    typeof(AbpSettingManagementApplicationContractsModule),
+    typeof(AbpIdentityApplicationContractsModule),
+    typeof(AbpAccountApplicationContractsModule),
+    typeof(AbpTenantManagementApplicationContractsModule),
+    typeof(AbpPermissionManagementApplicationContractsModule),
+    typeof(BookStoreScratchApplicationContractsModule)
+)]
+public class UniStoreApplicationContractsModule : AbpModule
+{
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        UniStoreDtoExtensions.Configure();
+    }
+}
+</code></pre>
+<p><code>UniStoreDomainModule</code> 添加模組依賴 <code>typeof(BookStoreScratchDomainModule)</code></p>
+<pre><code class="language-text">using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Acme.UniStore.Localization;
+using Acme.UniStore.MultiTenancy;
+using BookStoreScratch;
+using Volo.Abp.Localization;
+using Volo.Abp.Modularity;
+using Volo.Abp.MultiTenancy;
+using Volo.Abp.PermissionManagement.Identity;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.BlobStoring.Database;
+using Volo.Abp.Caching;
+using Volo.Abp.OpenIddict;
+using Volo.Abp.PermissionManagement.OpenIddict;
+using Volo.Abp.AuditLogging;
+using Volo.Abp.BackgroundJobs;
+using Volo.Abp.Emailing;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
+using Volo.Abp.TenantManagement;
+
+namespace Acme.UniStore;
+
+[DependsOn(
+    typeof(UniStoreDomainSharedModule),
+    typeof(AbpAuditLoggingDomainModule),
+    typeof(AbpCachingModule),
+    typeof(AbpBackgroundJobsDomainModule),
+    typeof(AbpFeatureManagementDomainModule),
+    typeof(AbpPermissionManagementDomainIdentityModule),
+    typeof(AbpPermissionManagementDomainOpenIddictModule),
+    typeof(AbpSettingManagementDomainModule),
+    typeof(AbpEmailingModule),
+    typeof(AbpIdentityDomainModule),
+    typeof(AbpOpenIddictDomainModule),
+    typeof(AbpTenantManagementDomainModule),
+    typeof(BlobStoringDatabaseDomainModule),
+    typeof(BookStoreScratchDomainModule)
+    )]
+public class UniStoreDomainModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure&lt;AbpMultiTenancyOptions&gt;(options =&gt;
+        {
+            options.IsEnabled = MultiTenancyConsts.IsEnabled;
+        });
+
+
+#if DEBUG
+        context.Services.Replace(ServiceDescriptor.Singleton&lt;IEmailSender, NullEmailSender&gt;());
+#endif
+    }
+}
+</code></pre>
+<p><code>UniStoreDomainSharedModule</code> 添加模組依賴 <code>typeof(BookStoreScratchDomainSharedModule)</code></p>
+<pre><code class="language-text">using Acme.UniStore.Localization;
+using BookStoreScratch;
+using Volo.Abp.AuditLogging;
+using Volo.Abp.BackgroundJobs;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
+using Volo.Abp.Localization;
+using Volo.Abp.Localization.ExceptionHandling;
+using Volo.Abp.Validation.Localization;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.OpenIddict;
+using Volo.Abp.BlobStoring.Database;
+using Volo.Abp.TenantManagement;
+
+namespace Acme.UniStore;
+
+[DependsOn(
+    typeof(AbpAuditLoggingDomainSharedModule),
+    typeof(AbpBackgroundJobsDomainSharedModule),
+    typeof(AbpFeatureManagementDomainSharedModule),
+    typeof(AbpPermissionManagementDomainSharedModule),
+    typeof(AbpSettingManagementDomainSharedModule),
+    typeof(AbpIdentityDomainSharedModule),
+    typeof(AbpOpenIddictDomainSharedModule),
+    typeof(AbpTenantManagementDomainSharedModule),
+    typeof(BlobStoringDatabaseDomainSharedModule),
+    typeof(BookStoreScratchDomainSharedModule)
+    )]
+public class UniStoreDomainSharedModule : AbpModule
+{
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        UniStoreGlobalFeatureConfigurator.Configure();
+        UniStoreModuleExtensionConfigurator.Configure();
+    }
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure&lt;AbpVirtualFileSystemOptions&gt;(options =&gt;
+        {
+            options.FileSets.AddEmbedded&lt;UniStoreDomainSharedModule&gt;();
+        });
+
+        Configure&lt;AbpLocalizationOptions&gt;(options =&gt;
+        {
+            options.Resources
+                .Add&lt;UniStoreResource&gt;(&quot;en&quot;)
+                .AddBaseTypes(typeof(AbpValidationResource))
+                .AddVirtualJson(&quot;/Localization/UniStore&quot;);
+
+            options.DefaultResourceType = typeof(UniStoreResource);
+            
+            options.Languages.Add(new LanguageInfo(&quot;en&quot;, &quot;en&quot;, &quot;English&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;ar&quot;, &quot;ar&quot;, &quot;Arabic&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;zh-Hans&quot;, &quot;zh-Hans&quot;, &quot;Chinese (Simplified)&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;zh-Hant&quot;, &quot;zh-Hant&quot;, &quot;Chinese (Traditional)&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;cs&quot;, &quot;cs&quot;, &quot;Czech&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;en-GB&quot;, &quot;en-GB&quot;, &quot;English (United Kingdom)&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;fi&quot;, &quot;fi&quot;, &quot;Finnish&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;fr&quot;, &quot;fr&quot;, &quot;French&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;de-DE&quot;, &quot;de-DE&quot;, &quot;German (Germany)&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;hi&quot;, &quot;hi&quot;, &quot;Hindi &quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;hu&quot;, &quot;hu&quot;, &quot;Hungarian&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;is&quot;, &quot;is&quot;, &quot;Icelandic&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;it&quot;, &quot;it&quot;, &quot;Italian&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;pt-BR&quot;, &quot;pt-BR&quot;, &quot;Portuguese (Brazil)&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;ro-RO&quot;, &quot;ro-RO&quot;, &quot;Romanian (Romania)&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;ru&quot;, &quot;ru&quot;, &quot;Russian&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;sk&quot;, &quot;sk&quot;, &quot;Slovak&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;es&quot;, &quot;es&quot;, &quot;Spanish&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;sv&quot;, &quot;sv&quot;, &quot;Swedish&quot;)); 
+            options.Languages.Add(new LanguageInfo(&quot;tr&quot;, &quot;tr&quot;, &quot;Turkish&quot;)); 
+
+        });
+        
+        Configure&lt;AbpExceptionLocalizationOptions&gt;(options =&gt;
+        {
+            options.MapCodeNamespace(&quot;UniStore&quot;, typeof(UniStoreResource));
+        });
+    }
+}
+</code></pre>
+<p><code>UniStoreHttpApiModule</code> 添加模組依賴 <code>typeof(BookStoreScratchHttpApiModule)</code></p>
+<pre><code class="language-text">using Localization.Resources.AbpUi;
+using Acme.UniStore.Localization;
+using BookStoreScratch;
+using Volo.Abp.Account;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement.HttpApi;
+using Volo.Abp.Localization;
+using Volo.Abp.TenantManagement;
+
+namespace Acme.UniStore;
+
+ [DependsOn(
+    typeof(UniStoreApplicationContractsModule),
+    typeof(AbpPermissionManagementHttpApiModule),
+    typeof(AbpSettingManagementHttpApiModule),
+    typeof(AbpAccountHttpApiModule),
+    typeof(AbpIdentityHttpApiModule),
+    typeof(AbpTenantManagementHttpApiModule),
+    typeof(AbpFeatureManagementHttpApiModule),
+    typeof(BookStoreScratchHttpApiModule)
+    )]
+public class UniStoreHttpApiModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        ConfigureLocalization();
+    }
+
+    private void ConfigureLocalization()
+    {
+        Configure&lt;AbpLocalizationOptions&gt;(options =&gt;
+        {
+            options.Resources
+                .Get&lt;UniStoreResource&gt;()
+                .AddBaseTypes(
+                    typeof(AbpUiResource)
+                );
+        });
+    }
+}
+</code></pre>
+<p><code>UniStoreHttpApiClientModule</code> 添加模組依賴 <code>typeof(BookStoreScratchHttpApiClientModule)</code></p>
+<pre><code class="language-text">using BookStoreScratch.HttpApi.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Account;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.Identity;
+using Volo.Abp.TenantManagement;
+
+namespace Acme.UniStore;
+
+[DependsOn(
+    typeof(UniStoreApplicationContractsModule),
+    typeof(AbpPermissionManagementHttpApiClientModule),
+    typeof(AbpFeatureManagementHttpApiClientModule),
+    typeof(AbpAccountHttpApiClientModule),
+    typeof(AbpIdentityHttpApiClientModule),
+    typeof(AbpTenantManagementHttpApiClientModule),
+    typeof(AbpSettingManagementHttpApiClientModule),
+    typeof(BookStoreScratchHttpApiClientModule)
+)]
+public class UniStoreHttpApiClientModule : AbpModule
+{
+    public const string RemoteServiceName = &quot;Default&quot;;
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.AddHttpClientProxies(
+            typeof(UniStoreApplicationContractsModule).Assembly,
+            RemoteServiceName
+        );
+
+        Configure&lt;AbpVirtualFileSystemOptions&gt;(options =&gt;
+        {
+            options.FileSets.AddEmbedded&lt;UniStoreHttpApiClientModule&gt;();
+        });
+    }
+}
+</code></pre>
+<p><code>UniStoreEntityFrameworkCoreModule</code> 添加模組依賴 <code>typeof(BookStoreScratchEntityFrameworkCoreModule)</code></p>
+<pre><code class="language-text">using System;
+using BookStoreScratch.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Uow;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.FeatureManagement.EntityFrameworkCore;
+using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
+using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.Studio;
+
+namespace Acme.UniStore.EntityFrameworkCore;
+
+[DependsOn(
+    typeof(UniStoreDomainModule),
+    typeof(AbpPermissionManagementEntityFrameworkCoreModule),
+    typeof(AbpSettingManagementEntityFrameworkCoreModule),
+    typeof(AbpEntityFrameworkCorePostgreSqlModule),
+    typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
+    typeof(AbpAuditLoggingEntityFrameworkCoreModule),
+    typeof(AbpFeatureManagementEntityFrameworkCoreModule),
+    typeof(AbpIdentityEntityFrameworkCoreModule),
+    typeof(AbpOpenIddictEntityFrameworkCoreModule),
+    typeof(AbpTenantManagementEntityFrameworkCoreModule),
+    typeof(BlobStoringDatabaseEntityFrameworkCoreModule),
+    typeof(BookStoreScratchEntityFrameworkCoreModule)
+    )]
+public class UniStoreEntityFrameworkCoreModule : AbpModule
+{
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch(&quot;Npgsql.EnableLegacyTimestampBehavior&quot;, true);
+
+        UniStoreEfCoreEntityExtensionMappings.Configure();
+    }
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.AddAbpDbContext&lt;UniStoreDbContext&gt;(options =&gt;
+        {
+                /* Remove &quot;includeAllEntities: true&quot; to create
+                 * default repositories only for aggregate roots */
+            options.AddDefaultRepositories(includeAllEntities: true);
+        });
+
+        if (AbpStudioAnalyzeHelper.IsInAnalyzeMode)
+        {
+            return;
+        }
+
+        Configure&lt;AbpDbContextOptions&gt;(options =&gt;
+        {
+            /* The main point to change your DBMS.
+             * See also UniStoreDbContextFactory for EF Core tooling. */
+
+            options.UseNpgsql();
+
+        });
+        
+    }
+}
+</code></pre>
+<p>這裡需要呼叫 <code>ConfigureBookStoreScratch()</code> 方法，將我們模組資料庫的架構整合到最終的 <code>UniStoreDbContext</code>。</p>
+<pre><code class="language-text">using BookStoreScratch.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
+using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+using Volo.Abp.FeatureManagement.EntityFrameworkCore;
+using Volo.Abp.Identity;
+using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
+using Volo.Abp.TenantManagement;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
+
+namespace Acme.UniStore.EntityFrameworkCore;
+
+[ReplaceDbContext(typeof(IIdentityDbContext))]
+[ReplaceDbContext(typeof(ITenantManagementDbContext))]
+[ConnectionStringName(&quot;Default&quot;)]
+public class UniStoreDbContext :
+    AbpDbContext&lt;UniStoreDbContext&gt;,
+    ITenantManagementDbContext,
+    IIdentityDbContext
+{
+    /* Add DbSet properties for your Aggregate Roots / Entities here. */
+
+
+    #region Entities from the modules
+
+    /* Notice: We only implemented IIdentityProDbContext and ISaasDbContext
+     * and replaced them for this DbContext. This allows you to perform JOIN
+     * queries for the entities of these modules over the repositories easily. You
+     * typically don't need that for other modules. But, if you need, you can
+     * implement the DbContext interface of the needed module and use ReplaceDbContext
+     * attribute just like IIdentityProDbContext and ISaasDbContext.
+     *
+     * More info: Replacing a DbContext of a module ensures that the related module
+     * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
+     */
+
+    // Identity
+    public DbSet&lt;IdentityUser&gt; Users { get; set; }
+    public DbSet&lt;IdentityRole&gt; Roles { get; set; }
+    public DbSet&lt;IdentityClaimType&gt; ClaimTypes { get; set; }
+    public DbSet&lt;OrganizationUnit&gt; OrganizationUnits { get; set; }
+    public DbSet&lt;IdentitySecurityLog&gt; SecurityLogs { get; set; }
+    public DbSet&lt;IdentityLinkUser&gt; LinkUsers { get; set; }
+    public DbSet&lt;IdentityUserDelegation&gt; UserDelegations { get; set; }
+    public DbSet&lt;IdentitySession&gt; Sessions { get; set; }
+
+    // Tenant Management
+    public DbSet&lt;Tenant&gt; Tenants { get; set; }
+    public DbSet&lt;TenantConnectionString&gt; TenantConnectionStrings { get; set; }
+
+    #endregion
+
+    public UniStoreDbContext(DbContextOptions&lt;UniStoreDbContext&gt; options)
+        : base(options)
+    {
+
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        /* Include modules to your migration db context */
+
+        builder.ConfigurePermissionManagement();
+        builder.ConfigureSettingManagement();
+        builder.ConfigureBackgroundJobs();
+        builder.ConfigureAuditLogging();
+        builder.ConfigureFeatureManagement();
+        builder.ConfigureIdentity();
+        builder.ConfigureOpenIddict();
+        builder.ConfigureTenantManagement();
+        builder.ConfigureBlobStoring();
+        builder.ConfigureBookStoreScratch();
+
+        /* Configure your own tables/entities inside here */
+
+        //builder.Entity&lt;YourEntity&gt;(b =&gt;
+        //{
+        //    b.ToTable(UniStoreConsts.DbTablePrefix + &quot;YourEntities&quot;, UniStoreConsts.DbSchema);
+        //    b.ConfigureByConvention(); //auto configure for the base class props
+        //    //...
+        //});
+    }
+}
+</code></pre>
+<p>接下來設定資料庫連線字串，分別需要修改 <code>DbMigrator</code> 與 <code>Web</code> 專案的 <code>appsettings.json</code>，這裡的 <code>Web</code> 專案預設是一體式架構，
+最終完整的應用就是靠 <code>Web</code> 專案運行。</p>
+<pre><code class="language-text">&quot;ConnectionStrings&quot;: {
+    &quot;Default&quot;: &quot;Host=localhost;Port=5432;Database=UniStore;User ID=postgres;Password=myPassw0rd;&quot;
+}
+</code></pre>
+<p>回到 <code>Acme.UniStore.EntityFrameworkCore</code> 專案添加遷移腳本，注意跟我們模組的 <code>EntityFrameworkCore</code> 的概念不完全一樣，
+這裡代表的是最終應用的 <code>EntityFrameworkCore</code> 所以在這邊決定使用 <code>PostgreSql</code> 實做與預設安裝 <code>EntityFrameworkCore.Tools</code>。</p>
+<pre><code class="language-text">dotnet ef migrations add &quot;Initial&quot;
+</code></pre>
+<p>完成後運行 <code>Acme.UniStore.DbMigrator</code> 建立新的資料並運行 Seeder，此時我們的書店資料表也會加入，並且自動運行之前寫的 Seeder 插入一筆資料。</p>
+<p>最後啟動 <code>Acme.UniStore.Web</code> 並查看 Swagger，會發現我們的 Book API 已經正式加入了，並且能讀取到一筆預設資料。</p>
+<pre><code class="language-text">GET https://localhost:44320/api/book
+
+Response body
+{
+  &quot;totalCount&quot;: 1,
+  &quot;items&quot;: [
+    {
+      &quot;name&quot;: &quot;The Hitchhiker's Guide to the Galaxy&quot;,
+      &quot;bookType&quot;: 7,
+      &quot;publishDate&quot;: &quot;1979-10-12T00:00:00&quot;,
+      &quot;price&quot;: 42,
+      &quot;id&quot;: &quot;3a1e8043-d1e8-b17f-1382-9d6dc31b3832&quot;
+    }
+  ]
+}
+</code></pre>
+<h2 id="section-7"><br><br></h2>
+<h2 id="section-8">自動安裝模組</h2>
+<p>實際手動安裝過一次模組後會發現幾乎都是複製貼上而已，因此有更快的方式就是透過命令安裝 <code>abp install-local-module</code>。</p>
+<p>要使用這個命令前要先改造一下我們的模組，因為 ABP 模組安裝命令原理是透過兩種類型的檔案 <code>abppkg</code> 與 <code>abpmdl</code>，</p>
+<p><code>abppkg</code>: 每個模組層級都要定義一個 <code>abppkg</code>，用來說明此函式庫是什麼層級。
+<code>abpmdl</code>: 需要放在方案同一層級中，它是作為藍圖的角色，ABP 命令需要透過它才知道這個模組內部的 <code>abppkg</code> 清單。</p>
+<p>例如在 <code>BookStoreScratch.Application</code> 的專案同一層級下定義一個 <code>BookStoreScratch.Application.abppkg</code> 內容為:</p>
+<pre><code class="language-text">{
+    &quot;role&quot;: &quot;lib.application&quot;
+}
+</code></pre>
+<p>這個 role 是由 ABP 自己定義的，當命令看到是這個角色時會將模組的 <code>Application</code> 專案參考添加到應用程式的 <code>Application</code>專案中，
+並且在 <code>DependsOn</code> 清單中加上我們的 <code>BookStoreScratchApplicationModule</code>，等於是使用此命令能把我們之前手動操作都處理掉了。</p>
+<p>接下來在所有層級都定義 <code>abppkg</code>，<code>BookStoreScratch.Application.Contracts</code> 專案，新增 <code>BookStoreScratch.Application.Contracts.abppkg</code></p>
+<pre><code class="language-text">{
+  &quot;role&quot;: &quot;lib.application-contracts&quot;
+}
+</code></pre>
+<p><code>BookStoreScratch.Domain</code> 專案，新增 <code>BookStoreScratch.Domain.abppkg</code></p>
+<pre><code class="language-text">{
+  &quot;role&quot;: &quot;lib.domain&quot;
+}
+</code></pre>
+<p><code>BookStoreScratch.Domain.Shared</code> 專案，新增 <code>BookStoreScratch.Domain.Shared.abppkg</code></p>
+<pre><code class="language-text">{
+  &quot;role&quot;: &quot;lib.domain-shared&quot;
+}
+</code></pre>
+<p><code>BookStoreScratch.EntityFrameworkCore</code> 專案，新增 <code>BookStoreScratch.EntityFrameworkCore.abppkg</code></p>
+<pre><code class="language-text">{
+  &quot;role&quot;: &quot;lib.ef&quot;
+}
+</code></pre>
+<p><code>BookStoreScratch.HttpApi</code> 專案，新增 <code>BookStoreScratch.HttpApi.abppkg</code></p>
+<pre><code class="language-text">{
+  &quot;role&quot;: &quot;lib.http-api&quot;
+}
+</code></pre>
+<p><code>BookStoreScratch.HttpApi.Client</code> 專案，新增 <code>BookStoreScratch.HttpApi.Client.abppkg</code></p>
+<pre><code class="language-text">{
+  &quot;role&quot;: &quot;lib.http-api-client&quot;
+}
+</code></pre>
+<p>完成後回到方案根目錄，並新增 <code>BookStoreScratch.abpmdl</code></p>
+<pre><code class="language-text">{
+  &quot;folders&quot;: {
+    &quot;items&quot;: {
+      &quot;src&quot;: {},
+      &quot;test&quot;: {}
+    }
+  },
+  &quot;packages&quot;: {
+    &quot;BookStoreScratch.HttpApi&quot;: {
+      &quot;path&quot;: &quot;src/BookStoreScratch.HttpApi/BookStoreScratch.HttpApi.abppkg&quot;,
+      &quot;folder&quot;: &quot;src&quot;
+    },
+    &quot;BookStoreScratch.HttpApi.Client&quot;: {
+      &quot;path&quot;: &quot;src/BookStoreScratch.HttpApi.Client/BookStoreScratch.HttpApi.Client.abppkg&quot;,
+      &quot;folder&quot;: &quot;src&quot;
+    },
+    &quot;BookStoreScratch.Application&quot;: {
+      &quot;path&quot;: &quot;src/BookStoreScratch.Application/BookStoreScratch.Application.abppkg&quot;,
+      &quot;folder&quot;: &quot;src&quot;
+    },
+    &quot;BookStoreScratch.Application.Contracts&quot;: {
+      &quot;path&quot;: &quot;src/BookStoreScratch.Application.Contracts/BookStoreScratch.Application.Contracts.abppkg&quot;,
+      &quot;folder&quot;: &quot;src&quot;
+    },
+    &quot;BookStoreScratch.Domain&quot;: {
+      &quot;path&quot;: &quot;src/BookStoreScratch.Domain/BookStoreScratch.Domain.abppkg&quot;,
+      &quot;folder&quot;: &quot;src&quot;
+    },
+    &quot;BookStoreScratch.Domain.Shared&quot;: {
+      &quot;path&quot;: &quot;src/BookStoreScratch.Domain.Shared/BookStoreScratch.Domain.Shared.abppkg&quot;,
+      &quot;folder&quot;: &quot;src&quot;
+    },
+    &quot;BookStoreScratch.EntityFrameworkCore&quot;: {
+      &quot;path&quot;: &quot;src/BookStoreScratch.EntityFrameworkCore/BookStoreScratch.EntityFrameworkCore.abppkg&quot;,
+      &quot;folder&quot;: &quot;src&quot;
+    }
+  }
+}
+</code></pre>
+<p>完成後在新增一個新的測試應用程式</p>
+<pre><code class="language-text">abp new Acme.UniStore1 -dbms PostgreSQL --skip-migrations
+</code></pre>
+<p>最後透過 <code>abp install-local-module</code> 讀取 <code>BookStoreScratch.abpmdl</code> 模組安裝到 <code>Acme.UniStore1</code> 底下</p>
+<pre><code class="language-text">abp install-local-module ../BookStoreScratch/BookStoreScratch.abpmdl -t Acme.UniStore1.abpmdl
+</code></pre>
+<p>執行完後會發現所有添加參考與添加 <code>DependsOn</code> 的工作全部都自動處理了，只剩下設定資料庫與連線字串需要手動設定，最後就能運行專案並且結果與第一個應用相同。</p>
+<p>今天的進度 <a href="https://github.com/allengaodev/BookStoreScratch/tree/1.7" target="_blank">Github</a></p>
+
+
+          
+
+        </div>
+      </div>
+  <div id="comments-container" class="row">
+    <div id="giscus-container"></div>
+
+<script>
+  let giscusLoaded = false;
+  function loadGiscus() {
+    if (giscusLoaded) return;
+    giscusLoaded = true;
+
+    let datarepo = 'allengaodev/allengaodev.github.io'
+    let datarepoid='R_kgDOI6sF8g'
+    let datacategoryid='DIC_kwDOI6sF8s4CUbuw'
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', datarepo);
+    script.setAttribute('data-repo-id', datarepoid);
+    script.setAttribute('data-category-id', datacategoryid);
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", "light");
+    script.setAttribute("data-lang", "en");
+    script.async = true;
+    document.getElementById("giscus-container").appendChild(script);
+  }
+
+  // 檢查是否滾動到最底部
+  function checkScrollBottom() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight / 2) {
+      loadGiscus();
+      window.removeEventListener("scroll", checkScrollBottom);
+    }
+  }
+
+  // 等待滾動結束
+  setTimeout(() => {
+    checkScrollBottom();
+    window.addEventListener("scroll", checkScrollBottom);
+  }, 500); // 0.5秒後檢查
+</script>
+
+  </div>
+    </div>
+  </main>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <p class="copyright">&#xA9; 2025 by Allen Gao</p>
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+  <script defer src='/vendor/startbootstrap-clean-blog/js/scripts.min.js'></script>
+  
+
+  
+</body>
+
+</html>

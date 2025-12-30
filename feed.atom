@@ -7,8 +7,19 @@
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
 	<rights>© 2025 by Allen Gao</rights>
-	<updated>2025-12-29T12:09:46Z</updated>
+	<updated>2025-12-30T09:23:19Z</updated>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install</id>
+		<title>ABP IO 教學 | 模組化架構入門：安裝模組 - Part 7</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" />
+		<updated>2025-12-30T00:00:00Z</updated>
+		<content>False</content>
+		<summary>學習如何將開發完成的 ABP 模組安裝至正式應用程式。手動安裝流程，從建立專案、添加專案參考到配置 DependsOn 依賴；並進階介紹使用 ABP CLI 自動安裝模組的技巧，透過定義 abppkg 與 abpmdl 檔案大幅提升開發效率，實現模組化架構的快速整合。</summary>
+	</entry>
 	<entry>
 		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client</id>
 		<title>ABP IO 教學 | 模組化架構入門：Http Client - Part 6</title>
@@ -107,16 +118,5 @@
 		<updated>2024-12-08T00:00:00Z</updated>
 		<content>False</content>
 		<summary>本篇文章深入解析 ABP.IO 框架的模組化設計原理，從零開始建立一個全新的模組系統，全面覆蓋分層設計、模組生命週期與 ABP 的依賴管理機制。透過實際範例與詳細步驟，幫助開發者掌握 Domain、Application、Infrastructure 等層級的架構設計，並了解如何運用 ABP 提供的模組化框架來開發高效、可擴展的 .NET 應用程式。初學者能在這篇文章中找到最佳實踐建議。</summary>
-	</entry>
-	<entry>
-		<id>https://blog.allengaodev.com/posts/effective-sql-02</id>
-		<title>Effective SQL 02.消除重複儲存資料</title>
-		<author>
-			<name>allengaodev@gmail.com</name>
-		</author>
-		<link href="https://blog.allengaodev.com/posts/effective-sql-02" />
-		<updated>2024-12-03T00:00:00Z</updated>
-		<content>False</content>
-		<summary>Effective SQL 02.消除重複儲存資料 (Eliminate Redundant Storage of Data Items)</summary>
 	</entry>
 </feed>

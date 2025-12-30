@@ -6,8 +6,18 @@
 		<description>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</description>
 		<copyright>© 2025 by Allen Gao</copyright>
 		<managingEditor>allengaodev@gmail.com</managingEditor>
-		<pubDate>Mon, 29 Dec 2025 12:09:46 GMT</pubDate>
-		<lastBuildDate>Mon, 29 Dec 2025 12:09:46 GMT</lastBuildDate>
+		<pubDate>Tue, 30 Dec 2025 09:23:19 GMT</pubDate>
+		<lastBuildDate>Tue, 30 Dec 2025 09:23:19 GMT</lastBuildDate>
+		<item>
+			<title>ABP IO 教學 | 模組化架構入門：安裝模組 - Part 7</title>
+			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install</link>
+			<description>學習如何將開發完成的 ABP 模組安裝至正式應用程式。手動安裝流程，從建立專案、添加專案參考到配置 DependsOn 依賴；並進階介紹使用 ABP CLI 自動安裝模組的技巧，透過定義 abppkg 與 abpmdl 檔案大幅提升開發效率，實現模組化架構的快速整合。</description>
+			<author>allengaodev@gmail.com</author>
+			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install</guid>
+			<pubDate>Tue, 30 Dec 2025 00:00:00 GMT</pubDate>
+			<content:encoded>False</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
 		<item>
 			<title>ABP IO 教學 | 模組化架構入門：Http Client - Part 6</title>
 			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client</link>
@@ -95,16 +105,6 @@
 			<author>allengaodev@gmail.com</author>
 			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</guid>
 			<pubDate>Sun, 08 Dec 2024 00:00:00 GMT</pubDate>
-			<content:encoded>False</content:encoded>
-			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
-		</item>
-		<item>
-			<title>Effective SQL 02.消除重複儲存資料</title>
-			<link>https://blog.allengaodev.com/posts/effective-sql-02</link>
-			<description>Effective SQL 02.消除重複儲存資料 (Eliminate Redundant Storage of Data Items)</description>
-			<author>allengaodev@gmail.com</author>
-			<guid>https://blog.allengaodev.com/posts/effective-sql-02</guid>
-			<pubDate>Tue, 03 Dec 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
 			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
 		</item>
