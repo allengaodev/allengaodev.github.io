@@ -92,7 +92,18 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-          <h2 id="section">目錄</h2>
+          <h2 id="section">文章系列</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" target="_blank"><u>01.模組化架構入門：設計與實踐 - Part 1</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer" target="_blank"><u>02.模組化架構入門：領域層級 - Part 2</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer" target="_blank"><u>03.模組化架構入門：基礎設施層 - Part 3</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer" target="_blank"><u>04.模組化架構入門：應用層與 HTTP 層 - Part 4</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" target="_blank"><u>05.模組化架構入門：Host 層 - Part 5</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" target="_blank"><u>06.模組化架構入門：Http Client - Part 6</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" target="_blank"><u>07.模組化架構入門：安裝模組 - Part 7</u></a></strong></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<h2 id="section-2">目錄</h2>
 <ul>
 <li><a href="#http-client-專案">Http Client 專案</a></li>
 <li><a href="#http-client-原理">Http Client 原理</a></li>
@@ -101,28 +112,28 @@
 <li><a href="#http-client-dynamic實做">Http Client Dynamic 實做</a></li>
 <li><a href="#http-client-static-實做">Http Client Static 實做</a></li>
 </ul>
-<h2 id="section-1"><br><br></h2>
+<h2 id="section-3"><br><br></h2>
 <h2 id="http-client">Http Client 專案</h2>
 <p>今天要來處理 Http Client 專案，在一般的單體應用中並不是很重要，但是在微服務架構中可以省下手動呼叫內部服務的麻煩。</p>
 <p>假設沒有這個專案，當服務A 需要呼叫服務B 就只能手動寫 <code>HttpClient</code> 並組裝 <code>HttpRequest</code>，這個過程非常繁瑣，
 因此能透過 Http Client 專案將這個流程交給 ABP 處理，我們在使用上就可以像呼叫本地方法一樣，但實際是透過 HTTP 將呼叫送到遠端伺服器。</p>
-<h2 id="section-2"><br><br></h2>
+<h2 id="section-4"><br><br></h2>
 <h2 id="http-client-1">Http Client 原理</h2>
 <p>Http Client 原理是透過攔截器與 Proxy 來將方法呼叫發送到遠端伺服器，這些功能都包含在 <code>Volo.Abp.Http.Client</code> 函式庫內部，
 產生 Proxy 的方式又分成兩種，動態生成與靜態生成。</p>
 <p>因此在依賴注入取得服務時並不是真實的服務實例而是 Proxy 實例，例如呼叫 <code>await _bookAppService.GetListAsync()</code>，
 現在的 <code>bookAppService</code> 並不是注入我們自己寫的應用服務，而是注入一個 Proxy 服務內部包裝 Http 請求並發送到遠端伺服器，交給真正的應用服務處理。</p>
-<h2 id="section-3"><br><br></h2>
+<h2 id="section-5"><br><br></h2>
 <h3 id="proxy">動態生成 Proxy</h3>
 <p>在應用程式的 Runtime 時期，利用 <code>ProxyGenerator</code> 憑空產生一個類別。</p>
 <p>使用這種生成方式的優點是只需要寫服務的 <code>Interface</code> 即可，完全不需要任何實作類別，但缺點是啟動時速度較慢，因為要去動態生成 Proxy，
 與額外的攔截器，並且查找錯誤時不太方便，另外最麻煩的是可能會隨著版本變更產生不同的動態 Proxy。</p>
-<h2 id="section-4"><br><br></h2>
+<h2 id="section-6"><br><br></h2>
 <h3 id="proxy-1">靜態生成 Proxy</h3>
 <p>在程式開發階段就透過專用命令 <code>abp generate-proxy</code> 將 Proxy 類別的內容確定下來，所以可以直接看到 <code>HttpClient</code> 的發送程式碼。</p>
 <p>這種方式不需要額外的攔截器與動態產生 Proxy 的時間，另外可以直接看到真實的 Proxy 程式碼，如果真的有必要可以進行微調，
 但缺點就是每次更新 API 就要呼叫一次命令。</p>
-<h2 id="section-5"><br><br></h2>
+<h2 id="section-7"><br><br></h2>
 <h2 id="http-client-dynamic">Http Client Dynamic實做</h2>
 <p>首先建立新專案 <code>BookStoreScratch.HttpApi.Client</code></p>
 <pre><code class="language-text">dotnet new classlib -o src/BookStoreScratch.HttpApi.Client
@@ -323,7 +334,7 @@ public class Program
 [BOOK 3a1e70fc-43f2-8293-17fa-ae958540e69a] Name=mybook
 [BOOK 3a1e6263-2830-e133-fe08-0c384395f7a2] Name=The Hitchhiker's Guide to the Galaxy
 </code></pre>
-<h2 id="section-6"><br><br></h2>
+<h2 id="section-8"><br><br></h2>
 <h2 id="http-client-static">Http Client Static 實做</h2>
 <p>建立新專案 <code>BookStoreScratch.HttpApi.Client.Static</code></p>
 <pre><code class="language-text">dotnet new classlib -o src/BookStoreScratch.HttpApi.Client.Static

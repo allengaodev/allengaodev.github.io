@@ -92,7 +92,18 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-          <p>今天要來處理應用層(Application Layer)與 HTTP 層(HttpAPI Layer)的實作。</p>
+          <h2 id="section">文章系列</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" target="_blank"><u>01.模組化架構入門：設計與實踐 - Part 1</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer" target="_blank"><u>02.模組化架構入門：領域層級 - Part 2</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer" target="_blank"><u>03.模組化架構入門：基礎設施層 - Part 3</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer" target="_blank"><u>04.模組化架構入門：應用層與 HTTP 層 - Part 4</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" target="_blank"><u>05.模組化架構入門：Host 層 - Part 5</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" target="_blank"><u>06.模組化架構入門：Http Client - Part 6</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" target="_blank"><u>07.模組化架構入門：安裝模組 - Part 7</u></a></strong></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<p>今天要來處理應用層(Application Layer)與 HTTP 層(HttpAPI Layer)的實作。</p>
 <p>這兩個層級在概念上，與傳統 MVC 中的 Controller + ViewModel 有些相似，
 但在 DDD 戰術設計中引入了兩個關鍵概念：</p>
 <ol>
@@ -100,7 +111,7 @@
 <li>Data Transfer Object(DTO)</li>
 </ol>
 <p><br><br></p>
-<h2 id="section">應用層</h2>
+<h2 id="section-2">應用層</h2>
 <p>在第一篇文章中已經提過，應用層位於表現層與領域層之間，負責將多個商業行為組合成一個「可被呼叫的應用操作」。
 以書店範例來說，我們會建立一個 <code>BookAppService</code>，集中處理書籍的新增、修改、查詢與刪除等操作。</p>
 <p><br><br></p>
@@ -117,7 +128,7 @@
 </ol>
 <p>雖然省略 DTO 直接使用 Entity 也是可行，但在實務中，這樣會讓表現層過度依賴底層資料結構，導致後續修改與維護成本提高。</p>
 <p><br><br></p>
-<h2 id="section-1">整體呼叫流程</h2>
+<h2 id="section-3">整體呼叫流程</h2>
 <ol>
 <li>呼叫者透過 HTTP 層知道有對外公開的 API，並呼叫查詢書籍 API</li>
 <li>HTTP 層透過依賴注入呼叫 Application Service(<code>BookAppService</code>)</li>
@@ -125,8 +136,8 @@
 <li>基礎設施層將請求發送到資料庫，並把查詢到的 <code>Book</code> 實體回傳給 <code>BookAppService</code></li>
 <li><code>BookAppService</code> 將 <code>Book</code> 實體轉換成 <code>BookDto</code> 並由 HTTP 層回傳給呼叫者</li>
 </ol>
-<h2 id="section-2"><br><br></h2>
-<h2 id="section-3">應用層設計</h2>
+<h2 id="section-4"><br><br></h2>
+<h2 id="section-5">應用層設計</h2>
 <p>根據 DDD 的設計我們會把應用服務的介面與 DTO 放在 <code>Application.Contracts</code> 專案內部，
 這樣能將具體的服務放在 <code>Application</code> 專案內，並把相關的服務合約單獨放在 <code>Application.Contracts</code> 專案，
 例如有兩個微服務需要溝通，就能透過 <code>Application.Contracts</code> 專案與 ABP 提供的動態代理功能自動幫你在背後做 RPC 非常方便。</p>
@@ -161,8 +172,8 @@
 </ol>
 <p>注意 <code>PagedResultDto</code> 的使用方法是 <code>PagedResultDto&lt;BookDto&gt;</code>，它的內部會保存 <code>IReadOnlyList&lt;BookDto&gt;</code> 與 TotalCount 屬性，
 它只是個給前端用的包裝層，並不是給領域實體轉換用的 DTO。</p>
-<h2 id="section-4"><br><br></h2>
-<h2 id="section-5">應用層實做</h2>
+<h2 id="section-6"><br><br></h2>
+<h2 id="section-7">應用層實做</h2>
 <p>在 <code>BookStoreScratch.Application.Contracts</code> 專案建立一個新的資料夾 <code>Books</code> 並建立 DTO。</p>
 <pre><code class="language-text">using System;
 using Volo.Abp.Application.Dtos;
@@ -404,7 +415,7 @@ public class BookAppService :
     }
 }
 </code></pre>
-<h2 id="section-6"><br><br></h2>
+<h2 id="section-8"><br><br></h2>
 <h2 id="mapper">Mapper 安裝</h2>
 <p>之前在流程說明中有提到需要將領域模型轉換成 DTO 避免模型外洩，這部分就是透過 <code>ObjectMapper.Map</code> 方法達成，這部分是由 <code>ApplicationService</code>
 在背後使用 Lazy 方式取得依賴注入 <code>IObjectMapper</code> 服務，這裡有幾種選擇:</p>
@@ -508,7 +519,7 @@ public class Book : Entity&lt;Guid&gt;
 }
 </code></pre>
 <p>接下來可以選擇重構 <code>BookStoreDataSeedContributor</code>、<code>BookAppService</code>、<code>BookManager_Tests</code>，這裡就不多家贅述。</p>
-<h2 id="section-7"><br><br></h2>
+<h2 id="section-9"><br><br></h2>
 <h2 id="http-1">HTTP 層實做</h2>
 <p>應用層準備完成後是 HTTP 層，這個專案的主要目的是建立一個對外 Controller 來處理 HTTP 相關的功能。</p>
 <p>我們知道在 Dotnet 中建立 Controller 時需要繼承 ControllerBase，在 ABP 中則是提供了 AbpControllerBase 給我們使用，

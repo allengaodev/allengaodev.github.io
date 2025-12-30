@@ -92,11 +92,22 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-          <h2 id="host">Host 層</h2>
+          <h2 id="section">文章系列</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" target="_blank"><u>01.模組化架構入門：設計與實踐 - Part 1</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer" target="_blank"><u>02.模組化架構入門：領域層級 - Part 2</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer" target="_blank"><u>03.模組化架構入門：基礎設施層 - Part 3</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer" target="_blank"><u>04.模組化架構入門：應用層與 HTTP 層 - Part 4</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" target="_blank"><u>05.模組化架構入門：Host 層 - Part 5</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" target="_blank"><u>06.模組化架構入門：Http Client - Part 6</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" target="_blank"><u>07.模組化架構入門：安裝模組 - Part 7</u></a></strong></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<h2 id="host">Host 層</h2>
 <p>目前模組基礎架構已完成。為了提升擴展性並確保未來能直接轉成微服務，我們需建立一個專屬的 API Host 專案。</p>
 <p>這個 API Host 專案扮演的是模組使用者的角色，所以並不要在這裡寫商業邏輯，應該把它當作指揮中心負責組裝與調動需要的模組，
 另外還需要提供啟動 Web 的工作環境。</p>
-<h2 id="section"><br><br></h2>
+<h2 id="section-2"><br><br></h2>
 <h2 id="webapplication">WebApplication 啟動</h2>
 <p>由於模組中的 <code>Console</code> 與 <code>DbMigrator</code> 專案採用的是 .NET Generic Host 模式，
 只適合用在 Console 或 Worker 類型專案上，但缺乏 Web 環境所需的 HTTP 管道、Middleware 及路由等基礎設施。
@@ -113,7 +124,7 @@
 <p>這個是 ABP 的關鍵。傳統 ASP.NET Core 需要在 Program.cs 手動排定 <code>app.Use...</code> 的順序，
 但在 ABP 會依據模組間的依賴關係，自動決定 Middleware 的掛載順序，並且將原本堆積在 <code>Program.cs</code> 的 Middleware 配置，
 分散到各個模組的 <code>OnApplicationInitialization</code> 生命週期方法中，這樣使用者就不需要關心模組的啟動順序，實現即插即用。</p>
-<h2 id="section-1"><br><br></h2>
+<h2 id="section-3"><br><br></h2>
 <h2 id="host-1">Host 實做</h2>
 <p>接下來新增 <code>BookStoreScratch.HttpApi.Host</code> 專案</p>
 <pre><code class="language-text">mkdir host

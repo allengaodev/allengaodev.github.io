@@ -92,7 +92,18 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-          <h2 id="section">目錄</h2>
+          <h2 id="section">文章系列</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" target="_blank"><u>01.模組化架構入門：設計與實踐 - Part 1</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer" target="_blank"><u>02.模組化架構入門：領域層級 - Part 2</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer" target="_blank"><u>03.模組化架構入門：基礎設施層 - Part 3</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer" target="_blank"><u>04.模組化架構入門：應用層與 HTTP 層 - Part 4</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" target="_blank"><u>05.模組化架構入門：Host 層 - Part 5</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" target="_blank"><u>06.模組化架構入門：Http Client - Part 6</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" target="_blank"><u>07.模組化架構入門：安裝模組 - Part 7</u></a></strong></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<h2 id="section-2">目錄</h2>
 <ul>
 <li><a href="#infrastructure-layer-的角色與責任">Infrastructure Layer 的角色與責任</a></li>
 <li><a href="#abp-中的-ef-core">ABP 中的 EF Core</a></li>
@@ -101,7 +112,7 @@
 <li><a href="#repository-實作">Repository 實作</a></li>
 <li><a href="#測試專案遷移腳本dataseeder">測試專案、遷移腳本、DataSeeder</a></li>
 </ul>
-<h2 id="section-1"><br><br></h2>
+<h2 id="section-3"><br><br></h2>
 <h2 id="infrastructure-layer">Infrastructure Layer 的角色與責任</h2>
 <p>在前篇文章中，我們已經完成了領域層的設計。現在回顧一次各個分層概念：</p>
 <ol>
@@ -119,7 +130,7 @@
 假如你直接在模組中已經指定使用 PostgresSQL，那使用你模組的人也只能被迫使用 PostgresSQL，所以在 ABP 中最常見的做法就是模組只依賴
 <code>Volo.Abp.EntityFrameworkCore</code>，把資料庫的選擇權留給使用人。</p>
 <p>在本系列中，我們使用 <code>BookStoreScratch.EntityFrameworkCore</code> 作為 Infrastructure 專案。</p>
-<h2 id="section-2"><br><br></h2>
+<h2 id="section-4"><br><br></h2>
 <h2 id="abp-ef-core">ABP 中的 EF Core</h2>
 <p>ABP 對 EFCore 做了額外封裝，所以不直接繼承原始的 <code>DbContext</code>，而是繼承 <code>AbpDbContext&lt;T&gt;</code>。</p>
 <p>並且有一點需要特別注意，就是 ABP 中的 <code>AbpDbContext</code> 生命週期是註冊為 Transient，並不是微軟官方建議的 Scope，
@@ -131,7 +142,7 @@ UOW 範圍內，即使請求 <code>AbpDbContext</code> 非常多次，實際上�
 這樣 ABP 的 UOW 攔截器才會透過 <code>UnitOfWorkDbContextProvider</code> 介入管理，才能擁有事務的功能。</p>
 <p>要注意就算是安裝 Dapper，ABP 背後也是走上面提到的取得連線流程才能獲得事務功能，也就是說 Dapper 在 ABP 中並非獨立存在的，而是作為 EF Core 的輔助，
 是直接依賴 <code>DbContext</code> 的，也不建議自行建立 SqlConnection，因為無法與 ABP 的 UOW 狀態同步，除非你打算全部透過 SQL 事務來處理所有功能。</p>
-<h2 id="section-3"><br><br></h2>
+<h2 id="section-5"><br><br></h2>
 <h2 id="infrastructure-layer-1">Infrastructure Layer 設計</h2>
 <p>整理上兩段的內容列出以下設計重點:</p>
 <ol>
@@ -146,7 +157,7 @@ UOW 範圍內，即使請求 <code>AbpDbContext</code> 非常多次，實際上�
 <li><code>IBookStoreScratchRepository</code></li>
 <li><code>EfCoreBookStoreScratchRepository</code></li>
 </ol>
-<h2 id="section-4"><br><br></h2>
+<h2 id="section-6"><br><br></h2>
 <h2 id="bookstorescratchdbcontext">建立 BookStoreScratchDbContext</h2>
 <p>在 <code>BookStoreScratch.EntityFrameworkCore</code> 專案中建立 <code>BookStoreScratchDbContext</code>，並確定繼承 AbpDbContext。
 並且在 <code>OnModelCreating</code> 生命週期設定資料表欄位方便建立遷移腳本，並透過 <code>ConfigureByConvention</code> 方法直接設定常用欄位。</p>
@@ -177,7 +188,7 @@ public class BookStoreScratchDbContext: AbpDbContext&lt;BookStoreScratchDbContex
     }
 }
 </code></pre>
-<h2 id="section-5"><br><br></h2>
+<h2 id="section-7"><br><br></h2>
 <h2 id="repository">Repository 實作</h2>
 <p>在 <code>BookStoreScratch.Domain</code> 專案中建立 <code>IBookStoreScratchRepository</code> 介面，這邊能有幾種介面能選擇:</p>
 <ol>
@@ -234,7 +245,7 @@ public class EfCoreBookStoreScratchRepository: EfCoreRepository&lt;BookStoreScra
     }
 }
 </code></pre>
-<h2 id="section-6"><br><br></h2>
+<h2 id="section-8"><br><br></h2>
 <h2 id="dataseeder">測試專案、遷移腳本、DataSeeder</h2>
 <p>在一般的應用程式開發流程中，會順便在基礎設施層安裝 <code>Microsoft.EntityFrameworkCore.Tools</code> 初始化遷移腳本，但是我們目前開發的是一個模組，
 要站在使用者的角度看待，由於模組最終要整合在使用者的資料庫或是獨立一個資料庫是由使用者自行決定，因此我們在模組中建立遷移腳本沒有任何意義。</p>

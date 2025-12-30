@@ -92,18 +92,29 @@
     <div class="container">
       <div class="row">
         <div id="content" class="col-md-12">
-          <h2 id="section">目錄</h2>
+          <h2 id="section">文章系列</h2>
+<ul>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" target="_blank"><u>01.模組化架構入門：設計與實踐 - Part 1</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer" target="_blank"><u>02.模組化架構入門：領域層級 - Part 2</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-infrastructure-layer" target="_blank"><u>03.模組化架構入門：基礎設施層 - Part 3</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-application-http-layer" target="_blank"><u>04.模組化架構入門：應用層與 HTTP 層 - Part 4</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" target="_blank"><u>05.模組化架構入門：Host 層 - Part 5</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" target="_blank"><u>06.模組化架構入門：Http Client - Part 6</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" target="_blank"><u>07.模組化架構入門：安裝模組 - Part 7</u></a></strong></li>
+</ul>
+<h2 id="section-1"><br><br></h2>
+<h2 id="section-2">目錄</h2>
 <ul>
   <li><a href="#安裝模組">安裝模組</a></li>
   <li><a href="#手動安裝模組">手動安裝模組</a></li>
   <li><a href="#自動安裝模組">自動安裝模組</a></li>
 </ul>
-<h2 id="section-1"><br><br></h2>
-<h2 id="section-2">安裝模組</h2>
+<h2 id="section-3"><br><br></h2>
+<h2 id="section-4">安裝模組</h2>
 <p>目前模組重要的部分都已經開發完成，接下來要想辦法將模組安裝到正式的應用程式上，這個部分也不困難，因為 ABP 背後會自動判斷模組間的依賴關係，
 所以並不需要擔心模組的加載順序，所以只需添加專案參考與要手動將所有模組加入到 <code>DependsOn</code> 清單就行了。</p>
-<h2 id="section-3"><br><br></h2>
-<h2 id="section-4">手動安裝模組</h2>
+<h2 id="section-5"><br><br></h2>
+<h2 id="section-6">手動安裝模組</h2>
 <p>首先建立一個新應用程式 <code>Acme.UniStore</code>，注意這是個應用程式專案，雖然專案的命名方式都相同，但是跟專注於抽象的模組專案不同，
 可以將應用程式專案想像成最終的組裝專案，它主要的工作就是決定各種實做，例如資料庫選擇，以及加載所有關鍵模組組裝成最終應用程式。</p>
 <pre><code class="language-text">abp new Acme.UniStore -dbms PostgreSQL --skip-migrations
@@ -614,8 +625,8 @@ Response body
   ]
 }
 </code></pre>
-<h2 id="section-5"><br><br></h2>
-<h2 id="section-6">自動安裝模組</h2>
+<h2 id="section-7"><br><br></h2>
+<h2 id="section-8">自動安裝模組</h2>
 <p>實際手動安裝過一次模組後會發現幾乎都是複製貼上而已，因此有更快的方式就是透過命令安裝 <code>abp install-local-module</code>。</p>
 <p>要使用這個命令前要先改造一下我們的模組，因為 ABP 模組安裝命令原理是透過兩種類型的檔案 <code>abppkg</code> 與 <code>abpmdl</code>，</p>
 <p><code>abppkg</code>: 每個模組層級都要定義一個 <code>abppkg</code>，用來說明此函式庫是什麼層級。
