@@ -101,6 +101,7 @@
 <li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-host-layer" target="_blank"><u>05.模組化架構入門：Host 層 - Part 5</u></a></strong></li>
 <li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-http-client" target="_blank"><u>06.模組化架構入門：Http Client - Part 6</u></a></strong></li>
 <li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install" target="_blank"><u>07.模組化架構入門：安裝模組 - Part 7</u></a></strong></li>
+<li><strong><a href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-installer" target="_blank"><u>08.模組化架構入門：發佈與安裝器 - Part 8</u></a></strong></li>
 </ul>
 <h2 id="section-1"><br><br></h2>
 <h2 id="section-2">目錄</h2>
@@ -138,7 +139,7 @@ dotnet add src/Acme.UniStore.HttpApi/Acme.UniStore.HttpApi.csproj reference ../B
 dotnet add src/Acme.UniStore.HttpApi.Client/Acme.UniStore.HttpApi.Client.csproj reference ../BookStoreScratch/src/BookStoreScratch.HttpApi.Client/BookStoreScratch.HttpApi.Client.csproj                                                        
 </code></pre>
 <p><code>UniStoreApplicationModule</code> 添加模組依賴 <code>typeof(BookStoreScratchApplicationModule)</code></p>
-<pre><code class="language-text">using BookStoreScratch;
+<pre><code class="language-csharp">using BookStoreScratch;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.Account;
@@ -173,7 +174,7 @@ public class UniStoreApplicationModule : AbpModule
 }
 </code></pre>
 <p><code>UniStoreApplicationContractsModule</code> 添加模組依賴 <code>typeof(BookStoreScratchApplicationContractsModule)</code></p>
-<pre><code class="language-text">using BookStoreScratch;
+<pre><code class="language-csharp">using BookStoreScratch;
 using Volo.Abp.Account;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
@@ -203,7 +204,7 @@ public class UniStoreApplicationContractsModule : AbpModule
 }
 </code></pre>
 <p><code>UniStoreDomainModule</code> 添加模組依賴 <code>typeof(BookStoreScratchDomainModule)</code></p>
-<pre><code class="language-text">using Microsoft.Extensions.DependencyInjection;
+<pre><code class="language-csharp">using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Acme.UniStore.Localization;
 using Acme.UniStore.MultiTenancy;
@@ -259,7 +260,7 @@ public class UniStoreDomainModule : AbpModule
 }
 </code></pre>
 <p><code>UniStoreDomainSharedModule</code> 添加模組依賴 <code>typeof(BookStoreScratchDomainSharedModule)</code></p>
-<pre><code class="language-text">using Acme.UniStore.Localization;
+<pre><code class="language-csharp">using Acme.UniStore.Localization;
 using BookStoreScratch;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
@@ -345,7 +346,7 @@ public class UniStoreDomainSharedModule : AbpModule
 }
 </code></pre>
 <p><code>UniStoreHttpApiModule</code> 添加模組依賴 <code>typeof(BookStoreScratchHttpApiModule)</code></p>
-<pre><code class="language-text">using Localization.Resources.AbpUi;
+<pre><code class="language-csharp">using Localization.Resources.AbpUi;
 using Acme.UniStore.Localization;
 using BookStoreScratch;
 using Volo.Abp.Account;
@@ -390,7 +391,7 @@ public class UniStoreHttpApiModule : AbpModule
 }
 </code></pre>
 <p><code>UniStoreHttpApiClientModule</code> 添加模組依賴 <code>typeof(BookStoreScratchHttpApiClientModule)</code></p>
-<pre><code class="language-text">using BookStoreScratch.HttpApi.Client;
+<pre><code class="language-csharp">using BookStoreScratch.HttpApi.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Account;
 using Volo.Abp.Modularity;
@@ -432,7 +433,7 @@ public class UniStoreHttpApiClientModule : AbpModule
 }
 </code></pre>
 <p><code>UniStoreEntityFrameworkCoreModule</code> 添加模組依賴 <code>typeof(BookStoreScratchEntityFrameworkCoreModule)</code></p>
-<pre><code class="language-text">using System;
+<pre><code class="language-csharp">using System;
 using BookStoreScratch.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Uow;
@@ -503,7 +504,7 @@ public class UniStoreEntityFrameworkCoreModule : AbpModule
 }
 </code></pre>
 <p>這裡需要呼叫 <code>ConfigureBookStoreScratch()</code> 方法，將我們模組資料庫的架構整合到最終的 <code>UniStoreDbContext</code>。</p>
-<pre><code class="language-text">using BookStoreScratch.EntityFrameworkCore;
+<pre><code class="language-csharp">using BookStoreScratch.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -776,7 +777,7 @@ Response body
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-        <p class="copyright">&#xA9; 2025 by Allen Gao</p>
+        <p class="copyright">&#xA9; 2026 by Allen Gao</p>
 
       </div>
     </div>
