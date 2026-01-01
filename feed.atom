@@ -6,9 +6,20 @@
 		<name>allengaodev@gmail.com</name>
 	</author>
 	<link rel="self" href="https://blog.allengaodev.com/" />
-	<rights>© 2025 by Allen Gao</rights>
-	<updated>2025-12-30T09:23:19Z</updated>
+	<rights>© 2026 by Allen Gao</rights>
+	<updated>2026-01-01T09:43:12Z</updated>
 	<subtitle>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</subtitle>
+	<entry>
+		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-installer</id>
+		<title>ABP IO 教學 | 模組化架構入門：發佈與安裝器 - Part 8</title>
+		<author>
+			<name>allengaodev@gmail.com</name>
+		</author>
+		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-installer" />
+		<updated>2025-12-31T00:00:00Z</updated>
+		<content>False</content>
+		<summary>本篇教學詳解如何實作 Installer 安裝器，將 .abpmdl 與 .abppkg 定義檔封裝至 NuGet 套件，並透過 ABP CLI 達成第三方模組的自動化安裝與發佈流程，提升模組化開發效率。</summary>
+	</entry>
 	<entry>
 		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install</id>
 		<title>ABP IO 教學 | 模組化架構入門：安裝模組 - Part 7</title>
@@ -107,16 +118,5 @@
 		<updated>2024-12-11T00:00:00Z</updated>
 		<content>False</content>
 		<summary>本篇文章深入解析 ABP.IO 框架的模組化架構進階設計，專注於 Domain Layer 的設計與實作，並詳細介紹如何利用 ABP 提供的 Building Blocks，如 Entity、Domain Service 等，來實現符合 DDD 原則的核心功能。同時，我們將透過建立測試專案驗證 Domain 層的功能完整性，並介紹如何有效運用 ABP 的測試工具提升開發效率。</summary>
-	</entry>
-	<entry>
-		<id>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</id>
-		<title>ABP IO 教學 | 模組化架構入門：設計與實踐 - Part 1</title>
-		<author>
-			<name>allengaodev@gmail.com</name>
-		</author>
-		<link href="https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle" />
-		<updated>2024-12-08T00:00:00Z</updated>
-		<content>False</content>
-		<summary>本篇文章深入解析 ABP.IO 框架的模組化設計原理，從零開始建立一個全新的模組系統，全面覆蓋分層設計、模組生命週期與 ABP 的依賴管理機制。透過實際範例與詳細步驟，幫助開發者掌握 Domain、Application、Infrastructure 等層級的架構設計，並了解如何運用 ABP 提供的模組化框架來開發高效、可擴展的 .NET 應用程式。初學者能在這篇文章中找到最佳實踐建議。</summary>
 	</entry>
 </feed>

@@ -4,10 +4,20 @@
 		<title>開發空間</title>
 		<link>https://blog.allengaodev.com/</link>
 		<description>透過筆記和測試，深入 .Net 技術的世界，探索最新的開發工具和技能。</description>
-		<copyright>© 2025 by Allen Gao</copyright>
+		<copyright>© 2026 by Allen Gao</copyright>
 		<managingEditor>allengaodev@gmail.com</managingEditor>
-		<pubDate>Tue, 30 Dec 2025 09:23:19 GMT</pubDate>
-		<lastBuildDate>Tue, 30 Dec 2025 09:23:19 GMT</lastBuildDate>
+		<pubDate>Thu, 01 Jan 2026 09:43:12 GMT</pubDate>
+		<lastBuildDate>Thu, 01 Jan 2026 09:43:12 GMT</lastBuildDate>
+		<item>
+			<title>ABP IO 教學 | 模組化架構入門：發佈與安裝器 - Part 8</title>
+			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-installer</link>
+			<description>本篇教學詳解如何實作 Installer 安裝器，將 .abpmdl 與 .abppkg 定義檔封裝至 NuGet 套件，並透過 ABP CLI 達成第三方模組的自動化安裝與發佈流程，提升模組化開發效率。</description>
+			<author>allengaodev@gmail.com</author>
+			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-installer</guid>
+			<pubDate>Wed, 31 Dec 2025 00:00:00 GMT</pubDate>
+			<content:encoded>False</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
 		<item>
 			<title>ABP IO 教學 | 模組化架構入門：安裝模組 - Part 7</title>
 			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-install</link>
@@ -95,16 +105,6 @@
 			<author>allengaodev@gmail.com</author>
 			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-domain-layer</guid>
 			<pubDate>Wed, 11 Dec 2024 00:00:00 GMT</pubDate>
-			<content:encoded>False</content:encoded>
-			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
-		</item>
-		<item>
-			<title>ABP IO 教學 | 模組化架構入門：設計與實踐 - Part 1</title>
-			<link>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</link>
-			<description>本篇文章深入解析 ABP.IO 框架的模組化設計原理，從零開始建立一個全新的模組系統，全面覆蓋分層設計、模組生命週期與 ABP 的依賴管理機制。透過實際範例與詳細步驟，幫助開發者掌握 Domain、Application、Infrastructure 等層級的架構設計，並了解如何運用 ABP 提供的模組化框架來開發高效、可擴展的 .NET 應用程式。初學者能在這篇文章中找到最佳實踐建議。</description>
-			<author>allengaodev@gmail.com</author>
-			<guid>https://blog.allengaodev.com/posts/abp-io-tutorials-from-scratch-module-design-and-lifecycle</guid>
-			<pubDate>Sun, 08 Dec 2024 00:00:00 GMT</pubDate>
 			<content:encoded>False</content:encoded>
 			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
 		</item>
