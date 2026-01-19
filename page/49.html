@@ -91,55 +91,47 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-user-logins">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</a></h2>
+  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Direct &amp; Topic &amp; Header</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/26
+      2023/06/01
     </a>
 
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/21
-      </a>
   </p>
 
-<p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
-所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
+<p>今天要來學習發布訂閱模式中的 <code>Direct</code> 和 <code>Topic</code> 模式這兩個模式使用起來非常相似。上一篇文章中我們學習到的 <code>Fanout</code> 模式有一個不太方便的點，那就是
+它會一次發送給有綁定到 <code>Exchange</code> 上的所有 <code>Queue</code>，如果只想要發送給某個特定族群的 <code>Queue</code> 就可以選擇使用 <code>Direct</code>, <code>Topic</code> 或者 <code>Header</code> 模式。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-external-provider-google">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</a></h2>
+  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-fanout">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Fanout</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/22
+      2023/05/27
     </a>
 
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/21
-      </a>
   </p>
 
-<p>今天來學習如何在 .Net 中使用第三方登入, 我們之前在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面了解
-微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>    <p class="small"><a href="/posts/dotnet-identity-external-provider-google">Read more...</a></p>
+<p>到目前為止我們已經學會了 RabbitMQ 中最基礎的應用，在上一篇文章中這種一個 <code>Queue</code> 搭配多個 <code>Consumer</code> 的模式叫做 <code>Competing Consumers Pattern</code>
+，不過就如同它名稱所示 <code>消費者競爭模式</code> 每一個 <code>Consumer</code> 都是競爭關係代表信息被某一個 <code>Consumer</code> 取得之後其它的 <code>Consumer</code>
+就再也沒有機會知道這條信息裡面有什麼內容。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-fanout">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
+  <h2 class="post-title"><a href="/posts/rabbitmq-basic-multiple-workers">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/20
+      2023/05/25
     </a>
 
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/20
-      </a>
   </p>
 
-<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-claims-authorization">文章</a>
-中學習了 <code>Claim</code> 與 <code>Policy</code> 的基本知識，會員在新增完 <code>Claim</code> 之後可以搭配我們註冊好的 <code>Policy</code> 就能夠避免不符合規定的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
+<p>到目前為止我們專案同時只會運行一個 <code>producer</code> 和 一個 <code>consumer</code>，不過當 <code>producer</code> 產生過多的任務或者 <code>consumer</code> 執行每一個任務都需要許多時間，
+這時候我們可以選則執行多個 <code>consumer</code> 來分擔執行任務的壓力，例如說上一篇文章中的例子我們產生了五個任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-multiple-workers">Read more...</a></p>
     <hr>
 </div>
 

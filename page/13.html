@@ -91,44 +91,43 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-28">More Effective C# 28.&#x6C38;&#x9060;&#x4E0D;&#x8981;&#x5BEB; async void &#x65B9;&#x6CD5;</a></h2>
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-43">More Effective C# 43.&#x4E86;&#x89E3;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x5229;&#x5F0A;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/21
+      2024/11/27
     </a>
 
   </p>
 
-<p>這個做法提出幾個理由讓你知道寫 async void 方法是不好的，所以應該要避免這樣寫非同步方法。</p>    <p class="small"><a href="/posts/more-effective-csharp-28">Read more...</a></p>
+<p>這個做法比較動態類型與靜態類型各自的優勢，還有介紹如何使用 dynamic 將物件宣告成動態物件。</p>    <p class="small"><a href="/posts/more-effective-csharp-43">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-27">More Effective C# 27.&#x975E;&#x540C;&#x6B65;&#x5DE5;&#x4F5C;&#x4F7F;&#x7528; Async &#x65B9;&#x6CD5;</a></h2>
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-42">More Effective C# 42.&#x907F;&#x514D;&#x5728;&#x9396;&#x5B9A;&#x7684;&#x5340;&#x6BB5;&#x547C;&#x53EB;&#x4E0D;&#x660E;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/20
+      2024/11/26
     </a>
 
   </p>
 
-<p>這個做法在講解 async 背後的運作機制，以及建議改用 async 來處理非同步相關的工作。</p>    <p class="small"><a href="/posts/more-effective-csharp-27">Read more...</a></p>
+<p>這個做法講解了死鎖是怎麼造成的並且該怎麼做才能避免死鎖。</p>    <p class="small"><a href="/posts/more-effective-csharp-42">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-26">More Effective C# 26.&#x5728; Iterators &#x8207; Async &#x65B9;&#x6CD5;&#x4E2D;&#x4F7F;&#x7528;&#x5340;&#x57DF;&#x51FD;&#x5F0F;&#x555F;&#x52D5;&#x7ACB;&#x5373;&#x932F;&#x8AA4;&#x56DE;&#x5831;</a></h2>
+  <h2 class="post-title"><a href="/posts/more-effective-csharp-41">More Effective C# 41.&#x9396;&#x5B9A; Handles &#x4F7F;&#x7528;&#x6700;&#x5C0F;&#x53EF;&#x80FD;&#x7684;&#x7BC4;&#x570D;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/18
+      2024/11/26
     </a>
 
   </p>
 
-<p>這個做法討論 <code>Local Functions</code> 的應用大部分的內容在 Effective C# 29 有稍微提到過，主要就是 C# 有一些延遲執行特性的方法，當這個延遲特性與一些需要馬上回報的功能會產生衝突，
-例如要立即檢查傳入參數，發現錯誤後馬上拋出 <code>ArgumentException</code>，如果這段檢查邏輯是包含在距由延遲特性的方法裡面，那麼檢查邏輯就會被延後到呼叫發法時才會檢查。</p>    <p class="small"><a href="/posts/more-effective-csharp-26">Read more...</a></p>
+<p>這個做法建議使用 synchronization primitives 之前應該要想清楚，不要整個應用程式都是同步化的語法，最後造成死鎖的機率增加。</p>    <p class="small"><a href="/posts/more-effective-csharp-41">Read more...</a></p>
     <hr>
 </div>
 

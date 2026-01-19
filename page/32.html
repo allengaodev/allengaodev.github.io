@@ -91,43 +91,45 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-22">Effective C# 22.&#x652F;&#x63F4;&#x6CDB;&#x578B;&#x7684;&#x5171;&#x8B8A;&#x6578;&#x8207;&#x53CD;&#x8B8A;&#x6578;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-37">Effective C# 37.&#x5728;&#x67E5;&#x8A62;&#x504F;&#x597D;&#x60F0;&#x6027;&#x6C42;&#x503C;&#x800C;&#x975E;&#x7A4D;&#x6975;&#x6C42;&#x503C;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/10/18
+      2024/10/24
     </a>
 
   </p>
 
-<p>這個做法提出了三個概念: 共變數(Covariance)、反變數(Contravariance)與不變數(Invariant)。</p>    <p class="small"><a href="/posts/effective-csharp-22">Read more...</a></p>
+<p>在做法 29 與做法 33 提到的 <code>Lazy Evaluation</code> 在這個做法又提到了一次，不過這次有提出相對的概念也就是 <code>Eager Evaluation</code>。
+首先還是複習一下 <code>Lazy Evaluation</code> 的運作邏輯，下面這一段程式碼建立了一個 <code>Iterator Methods</code> Generate，當我們呼叫靜態方法
+LazyEvaluation 的時候會產生三個 DateTime.Now，按下 ENTER 之後又會產生不同的三個 DateTime.Now。</p>    <p class="small"><a href="/posts/effective-csharp-37">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-21">Effective C# 21.&#x5EFA;&#x69CB;&#x652F;&#x63F4; Disposable &#x578B;&#x5225;&#x53C3;&#x6578;&#x7684;&#x6CDB;&#x578B;&#x985E;&#x5225;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-36">Effective C# 36.&#x8A8D;&#x8B58;&#x67E5;&#x8A62;&#x8868;&#x793A;&#x5F0F;&#x5982;&#x4F55;&#x5C0D;&#x61C9;&#x65B9;&#x6CD5;&#x547C;&#x53EB;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/10/18
+      2024/10/23
     </a>
 
   </p>
 
-<p>這個做法討論了泛型中一個特殊情況，就是當傳入的類型參數(type parameter)有實做 IDisposable 介面的時候，可能會導致記憶體釋放的問題。</p>    <p class="small"><a href="/posts/effective-csharp-21">Read more...</a></p>
+<p>這個做法算是做法 30 的詳細說明版本，主要在把 Query Expressions 背後的機制說明一下與它轉換的過程。</p>    <p class="small"><a href="/posts/effective-csharp-36">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-20">Effective C# 20.&#x4EE5; IComparable&lt;T&gt; &#x8207; IComparer&lt;T&gt; &#x5BE6;&#x4F5C;&#x6392;&#x5E8F;&#x95DC;&#x4FC2;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-35">Effective C# 35.&#x4E0D;&#x8981;&#x904E;&#x8F09;&#x64F4;&#x5145;&#x65B9;&#x6CD5;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/10/17
+      2024/10/23
     </a>
 
   </p>
 
-<p>這個做法在教你如何用 IComparable<t> 與 IComparer<t> 介面來實作排序的功能。</t></t></p>    <p class="small"><a href="/posts/effective-csharp-20">Read more...</a></p>
+<p>這個做法在討論多載這個特性與多載擴充方法是非常不好的。</p>    <p class="small"><a href="/posts/effective-csharp-35">Read more...</a></p>
     <hr>
 </div>
 

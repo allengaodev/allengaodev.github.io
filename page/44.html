@@ -91,47 +91,46 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Direct &amp; Topic &amp; Header</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-01">Effective C# 01.&#x504F;&#x597D;&#x96B1;&#x542B;&#x578B;&#x5225;&#x7684;&#x5340;&#x57DF;&#x8B8A;&#x6578;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/06/01
+      2024/09/21
     </a>
 
   </p>
 
-<p>今天要來學習發布訂閱模式中的 <code>Direct</code> 和 <code>Topic</code> 模式這兩個模式使用起來非常相似。上一篇文章中我們學習到的 <code>Fanout</code> 模式有一個不太方便的點，那就是
-它會一次發送給有綁定到 <code>Exchange</code> 上的所有 <code>Queue</code>，如果只想要發送給某個特定族群的 <code>Queue</code> 就可以選擇使用 <code>Direct</code>, <code>Topic</code> 或者 <code>Header</code> 模式。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-direct-topic-header">Read more...</a></p>
+<p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
+當編譯器看到 <code>var</code> 關鍵字時會參考 <code>=</code> 右側的運算式，背後宣告這個區域變數的型別，可以省掉我們自行判斷宣告型別的流程。</p>    <p class="small"><a href="/posts/effective-csharp-01">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-pub-sub-fanout">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x767C;&#x5E03;&#x8A02;&#x95B1;&#x6A21;&#x5F0F; Fanout</a></h2>
+  <h2 class="post-title"><a href="/posts/nginx-add-dynamic-module-08">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x52D5;&#x614B;&#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9;&#x6A21;&#x7D44;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/05/27
+      2024/08/07
     </a>
 
   </p>
 
-<p>到目前為止我們已經學會了 RabbitMQ 中最基礎的應用，在上一篇文章中這種一個 <code>Queue</code> 搭配多個 <code>Consumer</code> 的模式叫做 <code>Competing Consumers Pattern</code>
-，不過就如同它名稱所示 <code>消費者競爭模式</code> 每一個 <code>Consumer</code> 都是競爭關係代表信息被某一個 <code>Consumer</code> 取得之後其它的 <code>Consumer</code>
-就再也沒有機會知道這條信息裡面有什麼內容。</p>    <p class="small"><a href="/posts/rabbitmq-basic-pub-sub-fanout">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-add-module-07" target="_blank">文章</a>中，
+學習如何安裝 <code>echo-nginx-module</code> 這個第三方模組。</p>    <p class="small"><a href="/posts/nginx-add-dynamic-module-08">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-multiple-workers">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x4EFB;&#x52D9;&#x5206;&#x914D;</a></h2>
+  <h2 class="post-title"><a href="/posts/nginx-add-module-07">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9;&#x6A21;&#x7D44;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/05/25
+      2024/08/06
     </a>
 
   </p>
 
-<p>到目前為止我們專案同時只會運行一個 <code>producer</code> 和 一個 <code>consumer</code>，不過當 <code>producer</code> 產生過多的任務或者 <code>consumer</code> 執行每一個任務都需要許多時間，
-這時候我們可以選則執行多個 <code>consumer</code> 來分擔執行任務的壓力，例如說上一篇文章中的例子我們產生了五個任務。</p>    <p class="small"><a href="/posts/rabbitmq-basic-multiple-workers">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-source-code-build-06" target="_blank">文章</a>中，
+學習了該如何編譯 Nginx 原始碼還有安裝相關的依賴。</p>    <p class="small"><a href="/posts/nginx-add-module-07">Read more...</a></p>
     <hr>
 </div>
 

@@ -91,60 +91,47 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
+  <h2 class="post-title"><a href="/posts/rabbitmq-basic-asynchronous-task-and-persistent">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/17
+      2023/05/24
     </a>
 
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/20
-      </a>
   </p>
 
-<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-cookie-signin">文章</a>
-中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
-現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
+<p>在上一篇文章內容中了解到我們能將信息傳送到 RabbitMQ 中，之後有人需要時才會把信息轉交給他，如果沒有人需要則會繼續存放在 RabbitMQ 內繼續等待接收。
+這些操作在 RabbitMQ 當中有各自的專有名詞，首先是傳送到信息 RabbitMQ 中的系統通常稱為 <code>producer</code> 與需要取得 RabbitMQ 中信息的系統稱為 <code>consumer</code>
+和 RabbitMQ 將信息保存的地方稱為 <code>Queue</code>。</p>    <p class="small"><a href="/posts/rabbitmq-basic-asynchronous-task-and-persistent">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
+  <h2 class="post-title"><a href="/posts/rabbitmq-basic-decouple">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x89E3;&#x8026;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/16
+      2023/05/22
     </a>
 
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/20
-      </a>
   </p>
 
-<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-customizing-basic">文章</a>
-我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
-在上一篇的文章中有稍微提到 <code>SignInManager</code> 如名稱所示，我們可以猜到這個 Manager 是負責處理登入這部份的商業邏輯
-閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
+<p>這個系列會重新複習 .NET 中 RabbitMQ 的使用方式，首先我們使用 docker 建立測試 RabbitMQ 測試環境，需要注意 image 有兩個版本一種是自帶管理界面與另一種沒有界面的版本，
+這次使用的 image 是 <code>rabbitmq:3.11-management</code> 是有界面的版本，RabbitMQ管理界面預設使用的 port 為 <code>15672</code> RabbitMQ 服務為 <code>5672</code>。</p>    <p class="small"><a href="/posts/rabbitmq-basic-decouple">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-manager">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</a></h2>
+  <h2 class="post-title"><a href="/posts/bitwarden-design-user-login">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/15
+      2023/05/18
     </a>
 
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/08/20
-      </a>
   </p>
 
-<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-manager" target="_blank">文章</a>中
-實做了 .NET Core Identity 提供的 <code>IUserStore</code> 介面，用來存取資料庫中的資料，
-但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 當初的設計就是將商業邏輯與底層存取功能分開，
-所以我們不該直接使用 <code>IUserStore</code> 而是該使用的是各種的 Manager 方法。</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
+<p>在之前的文章中我們已經了解 Bitwarden 的註冊與加密流程，現在我們加密帳號資料已經安全的保存在 Bitwarden 雲端上了，
+接下來我們來看看 Bitwarden 是如何進行登入流程。</p>    <p class="small"><a href="/posts/bitwarden-design-user-login">Read more...</a></p>
     <hr>
 </div>
 
