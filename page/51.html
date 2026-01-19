@@ -91,51 +91,46 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-identity-customizing-basic">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5F9E;&#x96F6;&#x958B;&#x59CB;</a></h2>
+  <h2 class="post-title"><a href="/posts/bitwarden-design-user-register-encryption">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x8A3B;&#x518A;&#x7CFB;&#x7D71;&#x52A0;&#x5BC6;&#x8A2D;&#x8A08;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/04/13
+      2023/05/15
     </a>
 
-      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-        2025/12/15
-      </a>
   </p>
 
-<p>在開發新專案時，身份驗證和授權通常為第一個實做的功能，在 dotnet 生態系中微軟官方會推薦你使用 ASP.NET Core Identity 來實踐
-大部分的文章只會要你使用 Visual Studio 直接勾選使用樣板，或是直接給你一段命令直接產生專案</p>    <p class="small"><a href="/posts/dotnet-identity-customizing-basic">Read more...</a></p>
+<p>在上一篇文章中我們了解 Bitwarden 的註冊流程，今天來討論它背後是如何進行加密的。</p>    <p class="small"><a href="/posts/bitwarden-design-user-register-encryption">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/linux-gnupg-asymmetric">&#x4F7F;&#x7528; GnuPG (GPG) &#x975E;&#x5C0D;&#x7A31;&#x52A0;&#x5BC6;&#x9650;&#x5236;&#x53EA;&#x6709;&#x6388;&#x6B0A;&#x4EBA;&#x54E1;&#x53EF;&#x95B1;&#x8B80;</a></h2>
+  <h2 class="post-title"><a href="/posts/bitwarden-design-user-register">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x8A3B;&#x518A;&#x6D41;&#x7A0B;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/03/29
+      2023/05/12
     </a>
 
   </p>
 
-<p>在昨天的<a href="https://blog.allengaodev.com/posts/linux-gnupg-sign" target="_blank">文章</a> 中，學習到目前在 Linux 環境中是如何對軟體進行簽章的<br>
-今天要來學習另一個主要的功能就是『非對稱加密』，跟我們在使用壓縮軟體時對壓縮檔加密的『對稱加密』方式不同
-『非對稱加密』需要一組密鑰，一個『公開』的密鑰與一個『私人』的密鑰，在昨天的範例中也有提到相關的例子</p>    <p class="small"><a href="/posts/linux-gnupg-asymmetric">Read more...</a></p>
+<p>在上一篇的文章中成功建立起 Bitwarden 的本地開發環境並且成功的註冊了一個新會員，本篇文章會來討論 Bitwarden
+是如何處理會員註冊邏輯，並且跟一般的註冊邏輯進行比較看看有什麼不同</p>    <p class="small"><a href="/posts/bitwarden-design-user-register">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/linux-gnupg-sign">&#x4F7F;&#x7528; GnuPG (GPG) &#x7C3D;&#x7F72;&#x529F;&#x80FD;&#x4F86;&#x78BA;&#x4FDD;&#x8CC7;&#x6599;&#x6C92;&#x6709;&#x88AB;&#x7AC4;&#x6539;</a></h2>
+  <h2 class="post-title"><a href="/posts/bitwarden-design-startup">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x5EFA;&#x7ACB;&#x672C;&#x5730;&#x958B;&#x767C;&#x74B0;&#x5883;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/03/28
+      2023/05/11
     </a>
 
   </p>
 
-<p>今天來學習經常在 Linux 環境中使用到的技術 GnuPG<br>
-我們知道在 Windows 有時在安裝軟體時會跳出安全行警告，通知使用者目前要安裝的這個 App 的是未知的發行者，安裝之前需要額外小心軟體可能已經被修改過了<br>
-要便免這個問題就要透過數位簽章，簽章的擁有者在發布新軟體時需要再次加簽證明新版的軟體的確是由正常來源發行的，這樣使用者就可以安心的進行安裝</p>    <p class="small"><a href="/posts/linux-gnupg-sign">Read more...</a></p>
+<p>Bitwarden 作為一套知名的密碼管理系統想當然關於安全性方面的設計肯定需要比一般的系統更加謹慎。
+密碼管理系統一旦有漏洞數以萬計的密碼就會外流到網路上，並且如果使用者安全習慣並不好所有網站都使用
+同一個密碼或者密碼過於簡單就會造成災耐。</p>    <p class="small"><a href="/posts/bitwarden-design-startup">Read more...</a></p>
     <hr>
 </div>
 

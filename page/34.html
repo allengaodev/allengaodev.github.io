@@ -91,44 +91,45 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-16">Effective C# 16.&#x7D55;&#x4E0D;&#x5728;&#x5EFA;&#x69CB;&#x5143;&#x4E2D;&#x547C;&#x53EB;&#x865B;&#x64EC;&#x51FD;&#x5F0F;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-31">Effective C# 31.&#x70BA;&#x5E8F;&#x5217;&#x5EFA;&#x69CB;&#x53EF;&#x7D44;&#x5408; API</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/10/12
+      2024/10/21
     </a>
 
   </p>
 
-<p>這個做法在說明底層類別的建構函式直接呼叫虛擬方法會導致的問題，跟 LSP 原則提到的內容有點相似，<code>override</code> 與 <code>new</code> 會改變抽象基底類別的行為。</p>    <p class="small"><a href="/posts/effective-csharp-16">Read more...</a></p>
+<p>這個做法比較像做法 29 的延伸，主軸還是在講 <code>Iterator Methods</code> 但提到了更詳細的好處，還有另一個好處是
+可以把多個 <code>Iterator Methods</code> 拼接起來的特性，這個特性在做法後半段會提到。</p>    <p class="small"><a href="/posts/effective-csharp-31">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-15">Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-30">Effective C# 30.&#x504F;&#x597D;&#x67E5;&#x8A62;&#x8A9E;&#x6CD5;&#x800C;&#x975E;&#x8FF4;&#x5708;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/10/11
+      2024/10/21
     </a>
 
   </p>
 
-<p>這個做法提出了建立過多物件會影響效率的概念，雖然我們的系統有 GC 能夠高效的管理記憶體中的物件，
-但清除的效率在快還不如不創建無意義的物件，從根本上解決過度使用 GC 的導致的效率問題。</p>    <p class="small"><a href="/posts/effective-csharp-15">Read more...</a></p>
+<p>這個做法建議使用 <code>Query Syntax</code> 取代 <code>for</code>、<code>while</code>、<code>do/while</code>、<code>foreach</code> 等傳統迴圈。</p>    <p class="small"><a href="/posts/effective-csharp-30">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-14">Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-29">Effective C# 29.&#x504F;&#x597D;&#x4EE5; Iterator &#x65B9;&#x6CD5;&#x56DE;&#x50B3;&#x96C6;&#x5408;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/10/10
+      2024/10/21
     </a>
 
   </p>
 
-<p>在做法 12 提到多個建構函式很容易造成每個建構函式有細微的區別，因此使用 <code>Member Initializers</code> 在宣告時直接賦值以解決這個問題。</p>    <p class="small"><a href="/posts/effective-csharp-14">Read more...</a></p>
+<p>本做法提到了 <code>Iterator Methods</code> 與 <code>yield return</code> 這兩個新的名詞以及使用它的好處。
+根據定義只要使用 <code>yield return</code> 並且回傳值是 <code>IEnumerable</code> 或 <code>IEnumerable&lt;T&gt;</code> 就可以稱為這是一個 <code>Iterator Methods</code>。</p>    <p class="small"><a href="/posts/effective-csharp-29">Read more...</a></p>
     <hr>
 </div>
 

@@ -91,43 +91,60 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-43">More Effective C# 43.&#x4E86;&#x89E3;&#x52D5;&#x614B;&#x7A0B;&#x5F0F;&#x8A2D;&#x8A08;&#x7684;&#x5229;&#x5F0A;</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-manager">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;&#x5B78;&#x7FD2; Manager &#x65B9;&#x6CD5;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/27
+      2023/04/15
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>這個做法比較動態類型與靜態類型各自的優勢，還有介紹如何使用 dynamic 將物件宣告成動態物件。</p>    <p class="small"><a href="/posts/more-effective-csharp-43">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-manager" target="_blank">文章</a>中
+實做了 .NET Core Identity 提供的 <code>IUserStore</code> 介面，用來存取資料庫中的資料，
+但是同時也了解到直接使用 Store 意義並不大，這是因為 Identity 當初的設計就是將商業邏輯與底層存取功能分開，
+所以我們不該直接使用 <code>IUserStore</code> 而是該使用的是各種的 Manager 方法。</p>    <p class="small"><a href="/posts/dotnet-identity-manager">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-42">More Effective C# 42.&#x907F;&#x514D;&#x5728;&#x9396;&#x5B9A;&#x7684;&#x5340;&#x6BB5;&#x547C;&#x53EB;&#x4E0D;&#x660E;&#x7684;&#x7A0B;&#x5F0F;&#x78BC;</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-cookie-signin">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A; Cookie SignIn</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/26
+      2023/04/16
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>這個做法講解了死鎖是怎麼造成的並且該怎麼做才能避免死鎖。</p>    <p class="small"><a href="/posts/more-effective-csharp-42">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-customizing-basic">文章</a>
+我們已經了解 <code>UserStore</code> 與 <code>UserManager</code> 的使用場景，今天來學習 Identity 中驗證部份的邏輯
+在上一篇的文章中有稍微提到 <code>SignInManager</code> 如名稱所示，我們可以猜到這個 Manager 是負責處理登入這部份的商業邏輯
+閱讀原始碼之後發現 <code>SignInManager</code> 內部也有注入 <code>UserManager</code>方法，代表 <code>SignInManager</code> 也只更高階的封裝 <a href="https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/SignInManager.cs#L18" target="_blank">Github</a></p>    <p class="small"><a href="/posts/dotnet-identity-cookie-signin">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-41">More Effective C# 41.&#x9396;&#x5B9A; Handles &#x4F7F;&#x7528;&#x6700;&#x5C0F;&#x53EF;&#x80FD;&#x7684;&#x7BC4;&#x570D;</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-claims-authorization">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Claims &#x6388;&#x6B0A;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/26
+      2023/04/17
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>這個做法建議使用 synchronization primitives 之前應該要想清楚，不要整個應用程式都是同步化的語法，最後造成死鎖的機率增加。</p>    <p class="small"><a href="/posts/more-effective-csharp-41">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-cookie-signin">文章</a>
+中我們使用 .NET Core Identity 的 <code>SignInManager</code> 搭配 <code>Cookie</code> 成功實做出保護 API 的功能
+現在我們可以在需要的 API 上添加 <code>[Authorize]</code> 標籤，就能將我們的 API 保護起來只有通過驗證的人可以使用</p>    <p class="small"><a href="/posts/dotnet-identity-claims-authorization">Read more...</a></p>
     <hr>
 </div>
 

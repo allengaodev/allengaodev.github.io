@@ -91,47 +91,44 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/orleans-grain-silo">Microsoft Orleans &#x5B78;&#x7FD2;&#x6307;&#x5357; - Grain And Silo</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-07">Effective C# 07.&#x4EE5; delegate &#x8868;&#x793A; callback</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/07/19
+      2024/09/28
     </a>
 
   </p>
 
-<p>在現代分散式雲端計算的環境中，傳統的三層架構（Client、Server、Storage）會顯得力不從心，
-這是因為三層架構在處理高並發和大量數據時存在一些先天的限制。</p>    <p class="small"><a href="/posts/orleans-grain-silo">Read more...</a></p>
+<p>本做法主要在介紹使用 delegate 的好處，可以先複習一下 lambda 還沒有出現前的寫法。</p>    <p class="small"><a href="/posts/effective-csharp-07">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-azure-key-vault-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; Configuration &#x8B80;&#x53D6; Azure Key-Vault &#x8A2D;&#x5B9A;&#x6A94;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-06">Effective C# 06.&#x907F;&#x514D;&#x5B57;&#x4E32;&#x578B;&#x5225; API</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/06/10
+      2024/09/27
     </a>
 
   </p>
 
-<p>根據微軟的設計 UserSecrets 是給開發還境使用的，雖然也可以手動添加到系統內讓正式環境也能讀取 <code>secrets.json</code>，
-但是有可能電腦重灌時沒有進行備份導致遺失正式環境的配置檔，因此微軟建議把正式環境的設定值放在 Azure Key-Vault 上。</p>    <p class="small"><a href="/posts/dotnet-azure-key-vault-with-configuration">Read more...</a></p>
+<p>這個做法提到了 Stringly Typed 這個概念，字串型別這個翻譯有點模糊表達不夠精確，這個做法主要是在討論弱型別的問題。
+通常在使用外部涵式庫或者使用反射功能時會碰到需要使用弱型別字串來當作參數。</p>    <p class="small"><a href="/posts/effective-csharp-06">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/dotnet-usersecrets-with-configuration">&#x5982;&#x4F55;&#x5728; ASP.NET Core &#x4E2D;&#x4F7F;&#x7528; UserSecrets &#x8B80;&#x53D6;&#x4FDD;&#x8B77;&#x7684;&#x8A2D;&#x5B9A;&#x503C;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-05">Effective C# 05.&#x5C0D;&#x6587;&#x5316;&#x7279;&#x5B9A;&#x5B57;&#x4E32;&#x504F;&#x597D; FormattableString</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/06/09
+      2024/09/26
     </a>
 
   </p>
 
-<p>在前幾天我們討論了 Dotnet 是如何處理 <code>appsettings.json</code> 設定值的不過由於需要進行版本管理，所以私密的資料
-可能被外漏出去會造成很大的問題，因此 Dotnet 提供了 <code>Microsoft.Extensions.Configuration.UserSecrets</code>
-這個 Package 給我們使用。</p>    <p class="small"><a href="/posts/dotnet-usersecrets-with-configuration">Read more...</a></p>
+<p>在做法 4 中，介紹了字串插值的寫法，但是某些功能需要根據不同的文化產生不同的結果，例如時間輸出的格式就會根據目前電腦的文化設定來輸出時間。</p>    <p class="small"><a href="/posts/effective-csharp-05">Read more...</a></p>
     <hr>
 </div>
 

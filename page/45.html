@@ -91,47 +91,46 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-asynchronous-task-and-persistent">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x7570;&#x6B65;&#x4EFB;&#x52D9;&#x8207;&#x6301;&#x4E45;&#x5316;</a></h2>
+  <h2 class="post-title"><a href="/posts/nginx-source-code-build-06">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x7DE8;&#x8B6F;&#x539F;&#x59CB;&#x78BC;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/05/24
+      2024/08/05
     </a>
 
   </p>
 
-<p>在上一篇文章內容中了解到我們能將信息傳送到 RabbitMQ 中，之後有人需要時才會把信息轉交給他，如果沒有人需要則會繼續存放在 RabbitMQ 內繼續等待接收。
-這些操作在 RabbitMQ 當中有各自的專有名詞，首先是傳送到信息 RabbitMQ 中的系統通常稱為 <code>producer</code> 與需要取得 RabbitMQ 中信息的系統稱為 <code>consumer</code>
-和 RabbitMQ 將信息保存的地方稱為 <code>Queue</code>。</p>    <p class="small"><a href="/posts/rabbitmq-basic-asynchronous-task-and-persistent">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-basic-variable-05" target="_blank">文章</a>中，
+學習了內建提供的變數與設定客製的變數，並且有稍微提到模組的概念。</p>    <p class="small"><a href="/posts/nginx-source-code-build-06">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/rabbitmq-basic-decouple">&#x901A;&#x904E; .NET &#x5B78;&#x7FD2; RabbitMQ &#x5EFA;&#x7ACB;&#x53EF;&#x9760;&#x7684;&#x8A0A;&#x606F;&#x4F47;&#x5217;&#x7CFB;&#x7D71;&#xFF1A;&#x89E3;&#x8026;</a></h2>
+  <h2 class="post-title"><a href="/posts/nginx-basic-variable-05">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x8B8A;&#x6578;&#x8B80;&#x53D6;&#x8207;&#x8A2D;&#x5B9A;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/05/22
+      2024/07/31
     </a>
 
   </p>
 
-<p>這個系列會重新複習 .NET 中 RabbitMQ 的使用方式，首先我們使用 docker 建立測試 RabbitMQ 測試環境，需要注意 image 有兩個版本一種是自帶管理界面與另一種沒有界面的版本，
-這次使用的 image 是 <code>rabbitmq:3.11-management</code> 是有界面的版本，RabbitMQ管理界面預設使用的 port 為 <code>15672</code> RabbitMQ 服務為 <code>5672</code>。</p>    <p class="small"><a href="/posts/rabbitmq-basic-decouple">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-basic-config-04" target="_blank">文章</a>中，學習了 Nginx 指令的兩種格式，
+還有參考官方文檔了解每個指令都有對應的限制。</p>    <p class="small"><a href="/posts/nginx-basic-variable-05">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/bitwarden-design-user-login">&#x8EDF;&#x9AD4;&#x67B6;&#x69CB;&#x6848;&#x4F8B;&#x5206;&#x6790; - Bitwarden &#x6703;&#x54E1;&#x7CFB;&#x7D71;&#x767B;&#x5165;&#x6D41;&#x7A0B;</a></h2>
+  <h2 class="post-title"><a href="/posts/nginx-basic-config-04">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x57FA;&#x790E;&#x8A2D;&#x5B9A;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2023/05/18
+      2024/07/30
     </a>
 
   </p>
 
-<p>在之前的文章中我們已經了解 Bitwarden 的註冊與加密流程，現在我們加密帳號資料已經安全的保存在 Bitwarden 雲端上了，
-接下來我們來看看 Bitwarden 是如何進行登入流程。</p>    <p class="small"><a href="/posts/bitwarden-design-user-login">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-http-load-balancer-practice-03" target="_blank">文章</a>中，實做了多種 HTTP 負載均衡的分配方法，
+在這幾篇的文章中只有修改 <code>/etc/nginx/http.d/default.conf</code> 這個檔案，那為什麼 Nginx 知道要到這個目錄底下讀取 <code>default.conf</code> 呢？</p>    <p class="small"><a href="/posts/nginx-basic-config-04">Read more...</a></p>
     <hr>
 </div>
 

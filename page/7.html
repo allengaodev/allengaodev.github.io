@@ -91,43 +91,55 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-46">More Effective C# 46.&#x4E86;&#x89E3;&#x5982;&#x4F55;&#x904B;&#x7528; Expression API</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-oauth-oidc">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;OAuth &#x548C; Oidc</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/29
+      2023/04/30
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/21
+      </a>
   </p>
 
-<p>這個做法介紹該如何使用 Expression API 以及 Expression Trees 的相關概念。</p>    <p class="small"><a href="/posts/more-effective-csharp-46">Read more...</a></p>
+<p>在前幾篇的文章中我們利用微軟提供的 Package <code>Microsoft.AspNetCore.Authentication.Google</code> 成功實踐了 Google 外部登入
+我們只要在 <code>Program.cs</code> 的 <code>IServiceCollection</code> 呼叫 <code>AddGoogle</code> 方法即可，接下來的流程就交給內建的 SignInManager 處理</p>    <p class="small"><a href="/posts/dotnet-identity-oauth-oidc">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-45">More Effective C# 45.&#x8CC7;&#x6599;&#x9A45;&#x52D5;(Data-Driven)&#x52D5;&#x614B;&#x578B;&#x5225;&#x4F7F;&#x7528; DynamicObject &#x6216; IDynamicMetaObjectProvider</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-external-provider-google">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Google &#x767B;&#x5165;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/28
+      2023/04/22
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/21
+      </a>
   </p>
 
-<p>這個做法在說明如何使用 <code>DynamicObject</code> 與 <code>IDynamicMetaObjectProvider</code> 做到在執行時期建立出一個新的型別。</p>    <p class="small"><a href="/posts/more-effective-csharp-45">Read more...</a></p>
+<p>今天來學習如何在 .Net 中使用第三方登入, 我們之前在 <a href="https://github.com/dotnet/aspnetcore/tree/main/src/Security/Authentication" target="_blank">Github</a> 上面了解
+微軟提供了 <code>Google</code>、<code>Twitter</code>、<code>Facebook</code> 等外部登入驗證</p>    <p class="small"><a href="/posts/dotnet-identity-external-provider-google">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-44">More Effective C# 44.&#x900F;&#x904E;&#x52D5;&#x614B;&#x578B;&#x5225;&#x904B;&#x7528;&#x6CDB;&#x578B;&#x5F15;&#x6578;&#x57F7;&#x884C;&#x671F;&#x7684;&#x578B;&#x5225;</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-policy-customize">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Policy &#x5BA2;&#x88FD;&#x5316;&#x6388;&#x6B0A;&#x908F;&#x8F2F;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/27
+      2023/04/20
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/20
+      </a>
   </p>
 
-<p>這個做法在說明泛型方法的限制與能夠利用 <code>dynamic</code> 動態類型來彌補這些限制。</p>    <p class="small"><a href="/posts/more-effective-csharp-44">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-claims-authorization">文章</a>
+中學習了 <code>Claim</code> 與 <code>Policy</code> 的基本知識，會員在新增完 <code>Claim</code> 之後可以搭配我們註冊好的 <code>Policy</code> 就能夠避免不符合規定的使用者呼叫機密的 API</p>    <p class="small"><a href="/posts/dotnet-identity-policy-customize">Read more...</a></p>
     <hr>
 </div>
 

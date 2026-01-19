@@ -91,46 +91,44 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/effective-csharp-01">Effective C# 01.&#x504F;&#x597D;&#x96B1;&#x542B;&#x578B;&#x5225;&#x7684;&#x5340;&#x57DF;&#x8B8A;&#x6578;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-16">Effective C# 16.&#x7D55;&#x4E0D;&#x5728;&#x5EFA;&#x69CB;&#x5143;&#x4E2D;&#x547C;&#x53EB;&#x865B;&#x64EC;&#x51FD;&#x5F0F;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/09/21
+      2024/10/12
     </a>
 
   </p>
 
-<p>這個建議做法推薦我們多使用 <code>var</code>(隱含型別的區域變數)，讓 compiler 自行推斷實際的類型。
-當編譯器看到 <code>var</code> 關鍵字時會參考 <code>=</code> 右側的運算式，背後宣告這個區域變數的型別，可以省掉我們自行判斷宣告型別的流程。</p>    <p class="small"><a href="/posts/effective-csharp-01">Read more...</a></p>
+<p>這個做法在說明底層類別的建構函式直接呼叫虛擬方法會導致的問題，跟 LSP 原則提到的內容有點相似，<code>override</code> 與 <code>new</code> 會改變抽象基底類別的行為。</p>    <p class="small"><a href="/posts/effective-csharp-16">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/nginx-add-dynamic-module-08">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x52D5;&#x614B;&#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9;&#x6A21;&#x7D44;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-15">Effective C# 15.&#x907F;&#x514D;&#x5EFA;&#x69CB;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x7269;&#x4EF6;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/08/07
+      2024/10/11
     </a>
 
   </p>
 
-<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-add-module-07" target="_blank">文章</a>中，
-學習如何安裝 <code>echo-nginx-module</code> 這個第三方模組。</p>    <p class="small"><a href="/posts/nginx-add-dynamic-module-08">Read more...</a></p>
+<p>這個做法提出了建立過多物件會影響效率的概念，雖然我們的系統有 GC 能夠高效的管理記憶體中的物件，
+但清除的效率在快還不如不創建無意義的物件，從根本上解決過度使用 GC 的導致的效率問題。</p>    <p class="small"><a href="/posts/effective-csharp-15">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/nginx-add-module-07">Nginx &#x958B;&#x767C;&#x8207;&#x64CD;&#x4F5C; - &#x5B89;&#x88DD;&#x7B2C;&#x4E09;&#x65B9;&#x6A21;&#x7D44;</a></h2>
+  <h2 class="post-title"><a href="/posts/effective-csharp-14">Effective C# 14.&#x6E1B;&#x5C11;&#x91CD;&#x8907;&#x7684;&#x521D;&#x59CB;&#x5316;&#x908F;&#x8F2F;</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/08/06
+      2024/10/10
     </a>
 
   </p>
 
-<p>在上一篇的<a href="https://blog.allengaodev.com/posts/nginx-source-code-build-06" target="_blank">文章</a>中，
-學習了該如何編譯 Nginx 原始碼還有安裝相關的依賴。</p>    <p class="small"><a href="/posts/nginx-add-module-07">Read more...</a></p>
+<p>在做法 12 提到多個建構函式很容易造成每個建構函式有細微的區別，因此使用 <code>Member Initializers</code> 在宣告時直接賦值以解決這個問題。</p>    <p class="small"><a href="/posts/effective-csharp-14">Read more...</a></p>
     <hr>
 </div>
 

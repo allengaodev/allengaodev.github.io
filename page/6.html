@@ -91,43 +91,55 @@
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-49">More Effective C# 49.&#x53C3;&#x8207;&#x898F;&#x683C;&#x53CA;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x8A02;&#x5B9A;</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-server-efcore">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;Identity Server EFCore</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/30
+      2023/05/08
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/22
+      </a>
   </p>
 
-<p>這個做法說明現在 C# 已經是開源狀態，應該要鼓勵更多開發者參與並協助演進。</p>    <p class="small"><a href="/posts/more-effective-csharp-49">Read more...</a></p>
+<p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-server-ui" target="_blank">文章</a>中
+已經成功架設了 Identity Server 服務與 UI 但是目前資料都是保存在記憶體內，今天來看看該怎麼把資料利用 EFCore 保存到任意資料庫內</p>    <p class="small"><a href="/posts/dotnet-identity-server-efcore">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-48">More Effective C# 48.&#x5C0B;&#x6C42;&#x6700;&#x597D;&#x7684;&#x7B54;&#x6848;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6700;&#x53D7;&#x6B61;&#x8FCE;&#x7684;&#x7B54;&#x6848;</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-user-tokens">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserTokens</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/30
+      2023/04/28
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/21
+      </a>
   </p>
 
-<p>這個做法在提醒開發者在搜尋解答的過程中不要只看評分最好和曝光率高的留言，其它留言的解法也可能是更完美的。</p>    <p class="small"><a href="/posts/more-effective-csharp-48">Read more...</a></p>
+<p>在前幾篇的文章中我們成功實踐了本地登入與外部登入的功能
+分別使用到 <code>SignInManager</code> 提供的 <code>PasswordSignInAsync</code> 與 <code>ExternalLoginSignInAsync</code> 方法</p>    <p class="small"><a href="/posts/dotnet-identity-user-tokens">Read more...</a></p>
     <hr>
 </div>
 
 
 <div class="post-preview">
-  <h2 class="post-title"><a href="/posts/more-effective-csharp-47">More Effective C# 47.&#x5728;&#x516C;&#x958B;&#x7684;API&#x4E2D;&#x6E1B;&#x5C11;&#x52D5;&#x614B;&#x7269;&#x4EF6;&#x7684;&#x4F7F;&#x7528;</a></h2>
+  <h2 class="post-title"><a href="/posts/dotnet-identity-user-logins">&#x81EA;&#x8A02;.NET Core Identity&#x8EAB;&#x4EFD;&#x9A57;&#x8B49;&#x548C;&#x6388;&#x6B0A;&#x6559;&#x5B78;&#xFF1A;AspNetUserLogins</a></h2>
   <p class="post-meta">
     <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/calendar.svg)">
-      2024/11/30
+      2023/04/26
     </a>
 
+      <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
+        2025/08/21
+      </a>
   </p>
 
-<p>這個做法說明最好避免在任何公開的方法使用 dynamic 物件來避免蔓延，還有建議限制 dynamic 的使用範圍避免它把所有的物件變成動態物件。</p>    <p class="small"><a href="/posts/more-effective-csharp-47">Read more...</a></p>
+<p>我們在上一篇的文章中新增了 Google 外部登入到我們專案內，但有一個很大的問題就是外部登入的會員沒有在我們的系統內進行註冊
+所以判斷權限時會找不到對應的會員權限，要解決這個問題我們可以在外部登入流程中插入一段註冊本地會員的邏輯</p>    <p class="small"><a href="/posts/dotnet-identity-user-logins">Read more...</a></p>
     <hr>
 </div>
 
