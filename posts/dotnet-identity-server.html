@@ -77,7 +77,7 @@
               </a>
 
                 <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-                  2025/08/21
+                  2026/01/19
                 </a>
             </p>
               <div class="mt-3">
@@ -106,7 +106,7 @@
 將安裝下列範本套件:
    Duende.Templates
 
-成功: Duende.Templates::1.1.1 已安裝下列範本:
+成功: Duende.Templates::1.2.1 已安裝下列範本:
 範本名稱                                                    簡短名稱              語言  標記
 ----------------------------------------------------------  --------------------  ----  -------------------------
 Duende BFF Host using a Remote API                          duende-bff-remoteapi  [C#]  Web/Duende/BFF
@@ -136,115 +136,138 @@ dotnet sln add ./src/IdentityServer/IdentityServer.csproj
 <p>建立完成後打開方案來看看樣板自動建立了什麼東西，這邊列出幾項比較特別的</p>
 <ul>
 <li>IdentityServer 專案安裝了 <code>Duende.IdentityServer</code> Nuget Package</li>
-<li><code>Program.cs</code> 內部的設定移動到 <code>HostingExtensions.cs</code> 類似之前的 <code>Startup.cs</code></li>
-<li>呼叫 <code>AddIdentityServer</code> 方法註冊要用到的 Services</li>
-<li>呼叫 <code>UseIdentityServer</code> 方法註冊要用到的 Middleware</li>
-<li>新增了一個 static class <code>Config.cs</code> 裡面有三個預設的 Property <code>IdentityResources</code> <code>ApiScopes</code> <code>Clients</code> 在設定 IServiceCollection 會來讀取這些設定值</li>
+<li><code>AddIdentityServer</code> 方法註冊 Services</li>
+<li><code>UseIdentityServer</code> 方法註冊 Middleware</li>
+<li>新增靜態類別 <code>Config.cs</code> 裡面有三個的 Property <code>IdentityResources</code> <code>ApiScopes</code> <code>Clients</code> 在設定 Application Builder 時讀取這些設定值</li>
 </ul>
 <hr />
-<h2 id="oidc-discovery-documents">OIDC Discovery Documents</h2>
+<h2 id="oidc-discovery-documents">OIDC Discovery Documents 與伺服器自動設定</h2>
 <p>在開始寫程式之前先重新了解一下我們之前專案 <code>IdentityDapper</code> 的登入流程</p>
 <ol>
-<li>呼叫後端 <code>LoginGoogle</code> 方法會執行 Challenge 方法並帶著的 ClientId 和 Scope(openid 和 email) 與一些設定產生 Google 網址</li>
-<li>瀏覽器轉跳到我們生成的 Google 授權服務器網址</li>
-<li>我們會在瀏覽器看到授權頁面如果我們同意就按下確認授權</li>
-<li>Google 授權服務器會帶著 Code 並且轉跳回後端網址</li>
-<li>後端帶著 Code 去 Google Token服務器取得 Access Token 與 ID Token</li>
-<li>轉跳回 <code>GoogleResponse</code> 方法</li>
+<li>呼叫後端 <code>LoginGoogle</code> 方法，透過 <code>Challenge</code> 搭配 ClientId、Scope(例如 openid、email)以及其他設定，生成 Google 授權網址。</li>
+<li>瀏覽器跳轉到剛剛生成的 Google 授權網址。</li>
+<li>使用者在 Google 授權頁面上同意存取權限。</li>
+<li>Google 授權伺服器回傳授權碼(Code)，並將瀏覽器跳轉到後端指定的 Callback 網址。</li>
+<li>後端使用這個 Code 向 Google Token 伺服器請求取得 Access Token 和 ID Token。</li>
+<li>完成驗證後，瀏覽器轉跳至後端的 GoogleResponse 方法，處理登入結果。</li>
 </ol>
-<p>首先第一個問題是我們的程式是怎麼知道要去那一台伺服器的，明明當初註冊的時候沒有進行設定也不像之前提到 OAuth 時微軟有幫忙建立 <code>GoogleOptions</code> 來紀錄這些資訊</p>
-<pre><code class="language-text">public GoogleOptions()
+<p>微軟提供的 <code>Microsoft.AspNetCore.Authentication.Google</code> 是透過 GoogleOptions 事先設定授權、Token 與使用者資訊伺服器網址，
+所以我們只需要設定 Google 的 ClientId 與 ClientSecret 剩下的背後會自行處理。
+<a href="https://github.com/dotnet/aspnetcore/blob/03d43ac61779148acb14ff0abd32a079a28ba42d/src/Security/Authentication/Google/src/GoogleOptions.cs" target="_blank"><code>GoogleOptions</code></a>
+<a href="https://github.com/dotnet/aspnetcore/blob/03d43ac61779148acb14ff0abd32a079a28ba42d/src/Security/Authentication/Google/src/GoogleDefaults.cs" target="_blank"><code>GoogleDefaults</code></a></p>
+<pre><code class="language-text">public class GoogleOptions : OAuthOptions
 {
-    CallbackPath = new PathString(&quot;/signin-google&quot;);
-    AuthorizationEndpoint = GoogleDefaults.AuthorizationEndpoint;
-    TokenEndpoint = GoogleDefaults.TokenEndpoint;
-    UserInformationEndpoint = GoogleDefaults.UserInformationEndpoint;
-    Scope.Add(&quot;openid&quot;);
-    Scope.Add(&quot;profile&quot;);
-    Scope.Add(&quot;email&quot;);
+    public GoogleOptions()
+    {
+        CallbackPath = new PathString(&quot;/signin-google&quot;);
+        AuthorizationEndpoint = GoogleDefaults.AuthorizationEndpoint;
+        TokenEndpoint = GoogleDefaults.TokenEndpoint;
+        UserInformationEndpoint = GoogleDefaults.UserInformationEndpoint;
+        UsePkce = true;
+        Scope.Add(&quot;openid&quot;);
+        Scope.Add(&quot;profile&quot;);
+        Scope.Add(&quot;email&quot;);
 
-    ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, &quot;id&quot;);
-    ClaimActions.MapJsonKey(ClaimTypes.Name, &quot;name&quot;);
-    ClaimActions.MapJsonKey(ClaimTypes.GivenName, &quot;given_name&quot;);
-    ClaimActions.MapJsonKey(ClaimTypes.Surname, &quot;family_name&quot;);
-    ClaimActions.MapJsonKey(&quot;urn:google:profile&quot;, &quot;link&quot;);
-    ClaimActions.MapJsonKey(ClaimTypes.Email, &quot;email&quot;);
+        ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, &quot;id&quot;); // v2
+        ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, &quot;sub&quot;); // v3
+        ClaimActions.MapJsonKey(ClaimTypes.Name, &quot;name&quot;);
+        ClaimActions.MapJsonKey(ClaimTypes.GivenName, &quot;given_name&quot;);
+        ClaimActions.MapJsonKey(ClaimTypes.Surname, &quot;family_name&quot;);
+        ClaimActions.MapJsonKey(&quot;urn:google:profile&quot;, &quot;link&quot;);
+        ClaimActions.MapJsonKey(ClaimTypes.Email, &quot;email&quot;);
+    }
+    
+    public string? AccessType { get; set; }
 }
     
-public static readonly string AuthorizationEndpoint = &quot;https://accounts.google.com/o/oauth2/v2/auth&quot;;
-public static readonly string TokenEndpoint = &quot;https://oauth2.googleapis.com/token&quot;;
-public static readonly string UserInformationEndpoint = &quot;https://www.googleapis.com/oauth2/v2/userinfo&quot;;
-</code></pre>
-<p>我們現在改用 OIDC 方式進行註冊所以並沒有這些資料，之前有提到 OIDC 只是建立在 OAuth 之上的封裝並且建立了許多規範要大家遵守，
-這個規範叫做 Discovery Documents 所有符合規範的服務必須提供一個 Endpoint 並且回傳一個 json 設定值用來提供之後驗證流程使用，
-預設的 Endpoint 路徑是 <code>/.well-known/openid-configuration</code>，
-以 google 為例，我們需要呼叫 <code>https://accounts.google.com/.well-known/openid-configuration</code> 就會回傳以下內容</p>
-<pre><code class="language-text">{
-  &quot;issuer&quot;: &quot;https://accounts.google.com&quot;,
-  &quot;authorization_endpoint&quot;: &quot;https://accounts.google.com/o/oauth2/v2/auth&quot;,
-  &quot;device_authorization_endpoint&quot;: &quot;https://oauth2.googleapis.com/device/code&quot;,
-  &quot;token_endpoint&quot;: &quot;https://oauth2.googleapis.com/token&quot;,
-  &quot;userinfo_endpoint&quot;: &quot;https://openidconnect.googleapis.com/v1/userinfo&quot;,
-  &quot;revocation_endpoint&quot;: &quot;https://oauth2.googleapis.com/revoke&quot;,
-  &quot;jwks_uri&quot;: &quot;https://www.googleapis.com/oauth2/v3/certs&quot;,
-  &quot;response_types_supported&quot;: [
-    &quot;code&quot;,
-    &quot;token&quot;,
-    &quot;id_token&quot;,
-    &quot;code token&quot;,
-    &quot;code id_token&quot;,
-    &quot;token id_token&quot;,
-    &quot;code token id_token&quot;,
-    &quot;none&quot;
-  ],
-  &quot;subject_types_supported&quot;: [
-    &quot;public&quot;
-  ],
-  &quot;id_token_signing_alg_values_supported&quot;: [
-    &quot;RS256&quot;
-  ],
-  &quot;scopes_supported&quot;: [
-    &quot;openid&quot;,
-    &quot;email&quot;,
-    &quot;profile&quot;
-  ],
-  &quot;token_endpoint_auth_methods_supported&quot;: [
-    &quot;client_secret_post&quot;,
-    &quot;client_secret_basic&quot;
-  ],
-  &quot;claims_supported&quot;: [
-    &quot;aud&quot;,
-    &quot;email&quot;,
-    &quot;email_verified&quot;,
-    &quot;exp&quot;,
-    &quot;family_name&quot;,
-    &quot;given_name&quot;,
-    &quot;iat&quot;,
-    &quot;iss&quot;,
-    &quot;locale&quot;,
-    &quot;name&quot;,
-    &quot;picture&quot;,
-    &quot;sub&quot;
-  ],
-  &quot;code_challenge_methods_supported&quot;: [
-    &quot;plain&quot;,
-    &quot;S256&quot;
-  ],
-  &quot;grant_types_supported&quot;: [
-    &quot;authorization_code&quot;,
-    &quot;refresh_token&quot;,
-    &quot;urn:ietf:params:oauth:grant-type:device_code&quot;,
-    &quot;urn:ietf:params:oauth:grant-type:jwt-bearer&quot;
-  ]
+public static class GoogleDefaults
+{
+    public const string AuthenticationScheme = &quot;Google&quot;;
+    public static readonly string DisplayName = &quot;Google&quot;;
+    public static readonly string AuthorizationEndpoint = &quot;https://accounts.google.com/o/oauth2/v2/auth&quot;;
+    public static readonly string TokenEndpoint = &quot;https://oauth2.googleapis.com/token&quot;;
+    public static readonly string UserInformationEndpoint = &quot;https://www.googleapis.com/oauth2/v3/userinfo&quot;;
 }
 </code></pre>
-<p>有了這個設定文檔後就不需要在額外依賴 <code>GoogleOptions</code> 來紀錄這些設定值了
-每個設定值都有詳細的規範內容可以參考 <a href="https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata" target="_blank">文檔</a></p>
+<p>當我們要架設或整合一套授權伺服器(Identity Server)時，首要任務是取得該伺服器的配置資訊。
+OpenID Foundation (OIDF) 制定了標準規範，要求授權伺服器必須提供一個存取資訊 Endpoint，稱為 Discovery Document。</p>
+<p>根據規範，此預設路徑 Endpoint 固定為: <code>/.well-known/openid-configuration</code>
+它扮演了「服務說明書」的角色，讓 Client 無需手動設定，就能自動得知如何與該授權伺服器進行溝通(包含授權網址、換取 Token 網址等）。</p>
+<p>以 Google 為例，當我們存取 <a href="https://accounts.google.com/.well-known/openid-configuration">https://accounts.google.com/.well-known/openid-configuration</a> 時，會獲得一份 JSON 格式的清單</p>
+<pre><code class="language-text">{
+ &quot;issuer&quot;: &quot;https://accounts.google.com&quot;,
+ &quot;authorization_endpoint&quot;: &quot;https://accounts.google.com/o/oauth2/v2/auth&quot;,
+ &quot;device_authorization_endpoint&quot;: &quot;https://oauth2.googleapis.com/device/code&quot;,
+ &quot;token_endpoint&quot;: &quot;https://oauth2.googleapis.com/token&quot;,
+ &quot;userinfo_endpoint&quot;: &quot;https://openidconnect.googleapis.com/v1/userinfo&quot;,
+ &quot;revocation_endpoint&quot;: &quot;https://oauth2.googleapis.com/revoke&quot;,
+ &quot;jwks_uri&quot;: &quot;https://www.googleapis.com/oauth2/v3/certs&quot;,
+ &quot;response_types_supported&quot;: [
+  &quot;code&quot;,
+  &quot;token&quot;,
+  &quot;id_token&quot;,
+  &quot;code token&quot;,
+  &quot;code id_token&quot;,
+  &quot;token id_token&quot;,
+  &quot;code token id_token&quot;,
+  &quot;none&quot;
+ ],
+ &quot;response_modes_supported&quot;: [
+  &quot;query&quot;,
+  &quot;fragment&quot;,
+  &quot;form_post&quot;
+ ],
+ &quot;subject_types_supported&quot;: [
+  &quot;public&quot;
+ ],
+ &quot;id_token_signing_alg_values_supported&quot;: [
+  &quot;RS256&quot;
+ ],
+ &quot;scopes_supported&quot;: [
+  &quot;openid&quot;,
+  &quot;email&quot;,
+  &quot;profile&quot;
+ ],
+ &quot;token_endpoint_auth_methods_supported&quot;: [
+  &quot;client_secret_post&quot;,
+  &quot;client_secret_basic&quot;
+ ],
+ &quot;claims_supported&quot;: [
+  &quot;aud&quot;,
+  &quot;email&quot;,
+  &quot;email_verified&quot;,
+  &quot;exp&quot;,
+  &quot;family_name&quot;,
+  &quot;given_name&quot;,
+  &quot;iat&quot;,
+  &quot;iss&quot;,
+  &quot;name&quot;,
+  &quot;picture&quot;,
+  &quot;sub&quot;
+ ],
+ &quot;code_challenge_methods_supported&quot;: [
+  &quot;plain&quot;,
+  &quot;S256&quot;
+ ],
+ &quot;grant_types_supported&quot;: [
+  &quot;authorization_code&quot;,
+  &quot;refresh_token&quot;,
+  &quot;urn:ietf:params:oauth:grant-type:device_code&quot;,
+  &quot;urn:ietf:params:oauth:grant-type:jwt-bearer&quot;
+ ]
+}
+</code></pre>
+<p>所以就算是不同家授權伺服器只要有遵守標準規範，那麼授權端點都會用 <code>authorization_endpoint</code> 當作 key 值，
+因此有了這個設定文檔系統就能自動化配置好所有路徑，就不需要在額外依賴 <code>GoogleOptions</code> 來紀錄這些設定值了。</p>
+<p>例如現在只需要呼叫 AddOpenIdConnect 方法時設定 <code>Authority</code>，</p>
+<pre><code class="language-text">.AddOpenIdConnect(&quot;Google&quot;, o =&gt;
+{
+    o.Authority = &quot;https://accounts.google.com&quot;;
+});
+</code></pre>
+<p>相關的 Middleware 就會自動在後台將其拼接為 <code>https://accounts.google.com/.well-known/openid-configuration</code> 並下載 JSON 資料。</p>
 <p>同理可知如果我們需要使用 Microsoft 的 OIDC 服務可以在文檔找到設定網址為</p>
 <pre><code class="language-text">https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration
-</code></pre>
-<p>Github 的網址為</p>
-<pre><code class="language-text">https://token.actions.githubusercontent.com/.well-known/openid-configuration
 </code></pre>
 <hr />
 <p>接下來回到我們的專案直接將運行專案並且在瀏覽器輸入 <code>https://localhost:5001/.well-known/openid-configuration</code> 看看我們的設定檔有什麼內容</p>
@@ -260,6 +283,8 @@ public static readonly string UserInformationEndpoint = &quot;https://www.google
   &quot;introspection_endpoint&quot;: &quot;https://localhost:5001/connect/introspect&quot;,
   &quot;device_authorization_endpoint&quot;: &quot;https://localhost:5001/connect/deviceauthorization&quot;,
   &quot;backchannel_authentication_endpoint&quot;: &quot;https://localhost:5001/connect/ciba&quot;,
+  &quot;pushed_authorization_request_endpoint&quot;: &quot;https://localhost:5001/connect/par&quot;,
+  &quot;require_pushed_authorization_requests&quot;: false,
   &quot;frontchannel_logout_supported&quot;: true,
   &quot;frontchannel_logout_session_supported&quot;: true,
   &quot;backchannel_logout_supported&quot;: true,
@@ -297,7 +322,21 @@ public static readonly string UserInformationEndpoint = &quot;https://www.google
     &quot;client_secret_basic&quot;,
     &quot;client_secret_post&quot;
   ],
+  &quot;revocation_endpoint_auth_methods_supported&quot;: [
+    &quot;client_secret_basic&quot;,
+    &quot;client_secret_post&quot;
+  ],
+  &quot;introspection_endpoint_auth_methods_supported&quot;: [
+    &quot;client_secret_basic&quot;,
+    &quot;client_secret_post&quot;
+  ],
   &quot;id_token_signing_alg_values_supported&quot;: [
+    &quot;RS256&quot;
+  ],
+  &quot;userinfo_signing_alg_values_supported&quot;: [
+    &quot;RS256&quot;
+  ],
+  &quot;introspection_signing_alg_values_supported&quot;: [
     &quot;RS256&quot;
   ],
   &quot;subject_types_supported&quot;: [
@@ -317,76 +356,141 @@ public static readonly string UserInformationEndpoint = &quot;https://www.google
     &quot;PS512&quot;,
     &quot;ES256&quot;,
     &quot;ES384&quot;,
-    &quot;ES512&quot;,
-    &quot;HS256&quot;,
-    &quot;HS384&quot;,
-    &quot;HS512&quot;
+    &quot;ES512&quot;
+  ],
+  &quot;prompt_values_supported&quot;: [
+    &quot;none&quot;,
+    &quot;login&quot;,
+    &quot;consent&quot;,
+    &quot;select_account&quot;
   ],
   &quot;authorization_response_iss_parameter_supported&quot;: true,
   &quot;backchannel_token_delivery_modes_supported&quot;: [
     &quot;poll&quot;
   ],
-  &quot;backchannel_user_code_parameter_supported&quot;: true
+  &quot;backchannel_user_code_parameter_supported&quot;: true,
+  &quot;backchannel_authentication_request_signing_alg_values_supported&quot;: [
+    &quot;RS256&quot;,
+    &quot;RS384&quot;,
+    &quot;RS512&quot;,
+    &quot;PS256&quot;,
+    &quot;PS384&quot;,
+    &quot;PS512&quot;,
+    &quot;ES256&quot;,
+    &quot;ES384&quot;,
+    &quot;ES512&quot;
+  ],
+  &quot;dpop_signing_alg_values_supported&quot;: [
+    &quot;RS256&quot;,
+    &quot;RS384&quot;,
+    &quot;RS512&quot;,
+    &quot;PS256&quot;,
+    &quot;PS384&quot;,
+    &quot;PS512&quot;,
+    &quot;ES256&quot;,
+    &quot;ES384&quot;,
+    &quot;ES512&quot;
+  ]
 }
 </code></pre>
-<p>了解基礎知識後我們來進行實做，在我們使用 Google 登入時第一步就是申請一組 <code>ClientId</code> 與 <code>ClientSecrets</code>
+<p>我們使用 Google 登入時第一步就是申請一組 <code>ClientId</code> 與 <code>ClientSecrets</code>
 並且新增一組 Scope <code>api1</code> 讓使用者知道我們有什麼服務可以使用，例如在 Google 的 scopes_supported 就有提供 email 可以讓我們申請使用，
-不過申請是每個人都可以申請，但是可不可以使用是另一回事所以我們同時在 Client 設定 AllowedScopes 允許這組 ClientId 可以使用 <code>api1</code> 這個服務</p>
-<p>到 <code>Config.cs</code> 新增一組 Client 與 ApiScopes
-ClientId 為 client
-ClientSecrets 為 secret
-GrantTypes 使用 ClientCredentials 通常用在 Server 與 Server 之間的驗證
-AllowedScopes 允許使用 <code>api1</code></p>
-<pre><code class="language-text">public static IEnumerable&lt;ApiScope&gt; ApiScopes =&gt;
-    new List&lt;ApiScope&gt;
-    {
-        new ApiScope(name: &quot;api1&quot;, displayName: &quot;MyAPI&quot;) 
-    };
-    
-public static IEnumerable&lt;Client&gt; Clients =&gt;
-    new List&lt;Client&gt;
-    {
-        new Client
+不過申請是每個人都可以申請，但是可不可以使用是另一回事，所以我們需要新增 Client 當下同時設定 AllowedScopes 允許本 Client 可以使用 <code>api1</code> 這個服務。</p>
+<p>到 <code>Config.cs</code> 新增一組 Client 與 ApiScopes，可以選擇新增 ApiResources 進一步限定存取範圍限制</p>
+<pre><code class="language-text">using Duende.IdentityServer.Models;
+
+namespace IdentityServer;
+
+public static class Config
+{
+    public static IEnumerable&lt;IdentityResource&gt; IdentityResources =&gt;
+        new IdentityResource[]
         {
-            ClientId = &quot;client&quot;,
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile()
+        };
 
-            // no interactive user, use the clientid/secret for authentication
-            AllowedGrantTypes = GrantTypes.ClientCredentials,
+    public static IEnumerable&lt;ApiScope&gt; ApiScopes =&gt;
+        new List&lt;ApiScope&gt;
+        {
+            new ApiScope(name: &quot;api1&quot;, displayName: &quot;Access to MyAPI&quot;)
+        };
 
-            // secret for authentication
-            ClientSecrets =
+    public static IEnumerable&lt;ApiResource&gt; ApiResources =&gt;
+        new List&lt;ApiResource&gt;
+        {
+            new ApiResource(&quot;my_backend_api&quot;, &quot;My Main Backend API&quot;)
             {
-                new Secret(&quot;secret&quot;.Sha256())
-            },
-            
-            // scopes that client has access to
-            AllowedScopes = { &quot;api1&quot; }
-        }
-    };
+                // 將 Api Scope 綁定到此 Resource
+                Scopes = { &quot;api1&quot; },
+
+                // 可指定此 API 需要哪些 User Claims
+                UserClaims = { &quot;email&quot; }
+            }
+        };
+
+    public static IEnumerable&lt;Client&gt; Clients =&gt;
+        new List&lt;Client&gt;
+        {
+            new Client
+            {
+                ClientId = &quot;appClient&quot;,
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets =
+                {
+                    new Secret(&quot;secret&quot;.Sha256())
+                },
+
+                AllowedScopes = { &quot;api1&quot; }
+            }
+        };
+}
 </code></pre>
-<p>接下來建立一個新的 api 專案並且到 launchSettings.json 將啟動的 port 改成 6001，我們需要將 api 保護起來並且有授權的人才能訪問</p>
+<p>接下來建立一個新的 api 專案並且到 <code>launchSettings.json</code> 將啟動的 port 改成 <code>6001</code>，我們需要將此 api 保護起來，
+只允許有授權的人才能訪問。</p>
 <pre><code class="language-text">dotnet new webapi -n Api
 cd ..
 dotnet sln add ./src/Api/Api.csproj
 </code></pre>
-<p>此 API 需要安裝 JwtBearer Package，不使用 cookie</p>
+<p>安裝 JwtBearer Package，因為傳入的 Access Token 為 JWT 格式，我們需要此函式庫方便把需要的資訊解析出來。</p>
 <pre><code class="language-text">dotnet add ./src/Api/Api.csproj package Microsoft.AspNetCore.Authentication.JwtBearer
 </code></pre>
-<p>到 <code>program.cs</code> 設定 JWT 登入流程，並新增新的路由 <code>identity</code></p>
-<pre><code class="language-text">builder.Services.AddAuthentication()
+<p>到 <code>program.cs</code> 設定 JWT 登入流程，並新增新的路由 <code>identity</code> 限制只有驗證過的會員才能使用，
+下方的 <code>Audience</code> 需要跟 ApiResources 定義的 <code>my_backend_api</code> 完全相同，這樣可以在一收到 JWT 時馬上確認
+此 Token 的使用目標是不是本 API。</p>
+<pre><code class="language-text">using System.Security.Claims;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+
+builder.Services.AddAuthentication()
     .AddJwtBearer(options =&gt;
     {
         options.Authority = &quot;https://localhost:5001&quot;;
-        options.TokenValidationParameters.ValidateAudience = false;
+        options.Audience = &quot;my_backend_api&quot;;
     });
-    
+
 builder.Services.AddAuthorization();
-    
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+app.UseHttpsRedirection();
+
 app.MapGet(&quot;identity&quot;, (ClaimsPrincipal user) =&gt; user.Claims.Select(c =&gt; new { c.Type, c.Value }))
     .RequireAuthorization();
-    
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Run();
 </code></pre>
 <p>最後建立一個新的 console 專案用來模擬前端請求</p>
 <pre><code class="language-text">dotnet new console -n Client
@@ -396,7 +500,10 @@ dotnet sln add ./src/Client/Client.csproj
 <p>安裝 <code>Duende.IdentityModel</code> 用來請求新的Token</p>
 <pre><code class="language-text">dotnet add ./src/Client/Client.csproj package Duende.IdentityModel
 </code></pre>
-<p>接下來修改 <code>Program.cs</code> 我們的 console 專案，我們需要先去 IdentityServer 登入取得一組 JWT Token 才可以訪問保護的 API</p>
+<p>接下來修改 <code>Program.cs</code> 我們的 console 專案，我們需要先去 IdentityServer 登入取得一組 JWT Token 才可以訪問保護的 API，
+這裡的 <code>GetDiscoveryDocumentAsync</code> 會自動組裝 Url 並取得 JSON 設定檔。</p>
+<p>並透過 <code>RequestClientCredentialsTokenAsync</code> 方法取得 <code>Scope</code> 為 api1 的 Token。</p>
+<p>最後將此 Token 放在 Header 中存取 <code>https://localhost:6001/identity</code> 並順利輸出 Claim。</p>
 <pre><code class="language-text">var client = new HttpClient();
 var disco = await client.GetDiscoveryDocumentAsync(&quot;https://localhost:5001&quot;);
 if (disco.IsError)
@@ -409,7 +516,7 @@ var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCr
 {
     Address = disco.TokenEndpoint,
 
-    ClientId = &quot;client&quot;,
+    ClientId = &quot;appClient&quot;,
     ClientSecret = &quot;secret&quot;,
     Scope = &quot;api1&quot;
 });
@@ -425,7 +532,7 @@ Console.WriteLine(tokenResponse.AccessToken);
 var apiClient = new HttpClient();
 apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-var response = await apiClient.GetAsync(&quot;https://localhost:7169/identity&quot;);
+var response = await apiClient.GetAsync(&quot;https://localhost:6001/identity&quot;);
 if (!response.IsSuccessStatusCode)
 {
     Console.WriteLine(response.StatusCode);
@@ -436,12 +543,9 @@ else
     Console.WriteLine(JsonSerializer.Serialize(doc, new JsonSerializerOptions { WriteIndented = true }));
 }
 </code></pre>
-<p>都設定完成後我們先將 IdentityServer 與 API 專案運行起來最後在運行 Console 專案
-Console 專案就會帶著我們的 Token 去請求 API 專案，並且成功訪問被保護資訊</p>
-<pre><code class="language-text">eyJhbGciOiJSUzI1NiIsImtpZCI6IjJGNDRBMzNBNDdBOTk0MTE5NkUwQ0U1QTU2N0MyM0NFIiwidHlwIjoiYXQrand0In0.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwibmJmIjoxNjgzMTI0OTU3LCJpYXQiOjE2ODMxMjQ5
-NTcsImV4cCI6MTY4MzEyODU1NywiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMS9yZXNvdXJjZXMiLCJzY29wZSI6WyJhcGkxIl0sImNsaWVudF9pZCI6ImNsaWVudCIsImp0aSI6IjRDQUQwNzI5RUUwRDRENjM1OEMzOTM4RDgzM0E0
-MEE3In0.QpNK9WB7P1VCHCCQa7zVtOezII_PUXa-Gto7ohz62y2rZXoGKXK_3OUTdqBGOosXOUgtbmHL5maRKEIXB_6Azec2gqpc7AiT6i1364CTQy2hCisi9MmCIzgHX0g9WAOoTynrYhhGBdf6Lbj0LvUefRLiU4WOWbHm9eam0AT4BL-Y
-i5reHJPeEOMvghvH-Z9LBDRA9WsVf-CDml74fKNHziArYFdopoBHrY8oeVzZlCGtjDfEbnVI82AXVCjDWeewQjYvWKjvh_P5Dtsf2yvdwqxiMsWlROaQKLACHKaVELYJe-cvDU_uRriOnAir5wJKXPy2wM69G2xaXooi_1VCfg
+<p>都設定完成後我們先運行 IdentityServer 與 API 專案，之後在運行 Console 專案，
+Console 專案就會帶著我們的 Token 去請求 API 專案，並且成功訪問被保護資訊。</p>
+<pre><code class="language-text">eyJhbGciOiJSUzI1NiIsImtpZCI6IkZGRjY0QURENjI4RjFGOTJCNjY4Rjg0NzcwQzQ3QjlDIiwidHlwIjoiYXQrand0In0.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwibmJmIjoxNzY4ODI0MjMxLCJpYXQiOjE3Njg4MjQyMzEsImV4cCI6MTc2ODgyNzgzMSwiYXVkIjpbIm15X2JhY2tlbmRfYXBpIiwibXlfYmFja2VuZF9hcGkxIl0sInNjb3BlIjpbImFwaTEiXSwiY2xpZW50X2lkIjoiYXBwQ2xpZW50IiwianRpIjoiNURBMzkzQzFBRkY2NzdEQUIwNzZCNjgzNUExOUM4MzkifQ.UHVsUV9_hyzxzPT2OtV2jwzefJxDAEd8DZlH1zj2nRBQ1TBWevaSan_Nam1Qang3er2ooROYLsRLUvjljcIPS8jp_lpFYsS4txSuMUAsAu86kgF1m5Tp5DbEE9jIvIbTjZCyMKrrsq9BuVzPNqLJ3k8R49lPVIkErmBG15qKHuHI6R51wsIa7_fqfxbXCJqGuHQlaHfyidhsk4xYpyL4Fv-8vVf5CtmLwVg8MSRPRs_T6t8UaUEddGqoKa3zJzGo1ablQdUBX9riYdsCkZO3IYeHN8b9HrnTc2Aky4y8a940ZRXFb3emegUMi_qClRPs9QbjdxuH0sipd3w_HPfh3g
 [
   {
     &quot;type&quot;: &quot;iss&quot;,
@@ -449,19 +553,19 @@ i5reHJPeEOMvghvH-Z9LBDRA9WsVf-CDml74fKNHziArYFdopoBHrY8oeVzZlCGtjDfEbnVI82AXVCjD
   },
   {
     &quot;type&quot;: &quot;nbf&quot;,
-    &quot;value&quot;: &quot;1683124957&quot;
+    &quot;value&quot;: &quot;1768824231&quot;
   },
   {
     &quot;type&quot;: &quot;iat&quot;,
-    &quot;value&quot;: &quot;1683124957&quot;
+    &quot;value&quot;: &quot;1768824231&quot;
   },
   {
     &quot;type&quot;: &quot;exp&quot;,
-    &quot;value&quot;: &quot;1683128557&quot;
+    &quot;value&quot;: &quot;1768827831&quot;
   },
   {
     &quot;type&quot;: &quot;aud&quot;,
-    &quot;value&quot;: &quot;https://localhost:5001/resources&quot;
+    &quot;value&quot;: &quot;my_backend_api&quot;
   },
   {
     &quot;type&quot;: &quot;scope&quot;,
@@ -469,13 +573,24 @@ i5reHJPeEOMvghvH-Z9LBDRA9WsVf-CDml74fKNHziArYFdopoBHrY8oeVzZlCGtjDfEbnVI82AXVCjD
   },
   {
     &quot;type&quot;: &quot;client_id&quot;,
-    &quot;value&quot;: &quot;client&quot;
+    &quot;value&quot;: &quot;appClient&quot;
   },
   {
     &quot;type&quot;: &quot;jti&quot;,
-    &quot;value&quot;: &quot;4CAD0729EE0D4D6358C3938D833A40A7&quot;
+    &quot;value&quot;: &quot;5DA393C1AFF677DAB076B6835A19C839&quot;
   }
 ]
+</code></pre>
+<p>這裡的 aud 是由 Identity Server 根據 scope 找出對應的 ApiResource，也就是 <code>my_backend_api</code>。
+如果沒有設定 Api Resource，則 aud 會自動設定為 <code>https://localhost:5001/resources</code> 會導致 API 驗證 Audience 時無法通過，
+因此需要在 API 專案額外關閉 Audience 檢查。</p>
+<p>這是 Identity Server 的預設行為，正式環境應明確定義 ApiResource，避免關閉 Audience 驗證。</p>
+<pre><code class="language-text">builder.Services.AddAuthentication()
+    .AddJwtBearer(options =&gt;
+    {
+        options.Authority = &quot;https://localhost:5001&quot;;
+        options.TokenValidationParameters.ValidateAudience = false;
+    });
 </code></pre>
 <hr />
 <h2 id="summary">Summary</h2>
