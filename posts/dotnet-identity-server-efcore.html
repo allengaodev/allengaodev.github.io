@@ -77,7 +77,7 @@
               </a>
 
                 <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-                  2025/08/22
+                  2026/01/21
                 </a>
             </p>
               <div class="mt-3">
@@ -99,28 +99,25 @@
         <div id="content" class="col-md-12">
           <h2 id="identity-server-entityframework-core">Identity Server EntityFramework Core</h2>
 <p>在上一篇的<a href="https://blog.allengaodev.com/posts/dotnet-identity-server-ui" target="_blank">文章</a>中
-已經成功架設了 Identity Server 服務與 UI 但是目前資料都是保存在記憶體內，今天來看看該怎麼把資料利用 EFCore 保存到任意資料庫內</p>
-<p>首先先回顧一下當初 Identity Server 使用的設定，</p>
-<pre><code class="language-text">builder.Services.AddIdentityServer(options =&gt;
-    {
-        // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
-        options.EmitStaticAudienceClaim = true;
-    })
+已經成功架設了 Identity Server 服務與 UI 但是目前資料都是保存在記憶體內，今天來看看該怎麼把會員資料透過 EFCore 保存到資料庫內。</p>
+<p>首先先回顧一下當初 Identity Server 使用的設定，在這裡我們呼叫了三個 AddInMemory 方法將對應的資料添加到記憶體內。</p>
+<pre><code class="language-text">builder.Services.AddIdentityServer()
     .AddInMemoryIdentityResources(Config.IdentityResources)
     .AddInMemoryApiScopes(Config.ApiScopes)
+    .AddInMemoryApiResources(Config.ApiResources)
     .AddInMemoryClients(Config.Clients)
-    .AddTestUsers(TestUsers.Users);
+    .AddTestUsers(TestUsers.Users)
+    .AddLicenseSummary();
 </code></pre>
-<p>在這裡我們呼叫了三個 AddInMemory 方法將對應的資料添加到記憶體內，接下來的目標就是把這些方法替換掉
-這邊在 IdentityServer 添加 <code>Duende.IdentityServer.EntityFramework</code> 和各自的 EFCore Package 這邊選用的是 PostgreSQL</p>
+<p>這邊在 IdentityServer 專案添加 <code>Duende.IdentityServer.EntityFramework</code> 函式庫與 EFCore PostgreSQL。</p>
 <pre><code class="language-text">dotnet add package Duende.IdentityServer.EntityFramework
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 </code></pre>
 <hr />
-<p>使用 EF 第一步需要先建立一個 DbContext，這邊我們可以使用 Identity Server 預設提供的 DbContext
-並且依照功能性區分成兩個 DbContext 分別為 <code>ConfigurationDbContext</code> 與 <code>PersistedGrantDbContext</code></p>
-<p><code>ConfigurationDbContext</code> 包含以下 <code>DBSet</code></p>
+<p>接下來可以使用 Identity Server 預設提供的 DbContext，
+依照功能性區分成兩個 DbContext 分別為 <code>ConfigurationDbContext</code> 與 <code>PersistedGrantDbContext</code>。</p>
+<p><code>ConfigurationDbContext</code>，這類型的資料通常是在後台經由管理員新增，變動頻率低讀取頻率高，包含以下 <code>DBSet</code>:</p>
 <ul>
 <li>Client</li>
 <li>ClientCorsOrigin</li>
@@ -129,20 +126,74 @@ dotnet add package Microsoft.EntityFrameworkCore.Tools
 <li>ApiScope</li>
 <li>IdentityProvider</li>
 </ul>
-<p><code>PersistedGrantDbContext</code> 包含以下 <code>DBSet</code></p>
+<p><code>PersistedGrantDbContext</code>，這類型的資料會在系統運行中自動新增，變動頻率高，包含以下 <code>DBSet</code>:</p>
 <ul>
 <li>PersistedGrant</li>
 <li>DeviceFlowCodes</li>
 <li>Key</li>
 <li>ServerSideSession</li>
 </ul>
-<p>接下來將 AddInMemory 替換成 <code>AddConfigurationStore</code> 與 <code>AddOperationalStore</code> 方法</p>
+<p>接下來將回到 <code>HostingExtensions.cs</code> 將 AddInMemory 替換掉，這裡採用的是 Repository Pattern 將實際的存取邏輯分散到各個 Store 當中，
+例如 Client 相關的操作有 ClientStore，IdentityResource 整合在 ResourceStore 當中，也就代表你如果不喜歡官方的存取方式，
+可以透過依賴注入的方式直接替換掉官方實做。</p>
+<p>不過在一般情況使用官方實做就很夠用了，這裡也不用一個一個 Store 註冊，可以直接使用 <code>AddConfigurationStore</code> 與 <code>AddOperationalStore</code> 方法，
+一次將底層的 Store 註冊進來，上面也有提到 <code>ConfigurationDbContext</code> 的資料都是高頻率讀取的，
+所以官方也加了 <code>AddConfigurationStoreCache</code> 背後採用 Decorator Pattern 在中間添加一層快取層。</p>
+<p>下面是它們的原始碼，可以看到實際的運作原理。</p>
+<pre><code class="language-text">public static IIdentityServerBuilder AddConfigurationStore&lt;TContext&gt;(
+    this IIdentityServerBuilder builder,
+    Action&lt;ConfigurationStoreOptions&gt;? storeOptionsAction = null)
+    where TContext : DbContext, IConfigurationDbContext
+{
+    builder.Services.AddConfigurationDbContext&lt;TContext&gt;(storeOptionsAction);
+
+    builder.AddClientStore&lt;ClientStore&gt;();
+    builder.AddResourceStore&lt;ResourceStore&gt;();
+    builder.AddCorsPolicyService&lt;CorsPolicyService&gt;();
+    builder.AddIdentityProviderStore&lt;IdentityProviderStore&gt;();
+
+    return builder;
+}
+
+public static IIdentityServerBuilder AddConfigurationStoreCache(
+    this IIdentityServerBuilder builder)
+{
+    builder.AddInMemoryCaching();
+
+    // add the caching decorators
+    builder.AddClientStoreCache&lt;ClientStore&gt;();
+    builder.AddResourceStoreCache&lt;ResourceStore&gt;();
+    builder.AddCorsPolicyCache&lt;CorsPolicyService&gt;();
+    builder.AddIdentityProviderStoreCache&lt;IdentityProviderStore&gt;();
+
+    return builder;
+}
+    
+public static IIdentityServerBuilder AddOperationalStore&lt;TContext&gt;(
+    this IIdentityServerBuilder builder,
+    Action&lt;OperationalStoreOptions&gt;? storeOptionsAction = null)
+    where TContext : DbContext, IPersistedGrantDbContext
+{
+    builder.Services.AddOperationalDbContext&lt;TContext&gt;(storeOptionsAction);
+
+    builder.AddSigningKeyStore&lt;SigningKeyStore&gt;();
+    builder.AddPersistedGrantStore&lt;PersistedGrantStore&gt;();
+    builder.AddDeviceFlowStore&lt;DeviceFlowStore&gt;();
+    builder.AddServerSideSessionStore&lt;ServerSideSessionStore&gt;();
+    builder.AddPushedAuthorizationRequestStore&lt;PushedAuthorizationRequestStore&gt;();
+
+    builder.Services.AddSingleton&lt;IHostedService, TokenCleanupHost&gt;();
+
+    return builder;
+}
+</code></pre>
+<p>接下來將 AddInMemory 替換成 <code>AddConfigurationStore</code> 與 <code>AddOperationalStore</code> 方法，並且透過 <code>MigrationsAssembly</code> 將指定遷移腳本生成到自己的專案中。</p>
+<p>要注意使用者資料並不包含在內，要將使用者資料持久化需要搭配 ASP.NET Core Identity。</p>
 <pre><code class="language-text">var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
 const string connectionStringConfigure = &#64;&quot;User ID=postgres;Password=myPassw0rd;Host=localhost;Port=5432;Database=IdentityServerConfigure;Pooling=false;&quot;;
 const string connectionStringOperational = &#64;&quot;User ID=postgres;Password=myPassw0rd;Host=localhost;Port=5432;Database=IdentityServerOperational;Pooling=false;&quot;;
 
 builder.Services.AddIdentityServer()
-    .AddInMemoryIdentityResources(Config.IdentityResources)
     .AddConfigurationStore(options =&gt;
     {
         options.ConfigureDbContext = b =&gt; b.UseNpgsql(connectionStringConfigure,
@@ -153,37 +204,17 @@ builder.Services.AddIdentityServer()
         options.ConfigureDbContext = b =&gt; b.UseNpgsql(connectionStringOperational,
             sql =&gt; sql.MigrationsAssembly(migrationsAssembly));
     })
-    .AddClientStore&lt;ClientStore&gt;()
+    .AddTestUsers(TestUsers.Users)
     .AddLicenseSummary();
 </code></pre>
-<p>我們可以稍微看一下 <code>AddConfigurationStore</code> 方法的內容</p>
-<pre><code class="language-text">public static IIdentityServerBuilder AddConfigurationStore&lt;TContext&gt;(
-    this IIdentityServerBuilder builder,
-    Action&lt;ConfigurationStoreOptions&gt; storeOptionsAction = null)
-    where TContext : DbContext, IConfigurationDbContext
-{
-    builder.Services.AddConfigurationDbContext&lt;TContext&gt;(storeOptionsAction);
-
-    builder.AddClientStore&lt;ClientStore&gt;();
-    builder.AddResourceStore&lt;ResourceStore&gt;();
-    builder.AddCorsPolicyService&lt;CorsPolicyService&gt;();
-    builder.AddIdentityProviderStore&lt;IdentityProviderStore&gt;();
-        
-    return builder;
-}
-</code></pre>
-<p>從內容可以得知這個方法只是用來註冊 DbContext 與註冊多個 Store 服務，所以基本上這個方法不是必要的
-如果你想要用自己寫的 DbContext 可以直接跳過這個方法直接呼叫下方那四個 AddStore 方法即可</p>
 <p>接下來分別幫這兩個 DbContext 建立遷移腳本與更新資料庫</p>
-<pre><code class="language-text">dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
-
-dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Data/Migrations/IdentityServer/PersistedGrantDb
+<pre><code class="language-text">dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Migrations/ConfigurationDb
+dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Migrations/PersistedGrantDb
 </code></pre>
 <pre><code class="language-text">dotnet ef database update -c ConfigurationDbContext
-
 dotnet ef database update -c PersistedGrantDbContext
 </code></pre>
-<p>額外建立一個方法將原本使用到資料寫到資料庫內</p>
+<p>額外建立一個方法將初始化資料寫到資料庫內</p>
 <pre><code class="language-text">private static void InitializeDatabase(IApplicationBuilder app)
 {
     using (var serviceScope = app.ApplicationServices.GetService&lt;IServiceScopeFactory&gt;().CreateScope())
@@ -218,18 +249,28 @@ dotnet ef database update -c PersistedGrantDbContext
             }
             context.SaveChanges();
         }
+
+        if (!context.ApiResources.Any())
+        {
+            foreach (var resource in Config.ApiResources)
+            {
+                context.ApiResources.Add(resource.ToEntity());
+            }
+            context.SaveChanges();
+        }
     }
 }
 </code></pre>
 <p>ConfigurePipeline 內部呼叫此方法</p>
 <pre><code class="language-text">InitializeDatabase(app);
 </code></pre>
-<p>完成後執行 Identity Server 專案與 WebClient 專案可以正常登入就代表成功了</p>
+<p>完成後測試 Identity Server 專案與 WebClient 專案可以正常登入就代表成功了。</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>今天成功將保存在記憶體的資料改成保存到資料庫內，之後只要建立相關的頁面就可以將資料永久保存了
-不過像是建立 Client 或 ApiScope 這些頁面 Identity Server 預設並沒有提供必須要搭配其他開源的 admin 專案
-才可以在頁面上管理這些資源，有需要的可以到 Github 尋找開源的專案來使用</p>
+<p>今天成功將保存在記憶體的資料改成保存到資料庫內，
+但想要在後台頁面建立與管理 Client 或 ApiScope 的話，
+Identity Server 並沒有提供，必須要搭配其他開源的 admin 專案，
+才可以在頁面上管理這些資源。</p>
 
 
           
