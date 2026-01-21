@@ -77,7 +77,7 @@
               </a>
 
                 <a style="line-height: 1.8em;padding-left: 1.6em;background-size: auto 100%;background-repeat: no-repeat; background-image:url(/overtime.svg)">
-                  2025/08/22
+                  2026/01/21
                 </a>
             </p>
               <div class="mt-3">
@@ -98,35 +98,18 @@
       <div class="row">
         <div id="content" class="col-md-12">
           <h2 id="identity-server-with-asp.net-core-identity">Identity Server With ASP.NET Core Identity</h2>
-<p>到目前為止 Identity Server 基礎部份都學習過了，但是還缺少會員的添加與管理方式，由於我們之前使用 TestUsers 寫死兩個會員資料，
-在實務中還是要動態新增會員的方式，這時候就可以加入 ASP.NET Core Identity 功能，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
-本系列一開始有討論過了有需要的可以回去看看</p>
+<p>到目前為止 Identity Server 基礎部份都學習過了，但是還缺少會員的添加與管理方式，之前我們使用 TestUsers 寫死兩個會員資料，
+但在實務中還是要有動態新增會員的方式，這時候就可以加入 ASP.NET Core Identity 功能，不過要處理這部份需要對 ASP.NET Core Identity 有相當程度的了解，
+本系列一開始有討論過了有需要的可以回去看看。</p>
 <p>要在 IdentityServer 使用 ASP.NET Core Identity 可以使用預設的範本 <code>duende-is-aspid</code> 來建立專案</p>
-<pre><code class="language-text">範本名稱                                                    簡短名稱  語言  標記
-----------------------------------------------------------  --------------------  ----  -------------------------
-Duende BFF Host using a Remote API                          duende-bff-remoteapi  [C#]  Web/Duende/BFF
-Duende BFF using a Local API                                duende-bff-localapi   [C#]  Web/Duende/BFF
-Duende BFF with Blazor autorender                           duende-bff-blazor     [C#]  Web/Duende/BFF
-Duende IdentityServer                                       duende-is             [C#]  Web/Duende/IdentityServer
-Duende IdentityServer Empty                                 duende-is-empty       [C#]  Web/Duende/IdentityServer
-Duende IdentityServer Quickstart UI (UI assets only)        duende-is-ui          [C#]  Web/IdentityServer
-Duende IdentityServer Web Client                            duende-webclient      [C#]  Web/Duende/IdentityServer
-Duende IdentityServer with ASP.NET Core Identity            duende-is-aspid       [C#]  Web/Duende/IdentityServer
-Duende IdentityServer with Entity Framework Stores          duende-is-ef          [C#]  Web/Duende/IdentityServer
-Duende IdentityServer with In-Memory Stores and Test Users  duende-is-inmem       [C#]  Web/Duende/IdentityServer
-</code></pre>
 <p>先建立一個新專案來看看跟我們目前的專案有什麼區別</p>
 <pre><code class="language-text">dotnet new duende-is-aspid -n IdentityServerAspNetIdentity
-cd ..
-dotnet sln add ./src/IdentityServerAspNetIdentity/IdentityServerAspNetIdentity.csproj
 </code></pre>
 <ol>
 <li>安裝 Package <code>Duende.IdentityServer.AspNetIdentity</code>, <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code>, <code>Microsoft.AspNetCore.Identity.UI</code></li>
 <li>wwwroot 與 Pages 資料夾都是 <code>isui</code> 這個範本提供的會幫你在專案添加一些預設頁面</li>
 <li>Models 資料夾新建立一個自定義的 IdentityUser 叫做 ApplicationUser</li>
-<li>專案使用 SQLite 並建立了相關檔案</li>
 <li>Data 資料夾新建立一個自定義的 IdentityDbContext 叫做 ApplicationDbContext</li>
-<li>buildschema.bat 會自動建立遷移腳本並輸出到 <code>Data/Migrations</code> 資料夾</li>
 <li>SeedData 內部會使用 UserManager 提供的方法來新增預設會員數據</li>
 <li>HostingExtensions 注入並使用 ApplicationDbContext</li>
 <li>額外呼叫 AddAspNetIdentity 方法設定 Identity 相關功能並且呼叫 <code>AddResourceOwnerValidator</code> 與 <code>AddProfileService</code></li>
@@ -155,15 +138,10 @@ builder.Services.AddDbContext&lt;AppIdentityDbContext&gt;(options =&gt;
     options.UseNpgsql(connectionIdentity));
 
 builder.Services.AddIdentity&lt;IdentityUser, IdentityRole&gt;()
-    .AddDefaultUI()
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores&lt;AppIdentityDbContext&gt;();
     
-builder.Services.AddIdentityServer(options =&gt;
-    {
-        // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
-        options.EmitStaticAudienceClaim = true;
-    })
+builder.Services.AddIdentityServer()
     .AddConfigurationStore(options =&gt;
     {
         options.ConfigureDbContext = b =&gt; b.UseNpgsql(connectionStringConfigure,
@@ -174,12 +152,13 @@ builder.Services.AddIdentityServer(options =&gt;
         options.ConfigureDbContext = b =&gt; b.UseNpgsql(connectionStringOperational,
             sql =&gt; sql.MigrationsAssembly(migrationsAssembly));
     })
-    .AddClientStore&lt;ClientStore&gt;()
-    .AddAspNetIdentity&lt;IdentityUser&gt;();
+    .AddAspNetIdentity&lt;IdentityUser&gt;()
+    .AddLicenseSummary();
 </code></pre>
 <p>因為要使用 Identity UI 我們需要在專案添加 <code>/Views/Shared/_LoginPartial.cshtml</code> 用來顯示右上角
 根據登入狀態顯示 Login 或者 Log out，</p>
-<pre><code class="language-text">dotnet new page -np -n _LoginPartial
+<pre><code class="language-text">cd Pages\Shared\
+dotnet new page -np -n _LoginPartial
 </code></pre>
 <pre><code class="language-text">&#64;if (User.Identity.IsAuthenticated)
 {
@@ -200,19 +179,94 @@ else
 }
 </code></pre>
 <p>最後建立遷移腳本並且更新資料庫</p>
-<pre><code class="language-text">dotnet ef migrations add InitialIdentityDbMigration -c AppIdentityDbContext -o Data/Migrations/IdentityServer/IdentityDb
-
+<pre><code class="language-text">dotnet ef migrations add InitialIdentityDbMigration -c AppIdentityDbContext -o Migrations/IdentityDb
 dotnet ef database update -c AppIdentityDbContext
 </code></pre>
+<pre><code class="language-text">public static void SeedIdentityData(WebApplication app)
+{
+    using (var scope = app.Services.GetRequiredService&lt;IServiceScopeFactory&gt;().CreateScope())
+    {
+        var userMgr = scope.ServiceProvider.GetRequiredService&lt;UserManager&lt;IdentityUser&gt;&gt;();
+        var alice = userMgr.FindByNameAsync(&quot;alice&quot;).Result;
+        if (alice == null)
+        {
+            alice = new IdentityUser
+            {
+                UserName = &quot;alice&quot;,
+                Email = &quot;AliceSmith&#64;example.com&quot;,
+                EmailConfirmed = true,
+            };
+            var result = userMgr.CreateAsync(alice, &quot;Pass123$&quot;).Result;
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Errors.First().Description);
+            }
+
+            result = userMgr.AddClaimsAsync(alice, new Claim[]{
+                        new Claim(JwtClaimTypes.Name, &quot;Alice Smith&quot;),
+                        new Claim(JwtClaimTypes.GivenName, &quot;Alice&quot;),
+                        new Claim(JwtClaimTypes.FamilyName, &quot;Smith&quot;),
+                        new Claim(JwtClaimTypes.WebSite, &quot;http://alice.example.com&quot;),
+                    }).Result;
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Errors.First().Description);
+            }
+            Log.Debug(&quot;alice created&quot;);
+        }
+        else
+        {
+            Log.Debug(&quot;alice already exists&quot;);
+        }
+
+        var bob = userMgr.FindByNameAsync(&quot;bob&quot;).Result;
+        if (bob == null)
+        {
+            bob = new IdentityUser
+            {
+                UserName = &quot;bob&quot;,
+                Email = &quot;BobSmith&#64;example.com&quot;,
+                EmailConfirmed = true
+            };
+            var result = userMgr.CreateAsync(bob, &quot;Pass123$&quot;).Result;
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Errors.First().Description);
+            }
+
+            result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                        new Claim(JwtClaimTypes.Name, &quot;Bob Smith&quot;),
+                        new Claim(JwtClaimTypes.GivenName, &quot;Bob&quot;),
+                        new Claim(JwtClaimTypes.FamilyName, &quot;Smith&quot;),
+                        new Claim(JwtClaimTypes.WebSite, &quot;http://bob.example.com&quot;),
+                        new Claim(&quot;location&quot;, &quot;somewhere&quot;)
+                    }).Result;
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Errors.First().Description);
+            }
+            Log.Debug(&quot;bob created&quot;);
+        }
+        else
+        {
+            Log.Debug(&quot;bob already exists&quot;);
+        }
+    }
+}
+</code></pre>
+<p>ConfigurePipeline 內部呼叫此方法</p>
+<pre><code class="language-text">SeedIdentityData(app);
+</code></pre>
+<p>要注意之前新增的 UI 是寫死依賴 <code>TestUserStore</code>，所以要將這些依賴替換成實際的 <code>UserManager</code> 與 <code>SignInManager</code>，
+才是真正讀取資料庫進行登入，這部分可以參考一開始建立的 <code>IdentityServerAspNetIdentity</code> 模板專案，裡面已經修改完畢。</p>
 <p>完成後運行 Identity Server 與 WebClient 專案進行測試</p>
-<p>在瀏覽器打開 <code>https://localhost:5001/identity/account/register</code> 這個是 identity 預設的註冊路徑
-註冊完成後打開 <code>https://localhost:5002</code> 會直接透過 Oidc 轉跳到 <code>https://localhost:5001</code> 要求登入，
-這時輸入剛剛註冊的帳號可以正常登入並且跳回到 <code>5002</code> 並顯示目前 User 身上擁有的 Claim</p>
+<p>在瀏覽器打開 <code>https://localhost:5002</code> 會直接透過 OIDC 轉跳到 <code>https://localhost:5001</code> 要求登入，
+這時輸入剛剛新增的帳號(alice, Pass123$)能夠正常登入並且跳回到 <code>5002</code> 並顯示目前 User 身上擁有的 Claim。</p>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>今天成功將 Identity Server 與 ASP.NET Core Identity 兩個技術結合在一起，
-至此我們的功能已經可以做到類似 Google 的 Oidc 伺服器的提供的功能了，不過 Identity Server 還有許多設定可以調整
-可以按照自己的需求來做設定</p>
+至此我們的功能已經可以做到類似 Google 的 OIDC 伺服器的提供的功能了，
+Identity Server 還有許多設定可以調整，可以按照自己的需求來做設定</p>
 
 
           
